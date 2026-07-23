@@ -12,10 +12,10 @@
         .tab-content.active { display: block; }
         .nav-active { background-color: rgba(255, 255, 255, 0.2); border-bottom: 2px solid white; }
     </style>
-    <!-- Firebase SDK (Configured for Cloud Sync) -->
+    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqTFjemQ",
@@ -30,9 +30,8 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         
-        // DEFERRED INITIALIZATION: Logic won't crash even if connection takes time
         window.saveData = async (path, data) => {
-            try { await set(ref(db, path), data); } catch (e) { console.warn("Syncing...", e); }
+            await set(ref(db, path), data);
         };
     </script>
 </head>
@@ -74,7 +73,7 @@
                 <div class="space-y-4">
                     <input type="text" id="name" placeholder="Full Name" class="w-full p-3 border rounded-lg border-slate-300">
                     <input type="email" id="email" placeholder="Email Address" class="w-full p-3 border rounded-lg border-slate-300">
-                    <select class="w-full p-3 border rounded-lg border-slate-300">
+                    <select id="spec" class="w-full p-3 border rounded-lg border-slate-300">
                         <option>MBA - Human Resources</option>
                         <option>MBA - Finance</option>
                         <option>MBA - Marketing</option>
@@ -86,10 +85,10 @@
                 <h2 class="text-xl font-bold mb-6 flex items-center gap-2">🧩 Archetype Assessment</h2>
                 <p class="mb-4 text-sm">When facing a complex corporate roadblock, your first instinct is to:</p>
                 <div class="space-y-3">
-                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" class="mr-2" checked> Analyze past data and formulate a structured framework</label>
-                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" class="mr-2"> Brainstorm a disruptive, out-of-the-box workaround</label>
-                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" class="mr-2"> Consult team members to build consensus and morale</label>
-                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" class="mr-2"> Execute immediately with tactical focus on deliverables</label>
+                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" value="Strategist" checked class="mr-2"> Analyze past data and formulate a structured framework</label>
+                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" value="Innovator" class="mr-2"> Brainstorm a disruptive, out-of-the-box workaround</label>
+                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" value="Connector" class="mr-2"> Consult team members to build consensus and morale</label>
+                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" value="Executor" class="mr-2"> Execute immediately with tactical focus on deliverables</label>
                 </div>
             </div>
             <button onclick="saveCandidate()" class="md:col-span-2 bg-[#1e40af] text-white p-4 rounded-xl font-bold text-lg shadow-lg hover:bg-blue-900 transition">Lock Profile & Generate Archetype →</button>
@@ -107,10 +106,12 @@
         async function saveCandidate() {
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
+            const spec = document.getElementById('spec').value;
+            const archetype = document.querySelector('input[name="q"]:checked').value;
+            
             if(!name || !email) return alert('Please enter name and email');
             
-            // This is the Cloud Sync logic that stays in the background
-            await window.saveData('candidates/' + name.replace(/\s+/g, '_'), { name, email, timestamp: Date.now() });
+            await window.saveData('candidates/' + name.replace(/\s+/g, '_'), { name, email, spec, archetype, timestamp: Date.now() });
             alert('Candidate profile saved to the Executive Recruitment Hub.');
         }
 
