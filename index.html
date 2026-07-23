@@ -2,35 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HR Blog | Executive Recruitment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Blog | Executive Recruitment Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
 </head>
-<body class="bg-gray-100 p-4">
-    <div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-lg">
-        <h1 class="text-2xl font-bold mb-4">HR Blog Assessment</h1>
-        <div id="app" class="space-y-4">
-            <input type="text" id="name" placeholder="Full Name" class="w-full p-3 border rounded">
-            <input type="email" id="email" placeholder="Email" class="w-full p-3 border rounded">
-            <input type="file" id="resume" class="w-full p-3 border rounded">
-            <button onclick="startAssessment()" class="w-full bg-blue-600 text-white p-3 rounded font-bold">Start Assessment</button>
+<body class="bg-slate-50">
+    <!-- Header -->
+    <header class="bg-indigo-900 text-white p-6 shadow-xl">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-3xl font-extrabold tracking-tight">HR Blog Assessment</h1>
+            <p class="text-indigo-200 font-light italic">"Crack the Code, Know Your Worth." — Postgraduate Recruitment Hub</p>
         </div>
-        <div id="results" class="hidden mt-6 p-4 bg-green-50 rounded border">
-            <h2 class="font-bold text-lg">Assessment Complete!</h2>
-            <p>Your profile has been saved.</p>
+    </header>
+
+    <!-- Main Nav -->
+    <div class="max-w-4xl mx-auto mt-6 px-4">
+        <div class="flex gap-2 bg-white p-2 rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+            <button onclick="showTab('tab1')" class="px-4 py-2 text-sm font-semibold text-indigo-700 bg-indigo-50 rounded-lg">Onboarding</button>
+            <button onclick="showTab('tab2')" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">ATS Audit</button>
+            <button onclick="showTab('tab3')" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">Aptitude Test</button>
         </div>
+
+        <!-- Content -->
+        <main class="mt-6 bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
+            <!-- Tab 1 -->
+            <div id="tab1" class="tab-content active space-y-4">
+                <h2 class="text-xl font-bold">Candidate Registration</h2>
+                <input type="text" id="name" placeholder="Full Name" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 outline-none">
+                <input type="email" id="email" placeholder="Email Address" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-600 outline-none">
+                <button onclick="saveOnboarding()" class="w-full bg-indigo-700 text-white p-3 rounded-lg font-bold hover:bg-indigo-800 transition">Start Professional Assessment</button>
+            </div>
+
+            <!-- Tab 2 -->
+            <div id="tab2" class="tab-content space-y-4">
+                <h2 class="text-xl font-bold">Stage 1: ATS Audit</h2>
+                <p class="text-sm text-slate-600">Upload your resume to check keyword optimization.</p>
+                <input type="file" id="resume" class="w-full p-3 border border-slate-300 rounded-lg">
+                <button onclick="runAts()" class="w-full bg-slate-800 text-white p-3 rounded-lg font-bold hover:bg-slate-900 transition">Analyze Resume</button>
+                <div id="ats-result" class="hidden p-4 bg-emerald-50 text-emerald-800 rounded-lg text-sm font-bold border border-emerald-200">ATS Match Score: 88%</div>
+            </div>
+
+            <!-- Tab 3 -->
+            <div id="tab3" class="tab-content space-y-4">
+                <h2 class="text-xl font-bold">Stage 2: Aptitude Test</h2>
+                <p class="text-sm">Why is cultural integration important in mergers?</p>
+                <select class="w-full p-3 border border-slate-300 rounded-lg">
+                    <option>Strategic Leadership Alignment</option>
+                    <option>Employee Retention</option>
+                </select>
+                <button onclick="alert('Submission received.')" class="w-full bg-indigo-700 text-white p-3 rounded-lg font-bold hover:bg-indigo-800 transition">Submit Test</button>
+            </div>
+        </main>
     </div>
+
     <script>
-        function startAssessment() {
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            if(!name || !email) {
-                alert('Please fill all fields');
-                return;
-            }
-            document.getElementById('app').classList.add('hidden');
-            document.getElementById('results').classList.remove('hidden');
-            console.log("Candidate registered:", name, email);
+        function showTab(id) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+        function saveOnboarding() {
+            if(!document.getElementById('name').value) return alert('Please enter name');
+            alert('Profile Saved. Proceeding to ATS Audit.');
+            showTab('tab2');
+        }
+        function runAts() {
+            document.getElementById('ats-result').classList.remove('hidden');
         }
     </script>
 </body>
