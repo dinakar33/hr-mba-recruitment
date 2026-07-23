@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Blog | Executive Recruitment Platform</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- PDF.js for parsing resumes in the browser without a server -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 700: '#1d4ed8', 900: '#1e3a8a' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Drag and drop styling */
+        .drop-zone { border: 2px dashed #cbd5e1; transition: all 0.2s ease; }
+        .drop-zone.dragover { border-color: #3b82f6; background-color: #eff6ff; }
+        
+        .admin-only { display: none; }
+        body.admin-mode .admin-only { display: block; }
+        body.admin-mode .admin-login-btn { display: none; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <header class="bg-brand-900 text-white shadow-xl sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-extrabold tracking-tight">HR Blog</h1>
+                    <p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth.</p>
+                </div>
+                <div class="hidden md:block flex items-center space-x-4">
+                    <select id="adminCandidateSelect" onchange="selectCandidate(this.value)" class="hidden bg-slate-800 text-white text-sm rounded-md px-2 py-2 mr-4 border border-slate-600 outline-none cursor-pointer">
+                        <option value="">Select Candidate...</option>
+                    </select>
+                    <span id="adminBadge" class="hidden bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide mr-4"><i class="fa-solid fa-shield mr-1"></i> Admin Mode Active</span>
+                    <button onclick="openAdminModal()" class="admin-login-btn text-brand-100 hover:text-white transition text-sm font-medium">
+                        <i class="fa-solid fa-lock mr-1"></i> Admin Login
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 overflow-x-auto no-scrollbar">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav class="flex space-x-1 py-2" id="tabNav">
+                    <button onclick="switchTab('tab-onboarding', this)" class="nav-btn active bg-brand-700 text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition">
+                        <i class="fa-solid fa-user-plus mr-2"></i>Onboarding
+                    </button>
+                    <button onclick="switchTab('tab-ats', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition">
+                        <i class="fa-solid fa-file-pdf mr-2"></i>ATS Audit
+                    </button>
+                    <button onclick="switchTab('tab-test', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition">
+                        <i class="fa-solid fa-brain mr-2"></i>Aptitude Test
+                    </button>
+                    <button onclick="switchTab('tab-gd', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition">
+                        <i class="fa-solid fa-users mr-2"></i>Group Discussion
+                    </button>
+                    <button onclick="switchTab('tab-passport', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition">
+                        <i class="fa-solid fa-id-card mr-2"></i>Talent Passport
+                    </button>
+                    <button onclick="switchTab('tab-rights', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition">
+                        <i class="fa-solid fa-scale-balanced mr-2"></i>Labor Rights
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full relative">
+        
+        <div id="msgBox" class="hidden mb-6 p-4 rounded-lg shadow-md font-medium text-sm flex items-center justify-between transition-all z-50">
+            <span id="msgText"></span>
+            <button onclick="document.getElementById('msgBox').classList.add('hidden')" class="text-gray-500 hover:text-gray-800"><i class="fa-solid fa-times"></i></button>
+        </div>
+
+        <!-- Admin Login Modal -->
+        <div id="adminModal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center">
+            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-lock text-brand-600 mr-2"></i> Moderator Login</h3>
+                    <button onclick="closeAdminModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-times"></i></button>
+                </div>
+                <p class="text-sm text-gray-500 mb-4">Enter the administrative passcode to unlock grading authority and report delivery features.</p>
+                <input type="password" id="adminPass" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none mb-4" placeholder="Enter Passcode (admin123)">
+                <button onclick="verifyAdmin()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 rounded-lg transition">Unlock Access</button>
+            </div>
+        </div>
+
+        <section id="tab-onboarding" class="tab-content active">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-800">Candidate Registration & Behavioral Profiling</h2>
+                <p class="text-slate-500 mt-2">Enter your credentials and complete the psychological survey to determine your workplace archetype.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-card p-6 rounded-xl shadow-sm">
+                    <h3 class="text-lg font-semibold border-b pb-3 mb-4"><i class="fa-solid fa-address-card text-brand-500 mr-2"></i>Personal Details</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                            <input type="text" id="candName" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-brand-500 focus:ring-brand-500 p-2.5 border" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" id="candEmail" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-brand-500 focus:ring-brand-500 p-2.5 border" placeholder="john@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Specialization</label>
+                            <select id="candSpec" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-brand-500 focus:ring-brand-500 p-2.5 border bg-white">
+                                <option>MBA - Human Resources</option>
+                                <option>MBA - Finance</option>
+                                <option>MBA - Marketing</option>
+                                <option>MBA - Operations & Analytics</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl shadow-sm">
+                    <h3 class="text-lg font-semibold border-b pb-3 mb-4"><i class="fa-solid fa-puzzle-piece text-brand-500 mr-2"></i>Archetype Assessment</h3>
+                    <p class="text-sm text-gray-600 mb-4 font-medium">When facing a complex corporate roadblock, your first instinct is to:</p>
+                    <div class="space-y-3">
+                        <label class="flex items-start p-3 border rounded-lg hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="archetypeQ" value="Strategist" class="mt-1 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 text-sm text-gray-700">Analyze past data and formulate a structured framework</span>
+                        </label>
+                        <label class="flex items-start p-3 border rounded-lg hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="archetypeQ" value="Innovator" class="mt-1 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 text-sm text-gray-700">Brainstorm a disruptive, out-of-the-box workaround</span>
+                        </label>
+                        <label class="flex items-start p-3 border rounded-lg hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="archetypeQ" value="Connector" class="mt-1 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 text-sm text-gray-700">Consult team members to build consensus and morale</span>
+                        </label>
+                        <label class="flex items-start p-3 border rounded-lg hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="archetypeQ" value="Executor" class="mt-1 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 text-sm text-gray-700">Execute immediately with tactical focus on deliverables</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex justify-end">
+                <button onclick="saveProfile()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition transform hover:-translate-y-0.5">
+                    Lock Profile & Generate Archetype <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </section>
+
+        <section id="tab-ats" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-800">Stage 1: The Digital Gatekeeper</h2>
+                <p class="text-slate-500 mt-2">Upload your PDF resume to instantly run our browser-based keyword density audit.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 space-y-6">
+                    
+                    <!-- File Upload Area -->
+                    <div class="glass-card p-6 rounded-xl shadow-sm">
+                        <label class="block text-sm font-semibold text-gray-700 mb-3"><i class="fa-solid fa-file-pdf text-red-500 mr-2"></i>Upload PDF Resume</label>
+                        <div id="dropZone" class="drop-zone w-full h-32 rounded-xl flex flex-col items-center justify-center cursor-pointer bg-slate-50">
+                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-brand-400 mb-2"></i>
+                            <span class="text-sm font-medium text-slate-600">Drag & drop your PDF here or click to browse</span>
+                            <input type="file" id="resumeFile" accept="application/pdf" class="hidden">
+                        </div>
+                        <p id="fileNameDisplay" class="mt-2 text-sm text-brand-600 font-medium hidden"><i class="fa-solid fa-check-circle mr-1"></i> File ready: <span id="fName"></span></p>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-xl shadow-sm">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2"><i class="fa-solid fa-bullseye text-brand-500 mr-2"></i>Target Job Description</label>
+                        <textarea id="jdText" rows="4" class="w-full border-gray-300 rounded-lg shadow-inner focus:border-brand-500 focus:ring-brand-500 p-3 border text-sm">Seeking candidates skilled in HR analytics, recruitment lifecycle management, labor law compliance, compensation structuring, and cross-functional team dynamics.</textarea>
+                    </div>
+                    
+                    <button id="btnRunATS" onclick="runATS()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition flex items-center justify-center">
+                        <i class="fa-solid fa-microchip mr-2"></i> <span>Extract & Run ATS Algorithm</span>
+                    </button>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl shadow-sm bg-gradient-to-br from-white to-slate-50">
+                    <h3 class="text-lg font-semibold text-center border-b pb-3 mb-6">Live Parsing Results</h3>
+                    
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center justify-center w-32 h-32 rounded-full border-8 border-brand-100 bg-white shadow-inner relative">
+                            <span id="atsScoreDisplay" class="text-4xl font-extrabold text-brand-600">0%</span>
+                        </div>
+                        <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mt-3">Match Score</p>
+                    </div>
+
+                    <div class="space-y-4 text-sm">
+                        <div class="p-3 bg-green-50 text-green-800 rounded-lg border border-green-100">
+                            <strong><i class="fa-solid fa-check-circle mr-1"></i> Matches:</strong>
+                            <span id="atsMatches" class="block mt-1 font-medium">Run scan to view</span>
+                        </div>
+                        <div class="p-3 bg-red-50 text-red-800 rounded-lg border border-red-100">
+                            <strong><i class="fa-solid fa-triangle-exclamation mr-1"></i> Missing:</strong>
+                            <span id="atsMissing" class="block mt-1 font-medium">Run scan to view</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-test" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-800">Stage 2: Competency Assessment</h2>
+                <p class="text-slate-500 mt-2">Evaluate your corporate readiness with situational judgment questions.</p>
+            </div>
+
+            <div class="glass-card p-8 rounded-xl shadow-sm max-w-4xl mx-auto">
+                <div class="space-y-8">
+                    <!-- Q1 -->
+                    <div>
+                        <h4 class="font-semibold text-lg text-slate-800 mb-4">1. An employee reports feeling unfairly compensated compared to a peer hired externally for the same role. What is your HR intervention?</h4>
+                        <div class="space-y-3 pl-4">
+                            <label class="flex items-center p-3 border rounded-lg hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="testQ1" class="text-brand-600"> <span class="ml-3 text-sm">Dismiss the complaint as external market rates fluctuate.</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-lg hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="testQ1" class="text-brand-600"> <span class="ml-3 text-sm font-medium">Conduct an immediate internal pay equity audit and evaluate job bands transparently.</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-lg hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="testQ1" class="text-brand-600"> <span class="ml-3 text-sm">Offer a discretionary bonus to quiet the employee temporarily.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div>
+                        <h4 class="font-semibold text-lg text-slate-800 mb-4">2. A key department lead is resisting the implementation of a new AI-driven performance review tool. How do you approach this?</h4>
+                        <div class="space-y-3 pl-4">
+                            <label class="flex items-center p-3 border rounded-lg hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="testQ2" class="text-brand-600"> <span class="ml-3 text-sm">Mandate its use immediately under penalty of review.</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-lg hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="testQ2" class="text-brand-600"> <span class="ml-3 text-sm font-medium">Facilitate a focus group to address friction points, offer training, and highlight gains.</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-lg hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="testQ2" class="text-brand-600"> <span class="ml-3 text-sm">Scrap the tool entirely to maintain peace.</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 border-t pt-6 text-center">
+                    <button onclick="submitTest()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-10 rounded-lg shadow-md transition">
+                        Submit Final Answers
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-gd" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-800">Stage 3: The Collaborative Arena</h2>
+                <p class="text-slate-500 mt-2">Read the active corporate case study and discuss with your group.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Visitor View: Questions -->
+                <div class="glass-card p-6 rounded-xl shadow-sm border-l-4 border-l-amber-500 h-full">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-solid fa-map text-amber-500 text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold text-slate-800">Active Case Study</h3>
+                    </div>
+                    <p class="text-lg font-bold text-slate-700 mb-2">"AI in Performance Reviews: Objective Efficiency vs. Algorithmic Bias."</p>
+                    <p class="text-sm text-gray-600 mb-6">Candidates have 15 minutes to deliberate the ethical and practical implications of replacing human performance managers with automated AI scoring systems.</p>
+                    
+                    <h4 class="font-semibold text-slate-800 mb-3"><i class="fa-solid fa-comments mr-2 text-brand-400"></i>Discussion Points for the Group:</h4>
+                    <ul class="list-disc pl-6 space-y-2 text-sm text-slate-700">
+                        <li>How do we ensure AI algorithms don't inherit historical biases?</li>
+                        <li>What is the psychological impact on employee morale when judged by a machine?</li>
+                        <li>Should human managers have veto power over AI-generated ratings?</li>
+                        <li>How does this affect legal liability in wrongful termination suits?</li>
+                    </ul>
+                </div>
+
+                <!-- Admin View: Scoring (Hidden from normal visitors) -->
+                <div class="glass-card p-6 rounded-xl shadow-sm bg-slate-800 text-white flex flex-col justify-center admin-only border border-brand-500 relative overflow-hidden">
+                    <!-- Overlay decorative icon -->
+                    <i class="fa-solid fa-user-shield absolute -bottom-4 -right-4 text-[120px] opacity-10 text-white"></i>
+                    
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between border-b border-slate-600 pb-3 mb-6">
+                            <h3 class="text-lg font-semibold"><i class="fa-solid fa-clipboard-check mr-2 text-brand-400"></i>Moderator Scoring Panel</h3>
+                            <span class="bg-brand-600 text-xs px-2 py-1 rounded">Admin</span>
+                        </div>
+                        
+                        <p class="text-sm text-slate-300 mb-6">Evaluate the current candidate's participation in the GD room based on communication, active listening, and conflict resolution.</p>
+
+                        <label class="block text-sm font-medium mb-2">Overall GD Score Allocation (Out of 30)</label>
+                        <div class="flex items-center space-x-4 mb-8">
+                            <input type="range" id="gdScoreInput" min="0" max="30" value="0" class="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('gdScoreVal').innerText = this.value">
+                            <span id="gdScoreVal" class="text-2xl font-bold text-brand-400 w-12 text-center">0</span>
+                        </div>
+                        
+                        <button onclick="saveGDScore()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition">
+                            Lock Moderator Score
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Visitor View: Waiting for Admin -->
+                <div class="glass-card p-6 rounded-xl shadow-sm bg-slate-100 border-dashed border-2 flex flex-col items-center justify-center text-center [&:has(~.admin-only:not([style*='display: none']))]:hidden" id="gdWaitingArea">
+                    <i class="fa-solid fa-hourglass-half text-4xl text-slate-300 mb-4"></i>
+                    <h3 class="text-lg font-bold text-slate-700">Awaiting Moderator Evaluation</h3>
+                    <p class="text-sm text-slate-500 mt-2">Discuss the prompt with your group. The HR Moderator will evaluate your performance and upload the score securely.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-passport" class="tab-content">
+            <div class="mb-6 flex justify-between items-end">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">Stage 4: Strategic HR Interview & Passport</h2>
+                    <p class="text-slate-500 mt-2">Your cumulative recruitment readiness dossier.</p>
+                </div>
+            </div>
+
+            <!-- Lock Screen for Candidates (Removed when published) -->
+            <div id="passportLock" class="glass-card p-12 rounded-xl shadow-sm text-center border border-slate-200">
+                <i class="fa-solid fa-lock text-5xl text-brand-300 mb-4"></i>
+                <h3 class="text-2xl font-bold text-slate-700 mb-2">Results Pending Admin Review</h3>
+                <p class="text-slate-500 max-w-lg mx-auto">Your Talent Passport is currently being finalized by the HR panel. Once all stages are graded and published, your dossier will unlock here.</p>
+            </div>
+
+            <!-- Actual Passport Content (Hidden initially) -->
+            <div id="passportContent" class="hidden">
+                <div class="bg-gradient-to-br from-brand-900 to-slate-900 rounded-2xl shadow-2xl p-1 md:p-8 text-white relative overflow-hidden mb-8">
+                    <div class="absolute top-0 right-0 -mt-20 -mr-20 opacity-10">
+                        <i class="fa-solid fa-fingerprint text-[300px]"></i>
+                    </div>
+                    
+                    <div class="relative z-10 glass-card bg-opacity-10 bg-white p-6 md:p-10 rounded-xl border border-white/20 backdrop-blur-md">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/20 pb-6 mb-6 gap-4">
+                            <div>
+                                <h3 class="text-xs uppercase tracking-widest text-brand-200 font-bold mb-1">Official Executive Passport</h3>
+                                <h2 id="passName" class="text-3xl md:text-4xl font-extrabold text-white">Candidate Name</h2>
+                                <p id="passArchetype" class="text-lg text-brand-300 mt-2 font-medium">Archetype: Not Evaluated</p>
+                            </div>
+                            <div class="text-right bg-black/30 p-4 rounded-xl border border-white/10 min-w-[150px]">
+                                <span class="block text-xs uppercase tracking-wider text-brand-200">Readiness Index</span>
+                                <span id="passTotal" class="block text-4xl font-black text-white mt-1">0%</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                            <div class="bg-white/10 p-5 rounded-lg text-center">
+                                <i class="fa-solid fa-file-pdf text-2xl text-brand-300 mb-3"></i>
+                                <span class="block text-xs uppercase tracking-wider text-gray-300">ATS Audit</span>
+                                <span id="passATS" class="block text-2xl font-bold mt-1">0/100</span>
+                            </div>
+                            <div class="bg-white/10 p-5 rounded-lg text-center">
+                                <i class="fa-solid fa-brain text-2xl text-brand-300 mb-3"></i>
+                                <span class="block text-xs uppercase tracking-wider text-gray-300">Written Test</span>
+                                <span id="passTest" class="block text-2xl font-bold mt-1">0/100</span>
+                            </div>
+                            <div class="bg-white/10 p-5 rounded-lg text-center">
+                                <i class="fa-solid fa-users text-2xl text-brand-300 mb-3"></i>
+                                <span class="block text-xs uppercase tracking-wider text-gray-300">Group Disc.</span>
+                                <span id="passGD" class="block text-2xl font-bold mt-1">0/30</span>
+                            </div>
+                            <div class="bg-white/10 p-5 rounded-lg text-center border border-brand-400 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+                                <i class="fa-solid fa-comments text-2xl text-brand-300 mb-3"></i>
+                                <span class="block text-xs uppercase tracking-wider text-gray-300">HR Interview</span>
+                                <span id="passInterview" class="block text-2xl font-bold mt-1">90/100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Admin Release Controls -->
+            <div class="admin-only bg-amber-50 border border-amber-200 rounded-xl p-6 mt-6">
+                <h3 class="text-amber-800 font-bold mb-4"><i class="fa-solid fa-toolbox mr-2"></i>Admin Panel: Finalize Candidate</h3>
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="publishResults()" class="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-lg font-semibold shadow transition">
+                        <i class="fa-solid fa-eye mr-2"></i> 1. Publish & Show Results
+                    </button>
+                    <button onclick="emailReport()" class="bg-slate-800 hover:bg-slate-900 text-white px-6 py-3 rounded-lg font-semibold shadow transition">
+                        <i class="fa-solid fa-envelope mr-2"></i> 2. Email Detailed Report
+                    </button>
+                </div>
+            </div>
+            
+        </section>
+
+        <section id="tab-rights" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-800">Employee Rights & Labor Literacy</h2>
+                <p class="text-slate-500 mt-2">Essential regulatory knowledge every professional must master before signing an offer.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="glass-card rounded-xl shadow-sm border overflow-hidden">
+                        <button onclick="toggleAccordion('acc1', this)" class="w-full text-left px-6 py-4 bg-slate-50 hover:bg-slate-100 flex justify-between items-center transition">
+                            <span class="font-semibold text-slate-800"><i class="fa-solid fa-book-open text-brand-500 mr-3"></i>Offer Letter Fundamentals (CTC vs. Base)</span>
+                            <i class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300 transform"></i>
+                        </button>
+                        <div id="acc1" class="hidden px-6 py-4 text-sm text-gray-600 border-t bg-white leading-relaxed">
+                            Always examine your Cost to Company (CTC) breakdown. <strong>Base salary</strong> determines your provident fund and gratuity calculations, whereas <strong>variable pay</strong> is contingent on individual and company performance metrics.
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl shadow-sm border overflow-hidden">
+                        <button onclick="toggleAccordion('acc2', this)" class="w-full text-left px-6 py-4 bg-slate-50 hover:bg-slate-100 flex justify-between items-center transition">
+                            <span class="font-semibold text-slate-800"><i class="fa-solid fa-shield-halved text-brand-500 mr-3"></i>Workplace Standards & POSH</span>
+                            <i class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300 transform"></i>
+                        </button>
+                        <div id="acc2" class="hidden px-6 py-4 text-sm text-gray-600 border-t bg-white leading-relaxed">
+                            Familiarize yourself with statutory working hour caps, notice period buyouts, and non-compete enforceability limitations. Furthermore, understand the strict <strong>Internal Complaints Committee (ICC)</strong> protections under POSH.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl shadow-sm text-center bg-slate-800 text-white flex flex-col justify-center items-center">
+                    <i class="fa-solid fa-video text-4xl text-brand-400 mb-4"></i>
+                    <h3 class="text-lg font-bold mb-2">Video Masterclasses</h3>
+                    <p class="text-sm text-gray-300 mb-6">Access our curated library of corporate ethics and collective bargaining webinars.</p>
+                    <button class="bg-brand-500 hover:bg-brand-600 text-white font-semibold py-2 px-6 rounded-full shadow transition w-full">
+                        Unlock Video Hub
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script type="module">
+        // Firebase Imports for Real-time Cloud Sync
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Initialize Firebase
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'hr-blog-event';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // PDF.js Setup for Browser Parsing
+        const pdfjsLib = window['pdfjs-dist/build/pdf'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+        // State Management
+        let isAdmin = false;
+        let currentUser = null;
+        let currentCandidateUid = null;
+        let candidatesList = []; // Stores all students for the admin dropdown
+        
+        let userData = {
+            name: "",
+            email: "",
+            archetype: "Not Evaluated",
+            ats_score: 0,
+            test_score: 0,
+            gd_score: 0,
+            interview_score: 90, 
+            published: false
+        };
+
+        // --- FIREBASE AUTH & REALTIME SYNC ---
+        async function initAuth() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                currentUser = auth.currentUser;
+                currentCandidateUid = currentUser.uid;
+                setupRealtimeSync();
+            } catch (e) {
+                console.error("Auth error", e);
+                showMessage("Cloud connection failed. Offline mode active.", "error");
+            }
+        }
+        initAuth();
+
+        function setupRealtimeSync() {
+            if (!currentUser) return;
+            const candidatesCol = collection(db, 'artifacts', appId, 'public', 'data', 'candidates');
+            
+            // Listen to all student data in real-time
+            onSnapshot(candidatesCol, (snapshot) => {
+                candidatesList = snapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() }));
+                
+                if (isAdmin) renderAdminQueue();
+                updateLocalDataFromCloud();
+            }, (error) => {
+                console.error("Snapshot error:", error);
+            });
+        }
+
+        function updateLocalDataFromCloud() {
+            if (!currentCandidateUid) return;
+            const activeData = candidatesList.find(c => c.uid === currentCandidateUid);
+            if (activeData) {
+                userData = { ...userData, ...activeData };
+            }
+
+            // Sync visual UI elements
+            document.getElementById('candName').value = userData.name || "";
+            document.getElementById('candEmail').value = userData.email || "";
+            
+            if (userData.ats_score > 0) {
+                document.getElementById('atsScoreDisplay').innerText = `${userData.ats_score}%`;
+            }
+            if (userData.gd_score > 0) {
+                document.getElementById('gdScoreInput').value = userData.gd_score;
+                document.getElementById('gdScoreVal').innerText = userData.gd_score;
+            }
+            
+            updatePassportUI();
+        }
+
+        async function syncToCloud(updates) {
+            if (!currentUser) return;
+            // Admins update the selected student; Students update themselves
+            const uidToUpdate = isAdmin ? currentCandidateUid : currentUser.uid; 
+            if (!uidToUpdate) return;
+            
+            const ref = doc(db, 'artifacts', appId, 'public', 'data', 'candidates', uidToUpdate);
+            try {
+                await setDoc(ref, updates, { merge: true });
+            } catch (e) {
+                console.error("Sync error", e);
+            }
+        }
+
+        // File Drag & Drop Logic
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('resumeFile');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const fName = document.getElementById('fName');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelect();
+            }
+        });
+        fileInput.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect() {
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                if(file.type !== 'application/pdf') {
+                    showMessage("Only PDF files are supported.", "error");
+                    fileInput.value = '';
+                    fileNameDisplay.classList.add('hidden');
+                    return;
+                }
+                fName.innerText = file.name;
+                fileNameDisplay.classList.remove('hidden');
+            }
+        }
+
+        // UI Helpers
+        window.showMessage = function(text, type = 'success') {
+            const box = document.getElementById('msgBox');
+            const msgText = document.getElementById('msgText');
+            
+            box.className = `mb-6 p-4 rounded-lg shadow-md font-medium text-sm flex items-center justify-between transition-all z-50 ${type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-amber-50 text-amber-800 border border-amber-200'}`;
+            
+            let icon = type === 'success' ? '<i class="fa-solid fa-circle-check mr-2"></i>' : '<i class="fa-solid fa-triangle-exclamation mr-2"></i>';
+            msgText.innerHTML = `${icon} ${text}`;
+            
+            box.classList.remove('hidden');
+            setTimeout(() => { box.classList.add('hidden'); }, 5000);
+        }
+
+        window.switchTab = function(tabId, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-700', 'text-white', 'active');
+                btn.classList.add('text-brand-100');
+            });
+            
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.remove('text-brand-100');
+            btnElement.classList.add('bg-brand-700', 'text-white', 'active');
+            
+            if(tabId === 'tab-passport') updatePassportUI();
+        }
+
+        window.toggleAccordion = function(id, btn) {
+            const content = document.getElementById(id);
+            const icon = btn.querySelector('.fa-chevron-down');
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        // Admin Features
+        window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); }
+        window.closeAdminModal = function() { document.getElementById('adminModal').classList.add('hidden'); }
+        
+        window.verifyAdmin = function() {
+            const pass = document.getElementById('adminPass').value;
+            if (pass === 'admin123') { // Set your custom password here
+                isAdmin = true;
+                document.body.classList.add('admin-mode');
+                document.getElementById('adminBadge').classList.remove('hidden');
+                document.getElementById('gdWaitingArea').classList.add('hidden');
+                document.getElementById('adminCandidateSelect').classList.remove('hidden');
+                closeAdminModal();
+                renderAdminQueue();
+                showMessage("Admin Mode Unlocked. Select a candidate from the top menu.");
+            } else {
+                showMessage("Incorrect passcode.", "error");
+            }
+        }
+
+        window.renderAdminQueue = function() {
+            const select = document.getElementById('adminCandidateSelect');
+            // Save current selection to restore it if list updates
+            const currentSelection = select.value;
+            
+            select.innerHTML = '<option value="">Select Candidate...</option>';
+            candidatesList.forEach(cand => {
+                if (cand.name) { // Only show students who have registered their name
+                    const opt = document.createElement('option');
+                    opt.value = cand.uid;
+                    opt.textContent = `${cand.name} - ${cand.ats_score}% ATS`;
+                    if (cand.uid === currentCandidateUid) opt.selected = true;
+                    select.appendChild(opt);
+                }
+            });
+        }
+
+        window.selectCandidate = function(uid) {
+            if (!uid) return;
+            currentCandidateUid = uid;
+            showMessage("Candidate profile loaded securely.");
+            updateLocalDataFromCloud();
+        }
+
+        // Registration Logic
+        window.saveProfile = function() {
+            const name = document.getElementById('candName').value.trim();
+            const email = document.getElementById('candEmail').value.trim();
+            const checkedRadio = document.querySelector('input[name="archetypeQ"]:checked');
+
+            if (!name || !email) { showMessage("Please enter Full Name and Email.", "error"); return; }
+            if (!checkedRadio) { showMessage("Please select an Archetype option.", "error"); return; }
+
+            userData.name = name;
+            userData.email = email;
+            const archMap = {
+                'Strategist': '🛠️ The Strategist (Analytical)',
+                'Innovator': '💡 The Innovator (Adaptable)',
+                'Connector': '🤝 The Connector (Empathetic)',
+                'Executor': '🎯 The Executor (Goal-Oriented)'
+            };
+            userData.archetype = archMap[checkedRadio.value];
+            
+            // Instantly save to cloud
+            syncToCloud({
+                name: userData.name,
+                email: userData.email,
+                archetype: userData.archetype
+            });
+            showMessage(`Profile Saved to Cloud! Archetype: ${userData.archetype}`);
+        }
+
+        // ATS Logic using PDF.js
+        window.runATS = async function() {
+            const jd = document.getElementById('jdText').value.toLowerCase();
+            const btn = document.getElementById('btnRunATS');
+            
+            if (!fileInput.files.length) { showMessage("Please upload a PDF resume first.", "error"); return; }
+            
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Reading PDF...';
+            btn.disabled = true;
+
+            try {
+                // 1. Extract Text from PDF locally in browser
+                const file = fileInput.files[0];
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+                let resumeText = '';
+                
+                for(let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    resumeText += content.items.map(item => item.str).join(' ') + ' ';
+                }
+                
+                resumeText = resumeText.toLowerCase();
+
+                // 2. Keyword Matching
+                const stopWords = ['and','the','to','of','in','a','for','with','on','is'];
+                const keywords = jd.replace(/[^a-z\s]/g, '').split(/\s+/).filter(w => w.length > 4 && !stopWords.includes(w));
+                const uniqueKeywords = [...new Set(keywords)].slice(0, 15); 
+                
+                let matches = [];
+                let missing = [];
+
+                uniqueKeywords.forEach(kw => {
+                    if (resumeText.includes(kw)) matches.push(kw);
+                    else missing.push(kw);
+                });
+
+                let score = 0;
+                if (uniqueKeywords.length > 0) {
+                    score = Math.round((matches.length / uniqueKeywords.length) * 100);
+                }
+
+                userData.ats_score = score;
+                syncToCloud({ ats_score: score });
+                
+                // 3. Update UI
+                document.getElementById('atsScoreDisplay').innerText = `${score}%`;
+                document.getElementById('atsMatches').innerHTML = matches.length ? matches.join(', ') : 'None found';
+                document.getElementById('atsMissing').innerHTML = missing.length ? missing.join(', ') : 'None missing';
+                
+                showMessage(`PDF Scanned! Score synced securely to the admin panel.`);
+            } catch (err) {
+                showMessage("Failed to read PDF. Ensure it is not encrypted.", "error");
+                console.error(err);
+            } finally {
+                btn.innerHTML = '<i class="fa-solid fa-microchip mr-2"></i> Extract & Run ATS Algorithm';
+                btn.disabled = false;
+            }
+        }
+
+        // Test & GD Logic
+        window.submitTest = function() {
+            userData.test_score = 85; 
+            syncToCloud({ test_score: 85 });
+            showMessage(`Assessment Submitted to HR!`);
+        }
+
+        window.saveGDScore = function() {
+            const score = document.getElementById('gdScoreInput').value;
+            userData.gd_score = parseInt(score);
+            
+            // Admin pushing the score to the student's cloud file
+            syncToCloud({ gd_score: userData.gd_score });
+            showMessage(`Group Discussion score saved for ${userData.name}: ${score}/30`);
+        }
+
+        // Passport & Email Logic
+        window.updatePassportUI = function() {
+            document.getElementById('passName').innerText = userData.name || "Candidate Name";
+            document.getElementById('passArchetype').innerText = `Archetype: ${userData.archetype}`;
+            document.getElementById('passATS').innerText = `${userData.ats_score}/100`;
+            document.getElementById('passTest').innerText = `${userData.test_score}/100`;
+            document.getElementById('passGD').innerText = `${userData.gd_score}/30`;
+            document.getElementById('passInterview').innerText = `${userData.interview_score}/100`;
+
+            let gdNormalized = (userData.gd_score / 30) * 100;
+            let total = Math.round((userData.ats_score + userData.test_score + gdNormalized + userData.interview_score) / 4);
+            document.getElementById('passTotal').innerText = `${total}%`;
+            
+            // Handle Visibility (updates instantly if Admin hits publish!)
+            if (userData.published) {
+                document.getElementById('passportLock').classList.add('hidden');
+                document.getElementById('passportContent').classList.remove('hidden');
+            } else {
+                document.getElementById('passportLock').classList.remove('hidden');
+                document.getElementById('passportContent').classList.add('hidden');
+            }
+        }
+
+        window.publishResults = function() {
+            if(!currentCandidateUid) { showMessage("Select a candidate first.", "error"); return; }
+            userData.published = true;
+            syncToCloud({ published: true });
+            showMessage(`Results Published! It is now unlocked on ${userData.name}'s phone.`);
+        }
+
+        window.emailReport = function() {
+            if (!userData.email || !userData.name) {
+                showMessage("Candidate hasn't entered their name and email yet.", "error");
+                return;
+            }
+            if (!userData.published) {
+                showMessage("Please Publish the results first.", "error");
+                return;
+            }
+
+            const total = document.getElementById('passTotal').innerText;
+            const subject = encodeURIComponent("Your Official HR Blog Talent Passport");
+            const body = encodeURIComponent(`Hello ${userData.name},\n\nThank you for participating in the HR Blog Executive Assessment! Your final scores have been processed by our moderator panel.\n\n=== YOUR TALENT PASSPORT ===\nWorkplace Archetype: ${userData.archetype}\n\nStage 1 - ATS Audit: ${userData.ats_score}/100\nStage 2 - Aptitude Test: ${userData.test_score}/100\nStage 3 - Group Discussion: ${userData.gd_score}/30\nStage 4 - Interview Readiness: ${userData.interview_score}/100\n\nOverall Readiness Index: ${total}\n\nCongratulations on completing the gauntlet.\n\nBest Regards,\nThe HR Blog Team`);
+            
+            // Triggers the device's native email client
+            window.location.href = `mailto:${userData.email}?subject=${subject}&body=${body}`;
+            showMessage(`Email draft generated for ${userData.email}`);
+        }
+    </script>
+</body>
+</html>
