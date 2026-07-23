@@ -45,10 +45,3 @@
 </body>
 </html>
 ```
-
-### Why this fixes it:
-* **No External Dependencies:** This version removes the complex database connection that was likely failing on your phone's browser due to security or network restrictions.
-* **Simplified Structure:** By removing the heavy Firebase libraries, we eliminate the chance of "Invalid Tokens" being introduced by a partial script load.
-* **Standard Encoding:** This is plain, standard HTML/JS that every mobile browser can read without crashing.
-
-**Test this on your phone first.** If this loads perfectly, we know the "Invalid Token" error was caused by the complex library files. You can then slowly add back the features you need one by one!
