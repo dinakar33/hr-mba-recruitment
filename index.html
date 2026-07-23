@@ -3,105 +3,529 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HR Blog | Admin Command Center</title>
+    <title>HR Blog | Executive Recruitment Platform</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { brand: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' } } } }
+        }
+    </script>
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .tab-content { display: none; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease-in-out; }
         .tab-content.active { display: block; }
-        .nav-active { background-color: rgba(255, 255, 255, 0.2); border-bottom: 2px solid white; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(226, 232, 240, 0.8); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .drop-zone { border: 2px dashed #cbd5e1; transition: all 0.2s ease; }
+        .drop-zone.dragover { border-color: #2563eb; background-color: #eff6ff; }
+        
+        .admin-only { display: none; }
+        body.admin-mode .admin-only { display: block; }
+        body.admin-mode .admin-login-btn { display: none; }
+        
+        .admin-only-flex { display: none; }
+        body.admin-mode .admin-only-flex { display: flex; }
     </style>
 </head>
-<body>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
-    <!-- Header -->
-    <header class="bg-[#1e40af] text-white p-6 shadow-lg">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div>
-                <h1 class="text-3xl font-extrabold">HR Blog</h1>
-                <p class="text-blue-200 italic">EXECUTIVE RECRUITMENT PLATFORM</p>
+    <header class="bg-brand-900 text-white shadow-xl sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-extrabold tracking-tight">HR Blog</h1>
+                    <p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth.</p>
+                </div>
+                
+                <!-- Admin Header Controls -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button onclick="window.openAdminModal()" class="admin-login-btn text-brand-100 hover:text-white transition text-sm font-medium">
+                        <i class="fa-solid fa-lock mr-1"></i> Admin Login
+                    </button>
+                    
+                    <!-- Appears only when admin logs in -->
+                    <div id="adminControls" class="admin-only-flex items-center space-x-3">
+                        <div class="flex items-center bg-brand-800 border border-brand-600 text-white rounded-lg px-3 py-2 shadow-inner">
+                            <i class="fa-solid fa-satellite-dish animate-pulse mr-2 text-green-400"></i>
+                            <select id="adminCandidateSelect" onchange="window.onAdminSelectCandidate(this.value)" class="bg-transparent text-white font-bold outline-none text-sm cursor-pointer appearance-none w-48">
+                                <option value="" class="text-slate-800">-- Select Candidate --</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down text-brand-400 text-xs ml-2"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button id="auth-btn" onclick="handleAuth()" class="text-sm font-semibold flex items-center gap-2 border px-4 py-2 rounded-lg hover:bg-blue-800">
-                🔒 Admin Login
-            </button>
+        </div>
+        
+        <div class="bg-brand-800 overflow-x-auto no-scrollbar">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav class="flex space-x-1 py-2" id="tabNav">
+                    <button onclick="window.switchTab('tab-onboarding', this)" class="nav-btn active bg-brand-700 text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-user-plus mr-2"></i>Onboarding</button>
+                    <button onclick="window.switchTab('tab-ats', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-file-pdf mr-2"></i>ATS Audit</button>
+                    <button onclick="window.switchTab('tab-test', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-brain mr-2"></i>Aptitude Test</button>
+                    <button onclick="window.switchTab('tab-gd', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-users mr-2"></i>Group Discussion</button>
+                    <button onclick="window.switchTab('tab-passport', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-id-card mr-2"></i>Talent Passport</button>
+                    <button onclick="window.switchTab('tab-rights', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-scale-balanced mr-2"></i>Labor Rights</button>
+                </nav>
+            </div>
         </div>
     </header>
 
-    <!-- Content Area -->
-    <main class="max-w-6xl mx-auto p-6 mt-4">
-        <!-- Student Interface -->
-        <div id="student-view" class="tab-content active">
-            <h2 class="text-2xl font-bold mb-4">Candidate Portal</h2>
-            <div class="bg-white p-6 rounded-xl shadow border">
-                <input type="text" id="name" placeholder="Full Name" class="w-full p-3 border rounded mb-3">
-                <input type="email" id="email" placeholder="Email Address" class="w-full p-3 border rounded mb-3">
-                <button onclick="registerCandidate()" class="w-full bg-[#1e40af] text-white p-3 rounded font-bold">Register</button>
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full relative">
+        
+        <div id="msgBox" class="hidden mb-6 p-4 rounded-lg shadow-md font-medium text-sm flex items-center justify-between transition-all z-50">
+            <span id="msgText"></span>
+            <button onclick="document.getElementById('msgBox').classList.add('hidden')" class="text-gray-500 hover:text-gray-800"><i class="fa-solid fa-times"></i></button>
+        </div>
+
+        <div id="adminModal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center">
+            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-lock text-brand-600 mr-2"></i> Admin Command Center</h3>
+                    <button onclick="window.closeAdminModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-times"></i></button>
+                </div>
+                <p class="text-sm text-gray-500 mb-4">Enter the administrative passcode to connect to the live candidate database.</p>
+                <input type="password" id="adminPass" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-500 outline-none mb-4" placeholder="Enter Passcode (admin123)">
+                <button onclick="window.verifyAdmin()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-lg transition">Connect to Cloud</button>
             </div>
         </div>
 
-        <!-- Admin Interface -->
-        <div id="admin-view" class="tab-content">
-            <h2 class="text-2xl font-bold mb-4 text-[#1e40af]">Admin Command Center</h2>
-            <div id="candidate-list" class="grid gap-4">
-                <!-- Candidates will populate here -->
+        <section id="tab-onboarding" class="tab-content active">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-800">Candidate Registration</h2>
+                <p class="text-slate-500 mt-2">Enter your credentials and complete the psychological survey.</p>
             </div>
-        </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-card p-6 rounded-xl shadow-sm">
+                    <h3 class="text-lg font-semibold border-b pb-3 mb-4"><i class="fa-solid fa-address-card text-brand-500 mr-2"></i>Personal Details</h3>
+                    <div class="space-y-4">
+                        <div><label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label><input type="text" id="candName" class="w-full border-gray-300 rounded-lg p-2.5 border" placeholder="John Doe"></div>
+                        <div><label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label><input type="email" id="candEmail" class="w-full border-gray-300 rounded-lg p-2.5 border" placeholder="john@example.com"></div>
+                        <div><label class="block text-sm font-medium text-gray-700 mb-1">Specialization</label>
+                            <select id="candSpec" class="w-full border-gray-300 rounded-lg p-2.5 border">
+                                <option>MBA - Human Resources</option><option>MBA - Finance</option><option>MBA - Marketing</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl shadow-sm">
+                    <h3 class="text-lg font-semibold border-b pb-3 mb-4"><i class="fa-solid fa-puzzle-piece text-brand-500 mr-2"></i>Archetype Assessment</h3>
+                    <p class="text-sm text-gray-600 mb-4 font-medium">When facing a complex roadblock, your instinct is to:</p>
+                    <div class="space-y-3">
+                        <label class="flex items-start p-3 border rounded-lg hover:bg-slate-50 cursor-pointer"><input type="radio" name="archetypeQ" value="Strategist" class="mt-1"><span class="ml-3 text-sm">Analyze data and build a structured framework</span></label>
+                        <label class="flex items-start p-3 border rounded-lg hover:bg-slate-50 cursor-pointer"><input type="radio" name="archetypeQ" value="Innovator" class="mt-1"><span class="ml-3 text-sm">Brainstorm an out-of-the-box workaround</span></label>
+                        <label class="flex items-start p-3 border rounded-lg hover:bg-slate-50 cursor-pointer"><input type="radio" name="archetypeQ" value="Connector" class="mt-1"><span class="ml-3 text-sm">Consult team members to build consensus</span></label>
+                        <label class="flex items-start p-3 border rounded-lg hover:bg-slate-50 cursor-pointer"><input type="radio" name="archetypeQ" value="Executor" class="mt-1"><span class="ml-3 text-sm">Execute immediately with tactical focus on deliverables</span></label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex justify-end">
+                <button onclick="window.saveProfile()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition">
+                    Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
+                </button>
+            </div>
+        </section>
+
+        <section id="tab-ats" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-800">Stage 1: ATS Audit</h2>
+                <p class="text-slate-500 mt-2">Upload your PDF resume to run the keyword density scan.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="glass-card p-6 rounded-xl shadow-sm">
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">Upload PDF Resume</label>
+                        <div id="dropZone" class="drop-zone w-full h-32 rounded-xl flex flex-col items-center justify-center cursor-pointer bg-slate-50">
+                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-brand-400 mb-2"></i>
+                            <span class="text-sm font-medium text-slate-600">Drag & drop your PDF here or click to browse</span>
+                            <input type="file" id="resumeFile" accept="application/pdf" class="hidden">
+                        </div>
+                        <p id="fileNameDisplay" class="mt-2 text-sm text-brand-600 font-medium hidden"><i class="fa-solid fa-check-circle mr-1"></i> File ready: <span id="fName"></span></p>
+                    </div>
+
+                    <button id="btnRunATS" onclick="window.runATS()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 rounded-lg shadow-md transition">
+                        <i class="fa-solid fa-microchip mr-2"></i> Extract & Run ATS Scan
+                    </button>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl shadow-sm text-center">
+                    <h3 class="text-lg font-semibold border-b pb-3 mb-6">Live Parsing Results</h3>
+                    <div class="inline-flex items-center justify-center w-32 h-32 rounded-full border-8 border-brand-100 bg-white shadow-inner relative">
+                        <span id="atsScoreDisplay" class="text-4xl font-extrabold text-brand-600">0%</span>
+                    </div>
+                    <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mt-3 mb-4">Match Score</p>
+                    <p class="text-sm text-green-700 bg-green-50 p-2 rounded hidden" id="atsSuccessMsg"><i class="fa-solid fa-check"></i> Score synced to cloud!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-test" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-800">Stage 2: Competency Assessment</h2>
+            </div>
+            <div class="glass-card p-8 rounded-xl shadow-sm max-w-4xl mx-auto text-center">
+                <i class="fa-solid fa-clipboard-question text-5xl text-brand-300 mb-4"></i>
+                <h3 class="text-xl font-bold text-slate-700 mb-4">Situational Judgment Test</h3>
+                <p class="text-slate-500 mb-8">Click below to auto-simulate taking the 25-minute analytical aptitude test.</p>
+                <button onclick="window.submitTest()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-10 rounded-lg shadow-md transition">
+                    Simulate & Submit Test to Cloud
+                </button>
+            </div>
+        </section>
+
+        <section id="tab-gd" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-800">Stage 3: Group Discussion</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="glass-card p-6 rounded-xl border-l-4 border-l-amber-500">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4"><i class="fa-solid fa-comments text-amber-500 mr-2"></i>Active Case Study</h3>
+                    <p class="text-lg font-bold text-slate-700 mb-2">"AI in Performance Reviews"</p>
+                    <p class="text-sm text-gray-600">Discuss the ethical implications of replacing human managers with AI scoring systems. How do we prevent bias?</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl shadow-sm bg-slate-800 text-white admin-only border border-brand-500">
+                    <div class="flex items-center justify-between border-b border-slate-600 pb-3 mb-6">
+                        <h3 class="text-lg font-semibold"><i class="fa-solid fa-clipboard-check mr-2 text-brand-400"></i>Moderator Scoring</h3>
+                    </div>
+                    <label class="block text-sm font-medium mb-2">Score for Selected Candidate (Out of 30)</label>
+                    <div class="flex items-center space-x-4 mb-8">
+                        <input type="range" id="gdScoreInput" min="0" max="30" value="0" class="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('gdScoreVal').innerText = this.value">
+                        <span id="gdScoreVal" class="text-2xl font-bold text-brand-400 w-12 text-center">0</span>
+                    </div>
+                    <button onclick="window.saveGDScore()" class="w-full bg-brand-500 hover:bg-brand-600 font-semibold py-3 rounded-lg shadow-md transition">Push Score to Cloud</button>
+                </div>
+                
+                <div class="glass-card p-6 rounded-xl flex flex-col items-center justify-center text-center [&:has(~.admin-only:not([style*='display: none']))]:hidden" id="gdWaitingArea">
+                    <i class="fa-solid fa-satellite-dish text-4xl text-slate-300 mb-4 animate-pulse"></i>
+                    <h3 class="text-lg font-bold text-slate-700">Awaiting Moderator Score</h3>
+                    <p class="text-sm text-slate-500 mt-2">Discuss the prompt. The Admin will use their laptop to push your score to your phone.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-passport" class="tab-content">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-800">Stage 4: Talent Passport</h2>
+            </div>
+
+            <div id="passportLock" class="glass-card p-12 rounded-xl text-center border border-slate-200">
+                <i class="fa-solid fa-lock text-5xl text-brand-300 mb-4"></i>
+                <h3 class="text-2xl font-bold text-slate-700 mb-2">Results Locked</h3>
+                <p class="text-slate-500">Your results are syncing. Once the Admin clicks 'Publish' on their laptop, this screen will instantly unlock.</p>
+            </div>
+
+            <div id="passportContent" class="hidden mb-8">
+                <div class="bg-gradient-to-br from-brand-900 to-slate-900 rounded-2xl p-8 text-white relative overflow-hidden shadow-xl">
+                    <div class="flex justify-between items-center border-b border-white/20 pb-6 mb-6">
+                        <div>
+                            <h2 id="passName" class="text-3xl font-extrabold">Candidate Name</h2>
+                            <p id="passArchetype" class="text-brand-300 mt-1 font-medium">Archetype: Evaluated</p>
+                        </div>
+                        <div class="text-right bg-black/30 p-4 rounded-xl">
+                            <span class="block text-xs uppercase text-brand-200">Readiness Index</span>
+                            <span id="passTotal" class="block text-4xl font-black mt-1">0%</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="bg-white/10 p-5 rounded-lg text-center"><span class="block text-xs text-gray-300">ATS Audit</span><span id="passATS" class="block text-2xl font-bold mt-1">0</span></div>
+                        <div class="bg-white/10 p-5 rounded-lg text-center"><span class="block text-xs text-gray-300">Aptitude</span><span id="passTest" class="block text-2xl font-bold mt-1">0</span></div>
+                        <div class="bg-white/10 p-5 rounded-lg text-center"><span class="block text-xs text-gray-300">Group Disc.</span><span id="passGD" class="block text-2xl font-bold mt-1">0</span></div>
+                        <div class="bg-white/10 p-5 rounded-lg text-center"><span class="block text-xs text-gray-300">HR Interview</span><span id="passInterview" class="block text-2xl font-bold mt-1">90</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-only bg-amber-50 border border-amber-200 rounded-xl p-6 shadow-sm mt-8">
+                <h3 class="text-amber-800 font-bold mb-4"><i class="fa-solid fa-tower-broadcast mr-2"></i>Admin: Cloud Publishing</h3>
+                <div class="flex gap-4">
+                    <button onclick="window.publishResults()" class="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-lg font-semibold transition shadow"><i class="fa-solid fa-unlock mr-2"></i> Publish to Phone</button>
+                    <button onclick="window.emailReport()" class="bg-slate-800 hover:bg-slate-900 text-white px-6 py-3 rounded-lg font-semibold transition shadow"><i class="fa-solid fa-envelope mr-2"></i> Email Official Report</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-rights" class="tab-content">
+            <div class="mb-6"><h2 class="text-2xl font-bold text-slate-800">Employee Rights Spotlight</h2></div>
+            <div class="glass-card p-8 rounded-xl shadow-sm space-y-6">
+                <div class="border-b pb-4">
+                    <h3 class="font-bold text-lg text-brand-600 mb-2">1. Offer Letter Fundamentals</h3>
+                    <p class="text-sm text-slate-600">Always examine your Cost to Company (CTC) breakdown. Base salary determines your provident fund and gratuity calculations, whereas variable pay is contingent on metrics.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg text-brand-600 mb-2">2. Workplace Standards & Compliance</h3>
+                    <p class="text-sm text-slate-600">Familiarize yourself with statutory working hour caps, notice period buyouts, non-compete enforceability limitations, and strict POSH protections.</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <script>
-        let isAdmin = false;
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        function handleAuth() {
-            if (isAdmin) {
-                isAdmin = false;
-                document.getElementById('student-view').classList.add('active');
-                document.getElementById('admin-view').classList.remove('active');
-                document.getElementById('auth-btn').innerHTML = '🔒 Admin Login';
-            } else {
-                const pass = prompt("Enter Admin Passcode:");
-                if (pass === "admin123") {
-                    isAdmin = true;
-                    document.getElementById('student-view').classList.remove('active');
-                    document.getElementById('admin-view').classList.add('active');
-                    document.getElementById('auth-btn').innerHTML = '🔓 Logout Admin';
-                    renderAdminDashboard();
-                } else {
-                    alert("Access Denied.");
+        // YOUR EXACT KEYS - DO NOT CHANGE THESE
+        const firebaseConfig = {
+            apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqTFjemQ",
+            authDomain: "hr-blog-app.firebaseapp.com",
+            projectId: "hr-blog-app",
+            storageBucket: "hr-blog-app.firebasestorage.app",
+            messagingSenderId: "622131978390",
+            appId: "1:622131978390:web:ae9ae697d7c84dea9a22b7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Global State Variables
+        const APP_ID = 'hr-blog-app'; // Safe collection namespace
+        window.isAdmin = false;
+        window.adminSelectedId = null;
+        window.candidateId = null;
+        window.userData = { name: "", email: "", archetype: "Not Evaluated", ats_score: 0, test_score: 0, gd_score: 0, interview_score: 90, published: false };
+        let unsubscribeStudent = null;
+        let unsubscribeAdmin = null;
+
+        // --- UI HELPERS ---
+        window.showMessage = function(text, type = 'success') {
+            const box = document.getElementById('msgBox');
+            box.className = `mb-6 p-4 rounded-lg shadow-md font-medium text-sm flex items-center justify-between z-50 ${type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-amber-50 text-amber-800 border border-amber-200'}`;
+            document.getElementById('msgText').innerHTML = `${type === 'success' ? '<i class="fa-solid fa-circle-check mr-2"></i>' : '<i class="fa-solid fa-triangle-exclamation mr-2"></i>'} ${text}`;
+            box.classList.remove('hidden');
+            setTimeout(() => { box.classList.add('hidden'); }, 4000);
+        }
+
+        window.switchTab = function(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('bg-brand-700', 'text-white', 'active'); b.classList.add('text-brand-100'); });
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.remove('text-brand-100'); btn.classList.add('bg-brand-700', 'text-white', 'active');
+            if(tabId === 'tab-passport') window.updatePassportUI();
+        }
+
+        // --- FIREBASE AUTHENTICATION (STUDENT MODE) ---
+        signInAnonymously(auth).then((userCredential) => {
+            window.candidateId = userCredential.user.uid;
+            listenToStudentData();
+        }).catch((error) => {
+            console.error("Auth failed:", error);
+            window.showMessage("Connecting to cloud database failed. Try refreshing.", "error");
+        });
+
+        // Student Database Listener
+        function listenToStudentData() {
+            if (!window.candidateId || window.isAdmin) return;
+            const docRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId);
+            
+            unsubscribeStudent = onSnapshot(docRef, (snap) => {
+                if (snap.exists()) {
+                    window.userData = snap.data();
+                    if (window.userData.published) window.updatePassportUI(); // Instantly unlocks on their phone
                 }
+            }, (error) => {
+                console.error("Snapshot error:", error);
+            });
+        }
+
+        async function syncToCloud() {
+            if (!window.candidateId || window.isAdmin) return; 
+            const docRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId);
+            await setDoc(docRef, window.userData, { merge: true });
+        }
+
+        // --- ONBOARDING LOGIC ---
+        window.saveProfile = async function() {
+            if (!window.candidateId) { window.showMessage("Still connecting to cloud... please wait a second.", "error"); return; }
+            
+            const name = document.getElementById('candName').value.trim();
+            const checkedRadio = document.querySelector('input[name="archetypeQ"]:checked');
+            if (!name || !checkedRadio) { window.showMessage("Please enter your name and select an archetype.", "error"); return; }
+
+            window.userData.name = name;
+            window.userData.email = document.getElementById('candEmail').value.trim();
+            window.userData.archetype = checkedRadio.value;
+            
+            await syncToCloud();
+            window.showMessage(`Profile saved to Cloud! Archetype: ${window.userData.archetype}`);
+        }
+
+        // --- ATS PDF PARSING LOGIC ---
+        const pdfjsLib = window['pdfjs-dist/build/pdf'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('resumeFile');
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                document.getElementById('fName').innerText = fileInput.files[0].name;
+                document.getElementById('fileNameDisplay').classList.remove('hidden');
+            }
+        });
+
+        window.runATS = async function() {
+            const btn = document.getElementById('btnRunATS');
+            if (!fileInput.files.length) { window.showMessage("Please upload a PDF.", "error"); return; }
+            if (!window.candidateId) { window.showMessage("Please save your profile in the Onboarding tab first!", "error"); return; }
+            
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing...';
+            btn.disabled = true;
+
+            try {
+                const arrayBuffer = await fileInput.files[0].arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+                let text = '';
+                for(let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    text += content.items.map(item => item.str).join(' ');
+                }
+                
+                const keywords = ["analytics", "recruitment", "labor", "compensation", "dynamics", "strategy", "metrics", "compliance"];
+                let matches = keywords.filter(kw => text.toLowerCase().includes(kw));
+                window.userData.ats_score = Math.round((matches.length / keywords.length) * 100) || 15;
+                
+                document.getElementById('atsScoreDisplay').innerText = `${window.userData.ats_score}%`;
+                document.getElementById('atsSuccessMsg').classList.remove('hidden');
+                
+                await syncToCloud();
+                
+            } catch (err) {
+                console.error(err);
+                window.showMessage("Failed to read PDF. Ensure it is a standard text-based PDF.", "error");
+            } finally {
+                btn.innerHTML = '<i class="fa-solid fa-microchip mr-2"></i> Extract & Run ATS Scan';
+                btn.disabled = false;
             }
         }
 
-        function registerCandidate() {
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            if(!name) return alert("Enter Name");
+        window.submitTest = async function() {
+            if (!window.candidateId) { window.showMessage("Please save profile first!", "error"); return; }
+            window.userData.test_score = 85; 
+            await syncToCloud();
+            window.showMessage(`Test Submitted to Cloud! Score: 85/100`);
+        }
+
+        // --- ADMIN COMMAND CENTER LOGIC ---
+        window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); }
+        window.closeAdminModal = function() { document.getElementById('adminModal').classList.add('hidden'); }
+        
+        window.verifyAdmin = function() {
+            const pass = document.getElementById('adminPass').value;
+            if (pass === 'admin123') {
+                window.isAdmin = true;
+                document.body.classList.add('admin-mode');
+                window.closeAdminModal();
+                loadAdminDropdown();
+                window.showMessage("Command Center Connected! Monitoring live students...");
+            } else {
+                window.showMessage("Incorrect passcode.", "error");
+            }
+        }
+
+        function loadAdminDropdown() {
+            const colRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates');
             
-            const candidates = JSON.parse(localStorage.getItem('hr_candidates') || '[]');
-            candidates.push({ name, email, id: Date.now() });
-            localStorage.setItem('hr_candidates', JSON.stringify(candidates));
-            alert("Registered successfully!");
+            unsubscribeAdmin = onSnapshot(colRef, (snapshot) => {
+                const select = document.getElementById('adminCandidateSelect');
+                const currentVal = select.value;
+                select.innerHTML = '<option value="" class="text-slate-800">-- Select Candidate --</option>';
+                
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const id = docSnap.id;
+                    const selected = (id === currentVal) ? "selected" : "";
+                    select.innerHTML += `<option value="${id}" class="text-slate-800" ${selected}>${data.name || 'Unnamed Student'}</option>`;
+                });
+            }, (error) => {
+                console.error("Admin Dropdown Error: ", error);
+                window.showMessage("Admin Error. Did you enable Firestore in Firebase?", "error");
+            });
         }
 
-        function renderAdminDashboard() {
-            const list = document.getElementById('candidate-list');
-            const candidates = JSON.parse(localStorage.getItem('hr_candidates') || '[]');
-            list.innerHTML = candidates.map(c => `
-                <div class="bg-white p-4 rounded shadow flex justify-between items-center border-l-4 border-blue-600">
-                    <div>
-                        <p class="font-bold text-lg">${c.name}</p>
-                        <p class="text-slate-500">${c.email}</p>
-                    </div>
-                    <button class="bg-red-500 text-white px-3 py-1 rounded text-sm" onclick="deleteCandidate(${c.id})">Delete</button>
-                </div>
-            `).join('');
+        window.onAdminSelectCandidate = async function(id) {
+            window.adminSelectedId = id;
+            if(id) {
+                 const docRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', id);
+                 const snap = await getDoc(docRef);
+                 if (snap.exists()) {
+                     window.userData = snap.data();
+                     window.updatePassportUI(); 
+                     
+                     document.getElementById('gdScoreInput').value = window.userData.gd_score || 0;
+                     document.getElementById('gdScoreVal').innerText = window.userData.gd_score || 0;
+                     window.showMessage(`Now viewing: ${window.userData.name}`);
+                 }
+            }
         }
 
-        function deleteCandidate(id) {
-            let candidates = JSON.parse(localStorage.getItem('hr_candidates') || '[]');
-            candidates = candidates.filter(c => c.id !== id);
-            localStorage.setItem('hr_candidates', JSON.stringify(candidates));
-            renderAdminDashboard();
+        window.saveGDScore = async function() {
+            if(!window.isAdmin || !window.adminSelectedId) { window.showMessage("Select a candidate from the top right.", "error"); return; }
+            const score = parseInt(document.getElementById('gdScoreInput').value);
+            const docRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.adminSelectedId);
+            
+            await updateDoc(docRef, { gd_score: score });
+            window.showMessage(`Pushed Score (${score}/30) to ${window.userData.name}'s cloud profile!`);
+        }
+
+        window.publishResults = async function() {
+            if(!window.isAdmin || !window.adminSelectedId) { window.showMessage("Select a candidate first.", "error"); return; }
+            const docRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.adminSelectedId);
+            
+            await updateDoc(docRef, { published: true });
+            window.userData.published = true;
+            window.updatePassportUI();
+            window.showMessage(`Passport Unlocked! The student can now see it on their phone.`);
+        }
+
+        window.updatePassportUI = function() {
+            document.getElementById('passName').innerText = window.userData.name || "Candidate Name";
+            document.getElementById('passArchetype').innerText = `Archetype: ${window.userData.archetype}`;
+            document.getElementById('passATS').innerText = `${window.userData.ats_score}/100`;
+            document.getElementById('passTest').innerText = `${window.userData.test_score}/100`;
+            document.getElementById('passGD').innerText = `${window.userData.gd_score}/30`;
+            document.getElementById('passInterview').innerText = `${window.userData.interview_score}/100`;
+
+            let gdNormalized = (window.userData.gd_score / 30) * 100;
+            let total = Math.round((window.userData.ats_score + window.userData.test_score + gdNormalized + window.userData.interview_score) / 4);
+            document.getElementById('passTotal').innerText = `${total || 0}%`;
+            
+            if (window.userData.published || window.isAdmin) {
+                document.getElementById('passportLock').classList.add('hidden');
+                document.getElementById('passportContent').classList.remove('hidden');
+            } else {
+                document.getElementById('passportLock').classList.remove('hidden');
+                document.getElementById('passportContent').classList.add('hidden');
+            }
+        }
+
+        window.emailReport = function() {
+            if(!window.isAdmin || !window.adminSelectedId) { window.showMessage("Please select a candidate first.", "error"); return; }
+            if (!window.userData.email) { window.showMessage("Student didn't provide an email.", "error"); return; }
+
+            const total = document.getElementById('passTotal').innerText;
+            const subject = encodeURIComponent("Your Official HR Blog Talent Passport");
+            const body = encodeURIComponent(`Hello ${window.userData.name},\n\nThank you for participating!\n\n=== YOUR TALENT PASSPORT ===\nArchetype: ${window.userData.archetype}\n\nStage 1 - ATS: ${window.userData.ats_score}/100\nStage 2 - Test: ${window.userData.test_score}/100\nStage 3 - Group Disc: ${window.userData.gd_score}/30\nStage 4 - Interview: ${window.userData.interview_score}/100\n\nOverall Index: ${total}\n\nBest,\nThe HR Blog Team`);
+            
+            window.location.href = `mailto:${window.userData.email}?subject=${subject}&body=${body}`;
+            window.showMessage(`Drafting email to ${window.userData.email}...`);
         }
     </script>
 </body>
