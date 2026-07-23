@@ -2,46 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HR Blog | Executive Recruitment Platform</title>
+    <title>HR Blog | Executive Recruitment</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
-    <header class="bg-blue-900 text-white p-6 text-center">
-        <h1 class="text-2xl font-bold">HR Blog Executive Platform</h1>
-        <p class="text-sm opacity-80">Crack the Code, Know Your Worth.</p>
-    </header>
-
-    <main class="max-w-4xl mx-auto p-6">
-        <div id="app" class="bg-white p-8 rounded-xl shadow-lg border border-slate-200">
-            <h2 class="text-xl font-bold mb-4">Registration</h2>
-            <div class="space-y-4">
-                <input type="text" id="name" placeholder="Full Name" class="w-full p-3 border rounded">
-                <input type="email" id="email" placeholder="Email" class="w-full p-3 border rounded">
-                <button onclick="saveRegistration()" class="w-full bg-blue-600 text-white p-3 rounded font-bold">Start Assessment</button>
-            </div>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-lg">
+        <h1 class="text-2xl font-bold mb-4">HR Blog Assessment</h1>
+        <div id="app" class="space-y-4">
+            <input type="text" id="name" placeholder="Full Name" class="w-full p-3 border rounded">
+            <input type="email" id="email" placeholder="Email" class="w-full p-3 border rounded">
+            <input type="file" id="resume" class="w-full p-3 border rounded">
+            <button onclick="startAssessment()" class="w-full bg-blue-600 text-white p-3 rounded font-bold">Start Assessment</button>
         </div>
-    </main>
-
+        <div id="results" class="hidden mt-6 p-4 bg-green-50 rounded border">
+            <h2 class="font-bold text-lg">Assessment Complete!</h2>
+            <p>Your profile has been saved.</p>
+        </div>
+    </div>
     <script>
-        function saveRegistration() {
+        function startAssessment() {
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             if(!name || !email) {
                 alert('Please fill all fields');
                 return;
             }
-            localStorage.setItem('candidate_name', name);
-            localStorage.setItem('candidate_email', email);
-            alert('Registration saved! Proceeding...');
-            window.location.reload();
+            document.getElementById('app').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+            console.log("Candidate registered:", name, email);
         }
-        
-        // Simple check to ensure page is loaded
-        console.log("App initialized successfully.");
     </script>
 </body>
 </html>
-```
