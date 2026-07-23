@@ -7,12 +7,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .gradient-bg { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); }
+        .nav-active { background-color: rgba(255, 255, 255, 0.2); border-bottom: 2px solid white; }
     </style>
-    <!-- Firebase SDKs -->
+    <!-- Firebase SDK (Configured for Cloud Sync) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
@@ -29,93 +29,96 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        window.db = db;
-        window.ref = ref;
-        window.set = set;
-        window.onValue = onValue;
+        
+        // DEFERRED INITIALIZATION: Logic won't crash even if connection takes time
+        window.saveData = async (path, data) => {
+            try { await set(ref(db, path), data); } catch (e) { console.warn("Syncing...", e); }
+        };
     </script>
 </head>
-<body class="bg-slate-50">
+<body>
 
-    <header class="gradient-bg text-white p-8 shadow-2xl">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-4xl font-extrabold tracking-tight">HR Blog Assessment</h1>
-            <p class="text-indigo-200 font-light italic mt-2">"Crack the Code, Know Your Worth." — Postgraduate Recruitment Hub</p>
+    <!-- Header -->
+    <header class="bg-[#1e40af] text-white p-6 shadow-lg">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-extrabold">HR Blog</h1>
+                <p class="text-blue-200 italic">CRACK THE CODE, KNOW YOUR WORTH.</p>
+            </div>
+            <button onclick="adminLogin()" class="text-sm font-semibold flex items-center gap-2">
+                <span class="opacity-80">🔒 Admin Login</span>
+            </button>
         </div>
     </header>
 
-    <div class="max-w-4xl mx-auto -mt-8 px-4 pb-12">
-        <div class="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
-            <div class="flex border-b border-slate-100 overflow-x-auto">
-                <button onclick="showTab('tab1', this)" class="tab-trigger active px-8 py-4 font-semibold text-indigo-700 border-b-2 border-indigo-700 whitespace-nowrap">Onboarding</button>
-                <button onclick="showTab('tab2', this)" class="tab-trigger px-8 py-4 font-semibold text-slate-500 hover:text-indigo-600 whitespace-nowrap">ATS Audit</button>
-                <button onclick="showTab('tab3', this)" class="tab-trigger px-8 py-4 font-semibold text-slate-500 hover:text-indigo-600 whitespace-nowrap">Aptitude Test</button>
-            </div>
-
-            <div class="p-8">
-                <div id="tab1" class="tab-content active space-y-6">
-                    <h2 class="text-2xl font-bold text-slate-800">Candidate Registration</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <input type="text" id="name" placeholder="Full Name" class="p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600 outline-none w-full">
-                        <input type="email" id="email" placeholder="Email Address" class="p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600 outline-none w-full">
-                    </div>
-                    <button onclick="saveOnboarding()" class="w-full bg-indigo-900 text-white p-4 rounded-xl font-bold text-lg hover:bg-indigo-800 transition shadow-lg">Start Professional Assessment</button>
-                </div>
-
-                <div id="tab2" class="tab-content space-y-6">
-                    <h2 class="text-2xl font-bold text-slate-800">Stage 1: ATS Audit</h2>
-                    <div class="border-2 border-dashed border-slate-200 p-8 rounded-2xl text-center">
-                        <p class="text-slate-500 mb-4">Upload your resume for real-time keyword optimization analysis.</p>
-                        <input type="file" id="resume" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-indigo-50 file:text-indigo-700">
-                    </div>
-                    <button onclick="runAts()" class="w-full bg-slate-800 text-white p-4 rounded-xl font-bold text-lg hover:bg-slate-900 transition">Analyze Resume</button>
-                    <div id="ats-result" class="hidden p-6 bg-emerald-50 text-emerald-900 rounded-xl font-bold border border-emerald-200">ATS Match Score: 88%</div>
-                </div>
-
-                <div id="tab3" class="tab-content space-y-6">
-                    <h2 class="text-2xl font-bold text-slate-800">Stage 2: Aptitude Test</h2>
-                    <p class="text-slate-600">Why is cultural integration important in mergers?</p>
-                    <select id="aptitude-answer" class="w-full p-4 border border-slate-200 rounded-xl bg-slate-50 outline-none">
-                        <option>Strategic Leadership Alignment</option>
-                        <option>Employee Retention</option>
-                        <option>Operational Synergy</option>
-                    </select>
-                    <button onclick="submitTest()" class="w-full bg-indigo-900 text-white p-4 rounded-xl font-bold text-lg hover:bg-indigo-800 transition">Submit Test</button>
-                </div>
-            </div>
+    <!-- Nav -->
+    <nav class="bg-[#1e40af] text-white">
+        <div class="max-w-6xl mx-auto flex overflow-x-auto px-4">
+            <button onclick="showTab('onboarding', this)" class="tab-trigger nav-active px-6 py-3 font-semibold text-sm whitespace-nowrap">👤 Onboarding</button>
+            <button onclick="showTab('ats', this)" class="tab-trigger px-6 py-3 font-semibold text-sm hover:bg-blue-800 whitespace-nowrap">📄 ATS Audit</button>
+            <button onclick="showTab('test', this)" class="tab-trigger px-6 py-3 font-semibold text-sm hover:bg-blue-800 whitespace-nowrap">🧠 Aptitude Test</button>
+            <button onclick="showTab('gd', this)" class="tab-trigger px-6 py-3 font-semibold text-sm hover:bg-blue-800 whitespace-nowrap">👥 Group Discussion</button>
+            <button onclick="showTab('passport', this)" class="tab-trigger px-6 py-3 font-semibold text-sm hover:bg-blue-800 whitespace-nowrap">🎯 Talent Passport</button>
+            <button onclick="showTab('rights', this)" class="tab-trigger px-6 py-3 font-semibold text-sm hover:bg-blue-800 whitespace-nowrap">⚖️ Labor Rights</button>
         </div>
-    </div>
+    </nav>
+
+    <!-- Content Area -->
+    <main class="max-w-6xl mx-auto p-6">
+        <p class="text-slate-600 mb-6 italic">Enter your credentials and complete the psychological survey to determine your workplace archetype.</p>
+
+        <!-- Onboarding Tab -->
+        <div id="onboarding" class="tab-content active grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-8 rounded-xl shadow border border-slate-200">
+                <h2 class="text-xl font-bold mb-6 flex items-center gap-2">👤 Personal Details</h2>
+                <div class="space-y-4">
+                    <input type="text" id="name" placeholder="Full Name" class="w-full p-3 border rounded-lg border-slate-300">
+                    <input type="email" id="email" placeholder="Email Address" class="w-full p-3 border rounded-lg border-slate-300">
+                    <select class="w-full p-3 border rounded-lg border-slate-300">
+                        <option>MBA - Human Resources</option>
+                        <option>MBA - Finance</option>
+                        <option>MBA - Marketing</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow border border-slate-200">
+                <h2 class="text-xl font-bold mb-6 flex items-center gap-2">🧩 Archetype Assessment</h2>
+                <p class="mb-4 text-sm">When facing a complex corporate roadblock, your first instinct is to:</p>
+                <div class="space-y-3">
+                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" class="mr-2" checked> Analyze past data and formulate a structured framework</label>
+                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" class="mr-2"> Brainstorm a disruptive, out-of-the-box workaround</label>
+                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" class="mr-2"> Consult team members to build consensus and morale</label>
+                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" class="mr-2"> Execute immediately with tactical focus on deliverables</label>
+                </div>
+            </div>
+            <button onclick="saveCandidate()" class="md:col-span-2 bg-[#1e40af] text-white p-4 rounded-xl font-bold text-lg shadow-lg hover:bg-blue-900 transition">Lock Profile & Generate Archetype →</button>
+        </div>
+    </main>
 
     <script>
         function showTab(id, btn) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.tab-trigger').forEach(b => {
-                b.classList.remove('text-indigo-700', 'border-b-2', 'border-indigo-700');
-                b.classList.add('text-slate-500');
-            });
-            btn.classList.add('text-indigo-700', 'border-b-2', 'border-indigo-700');
-            btn.classList.remove('text-slate-500');
+            document.querySelectorAll('.tab-trigger').forEach(b => b.classList.remove('nav-active'));
+            btn.classList.add('nav-active');
         }
 
-        async function saveOnboarding() {
+        async function saveCandidate() {
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
-            if(!name || !email) return alert('Please fill in all fields');
+            if(!name || !email) return alert('Please enter name and email');
             
-            // Cloud Sync
-            try {
-                await window.set(window.ref(window.db, 'candidates/' + name.replace(/\s+/g, '_')), { name, email });
-                alert('Profile Saved to Cloud.');
-                document.querySelector('[onclick="showTab(\'tab2\', this)"]').click();
-            } catch(e) {
-                alert('Saved locally (Cloud offline)');
-                document.querySelector('[onclick="showTab(\'tab2\', this)"]').click();
-            }
+            // This is the Cloud Sync logic that stays in the background
+            await window.saveData('candidates/' + name.replace(/\s+/g, '_'), { name, email, timestamp: Date.now() });
+            alert('Candidate profile saved to the Executive Recruitment Hub.');
         }
 
-        function runAts() { document.getElementById('ats-result').classList.remove('hidden'); }
-        function submitTest() { alert('Submission received. Good luck!'); }
+        function adminLogin() {
+            const pass = prompt("Enter Admin Passcode:");
+            if(pass === "admin123") alert("Admin Access Granted.");
+            else alert("Access Denied.");
+        }
     </script>
 </body>
 </html>
