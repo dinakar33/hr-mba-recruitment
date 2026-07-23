@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HR Blog | Executive Recruitment Platform</title>
+    <title>HR Blog | Admin Command Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -12,28 +12,6 @@
         .tab-content.active { display: block; }
         .nav-active { background-color: rgba(255, 255, 255, 0.2); border-bottom: 2px solid white; }
     </style>
-    <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqTFjemQ",
-            authDomain: "hr-blog-app.firebaseapp.com",
-            databaseURL: "https://hr-blog-app-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "hr-blog-app",
-            storageBucket: "hr-blog-app.firebasestorage.app",
-            messagingSenderId: "622131978390",
-            appId: "1:622131978390:web:ae9ae697d7c84dea9a22b7"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        
-        window.saveData = async (path, data) => {
-            await set(ref(db, path), data);
-        };
-    </script>
 </head>
 <body>
 
@@ -42,83 +20,88 @@
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <div>
                 <h1 class="text-3xl font-extrabold">HR Blog</h1>
-                <p class="text-blue-200 italic">CRACK THE CODE, KNOW YOUR WORTH.</p>
+                <p class="text-blue-200 italic">EXECUTIVE RECRUITMENT PLATFORM</p>
             </div>
-            <button onclick="adminLogin()" class="text-sm font-semibold flex items-center gap-2">
-                <span class="opacity-80">🔒 Admin Login</span>
+            <button id="auth-btn" onclick="handleAuth()" class="text-sm font-semibold flex items-center gap-2 border px-4 py-2 rounded-lg hover:bg-blue-800">
+                🔒 Admin Login
             </button>
         </div>
     </header>
 
-    <!-- Nav -->
-    <nav class="bg-[#1e40af] text-white">
-        <div class="max-w-6xl mx-auto flex overflow-x-auto px-4">
-            <button onclick="showTab('onboarding', this)" class="tab-trigger nav-active px-6 py-3 font-semibold text-sm whitespace-nowrap">👤 Onboarding</button>
-            <button onclick="showTab('ats', this)" class="tab-trigger px-6 py-3 font-semibold text-sm hover:bg-blue-800 whitespace-nowrap">📄 ATS Audit</button>
-            <button onclick="showTab('test', this)" class="tab-trigger px-6 py-3 font-semibold text-sm hover:bg-blue-800 whitespace-nowrap">🧠 Aptitude Test</button>
-            <button onclick="showTab('gd', this)" class="tab-trigger px-6 py-3 font-semibold text-sm hover:bg-blue-800 whitespace-nowrap">👥 Group Discussion</button>
-            <button onclick="showTab('passport', this)" class="tab-trigger px-6 py-3 font-semibold text-sm hover:bg-blue-800 whitespace-nowrap">🎯 Talent Passport</button>
-            <button onclick="showTab('rights', this)" class="tab-trigger px-6 py-3 font-semibold text-sm hover:bg-blue-800 whitespace-nowrap">⚖️ Labor Rights</button>
-        </div>
-    </nav>
-
     <!-- Content Area -->
-    <main class="max-w-6xl mx-auto p-6">
-        <p class="text-slate-600 mb-6 italic">Enter your credentials and complete the psychological survey to determine your workplace archetype.</p>
-
-        <!-- Onboarding Tab -->
-        <div id="onboarding" class="tab-content active grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="bg-white p-8 rounded-xl shadow border border-slate-200">
-                <h2 class="text-xl font-bold mb-6 flex items-center gap-2">👤 Personal Details</h2>
-                <div class="space-y-4">
-                    <input type="text" id="name" placeholder="Full Name" class="w-full p-3 border rounded-lg border-slate-300">
-                    <input type="email" id="email" placeholder="Email Address" class="w-full p-3 border rounded-lg border-slate-300">
-                    <select id="spec" class="w-full p-3 border rounded-lg border-slate-300">
-                        <option>MBA - Human Resources</option>
-                        <option>MBA - Finance</option>
-                        <option>MBA - Marketing</option>
-                    </select>
-                </div>
+    <main class="max-w-6xl mx-auto p-6 mt-4">
+        <!-- Student Interface -->
+        <div id="student-view" class="tab-content active">
+            <h2 class="text-2xl font-bold mb-4">Candidate Portal</h2>
+            <div class="bg-white p-6 rounded-xl shadow border">
+                <input type="text" id="name" placeholder="Full Name" class="w-full p-3 border rounded mb-3">
+                <input type="email" id="email" placeholder="Email Address" class="w-full p-3 border rounded mb-3">
+                <button onclick="registerCandidate()" class="w-full bg-[#1e40af] text-white p-3 rounded font-bold">Register</button>
             </div>
+        </div>
 
-            <div class="bg-white p-8 rounded-xl shadow border border-slate-200">
-                <h2 class="text-xl font-bold mb-6 flex items-center gap-2">🧩 Archetype Assessment</h2>
-                <p class="mb-4 text-sm">When facing a complex corporate roadblock, your first instinct is to:</p>
-                <div class="space-y-3">
-                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" value="Strategist" checked class="mr-2"> Analyze past data and formulate a structured framework</label>
-                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" value="Innovator" class="mr-2"> Brainstorm a disruptive, out-of-the-box workaround</label>
-                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" value="Connector" class="mr-2"> Consult team members to build consensus and morale</label>
-                    <label class="block p-3 border rounded-lg border-slate-200"><input type="radio" name="q" value="Executor" class="mr-2"> Execute immediately with tactical focus on deliverables</label>
-                </div>
+        <!-- Admin Interface -->
+        <div id="admin-view" class="tab-content">
+            <h2 class="text-2xl font-bold mb-4 text-[#1e40af]">Admin Command Center</h2>
+            <div id="candidate-list" class="grid gap-4">
+                <!-- Candidates will populate here -->
             </div>
-            <button onclick="saveCandidate()" class="md:col-span-2 bg-[#1e40af] text-white p-4 rounded-xl font-bold text-lg shadow-lg hover:bg-blue-900 transition">Lock Profile & Generate Archetype →</button>
         </div>
     </main>
 
     <script>
-        function showTab(id, btn) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.tab-trigger').forEach(b => b.classList.remove('nav-active'));
-            btn.classList.add('nav-active');
+        let isAdmin = false;
+
+        function handleAuth() {
+            if (isAdmin) {
+                isAdmin = false;
+                document.getElementById('student-view').classList.add('active');
+                document.getElementById('admin-view').classList.remove('active');
+                document.getElementById('auth-btn').innerHTML = '🔒 Admin Login';
+            } else {
+                const pass = prompt("Enter Admin Passcode:");
+                if (pass === "admin123") {
+                    isAdmin = true;
+                    document.getElementById('student-view').classList.remove('active');
+                    document.getElementById('admin-view').classList.add('active');
+                    document.getElementById('auth-btn').innerHTML = '🔓 Logout Admin';
+                    renderAdminDashboard();
+                } else {
+                    alert("Access Denied.");
+                }
+            }
         }
 
-        async function saveCandidate() {
+        function registerCandidate() {
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
-            const spec = document.getElementById('spec').value;
-            const archetype = document.querySelector('input[name="q"]:checked').value;
+            if(!name) return alert("Enter Name");
             
-            if(!name || !email) return alert('Please enter name and email');
-            
-            await window.saveData('candidates/' + name.replace(/\s+/g, '_'), { name, email, spec, archetype, timestamp: Date.now() });
-            alert('Candidate profile saved to the Executive Recruitment Hub.');
+            const candidates = JSON.parse(localStorage.getItem('hr_candidates') || '[]');
+            candidates.push({ name, email, id: Date.now() });
+            localStorage.setItem('hr_candidates', JSON.stringify(candidates));
+            alert("Registered successfully!");
         }
 
-        function adminLogin() {
-            const pass = prompt("Enter Admin Passcode:");
-            if(pass === "admin123") alert("Admin Access Granted.");
-            else alert("Access Denied.");
+        function renderAdminDashboard() {
+            const list = document.getElementById('candidate-list');
+            const candidates = JSON.parse(localStorage.getItem('hr_candidates') || '[]');
+            list.innerHTML = candidates.map(c => `
+                <div class="bg-white p-4 rounded shadow flex justify-between items-center border-l-4 border-blue-600">
+                    <div>
+                        <p class="font-bold text-lg">${c.name}</p>
+                        <p class="text-slate-500">${c.email}</p>
+                    </div>
+                    <button class="bg-red-500 text-white px-3 py-1 rounded text-sm" onclick="deleteCandidate(${c.id})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteCandidate(id) {
+            let candidates = JSON.parse(localStorage.getItem('hr_candidates') || '[]');
+            candidates = candidates.filter(c => c.id !== id);
+            localStorage.setItem('hr_candidates', JSON.stringify(candidates));
+            renderAdminDashboard();
         }
     </script>
 </body>
