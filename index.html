@@ -282,14 +282,14 @@
 
         // YOUR EXACT KEYS - DO NOT CHANGE THESE
         const firebaseConfig = {
-            apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqTFjemQ",
-            authDomain: "hr-blog-app.firebaseapp.com",
-            projectId: "hr-blog-app",
-            storageBucket: "hr-blog-app.firebasestorage.app",
-            messagingSenderId: "622131978390",
-            appId: "1:622131978390:web:ae9ae697d7c84dea9a22b7"
-        };
-
+  apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
+  authDomain: "hr-blog-app.firebaseapp.com",
+  databaseURL: "https://hr-blog-app-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "hr-blog-app",
+  storageBucket: "hr-blog-app.firebasestorage.app",
+  messagingSenderId: "622131978390",
+  appId: "1:622131978390:web:ae9ae697d7c84dea9a22b7"
+};
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
