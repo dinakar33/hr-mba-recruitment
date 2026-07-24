@@ -55,8 +55,8 @@
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
     <header class="bg-brand-900 text-white shadow-xl sticky top-0 z-40 transition-colors duration-300" id="mainHeader">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex justify-between items-center">
                 <div>
                     <h1 class="text-3xl font-extrabold tracking-tight"><i class="fa-solid fa-bolt text-yellow-400 mr-2 ai-only"></i>HR Blog</h1>
                     <p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth.</p>
@@ -80,23 +80,24 @@
                         <div class="flex items-center bg-brand-800 border border-brand-600 text-white rounded-lg px-3 py-2 shadow-inner">
                             <i class="fa-solid fa-satellite-dish animate-pulse mr-2 text-green-400"></i>
                             <select id="adminCandidateSelect" onchange="window.onAdminSelectCandidate(this.value)" class="bg-transparent text-white font-bold outline-none text-sm cursor-pointer appearance-none w-48">
-                                <option value="">-- Select Candidate --</option>
+                                <option value="" class="text-slate-800">-- Select Candidate --</option>
                             </select>
+                            <i class="fa-solid fa-chevron-down text-brand-400 text-xs ml-2"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="bg-black/20 overflow-x-auto no-scrollbar">
+        <div class="bg-brand-800 overflow-x-auto no-scrollbar transition-colors duration-300">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <nav class="flex space-x-1 py-2" id="tabNav">
                     <button onclick="window.switchTab('tab-onboarding', this)" class="nav-btn active bg-brand-700 text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap"><i class="fa-solid fa-user-plus mr-2"></i>Onboarding</button>
                     <button onclick="window.switchTab('tab-ats', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap"><i class="fa-solid fa-file-pdf mr-2"></i>ATS Audit</button>
-                    <button onclick="window.switchTab('tab-test', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap"><i class="fa-solid fa-brain mr-2"></i>Aptitude</button>
-                    <button onclick="window.switchTab('tab-gd', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap"><i class="fa-solid fa-users mr-2"></i>Virtual GD</button>
-                    <button onclick="window.switchTab('tab-interview', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap"><i class="fa-solid fa-microphone mr-2"></i>AI Interview</button>
-                    <button onclick="window.switchTab('tab-passport', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap"><i class="fa-solid fa-id-card mr-2"></i>Passport</button>
+                    <button onclick="window.switchTab('tab-test', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap"><i class="fa-solid fa-brain mr-2"></i>Aptitude Test</button>
+                    <button onclick="window.switchTab('tab-gd', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap"><i class="fa-solid fa-users mr-2"></i>Group Discussion</button>
+                    <button onclick="window.switchTab('tab-interview', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap ai-only"><i class="fa-solid fa-microphone mr-2"></i>AI Interview</button>
+                    <button onclick="window.switchTab('tab-passport', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap"><i class="fa-solid fa-id-card mr-2"></i>Talent Passport</button>
                     <button onclick="window.switchTab('tab-rights', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap"><i class="fa-solid fa-scale-balanced mr-2"></i>Labor Rights</button>
                 </nav>
             </div>
@@ -110,9 +111,12 @@
             <button onclick="document.getElementById('msgBox').classList.add('hidden')"><i class="fa-solid fa-times"></i></button>
         </div>
 
-        <div id="adminModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center">
+        <div id="adminModal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center">
             <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4">
-                <h3 class="text-xl font-bold text-slate-800 mb-4"><i class="fa-solid fa-lock text-brand-600 mr-2"></i> Admin Login</h3>
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-lock text-brand-600 mr-2"></i> Admin Command Center</h3>
+                    <button onclick="window.closeAdminModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-times"></i></button>
+                </div>
                 <input type="password" id="adminPass" class="w-full border rounded-lg p-3 outline-none mb-4 text-black" placeholder="Passcode (admin123)">
                 <button onclick="window.verifyAdmin()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-lg">Access Command Center</button>
             </div>
@@ -129,18 +133,18 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="glass-card p-6 rounded-xl">
-                    <h3 class="text-lg font-semibold border-b border-slate-200 pb-3 mb-4"><i class="fa-solid fa-address-card text-brand-500 mr-2"></i>Details</h3>
+                    <h3 class="text-lg font-semibold border-b border-slate-200 pb-3 mb-4"><i class="fa-solid fa-address-card text-brand-500 mr-2"></i>Personal Details</h3>
                     <div class="space-y-4">
                         <input type="text" id="candName" class="w-full rounded-lg p-2.5 border bg-transparent text-inherit" placeholder="Full Name">
                         <input type="email" id="candEmail" class="w-full rounded-lg p-2.5 border bg-transparent text-inherit" placeholder="Email Address">
                         <select id="candSpec" class="w-full rounded-lg p-2.5 border bg-transparent text-inherit">
-                            <option class="text-black">MBA - Human Resources</option><option class="text-black">MBA - Finance</option>
+                            <option class="text-black">MBA - Human Resources</option><option class="text-black">MBA - Finance</option><option class="text-black">MBA - Marketing</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="glass-card p-6 rounded-xl">
-                    <h3 class="text-lg font-semibold border-b border-slate-200 pb-3 mb-4"><i class="fa-solid fa-puzzle-piece text-brand-500 mr-2"></i>Assessment</h3>
+                    <h3 class="text-lg font-semibold border-b border-slate-200 pb-3 mb-4"><i class="fa-solid fa-puzzle-piece text-brand-500 mr-2"></i>Archetype Assessment</h3>
                     <p class="text-sm mb-4 font-medium">When facing a complex roadblock, your instinct is to:</p>
                     <div class="space-y-3">
                         <label class="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-black/5"><input type="radio" name="archetypeQ" value="Strategist" class="mt-1"><span class="ml-3 text-sm">Analyze data and build a structured framework</span></label>
@@ -150,28 +154,55 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-8 text-right"><button onclick="window.saveProfile()" class="bg-brand-600 text-white font-semibold py-3 px-8 rounded-lg">Lock Profile & Connect <i class="fa-solid fa-cloud ml-2"></i></button></div>
+            <div class="mt-8 flex justify-end">
+                <button onclick="window.saveProfile()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition">
+                    Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
+                </button>
+            </div>
         </section>
 
         <section id="tab-ats" class="tab-content">
             <div class="mb-8 flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-slate-800">Stage 1: ATS Audit</h2>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">Stage 1: ATS Audit</h2>
+                    <p class="text-slate-500 mt-2">Upload your PDF resume to run the keyword density scan.</p>
+                </div>
                 <button onclick="window.playAI('Upload your PDF resume here. My algorithms will scan it for critical HR keywords like analytics, compliance, and strategy.', 1)" class="ai-only bg-brand-600 text-white p-3 rounded-full hover:bg-brand-500 shadow-lg"><i class="fa-solid fa-volume-high"></i></button>
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-2 glass-card p-6 rounded-xl">
-                    <div id="dropZone" class="drop-zone w-full h-40 rounded-xl flex flex-col items-center justify-center cursor-pointer mb-4">
-                        <i class="fa-solid fa-cloud-arrow-up text-4xl text-brand-400 mb-2"></i>
-                        <span class="text-sm font-medium">Click to upload PDF resume</span>
-                        <input type="file" id="resumeFile" accept="application/pdf" class="hidden">
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="glass-card p-6 rounded-xl shadow-sm">
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">Upload PDF Resume</label>
+                        <div id="dropZone" class="drop-zone w-full h-32 rounded-xl flex flex-col items-center justify-center cursor-pointer mb-4">
+                            <i class="fa-solid fa-cloud-arrow-up text-4xl text-brand-400 mb-2"></i>
+                            <span class="text-sm font-medium">Click to upload PDF resume</span>
+                            <input type="file" id="resumeFile" accept="application/pdf" class="hidden">
+                        </div>
+                        <p id="fileNameDisplay" class="text-sm text-brand-500 font-medium hidden"><i class="fa-solid fa-check-circle mr-1"></i> File: <span id="fName"></span></p>
                     </div>
-                    <p id="fileNameDisplay" class="text-sm text-brand-500 font-medium hidden mb-4">File: <span id="fName"></span></p>
-                    <button id="btnRunATS" onclick="window.runATS()" class="w-full bg-slate-800 text-white font-semibold py-3 rounded-lg"><i class="fa-solid fa-microchip mr-2"></i> Run Deep Scan</button>
+                    <button id="btnRunATS" onclick="window.runATS()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 rounded-lg shadow-md"><i class="fa-solid fa-microchip mr-2"></i> Extract & Run ATS Scan</button>
                 </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center justify-center">
-                    <div class="w-32 h-32 rounded-full border-8 border-brand-200 flex items-center justify-center mb-4"><span id="atsScoreDisplay" class="text-4xl font-extrabold text-brand-600">0%</span></div>
-                    <p class="font-bold text-lg">Match Score</p>
+                <div class="glass-card p-6 rounded-xl flex flex-col items-center justify-center text-center">
+                    <h3 class="text-lg font-semibold border-b pb-3 mb-6 w-full">Live Parsing Results</h3>
+                    <div class="inline-flex items-center justify-center w-32 h-32 rounded-full border-8 border-brand-100 bg-white shadow-inner relative mb-4">
+                        <span id="atsScoreDisplay" class="text-4xl font-extrabold text-brand-600">0%</span>
+                    </div>
+                    <p class="font-bold text-lg uppercase tracking-wide">Match Score</p>
                 </div>
+            </div>
+        </section>
+
+        <section id="tab-test" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-800">Stage 2: Competency Assessment</h2>
+            </div>
+            <div class="glass-card p-8 rounded-xl shadow-sm max-w-4xl mx-auto text-center">
+                <i class="fa-solid fa-clipboard-question text-5xl text-brand-300 mb-4"></i>
+                <h3 class="text-xl font-bold text-slate-700 mb-4">Situational Judgment Test</h3>
+                <p class="text-slate-500 mb-8">Click below to auto-simulate taking the 25-minute analytical aptitude test.</p>
+                <button onclick="window.submitTest()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-10 rounded-lg shadow-md transition">
+                    Simulate & Submit Test to Cloud
+                </button>
             </div>
         </section>
 
@@ -180,10 +211,10 @@
                 <h2 class="text-2xl font-bold text-slate-800">Stage 3: Group Discussion</h2>
             </div>
             
-            <div class="manual-only glass-card p-8 rounded-xl text-center">
+            <div class="manual-only glass-card p-8 rounded-xl text-center shadow-sm">
                 <i class="fa-solid fa-users text-5xl text-brand-300 mb-4"></i>
                 <h3 class="text-xl font-bold mb-2">Live Group Discussion</h3>
-                <p>Discuss the topic: "AI in Performance Reviews". The Admin will score you manually.</p>
+                <p class="text-slate-500">Discuss the topic: "AI in Performance Reviews". The Admin will score you manually from their dashboard.</p>
                 
                 <div class="admin-only mt-8 bg-slate-800 p-6 rounded-xl text-white text-left">
                     <label class="block text-sm mb-2">Admin Score (Out of 30)</label>
@@ -209,7 +240,7 @@
                     <div class="text-center"><img src="https://i.pravatar.cc/150?img=12" class="rounded-full w-20 h-20 mx-auto border-4 border-slate-600 transition-all duration-300" id="av-david"><p class="text-sm font-bold mt-2 text-orange-300">David (Pragmatic)</p></div>
                 </div>
 
-                <div class="bg-slate-900 border border-slate-700 rounded-lg p-4 h-64 overflow-y-auto mb-4 font-mono text-sm ai-chat-box" id="gd-transcript">
+                <div class="bg-slate-900 border border-slate-700 rounded-lg p-4 h-64 overflow-y-auto mb-4 font-mono text-sm ai-chat-box text-left" id="gd-transcript">
                     <div class="text-slate-500 italic">System: Waiting to initiate Multi-Agent simulation...</div>
                 </div>
 
@@ -220,11 +251,11 @@
         <section id="tab-interview" class="tab-content">
             <h2 class="text-2xl font-bold text-slate-800 mb-6">Stage 4: HR Interview</h2>
             
-            <div class="manual-only glass-card p-12 text-center rounded-xl">
+            <div class="manual-only glass-card p-12 text-center rounded-xl shadow-sm">
                 <i class="fa-solid fa-user-tie text-5xl text-slate-400 mb-4"></i>
                 <h3 class="text-xl font-bold">In-Person Interview Round</h3>
                 <p class="text-slate-500 mt-2">Please proceed to the physical booth for your final HR round.</p>
-                <button onclick="window.submitInterviewManual()" class="mt-6 bg-slate-800 text-white px-8 py-3 rounded-lg">Mark as Completed (Score: 90)</button>
+                <button onclick="window.submitInterviewManual()" class="mt-6 bg-slate-800 text-white px-8 py-3 rounded-lg shadow">Mark as Completed (Score: 90)</button>
             </div>
 
             <div class="ai-only glass-card p-6 rounded-xl flex flex-col md:flex-row gap-6">
@@ -234,15 +265,15 @@
                     <p class="text-brand-300 text-sm">AI HR Director</p>
                 </div>
                 <div class="w-full md:w-2/3 flex flex-col">
-                    <div id="interview-chat" class="flex-grow bg-slate-900 rounded-lg p-4 h-64 overflow-y-auto mb-4 flex flex-col gap-3">
+                    <div id="interview-chat" class="flex-grow bg-slate-900 rounded-lg p-4 h-64 overflow-y-auto mb-4 flex flex-col gap-3 text-left">
                         <div class="bg-slate-800 p-3 rounded-lg rounded-tl-none self-start max-w-[80%] text-sm text-slate-200">
                             Hello! I am Sarah, the virtual HR Director. Click 'Start Interview' when you are ready for your STAR method question.
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <button onclick="window.startAIInterview()" class="bg-brand-600 text-white px-4 py-2 rounded-lg font-bold whitespace-nowrap">Start Interview</button>
+                        <button onclick="window.startAIInterview()" class="bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg font-bold whitespace-nowrap">Start Interview</button>
                         <input type="text" id="interviewInput" class="flex-grow bg-slate-800 border border-slate-600 rounded-lg px-3 text-white outline-none" placeholder="Type your answer...">
-                        <button onclick="window.sendInterviewAnswer()" class="bg-green-600 text-white px-4 rounded-lg"><i class="fa-solid fa-paper-plane"></i></button>
+                        <button onclick="window.sendInterviewAnswer()" class="bg-green-600 hover:bg-green-700 text-white px-4 rounded-lg"><i class="fa-solid fa-paper-plane"></i></button>
                     </div>
                 </div>
             </div>
@@ -254,10 +285,10 @@
                 <button onclick="window.playAIDebrief()" class="ai-only bg-brand-600 text-white px-4 py-2 rounded-full font-bold shadow-[0_0_15px_rgba(59,130,246,0.5)]"><i class="fa-solid fa-headset mr-2"></i> Play AI Debrief</button>
             </div>
 
-            <div id="passportLock" class="glass-card p-12 rounded-xl text-center border">
-                <i class="fa-solid fa-lock text-5xl text-slate-300 mb-4"></i>
+            <div id="passportLock" class="glass-card p-12 rounded-xl text-center border border-slate-200 shadow-sm">
+                <i class="fa-solid fa-lock text-5xl text-brand-300 mb-4"></i>
                 <h3 class="text-2xl font-bold text-slate-700 mb-2">Results Locked</h3>
-                <p class="text-slate-500">Awaiting Admin to publish your final passport.</p>
+                <p class="text-slate-500">Your results are syncing. Awaiting Admin to publish your final passport.</p>
             </div>
 
             <div id="passportContent" class="hidden mb-8">
@@ -294,27 +325,27 @@
             <h2 class="text-2xl font-bold text-slate-800 mb-6">Employment Rights & Labor Law Library</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
-                <div class="glass-card p-6 rounded-xl flex flex-col">
-                    <h3 class="font-bold text-lg text-brand-500 mb-2">1. Compensation & CTC Breakdowns</h3>
-                    <p class="text-sm mb-4 flex-grow">Understand the difference between Base Pay, HRA, Provident Fund (PF) deductions, and Variable Pay logic.</p>
+                <div class="glass-card p-6 rounded-xl flex flex-col shadow-sm">
+                    <h3 class="font-bold text-lg text-brand-600 mb-2">1. Compensation & CTC Breakdowns</h3>
+                    <p class="text-sm mb-4 flex-grow text-slate-600">Understand the difference between Base Pay, HRA, Provident Fund (PF) deductions, and Variable Pay logic.</p>
                     <iframe class="w-full h-48 rounded-lg" src="https://www.youtube.com/embed/5T_NqL-Gv8E" title="CTC Breakdown" frameborder="0" allowfullscreen></iframe>
                 </div>
 
-                <div class="glass-card p-6 rounded-xl flex flex-col">
-                    <h3 class="font-bold text-lg text-brand-500 mb-2">2. Prevention of Sexual Harassment (POSH)</h3>
-                    <p class="text-sm mb-4 flex-grow">Know your rights regarding safe working environments and the mandatory Internal Complaints Committee (ICC).</p>
+                <div class="glass-card p-6 rounded-xl flex flex-col shadow-sm">
+                    <h3 class="font-bold text-lg text-brand-600 mb-2">2. Prevention of Sexual Harassment (POSH)</h3>
+                    <p class="text-sm mb-4 flex-grow text-slate-600">Know your rights regarding safe working environments and the mandatory Internal Complaints Committee (ICC).</p>
                     <iframe class="w-full h-48 rounded-lg" src="https://www.youtube.com/embed/n3E9QOQy4lE" title="POSH Act" frameborder="0" allowfullscreen></iframe>
                 </div>
 
-                <div class="glass-card p-6 rounded-xl flex flex-col">
-                    <h3 class="font-bold text-lg text-brand-500 mb-2">3. Notice Periods & Severance</h3>
-                    <p class="text-sm mb-4 flex-grow">Legal frameworks surrounding termination, forced resignations, and the enforceability of non-compete clauses.</p>
+                <div class="glass-card p-6 rounded-xl flex flex-col shadow-sm">
+                    <h3 class="font-bold text-lg text-brand-600 mb-2">3. Notice Periods & Severance</h3>
+                    <p class="text-sm mb-4 flex-grow text-slate-600">Legal frameworks surrounding termination, forced resignations, and the enforceability of non-compete clauses.</p>
                     <iframe class="w-full h-48 rounded-lg" src="https://www.youtube.com/embed/K81vR11cZ70" title="Notice Period Laws" frameborder="0" allowfullscreen></iframe>
                 </div>
 
-                <div class="glass-card p-6 rounded-xl flex flex-col">
-                    <h3 class="font-bold text-lg text-brand-500 mb-2">4. Working Hours & Overtime</h3>
-                    <p class="text-sm mb-4 flex-grow">Statutory limits on weekly working hours, mandated leave policies (Privilege, Sick, Casual), and overtime compensation.</p>
+                <div class="glass-card p-6 rounded-xl flex flex-col shadow-sm">
+                    <h3 class="font-bold text-lg text-brand-600 mb-2">4. Working Hours & Overtime</h3>
+                    <p class="text-sm mb-4 flex-grow text-slate-600">Statutory limits on weekly working hours, mandated leave policies (Privilege, Sick, Casual), and overtime compensation.</p>
                     <iframe class="w-full h-48 rounded-lg" src="https://www.youtube.com/embed/Yl8oY334QYg" title="Working Hours Laws" frameborder="0" allowfullscreen></iframe>
                 </div>
 
@@ -328,15 +359,17 @@
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Firebase Setup (Untouched & Stable)
+        // THE CORRECT CONFIGURATION YOU PROVIDED
         const firebaseConfig = {
-            apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqTFjemQ",
+            apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
             authDomain: "hr-blog-app.firebaseapp.com",
+            databaseURL: "https://hr-blog-app-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "hr-blog-app",
             storageBucket: "hr-blog-app.firebasestorage.app",
             messagingSenderId: "622131978390",
             appId: "1:622131978390:web:ae9ae697d7c84dea9a22b7"
         };
+        
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
@@ -356,7 +389,7 @@
             box.className = `mb-6 p-4 rounded-lg shadow-md font-bold text-sm flex items-center justify-between z-50 fixed top-4 right-4 max-w-sm ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`;
             document.getElementById('msgText').innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-check' : 'fa-triangle-exclamation'} mr-2"></i> ${text}`;
             box.classList.remove('hidden');
-            setTimeout(() => box.classList.add('hidden'), 4000);
+            setTimeout(() => box.classList.add('hidden'), 5000);
         }
 
         window.switchTab = function(tabId, btn) {
@@ -397,18 +430,32 @@
         signInAnonymously(auth).then((user) => {
             window.candidateId = user.user.uid;
             if(!window.isAdmin) {
-                unsubscribeStudent = onSnapshot(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), (snap) => {
-                    if (snap.exists()) {
-                        window.userData = snap.data();
-                        if (window.userData.published) window.updatePassportUI();
+                unsubscribeStudent = onSnapshot(
+                    doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), 
+                    (snap) => {
+                        if (snap.exists()) {
+                            window.userData = snap.data();
+                            if (window.userData.published) window.updatePassportUI();
+                        }
+                    },
+                    (error) => {
+                        console.error("Student Snapshot Error:", error);
                     }
-                });
+                );
             }
-        }).catch(e => window.showMessage("Database connection failed. Enable Anonymous Auth.", "error"));
+        }).catch(e => {
+            console.error("Auth Error:", e);
+            window.showMessage("Database connection failed. " + e.message, "error");
+        });
 
         async function syncToCloud() {
             if (!window.candidateId || window.isAdmin) return; 
-            await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), window.userData, { merge: true });
+            try {
+                await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), window.userData, { merge: true });
+                window.showMessage("Profile Locked to Cloud!");
+            } catch (e) {
+                window.showMessage("Failed to save to cloud: " + e.message, "error");
+            }
         }
 
         // Core Functions
@@ -417,20 +464,17 @@
             window.userData.email = document.getElementById('candEmail').value;
             window.userData.archetype = document.querySelector('input[name="archetypeQ"]:checked')?.value || "Evaluated";
             await syncToCloud();
-            window.showMessage("Profile Locked to Cloud!");
         }
 
         
-        // Native Web Speech API for zero-latency, free multi-agent TTS
+        // Native Web Speech API
         const synth = window.speechSynthesis;
         window.playAI = function(text, voiceType = 0) {
-            if(!window.isAIMode) return;
-            synth.cancel(); // Stop current speech
+            if(!window.isAIMode) return { onend: () => {} };
+            synth.cancel(); 
             const utterThis = new SpeechSynthesisUtterance(text);
             const voices = synth.getVoices();
             
-            // Assign distinct voices based on type
-            // 0: AI Host, 1: AI Host Female, 2: Alex (Analytical), 3: Maya (Creative), 4: David (Pragmatic), 5: HR Director
             if(voices.length > 0) {
                 let v = voices[0];
                 try {
@@ -449,6 +493,16 @@
         }
 
         // ATS
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('resumeFile');
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                document.getElementById('fName').innerText = fileInput.files[0].name;
+                document.getElementById('fileNameDisplay').classList.remove('hidden');
+            }
+        });
+
         window.runATS = async function() {
             const btn = document.getElementById('btnRunATS');
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing...';
@@ -459,6 +513,12 @@
                 btn.innerHTML = '<i class="fa-solid fa-check mr-2"></i> Scan Complete';
                 if(window.isAIMode) window.playAI("Scan complete. I detected 88 percent keyword overlap with our corporate requirements.", 1);
             }, 1500);
+        }
+
+        window.submitTest = async function() {
+            window.userData.test_score = 85; 
+            await syncToCloud();
+            window.showMessage(`Test Submitted to Cloud! Score: 85/100`);
         }
 
         // GD Simulator
@@ -476,7 +536,6 @@
 
             script.forEach(line => {
                 setTimeout(() => {
-                    // Reset all avatars
                     ['alex', 'maya', 'david'].forEach(id => document.getElementById(`av-${id}`).classList.remove('avatar-pulse'));
                     
                     if(line.agent !== 'system') {
@@ -538,6 +597,27 @@
         }
 
         // Passport & Admin Detailed Email
+        window.updatePassportUI = function() {
+            document.getElementById('passName').innerText = window.userData.name || "Candidate Name";
+            document.getElementById('passArchetype').innerText = `Archetype: ${window.userData.archetype}`;
+            document.getElementById('passATS').innerText = `${window.userData.ats_score || 0}`;
+            document.getElementById('passTest').innerText = `${window.userData.test_score || 0}`;
+            document.getElementById('passGD').innerText = `${window.userData.gd_score || 0}`;
+            document.getElementById('passInterview').innerText = `${window.userData.interview_score || 0}`;
+
+            let gdNormalized = ((window.userData.gd_score || 0) / 30) * 100;
+            let total = Math.round(((window.userData.ats_score || 0) + (window.userData.test_score || 0) + gdNormalized + (window.userData.interview_score || 0)) / 4);
+            document.getElementById('passTotal').innerText = `${total || 0}%`;
+            
+            if (window.userData.published || window.isAdmin) {
+                document.getElementById('passportLock').classList.add('hidden');
+                document.getElementById('passportContent').classList.remove('hidden');
+            } else {
+                document.getElementById('passportLock').classList.remove('hidden');
+                document.getElementById('passportContent').classList.add('hidden');
+            }
+        }
+
         window.playAIDebrief = function() {
             const total = document.getElementById('passTotal').innerText;
             const text = `Debrief for ${window.userData.name}. Your overall readiness index is ${total}. You scored highly in the HR Interview with a ${window.userData.interview_score}. Your identified workplace archetype is ${window.userData.archetype}. Please review the labor rights portal to complete your onboarding.`;
@@ -548,7 +628,6 @@
             if(!window.userData.email) { window.showMessage("Select candidate first.", "error"); return; }
             const total = document.getElementById('passTotal').innerText;
             
-            // Highly detailed executive format
             const body = `Dear ${window.userData.name},%0D%0A%0D%0A` +
                 `Please find enclosed your official Executive Talent Passport and Assessment Debrief.%0D%0A%0D%0A` +
                 `=========================================%0D%0A` +
@@ -573,25 +652,37 @@
             window.showMessage("Generating Detailed Report...");
         }
 
-        // Admin Auth Code (Kept intact)
+        // Admin Auth Code
         window.openAdminModal = () => document.getElementById('adminModal').classList.remove('hidden');
         window.closeAdminModal = () => document.getElementById('adminModal').classList.add('hidden');
         window.verifyAdmin = () => {
             if(document.getElementById('adminPass').value === 'admin123') {
                 window.isAdmin = true; document.body.classList.add('admin-mode'); window.closeAdminModal();
-                onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'), (snap) => {
-                    const sel = document.getElementById('adminCandidateSelect');
-                    const cur = sel.value; sel.innerHTML = '<option value="">-- Select Candidate --</option>';
-                    snap.forEach(d => sel.innerHTML += `<option value="${d.id}" class="text-black" ${d.id===cur?'selected':''}>${d.data().name}</option>`);
-                });
+                onSnapshot(
+                    collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'), 
+                    (snap) => {
+                        const sel = document.getElementById('adminCandidateSelect');
+                        const cur = sel.value; sel.innerHTML = '<option value="">-- Select Candidate --</option>';
+                        snap.forEach(d => sel.innerHTML += `<option value="${d.id}" class="text-black" ${d.id===cur?'selected':''}>${d.data().name}</option>`);
+                    },
+                    (error) => {
+                        console.error("Admin Snapshot Error:", error);
+                    }
+                );
                 window.showMessage("Admin Connected!");
+                window.updatePassportUI();
             }
         }
         window.onAdminSelectCandidate = async (id) => {
             window.adminSelectedId = id;
             if(id) {
                 const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', id));
-                if (snap.exists()) { window.userData = snap.data(); window.updatePassportUI(); document.getElementById('gdScoreVal').innerText = window.userData.gd_score; }
+                if (snap.exists()) { 
+                    window.userData = snap.data(); 
+                    window.updatePassportUI(); 
+                    if(document.getElementById('gdScoreInput')) document.getElementById('gdScoreInput').value = window.userData.gd_score || 0;
+                    if(document.getElementById('gdScoreVal')) document.getElementById('gdScoreVal').innerText = window.userData.gd_score || 0;
+                }
             }
         }
         window.saveGDScore = async () => {
