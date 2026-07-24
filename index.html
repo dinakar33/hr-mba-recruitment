@@ -198,10 +198,14 @@
             </div>
             <div class="glass-card p-8 rounded-xl shadow-sm max-w-4xl mx-auto text-center">
                 <i class="fa-solid fa-clipboard-question text-5xl text-brand-300 mb-4"></i>
-                <h3 class="text-xl font-bold text-slate-700 mb-4">Situational Judgment Test</h3>
-                <p class="text-slate-500 mb-8">Click below to auto-simulate taking the 25-minute analytical aptitude test.</p>
-                <button onclick="window.submitTest()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-10 rounded-lg shadow-md transition">
-                    Simulate & Submit Test to Cloud
+                <h3 class="text-xl font-bold text-slate-700 mb-4">Situational & Analytical Aptitude Test</h3>
+                <p class="text-slate-500 mb-6">Complete the 25 questions below to evaluate your core competencies.</p>
+                
+                <div id="quizContainer" class="space-y-6 text-left mb-8 h-96 overflow-y-auto p-4 border rounded-lg bg-slate-50 shadow-inner">
+                </div>
+
+                <button onclick="window.submitTest(event)" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-10 rounded-lg shadow-md transition">
+                    Submit Test & Sync to Cloud
                 </button>
             </div>
         </section>
@@ -466,7 +470,86 @@
             await syncToCloud();
         }
 
+        const aptitudeQuestions = [
+            { q: "What is the primary purpose of a 360-degree performance appraisal?", options: ["To give the CEO direct feedback", "To collect feedback from peers, subordinates, and supervisors", "To evaluate 360 employees per year", "To assess physical workspace"], ans: 1 },
+            { q: "Which metric best measures the efficiency of the recruitment process?", options: ["Cost per hire", "Number of applicants", "Employee turnover rate", "Training hours"], ans: 0 },
+            { q: "A manager notices a sudden drop in a top performer's output. What is the best first step?", options: ["Issue a formal warning", "Ignore it", "Schedule a private 1-on-1 to discuss potential roadblocks", "Reassign their projects"], ans: 2 },
+            { q: "Under standard labor laws, which is generally required for an unpaid internship?", options: ["The intern must replace a regular employee", "The training must primarily benefit the intern", "The intern must work 40 hours a week", "The company derives immediate advantage from the intern"], ans: 1 },
+            { q: "Logical Reasoning: If all managers are leaders, and some leaders are executives, which is true?", options: ["All managers are executives", "Some managers are executives", "Some executives are leaders", "No executives are managers"], ans: 2 },
+            { q: "What does 'attrition rate' refer to?", options: ["Rate of hiring", "Rate at which employees leave the workforce", "Promotion speed", "Salary growth rate"], ans: 1 },
+            { q: "A team is failing to meet deadlines due to miscommunication. As HR, you should:", options: ["Fire the team leader", "Facilitate a team-building and process alignment workshop", "Cut their pay", "Ignore the issue"], ans: 1 },
+            { q: "Find the next number in the series: 2, 6, 12, 20, 30, ...", options: ["40", "42", "44", "48"], ans: 1 },
+            { q: "What is the 'Halo Effect' in performance appraisals?", options: ["Rating someone poorly due to one flaw", "Rating someone highly in all areas because of one positive trait", "Rating everyone exactly average", "Rating employees based on recent events only"], ans: 1 },
+            { q: "If a company has 200 employees and 20 left during the year, what is the turnover rate?", options: ["5%", "10%", "15%", "20%"], ans: 1 },
+            { q: "In a behavioral interview, what does the STAR method stand for?", options: ["Situation, Task, Action, Result", "Strategy, Timing, Assessment, Review", "Standard, Target, Action, Response", "Situation, Team, Activity, Reward"], ans: 0 },
+            { q: "What is the primary goal of an employee onboarding process?", options: ["To complete paperwork", "To integrate the employee into the company culture and accelerate productivity", "To test their skills again", "To set up their payroll"], ans: 1 },
+            { q: "An employee complains about harassment but refuses to put it in writing. HR should:", options: ["Ignore it since it's not written", "Investigate the claim immediately based on verbal notice", "Tell them to figure it out with the manager", "Fire the accused immediately"], ans: 1 },
+            { q: "Data Interpretation: If Department A spends $50k on training for 100 staff, what is the cost per head?", options: ["$50", "$500", "$5,000", "$100"], ans: 1 },
+            { q: "Which is a leading indicator of employee retention?", options: ["Exit interviews", "Employee Net Promoter Score (eNPS)", "Annual turnover rate", "Severance costs"], ans: 1 },
+            { q: "What is 'Job Enlargement'?", options: ["Adding more tasks of the same level to a role", "Adding higher-level responsibilities", "Reducing work hours", "Moving an employee to a different department"], ans: 0 },
+            { q: "You discover a discrepancy in payroll where an employee was overpaid. Best approach?", options: ["Deduct it all from the next paycheck without telling them", "Notify the employee immediately and arrange a reasonable repayment plan", "Let them keep it", "Fire the employee"], ans: 1 },
+            { q: "Logical Reasoning: A is taller than B, but shorter than C. D is taller than C. Who is shortest?", options: ["A", "B", "C", "D"], ans: 1 },
+            { q: "What does 'succession planning' aim to achieve?", options: ["Planning the next company party", "Identifying and developing internal people to fill key leadership positions", "Planning the fiscal budget", "Scheduling employee shifts"], ans: 1 },
+            { q: "Which defines 'Gross Pay'?", options: ["Take-home pay after taxes", "Total earnings before any deductions", "Base salary minus benefits", "Overtime pay only"], ans: 1 },
+            { q: "During an exit interview, an employee cites 'micromanagement' as the reason for leaving. You should:", options: ["Defend the manager", "Log the feedback and look for patterns to provide manager coaching", "Change the employee's mind", "Ignore it as bitterness"], ans: 1 },
+            { q: "A project requires 120 hours of work. If 3 people work on it equally for 5 days, how many hours per day does each work?", options: ["6", "8", "10", "12"], ans: 1 },
+            { q: "What is the main benefit of diversity and inclusion initiatives?", options: ["Fulfilling legal quotas", "Fostering innovation, better decision-making, and market representation", "Reducing payroll costs", "Simplifying the interview process"], ans: 1 },
+            { q: "If a company offers a 5% matching 401(k) and an employee earns $60,000, how much will the company contribute if the employee maximizes the match?", options: ["$1,000", "$2,000", "$3,000", "$4,000"], ans: 2 },
+            { q: "A candidate asks about work-life balance during an interview. What is the most strategic response?", options: ["'We expect 60 hours a week.'", "Provide honest examples of company policies like flexible hours and PTO.", "'It's great, don't worry about it.'", "Refuse to answer."], ans: 1 }
+        ];
+
+        window.renderQuiz = function() {
+            const container = document.getElementById('quizContainer');
+            if(!container) return;
+            container.innerHTML = '';
+            aptitudeQuestions.forEach((item, index) => {
+                let html = `<div class="bg-white p-5 rounded-lg shadow-sm border border-slate-200 mb-4">
+                    <p class="font-bold text-slate-800 text-sm mb-3">${index + 1}. ${item.q}</p>
+                    <div class="space-y-2">`;
+                item.options.forEach((opt, oIndex) => {
+                    html += `<label class="flex items-start text-sm cursor-pointer hover:bg-slate-50 p-2 rounded border border-transparent hover:border-slate-200 transition">
+                        <input type="radio" name="q${index}" value="${oIndex}" class="mt-0.5 mr-3 text-brand-600 focus:ring-brand-500"> ${opt}
+                    </label>`;
+                });
+                html += `</div></div>`;
+                container.innerHTML += html;
+            });
+        }
         
+        // Render quiz immediately when script runs
+        window.renderQuiz();
+
+        window.submitTest = async function(event) {
+            let correct = 0;
+            let answered = 0;
+            
+            aptitudeQuestions.forEach((item, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if(selected) {
+                    answered++;
+                    if(parseInt(selected.value) === item.ans) correct++;
+                }
+            });
+            
+            if(answered < aptitudeQuestions.length) {
+                window.showMessage(`You have only answered ${answered}/25 questions. Please complete all questions before submitting.`, "error");
+                return;
+            }
+
+            const score = Math.round((correct / aptitudeQuestions.length) * 100);
+            window.userData.test_score = score; 
+            
+            // Show loading state
+            const btn = event ? event.currentTarget : document.querySelector('button[onclick="window.submitTest(event)"]');
+            const originalText = btn ? btn.innerHTML : 'Submit';
+            if (btn) btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Syncing...';
+            
+            await syncToCloud();
+            
+            if (btn) btn.innerHTML = originalText;
+            window.showMessage(`Test Submitted! You scored ${score}% (${correct}/25)`);
+        }
+
         // Native Web Speech API
         const synth = window.speechSynthesis;
         window.playAI = function(text, voiceType = 0) {
@@ -628,28 +711,32 @@
             if(!window.userData.email) { window.showMessage("Select candidate first.", "error"); return; }
             const total = document.getElementById('passTotal').innerText;
             
-            const body = `Dear ${window.userData.name},%0D%0A%0D%0A` +
-                `Please find enclosed your official Executive Talent Passport and Assessment Debrief.%0D%0A%0D%0A` +
-                `=========================================%0D%0A` +
-                `OVERALL READINESS INDEX: ${total}%0D%0A` +
-                `WORKPLACE ARCHETYPE: ${window.userData.archetype}%0D%0A` +
-                `=========================================%0D%0A%0D%0A` +
-                `STAGE 1: ATS RESUME AUDIT (${window.userData.ats_score}/100)%0D%0A` +
-                `- Evaluation: Structural compliance and keyword density.%0D%0A` +
-                `- Insight: Ensure your core competencies continuously match evolving industry standards.%0D%0A%0D%0A` +
-                `STAGE 2: ANALYTICAL APTITUDE (${window.userData.test_score}/100)%0D%0A` +
-                `- Evaluation: Situational judgment and strategic problem-solving.%0D%0A` +
-                `- Insight: Strong baseline understanding of ethical decision-making frameworks.%0D%0A%0D%0A` +
-                `STAGE 3: GROUP DISCUSSION (${window.userData.gd_score}/30)%0D%0A` +
-                `- Evaluation: Active listening, debate logic, and consensus-building.%0D%0A%0D%0A` +
-                `STAGE 4: HR INTERVIEW (${window.userData.interview_score}/100)%0D%0A` +
-                `- Evaluation: Behavioral competency via the STAR methodology.%0D%0A%0D%0A` +
-                `NEXT STEPS:%0D%0A` +
-                `We highly recommend reviewing the Labor Rights video library on your portal to ensure complete employment literacy regarding CTCs and compliance.%0D%0A%0D%0A` +
-                `Best Regards,%0D%0AThe HR Blog Recruitment Team`;
+            const body = `Dear ${window.userData.name},\n\n` +
+                `Please find enclosed your official Executive Talent Passport and Assessment Debrief.\n\n` +
+                `=========================================\n` +
+                `OVERALL READINESS INDEX: ${total}\n` +
+                `WORKPLACE ARCHETYPE: ${window.userData.archetype}\n` +
+                `=========================================\n\n` +
+                `STAGE 1: ATS RESUME AUDIT (${window.userData.ats_score}/100)\n` +
+                `- Evaluation: Structural compliance and keyword density.\n` +
+                `- Insight: Ensure your core competencies continuously match evolving industry standards.\n\n` +
+                `STAGE 2: ANALYTICAL APTITUDE (${window.userData.test_score}/100)\n` +
+                `- Evaluation: Situational judgment and strategic problem-solving.\n` +
+                `- Insight: Strong baseline understanding of ethical decision-making frameworks.\n\n` +
+                `STAGE 3: GROUP DISCUSSION (${window.userData.gd_score}/30)\n` +
+                `- Evaluation: Active listening, debate logic, and consensus-building.\n\n` +
+                `STAGE 4: HR INTERVIEW (${window.userData.interview_score}/100)\n` +
+                `- Evaluation: Behavioral competency via the STAR methodology.\n\n` +
+                `NEXT STEPS:\n` +
+                `We highly recommend reviewing the Labor Rights video library on your portal to ensure complete employment literacy regarding CTCs and compliance.\n\n` +
+                `Best Regards,\nThe HR Blog Recruitment Team`;
             
-            window.location.href = `mailto:${window.userData.email}?subject=Your Official HR Blog Executive Assessment Report&body=${body}`;
-            window.showMessage("Generating Detailed Report...");
+            // Replaced mailto: with Gmail Web Compose URL to fix Windows OS Default Mail app prompt
+            const subject = 'Your Official HR Blog Executive Assessment Report';
+            const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(window.userData.email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            window.open(gmailLink, '_blank');
+            window.showMessage("Opening Gmail in a new tab to draft the report...");
         }
 
         // Admin Auth Code
