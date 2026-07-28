@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <!-- THREE JS LIBRARY FOR 3D FACES -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <script>
@@ -59,7 +60,7 @@
         .is-listening { animation: listen-pulse 1.5s infinite !important; border: 4px solid #10b981 !important; }
         
         /* 3D Canvas Containers */
-        .gd-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: radial-gradient(circle, #e2e8f0 0%, #cbd5e1 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; }
+        .gd-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: radial-gradient(circle, #e2e8f0 0%, #cbd5e1 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; }
         body.ai-mode .gd-avatar { background: radial-gradient(circle, #334155 0%, #0f172a 100%); }
         .gd-avatar canvas { width: 100% !important; height: 100% !important; display: block; outline: none; }
         
@@ -129,7 +130,7 @@
     <!-- Global Floating AI Guide 3D Canvas -->
     <div id="global-ai-guide" class="fixed bottom-6 right-6 z-50 flex items-center space-x-4 bg-slate-900 text-white p-4 rounded-full shadow-2xl border-4 border-brand-400">
         <div class="text-sm font-bold w-48 text-right hidden md:block" id="guide-text">Systems initializing...</div>
-        <div id="guide-avatar" class="gd-avatar w-16 h-16 border-2 border-brand-400">
+        <div id="guide-avatar" class="gd-avatar w-16 h-16 border-2 border-brand-400" style="width: 64px; height: 64px;">
             <!-- 3D Canvas injected here by Three.js -->
         </div>
     </div>
@@ -227,7 +228,6 @@
             </div>
         </section>
 
-        <!-- STAGE 2: APTITUDE TEST -->
         <section id="tab-test" class="tab-content">
             <div class="mb-8 flex justify-between items-center bg-red-500/10 p-4 rounded-lg border border-red-500/30">
                 <div>
@@ -261,7 +261,6 @@
             </div>
         </section>
 
-        <!-- STAGE 3: VIRTUAL GD -->
         <section id="tab-gd" class="tab-content">
             <div class="mb-6 flex justify-between items-center">
                 <h2 class="text-2xl font-bold text-slate-800">Stage 3: Virtual Group Discussion</h2>
@@ -330,7 +329,6 @@
             </div>
         </section>
 
-        <!-- STAGE 4: AI INTERVIEW -->
         <section id="tab-interview" class="tab-content">
             <div class="mb-8">
                 <h2 class="text-2xl font-bold text-slate-800">Stage 4: 7-Question AI HR Interview</h2>
@@ -339,7 +337,7 @@
 
             <div class="glass-card p-10 rounded-xl shadow-sm max-w-4xl mx-auto flex flex-col items-center border border-gray-200/50 relative overflow-hidden">
                 <!-- 3D AI Avatar Orb -->
-                <div id="ai-hr-orb" class="gd-avatar w-32 h-32 shadow-2xl transition-all duration-300 mb-6 border-4 border-brand-400 relative z-10">
+                <div id="ai-hr-orb" class="gd-avatar w-32 h-32 shadow-2xl transition-all duration-300 mb-6 border-4 border-brand-400 relative z-10" style="width: 128px; height: 128px;">
                 </div>
                 
                 <h3 class="text-xl font-bold mb-2">Virtual HR Director Sarah</h3>
@@ -364,7 +362,6 @@
             </div>
         </section>
 
-        <!-- STAGE 5: TALENT PASSPORT -->
         <section id="tab-passport" class="tab-content">
             <div class="mb-6 flex justify-between items-center">
                 <h2 class="text-2xl font-bold text-slate-800">Stage 5: Executive Talent Passport</h2>
@@ -429,7 +426,6 @@
             </div>
         </section>
 
-        <!-- STAGE 6: LABOR RIGHTS -->
         <section id="tab-rights" class="tab-content">
             <div class="mb-8"><h2 class="text-2xl font-bold text-slate-800">Employee Rights Spotlight & Masterclasses</h2><p class="text-slate-500 mt-2">Essential regulatory knowledge every postgraduate professional must master before signing an offer letter.</p></div>
             
@@ -478,13 +474,12 @@
 
     </main>
 
-    <!-- FIREBASE AND JS LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // VERIFIED REAL FIREBASE API KEY
+        // REAL FIREBASE CONFIGURATION
         const firebaseConfig = {
             apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
             authDomain: "hr-blog-app.firebaseapp.com",
@@ -510,15 +505,7 @@
         let unsubscribeStudent = null;
         let unsubscribeAdmin = null;
 
-        // UI Basic Helpers
-        window.showMessage = function(text, type = 'success') {
-            const box = document.getElementById('msgBox');
-            box.className = `mb-6 p-4 rounded-lg shadow-md font-bold text-sm flex items-center justify-between z-50 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`;
-            document.getElementById('msgText').innerHTML = `${type === 'success' ? '<i class="fa-solid fa-circle-check mr-2"></i>' : '<i class="fa-solid fa-triangle-exclamation mr-2"></i>'} ${text}`;
-            box.classList.remove('hidden');
-            setTimeout(() => { box.classList.add('hidden'); }, 5000);
-        }
-
+        // Ensure 3D Canvases resize when tabs change
         window.switchTab = function(tabId, btn) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('bg-brand-700', 'text-white', 'active'); b.classList.add('text-brand-100'); });
@@ -526,8 +513,16 @@
             btn.classList.remove('text-brand-100'); btn.classList.add('bg-brand-700', 'text-white', 'active');
             if(tabId === 'tab-passport') window.updatePassportUI();
             
-            // CRITICAL FIX: Force window resize event so 3D canvases update their layout when tab becomes visible
-            window.dispatchEvent(new Event('resize'));
+            // Dispatch resize so Three.js catches the tab opening and resizes its canvases
+            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 50);
+        }
+
+        window.showMessage = function(text, type = 'success') {
+            const box = document.getElementById('msgBox');
+            box.className = `mb-6 p-4 rounded-lg shadow-md font-bold text-sm flex items-center justify-between z-50 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`;
+            document.getElementById('msgText').innerHTML = `${type === 'success' ? '<i class="fa-solid fa-circle-check mr-2"></i>' : '<i class="fa-solid fa-triangle-exclamation mr-2"></i>'} ${text}`;
+            box.classList.remove('hidden');
+            setTimeout(() => { box.classList.add('hidden'); }, 5000);
         }
 
         // Connect to Firebase
@@ -556,7 +551,7 @@
             await setDoc(docRef, window.userData, { merge: true });
         }
 
-        // --- STREAMING_CHUNK:Voice Engine & Onboarding ---
+        // --- STREAMING_CHUNK:AI Voice & Onboarding ---
         window.saveProfile = async function() {
             if (!window.candidateId) { window.showMessage("Database not ready yet.", "error"); return; }
             const name = document.getElementById('candName').value.trim();
@@ -646,6 +641,9 @@
                 window.speechSynthesis.cancel();
                 window.activeSpeaker = null;
             }
+            
+            // Force redraw of 3D canvas
+            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 100);
         }
 
         // Native Speech Recognition Setup
@@ -672,7 +670,7 @@
             el.classList.remove('is-talking', 'is-listening');
             if(state) el.classList.add(state); // CSS glows
             
-            // Set global 3D speaker target
+            // Set global 3D speaker target for lip sync
             if(state === 'is-talking') {
                 if(id.includes('alex')) window.activeSpeaker = 'alex';
                 else if(id.includes('maya')) window.activeSpeaker = 'maya';
@@ -1177,6 +1175,15 @@
         }
 
         // --- STREAMING_CHUNK:ThreeJS 3D Animated Cartoon Avatar Engine ---
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        // Track mouse globally for the 3D faces to follow
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
         function init3DAvatars() {
             // Function to generate a customized 3D Humanoid/Cartoon Face
             function create3DFace(containerId, skinColor, accessoryType, speakerId) {
@@ -1189,7 +1196,11 @@
                 const initAspect = container.clientWidth > 0 ? container.clientWidth / container.clientHeight : 1;
                 const camera = new THREE.PerspectiveCamera(45, initAspect, 0.1, 100);
                 const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-                renderer.setSize(container.clientWidth || 100, container.clientHeight || 100);
+                
+                // Fallback sizing if container is hidden initially
+                let w = container.clientWidth || 100;
+                let h = container.clientHeight || 100;
+                renderer.setSize(w, h, false);
                 renderer.setPixelRatio(window.devicePixelRatio);
                 container.appendChild(renderer.domElement);
 
@@ -1317,14 +1328,28 @@
                 scene.add(headGroup);
                 camera.position.z = 5;
 
-                // Render Loop with physics
+                // Render Loop with physics and resizing
                 const animate = function () {
                     requestAnimationFrame(animate);
+                    
+                    // CRITICAL FIX: Ensure canvas always matches container size even if tab was hidden
+                    const canvas = renderer.domElement;
+                    const cw = container.clientWidth;
+                    const ch = container.clientHeight;
+                    if (cw > 0 && ch > 0 && (canvas.clientWidth !== cw || canvas.clientHeight !== ch)) {
+                        renderer.setSize(cw, ch, false);
+                        camera.aspect = cw / ch;
+                        camera.updateProjectionMatrix();
+                    }
+
                     const time = Date.now() * 0.003;
                     
                     // Idle Floating & Bobbing
                     headGroup.position.y = Math.sin(time * 1.2) * 0.1;
-                    headGroup.rotation.y = Math.sin(time * 0.5) * 0.15;
+                    
+                    // Eyes follow the mouse cursor to prove it is 3D
+                    headGroup.rotation.y += (mouseX * 0.5 - headGroup.rotation.y) * 0.1;
+                    headGroup.rotation.x += (-mouseY * 0.5 - headGroup.rotation.x) * 0.1;
                     
                     // Speaking Lip-Sync Animation
                     if (window.activeSpeaker === speakerId) {
@@ -1333,16 +1358,6 @@
                     } else {
                         // Closed mouth
                         mouth.scale.y = 1;
-                    }
-
-                    // CRITICAL FIX: Ensure canvas always matches container size even if tab was hidden
-                    const canvas = renderer.domElement;
-                    const width = container.clientWidth;
-                    const height = container.clientHeight;
-                    if (width > 0 && height > 0 && (canvas.width !== width || canvas.height !== height)) {
-                        renderer.setSize(width, height, false);
-                        camera.aspect = width / height;
-                        camera.updateProjectionMatrix();
                     }
 
                     renderer.render(scene, camera);
