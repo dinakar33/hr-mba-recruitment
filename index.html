@@ -51,7 +51,7 @@
         .toggle-checkbox:checked { right: 0; border-color: #68D391; }
         .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
 
-        /* --- ANIMATED CSS FOR AVATAR CONTAINERS --- */
+        /* --- 3D AVATAR GLOW ANIMATIONS --- */
         @keyframes talk-bounce { 0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); } 100% { box-shadow: 0 0 35px rgba(59, 130, 246, 1); border-color: #60a5fa; } }
         @keyframes listen-pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
         
@@ -61,7 +61,6 @@
         /* 3D Canvas Containers */
         .gd-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: radial-gradient(circle, #e2e8f0 0%, #cbd5e1 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; }
         body.ai-mode .gd-avatar { background: radial-gradient(circle, #334155 0%, #0f172a 100%); }
-        
         .gd-avatar canvas { width: 100% !important; height: 100% !important; display: block; outline: none; }
         
         /* Global AI Guide */
@@ -141,6 +140,7 @@
             <button onclick="document.getElementById('msgBox').classList.add('hidden')" class="text-gray-500 hover:text-gray-800"><i class="fa-solid fa-times"></i></button>
         </div>
 
+        <!-- Admin Modal -->
         <div id="adminModal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center">
             <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4">
                 <div class="flex justify-between items-center mb-6">
@@ -310,16 +310,16 @@
                 </div>
 
                 <!-- Admin Manual Override Box -->
-                <div class="glass-card p-6 rounded-xl shadow-sm bg-slate-800 text-white admin-only border border-brand-500 h-fit">
-                    <div class="flex items-center justify-between border-b border-slate-600 pb-3 mb-6">
-                        <h3 class="text-lg font-semibold text-white"><i class="fa-solid fa-clipboard-check mr-2 text-brand-400"></i>Moderator Scoring</h3>
+                <div class="glass-card p-6 rounded-xl shadow-sm admin-only border border-brand-500 h-fit">
+                    <div class="flex items-center justify-between border-b border-gray-200/50 pb-3 mb-6">
+                        <h3 class="text-lg font-semibold text-slate-800"><i class="fa-solid fa-clipboard-check mr-2 text-brand-500"></i>Moderator Scoring</h3>
                     </div>
-                    <label class="block text-sm font-medium text-white mb-2">Score for Selected Candidate (Out of 30)</label>
+                    <label class="block text-sm font-medium text-slate-800 mb-2">Score for Selected Candidate (Out of 30)</label>
                     <div class="flex items-center space-x-4 mb-8">
-                        <input type="range" id="gdScoreInput" min="0" max="30" value="0" class="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('gdScoreVal').innerText = this.value">
-                        <span id="gdScoreVal" class="text-2xl font-bold text-brand-400 w-12 text-center">0</span>
+                        <input type="range" id="gdScoreInput" min="0" max="30" value="0" class="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('gdScoreVal').innerText = this.value">
+                        <span id="gdScoreVal" class="text-2xl font-bold text-brand-600 w-12 text-center">0</span>
                     </div>
-                    <button onclick="window.saveGDScore()" class="w-full bg-brand-500 hover:bg-brand-400 text-white font-semibold py-3 rounded-lg shadow-md transition">Push Manual Score</button>
+                    <button onclick="window.saveGDScore()" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-semibold py-3 rounded-lg shadow-md transition">Push Manual Score</button>
                 </div>
                 
                 <div class="glass-card p-6 rounded-xl flex flex-col items-center justify-center text-center [&:has(~.admin-only:not([style*='display: none']))]:hidden" id="gdWaitingArea">
@@ -403,7 +403,7 @@
                 <h3 class="font-bold text-xl mb-6 text-slate-800"><i class="fa-solid fa-tower-broadcast mr-2 text-brand-500"></i>Admin: Manual Scoring & Publishing</h3>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 border-b border-gray-200/50 pb-8">
-                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <div>
                         <label class="block text-sm font-medium text-slate-800 mb-2">Override Virtual GD Score (Out of 30)</label>
                         <div class="flex items-center space-x-4 mb-4">
                             <input type="range" id="adminGdScoreInput" min="0" max="30" value="0" class="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('adminGdScoreVal').innerText = this.value">
@@ -412,7 +412,7 @@
                         <button onclick="window.saveAdminScore('gd')" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2 rounded-lg transition">Update GD Score</button>
                     </div>
 
-                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <div>
                         <label class="block text-sm font-medium text-slate-800 mb-2">Manual HR Interview Score (Out of 100)</label>
                         <div class="flex items-center space-x-4 mb-4">
                             <input type="range" id="hrScoreInput" min="0" max="100" value="0" class="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('hrScoreVal').innerText = this.value">
@@ -440,8 +440,8 @@
                     <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-coins mr-2 text-blue-500"></i>1. Compensation & CTC Breakdowns</h3>
                     <p class="text-sm mb-6 text-slate-600">Understand Base vs. Variable Pay, Provident Funds, and Gratuity. Do not let hidden components lower your in-hand salary expectations.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/PUXyhVhglbI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/JFdv8Z8iuok" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/Qz1VhbNjboE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/UqjZEC2Ykb4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
 
@@ -451,7 +451,7 @@
                     <p class="text-sm mb-6 text-slate-600">Learn about the 2013 Act, Vishakha Guidelines, mandatory Internal Complaints Committees (ICC), and your rights to a safe workplace environment.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/M8C2B949BqA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/MdPG5Ssbihk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/tEulz5dqQL4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
 
@@ -460,8 +460,8 @@
                     <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-file-signature mr-2 text-amber-500"></i>3. Notice Periods & Severance</h3>
                     <p class="text-sm mb-6 text-slate-600">Understand legal enforceable limits, early resignation buyouts, probation vs. confirmed employee rights, and severance packages.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/5b2MTqhwDBI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/W9NZdKQoj9k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/rsdpxkqiRZA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/7ePoEuDdM_k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
 
@@ -470,8 +470,8 @@
                     <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-clock mr-2 text-green-500"></i>4. Working Hours & Overtime</h3>
                     <p class="text-sm mb-6 text-slate-600">Statutory caps under the New Labour Codes, definition of standard shifts, breaks, and eligibility criteria for overtime compensation.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/KEkUbGbFuwQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/990qoY0jMsc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/60vqSpXut7Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/VMTlvc-wiyA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -485,7 +485,7 @@
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // THE CORRECTED API KEYS AS PROVIDED BY USER
+        // VERIFIED REAL FIREBASE API KEY
         const firebaseConfig = {
             apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
             authDomain: "hr-blog-app.firebaseapp.com",
@@ -509,6 +509,7 @@
         window.activeSpeaker = null; // Controls 3D Mouth animations
         window.userData = { name: "", email: "", archetype: "Not Evaluated", ats_score: 0, test_score: 0, gd_score: 0, interview_score: 0, published: false };
         let unsubscribeStudent = null;
+        let unsubscribeAdmin = null;
 
         // UI Basic Helpers
         window.showMessage = function(text, type = 'success') {
@@ -525,6 +526,9 @@
             document.getElementById(tabId).classList.add('active');
             btn.classList.remove('text-brand-100'); btn.classList.add('bg-brand-700', 'text-white', 'active');
             if(tabId === 'tab-passport') window.updatePassportUI();
+            
+            // CRITICAL FIX: Force window resize event so 3D canvases update their layout when tab becomes visible
+            window.dispatchEvent(new Event('resize'));
         }
 
         // Connect to Firebase
@@ -553,7 +557,7 @@
             await setDoc(docRef, window.userData, { merge: true });
         }
 
-        // --- STREAMING_CHUNK:Onboarding & Voice Logic ---
+        // --- STREAMING_CHUNK:Voice Engine & Onboarding ---
         window.saveProfile = async function() {
             if (!window.candidateId) { window.showMessage("Database not ready yet.", "error"); return; }
             const name = document.getElementById('candName').value.trim();
@@ -599,7 +603,6 @@
             window.speechSynthesis.speak(utterance);
         }
 
-        // Async Wrapper for clean multi-turn sequences
         window.speakAIPromise = function(text, type, pitch = 1, rate = 1) {
             return new Promise(resolve => {
                 window.speakAI(text, type, pitch, rate, resolve);
@@ -737,7 +740,7 @@
             }
         }
 
-        // --- STREAMING_CHUNK:Stage 2 Tight-Budget Cognitive Test Logic ---
+        // --- STREAMING_CHUNK:Aptitude Test Logic ---
         const aptitudeQuestions = [
             { q: "What is the primary objective of a 360-degree performance appraisal?", options: ["To evaluate 360 employees per cycle", "To collect multi-directional feedback from peers, reports, and supervisors", "To replace traditional KPIs", "To provide the CEO with direct tactical data"], ans: 1 },
             { q: "Which metric mathematically indicates recruitment lifecycle efficiency?", options: ["Total applicant volume", "Cost per hire and time-to-fill ratio", "Employee turnover percentage", "Mandatory training hours completed"], ans: 1 },
@@ -774,7 +777,7 @@
             if(!container) return;
             container.innerHTML = '';
             aptitudeQuestions.forEach((item, index) => {
-                // Remove hardcoded white backgrounds so Dark mode inherits cleanly
+                // Ensure no white backgrounds override the dark mode text
                 let html = `<div class="p-5 rounded-lg border border-slate-300 bg-slate-50/10 shadow-sm mb-4">
                     <p class="font-bold text-sm mb-3">${index + 1}. ${item.q}</p>
                     <div class="space-y-2">`;
@@ -850,7 +853,7 @@
             document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
         }
 
-        // --- STREAMING_CHUNK:Stage 3 Multi-Agent Virtual GD State Machine ---
+        // --- STREAMING_CHUNK:Stage 3 Virtual GD Logic ---
         let gdStep = 0;
         let gdRecording = false;
         let gdFinalText = "";
@@ -940,7 +943,7 @@
             }
         }
 
-        // --- STREAMING_CHUNK:Stage 4 7-Question AI Interview State Machine ---
+        // --- STREAMING_CHUNK:Stage 4 AI Interview Logic ---
         const interviewQuestions = [
             "Welcome to the final stage. Tell me about a time you utilized data to solve a complex team problem.",
             "Fascinating. How exactly did you measure the success of that specific solution?",
@@ -1016,7 +1019,7 @@
             }, 1000);
         }
 
-        // --- STREAMING_CHUNK:Stage 5 Admin Command Center & Detailed Reporting ---
+        // --- STREAMING_CHUNK:Admin Controls & Email Report ---
         window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); }
         window.closeAdminModal = function() { document.getElementById('adminModal').classList.add('hidden'); }
         
@@ -1183,9 +1186,11 @@
                 
                 // Setup Scene
                 const scene = new THREE.Scene();
-                const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+                // Safe initial aspect ratio
+                const initAspect = container.clientWidth > 0 ? container.clientWidth / container.clientHeight : 1;
+                const camera = new THREE.PerspectiveCamera(45, initAspect, 0.1, 100);
                 const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-                renderer.setSize(container.clientWidth, container.clientHeight);
+                renderer.setSize(container.clientWidth || 100, container.clientHeight || 100);
                 renderer.setPixelRatio(window.devicePixelRatio);
                 container.appendChild(renderer.domElement);
 
@@ -1260,19 +1265,6 @@
                 scene.add(botGroup);
                 camera.position.z = 5;
 
-                // Handle Resizing natively via ResizeObserver to fix Tab Switching issues
-                const resizeObserver = new ResizeObserver(entries => {
-                    for (let entry of entries) {
-                        const { width, height } = entry.contentRect;
-                        if (width > 0 && height > 0) {
-                            camera.aspect = width / height;
-                            camera.updateProjectionMatrix();
-                            renderer.setSize(width, height);
-                        }
-                    }
-                });
-                resizeObserver.observe(container);
-
                 // Render Loop with physics
                 const animate = function () {
                     requestAnimationFrame(animate);
@@ -1289,6 +1281,16 @@
                     } else {
                         mouth.scale.y = 1;
                         mouthMat.color.setHex(0xffffff); // Reset
+                    }
+
+                    // CRITICAL FIX: Ensure canvas always matches container size even if tab was hidden
+                    const canvas = renderer.domElement;
+                    const width = container.clientWidth;
+                    const height = container.clientHeight;
+                    if (width > 0 && height > 0 && (canvas.width !== width || canvas.height !== height)) {
+                        renderer.setSize(width, height, false);
+                        camera.aspect = width / height;
+                        camera.updateProjectionMatrix();
                     }
 
                     renderer.render(scene, camera);
