@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HR Blog | Ultra-Realistic AI Executive Platform</title>
+    <title>HR Blog | Executive Platform</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -36,7 +36,6 @@
         .admin-only-flex { display: none; }
         body.admin-mode .admin-only-flex { display: flex; }
 
-        /* --- AI GUIDED DARK MODE ENHANCEMENTS --- */
         body.ai-mode { background-color: #0f172a; color: #f1f5f9; }
         body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgba(51, 65, 85, 0.8); color: #f8fafc; }
         body.ai-mode h2, body.ai-mode h3, body.ai-mode p, body.ai-mode span, body.ai-mode label { color: #f8fafc !important; }
@@ -46,27 +45,22 @@
         body.ai-mode .border-gray-300, body.ai-mode .border { border-color: #475569 !important; }
         body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode select { background-color: #334155; color: #f8fafc; border-color: #475569; }
         
-        /* Toggle Switch */
         .toggle-checkbox:checked { right: 0; border-color: #68D391; }
         .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
 
-        /* --- ULTRA-REALISTIC AVATAR GLOW ANIMATIONS --- */
         @keyframes talk-bounce { 0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); } 100% { box-shadow: 0 0 35px rgba(59, 130, 246, 1); border-color: #60a5fa; } }
         @keyframes listen-pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
         
         .is-talking { animation: talk-bounce 0.4s ease-in-out infinite alternate !important; border: 4px solid #60a5fa !important; }
         .is-listening { animation: listen-pulse 1.5s infinite !important; border: 4px solid #10b981 !important; }
         
-        /* Avatar Canvas Containers */
         .gd-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; }
         body.ai-mode .gd-avatar { background: #334155; }
         .gd-avatar canvas { width: 100% !important; height: 100% !important; display: block; outline: none; border-radius: 50%; }
         
-        /* Global AI Guide */
         #global-ai-guide { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateX(200%); }
         #global-ai-guide.visible { transform: translateX(0); }
         
-        /* Timer Glow */
         @keyframes urgent-glow { 0% { text-shadow: 0 0 5px red; } 50% { text-shadow: 0 0 20px red; color: #ff9999; } 100% { text-shadow: 0 0 5px red; } }
         .timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
     </style>
@@ -78,7 +72,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
-                    <h1 class="text-3xl font-extrabold tracking-tight">HR Blog <span class="text-brand-300 text-lg uppercase tracking-widest ml-2 border-l border-brand-300 pl-2">Ultra-Realistic Edition</span></h1>
+                    <h1 class="text-3xl font-extrabold tracking-tight">HR Blog</h1>
                     <p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth.</p>
                 </div>
                 
@@ -121,6 +115,7 @@
                     <button onclick="window.switchTab('tab-interview', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-microphone-lines mr-2"></i>AI Interview</button>
                     <button onclick="window.switchTab('tab-passport', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-id-card mr-2"></i>Talent Passport</button>
                     <button onclick="window.switchTab('tab-rights', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-scale-balanced mr-2"></i>Labor Rights</button>
+                    <button onclick="window.switchTab('tab-about', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-book-open mr-2"></i>Academic Modules</button>
                 </nav>
             </div>
         </div>
@@ -129,7 +124,7 @@
     <div id="global-ai-guide" class="fixed bottom-6 right-6 z-50 flex items-center space-x-4 bg-slate-900 text-white p-4 rounded-full shadow-2xl border-4 border-brand-400">
         <div class="text-sm font-bold w-48 text-right hidden md:block" id="guide-text">Systems initializing...</div>
         <div id="guide-avatar" class="gd-avatar w-16 h-16 border-2 border-brand-400" style="width: 64px; height: 64px;">
-            <!-- Canvas injected here -->
+            <!-- Canvas injected here by JS -->
         </div>
     </div>
 
@@ -139,7 +134,6 @@
             <button onclick="document.getElementById('msgBox').classList.add('hidden')" class="text-gray-500 hover:text-gray-800"><i class="fa-solid fa-times"></i></button>
         </div>
 
-        <!-- Admin Modal -->
         <div id="adminModal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center">
             <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4">
                 <div class="flex justify-between items-center mb-6">
@@ -328,6 +322,7 @@
 
             <div class="glass-card p-10 rounded-xl shadow-sm max-w-4xl mx-auto flex flex-col items-center border border-gray-200/50 relative overflow-hidden">
                 <div id="ai-hr-orb" class="gd-avatar shadow-2xl transition-all duration-300 mb-6 border-4 border-brand-400 relative z-10" style="width: 150px; height: 150px;">
+                    <!-- Canvas injected here -->
                 </div>
                 
                 <h3 class="text-xl font-bold mb-2">Virtual HR Director Sarah</h3>
@@ -456,6 +451,36 @@
                 </div>
             </div>
         </section>
+
+        <section id="tab-about" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-800">Academic Modules & Curriculum Mapping</h2>
+                <p class="text-slate-500 mt-2">How this platform bridges classroom theory with real-world HR technology.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-card p-6 rounded-xl shadow-sm border-t-4 border-t-brand-500">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2"><i class="fa-solid fa-users-gear text-brand-500 mr-2"></i>1. Talent Acquisition & ATS</h3>
+                    <p class="text-sm text-slate-600">Demonstrates the mechanics of automated resume screening. Students learn how keyword density, formatting, and structural parsing dictate candidate shortlisting before human intervention.</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl shadow-sm border-t-4 border-t-purple-500">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2"><i class="fa-solid fa-brain text-purple-500 mr-2"></i>2. Organizational Behavior (OB)</h3>
+                    <p class="text-sm text-slate-600">Maps to OB concepts through the initial psychological archetype assessment and the Virtual GD, exploring group dynamics, cognitive biases, and collaborative problem-solving.</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl shadow-sm border-t-4 border-t-green-500">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2"><i class="fa-solid fa-chess-knight text-green-500 mr-2"></i>3. Strategic HRM (SHRM)</h3>
+                    <p class="text-sm text-slate-600">The 7-question STAR method interview applies SHRM principles, assessing a candidate's strategic alignment, resilience, and executive potential under simulated pressure.</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl shadow-sm border-t-4 border-t-amber-500">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2"><i class="fa-solid fa-scale-balanced text-amber-500 mr-2"></i>4. Industrial Relations & Labor Law</h3>
+                    <p class="text-sm text-slate-600">The Labor Rights module directly tackles statutory compliance, covering the POSH Act 2013, CTC structuring, severance limitations, and mandatory working hour caps.</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl shadow-sm border-t-4 border-t-blue-500 md:col-span-2">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2"><i class="fa-solid fa-network-wired text-blue-500 mr-2"></i>5. HR Information Systems (HRIS)</h3>
+                    <p class="text-sm text-slate-600">The cloud-synced backend acts as a live HRIS, demonstrating real-time data flow, automated talent passport generation, and administrative override capabilities.</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <script type="module">
@@ -871,7 +896,9 @@
                     window.userData.gd_score = score;
                     await syncToCloud();
                     writeTranscript('gd-transcript', 'System', `Candidate evaluation complete. Score synced: ${score}/30`);
+                    window.activeSpeaker = 'guide';
                     await window.speakAIPromise(`Simulation concluded. I have analyzed your vocabulary and assigned a score of ${score} out of 30.`, 'female', 1, 1);
+                    window.activeSpeaker = null;
                     document.getElementById('aiVoiceBtn4').innerText = "Simulation Complete";
                 }, 1000);
             }
@@ -1103,6 +1130,7 @@
         }
 
         function initRealisticAvatars() {
+            console.log("Avatar Engine Initializing...");
             function createAvatar(containerId, imageUrl, skinColorHex, speakerId) {
                 const container = document.getElementById(containerId);
                 if (!container) return;
@@ -1130,69 +1158,74 @@
                         requestAnimationFrame(animate);
                         ctx.clearRect(0, 0, canvas.width, canvas.height);
                         
-                        // 1. Draw the complete base face
+                        // Draw Base Face
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                         
                         const isTalking = (window.activeSpeaker === speakerId);
                         
-                        // 2. Jaw Drop / Lip-Sync Logic
+                        // Exaggerated Jaw Drop / Lip-Sync Logic
                         if (isTalking) {
-                            talkPhase += 0.5; // Faster mouth moving
-                            const jawDrop = Math.abs(Math.sin(talkPhase)) * 14; // Exaggerate drop to 14 pixels for obviousness
+                            talkPhase += 0.8; // Fast talk speed
+                            const jawDrop = Math.abs(Math.sin(talkPhase)) * 18; // Huge jaw drop for visibility
                             
-                            const mouthLine = canvas.height * 0.60; // Slice at the mouth
+                            const mouthLine = canvas.height * 0.58; 
                             
-                            // Draw the dark inside of the mouth to cover the gap
+                            // Draw inside mouth (dark)
                             ctx.fillStyle = '#110000';
-                            ctx.fillRect(canvas.width * 0.25, mouthLine, canvas.width * 0.5, jawDrop + 2);
+                            ctx.fillRect(canvas.width * 0.20, mouthLine, canvas.width * 0.60, jawDrop + 2);
                             
-                            // Redraw the lower jaw shifted downward
+                            // Redraw shifted jaw
                             ctx.drawImage(
                                 img, 
-                                0, img.height * 0.60, img.width, img.height * 0.40, 
-                                0, mouthLine + jawDrop, canvas.width, canvas.height * 0.40 
+                                0, img.height * 0.58, img.width, img.height * 0.42, 
+                                0, mouthLine + jawDrop, canvas.width, canvas.height * 0.42 
                             );
                         } else {
                             talkPhase = 0;
                         }
                         
-                        // 3. Eyelid / Blinking Logic
+                        // Exaggerated Blinking Logic
                         blinkTimer++;
-                        if (!isBlinking && Math.random() > 0.98 && blinkTimer > 80) { // Blinks more frequently
+                        if (!isBlinking && Math.random() > 0.98 && blinkTimer > 60) { 
                             isBlinking = true;
                             blinkTimer = 0;
                         }
                         
                         if (isBlinking) {
                             let blinkHeight = 0;
-                            if (blinkTimer < 5) blinkHeight = (blinkTimer / 5) * 12; // Eyelids closing
-                            else if (blinkTimer < 10) blinkHeight = ((10 - blinkTimer) / 5) * 12; // Eyelids opening
+                            if (blinkTimer < 5) blinkHeight = (blinkTimer / 5) * 16; 
+                            else if (blinkTimer < 10) blinkHeight = ((10 - blinkTimer) / 5) * 16; 
                             else isBlinking = false;
                             
                             if (blinkHeight > 0) {
                                 ctx.fillStyle = skinColorHex;
-                                // Draw Left Eyelid
                                 ctx.beginPath();
-                                ctx.ellipse(canvas.width * 0.35, canvas.height * 0.42, 18, blinkHeight, 0, 0, Math.PI * 2);
+                                ctx.ellipse(canvas.width * 0.35, canvas.height * 0.42, 22, blinkHeight, 0, 0, Math.PI * 2);
                                 ctx.fill();
-                                // Draw Right Eyelid
                                 ctx.beginPath();
-                                ctx.ellipse(canvas.width * 0.65, canvas.height * 0.42, 18, blinkHeight, 0, 0, Math.PI * 2);
+                                ctx.ellipse(canvas.width * 0.65, canvas.height * 0.42, 22, blinkHeight, 0, 0, Math.PI * 2);
                                 ctx.fill();
                             }
                         }
                     }
                     animate();
                 }
+                
+                // Fallback if Unsplash image gets blocked
+                img.onerror = () => {
+                    ctx.fillStyle = skinColorHex;
+                    ctx.fillRect(0,0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#fff";
+                    ctx.fillText("Avatar", 50, 75);
+                }
             }
             
-            // Unsplash Auto-Face Detection Crops (Extremely realistic corporate photos)
+            // Photorealistic Human Portraits
             const sarahUrl = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
             const alexUrl = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
             const mayaUrl = "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
             const davidUrl = "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
             
-            // Map the photos and matching skin tones to the specific UI avatars
             createAvatar('guide-avatar', sarahUrl, '#dcb295', 'guide');
             createAvatar('avatar-alex', alexUrl, '#f0c8b0', 'alex');
             createAvatar('avatar-maya', mayaUrl, '#b57b5c', 'maya');
@@ -1200,7 +1233,6 @@
             createAvatar('ai-hr-orb', sarahUrl, '#dcb295', 'sarah');
         }
 
-        // Initialize immediately on load
         window.addEventListener('load', () => {
             initRealisticAvatars();
         });
