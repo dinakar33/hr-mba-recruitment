@@ -1137,20 +1137,20 @@
                         
                         // 2. Jaw Drop / Lip-Sync Logic
                         if (isTalking) {
-                            talkPhase += 0.4; // Speed of mouth moving
-                            const jawDrop = Math.abs(Math.sin(talkPhase)) * 8; // Drop up to 8 pixels
+                            talkPhase += 0.5; // Faster mouth moving
+                            const jawDrop = Math.abs(Math.sin(talkPhase)) * 14; // Exaggerate drop to 14 pixels for obviousness
                             
-                            const mouthLine = canvas.height * 0.65; // Slice exactly at the mouth
+                            const mouthLine = canvas.height * 0.60; // Slice at the mouth
                             
                             // Draw the dark inside of the mouth to cover the gap
                             ctx.fillStyle = '#110000';
-                            ctx.fillRect(canvas.width * 0.3, mouthLine, canvas.width * 0.4, jawDrop + 2);
+                            ctx.fillRect(canvas.width * 0.25, mouthLine, canvas.width * 0.5, jawDrop + 2);
                             
                             // Redraw the lower jaw shifted downward
                             ctx.drawImage(
                                 img, 
-                                0, img.height * 0.65, img.width, img.height * 0.35, 
-                                0, mouthLine + jawDrop, canvas.width, canvas.height * 0.35 
+                                0, img.height * 0.60, img.width, img.height * 0.40, 
+                                0, mouthLine + jawDrop, canvas.width, canvas.height * 0.40 
                             );
                         } else {
                             talkPhase = 0;
@@ -1158,7 +1158,7 @@
                         
                         // 3. Eyelid / Blinking Logic
                         blinkTimer++;
-                        if (!isBlinking && Math.random() > 0.99 && blinkTimer > 100) {
+                        if (!isBlinking && Math.random() > 0.98 && blinkTimer > 80) { // Blinks more frequently
                             isBlinking = true;
                             blinkTimer = 0;
                         }
