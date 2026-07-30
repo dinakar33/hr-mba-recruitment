@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HR Blog | Executive Recruitment Platform</title>
+    <title>HR Blog | Ultra-Realistic AI Executive Platform</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <!-- THREE JS LIBRARY FOR 3D AVATARS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -52,17 +50,17 @@
         .toggle-checkbox:checked { right: 0; border-color: #68D391; }
         .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
 
-        /* --- 3D AVATAR GLOW ANIMATIONS --- */
+        /* --- ULTRA-REALISTIC AVATAR GLOW ANIMATIONS --- */
         @keyframes talk-bounce { 0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); } 100% { box-shadow: 0 0 35px rgba(59, 130, 246, 1); border-color: #60a5fa; } }
         @keyframes listen-pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
         
         .is-talking { animation: talk-bounce 0.4s ease-in-out infinite alternate !important; border: 4px solid #60a5fa !important; }
         .is-listening { animation: listen-pulse 1.5s infinite !important; border: 4px solid #10b981 !important; }
         
-        /* 3D Canvas Containers */
-        .gd-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: radial-gradient(circle, #e2e8f0 0%, #cbd5e1 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; }
-        body.ai-mode .gd-avatar { background: radial-gradient(circle, #334155 0%, #0f172a 100%); }
-        .gd-avatar canvas { width: 100% !important; height: 100% !important; display: block; outline: none; }
+        /* Avatar Canvas Containers */
+        .gd-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; }
+        body.ai-mode .gd-avatar { background: #334155; }
+        .gd-avatar canvas { width: 100% !important; height: 100% !important; display: block; outline: none; border-radius: 50%; }
         
         /* Global AI Guide */
         #global-ai-guide { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateX(200%); }
@@ -71,19 +69,16 @@
         /* Timer Glow */
         @keyframes urgent-glow { 0% { text-shadow: 0 0 5px red; } 50% { text-shadow: 0 0 20px red; color: #ff9999; } 100% { text-shadow: 0 0 5px red; } }
         .timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
-
-        /* Module Card Hover */
-        .module-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: #3b82f6; }
-        body.ai-mode .module-card:hover { box-shadow: 0 10px 25px rgba(0,0,0,0.4); border-color: #60a5fa; }
     </style>
 </head>
+
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
     <header class="bg-brand-900 text-white shadow-xl sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
-                    <h1 class="text-3xl font-extrabold tracking-tight">HR Blog</h1>
+                    <h1 class="text-3xl font-extrabold tracking-tight">HR Blog <span class="text-brand-300 text-lg uppercase tracking-widest ml-2 border-l border-brand-300 pl-2">Ultra-Realistic Edition</span></h1>
                     <p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth.</p>
                 </div>
                 
@@ -126,7 +121,6 @@
                     <button onclick="window.switchTab('tab-interview', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-microphone-lines mr-2"></i>AI Interview</button>
                     <button onclick="window.switchTab('tab-passport', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-id-card mr-2"></i>Talent Passport</button>
                     <button onclick="window.switchTab('tab-rights', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-scale-balanced mr-2"></i>Labor Rights</button>
-                    <button onclick="window.switchTab('tab-about', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-book-open mr-2"></i>Academic Modules</button>
                 </nav>
             </div>
         </div>
@@ -135,7 +129,7 @@
     <div id="global-ai-guide" class="fixed bottom-6 right-6 z-50 flex items-center space-x-4 bg-slate-900 text-white p-4 rounded-full shadow-2xl border-4 border-brand-400">
         <div class="text-sm font-bold w-48 text-right hidden md:block" id="guide-text">Systems initializing...</div>
         <div id="guide-avatar" class="gd-avatar w-16 h-16 border-2 border-brand-400" style="width: 64px; height: 64px;">
-            <!-- 3D Canvas injected here -->
+            <!-- Canvas injected here -->
         </div>
     </div>
 
@@ -280,15 +274,15 @@
                     <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
                         <div class="flex space-x-4 justify-center mb-6">
                             <div class="text-center">
-                                <div id="avatar-alex" class="gd-avatar border-blue-400 bg-blue-900"></div>
+                                <div id="avatar-alex" class="gd-avatar border-blue-400"></div>
                                 <span class="text-xs font-bold mt-2 block">Alex (Analytical)</span>
                             </div>
                             <div class="text-center">
-                                <div id="avatar-maya" class="gd-avatar border-pink-400 bg-pink-900"></div>
+                                <div id="avatar-maya" class="gd-avatar border-pink-400"></div>
                                 <span class="text-xs font-bold mt-2 block">Maya (Creative)</span>
                             </div>
                             <div class="text-center">
-                                <div id="avatar-david" class="gd-avatar border-green-400 bg-emerald-900"></div>
+                                <div id="avatar-david" class="gd-avatar border-green-400"></div>
                                 <span class="text-xs font-bold mt-2 block">David (Pragmatic)</span>
                             </div>
                         </div>
@@ -321,7 +315,7 @@
                 <div class="glass-card p-6 rounded-xl flex flex-col items-center justify-center text-center [&:has(~.admin-only:not([style*='display: none']))]:hidden" id="gdWaitingArea">
                     <i class="fa-solid fa-satellite-dish text-5xl text-slate-400 mb-6 hover:scale-110 transition-transform"></i>
                     <h3 class="text-xl font-bold mb-2">Awaiting AI Evaluation</h3>
-                    <p class="text-sm max-w-sm">Engage in the 7-turn simulation. The 3D AI agents will debate and request your input. The system evaluates sentiment and vocabulary to auto-score.</p>
+                    <p class="text-sm max-w-sm">Engage in the 7-turn simulation. The realistic AI agents will debate and request your input. The system evaluates sentiment and vocabulary to auto-score.</p>
                 </div>
             </div>
         </section>
@@ -329,11 +323,11 @@
         <section id="tab-interview" class="tab-content">
             <div class="mb-8">
                 <h2 class="text-2xl font-bold text-slate-800">Stage 4: 7-Question AI HR Interview</h2>
-                <p class="text-slate-500 mt-2">A grueling STAR-method behavioral interview with our 3D Virtual HR Director.</p>
+                <p class="text-slate-500 mt-2">A grueling STAR-method behavioral interview with our Virtual HR Director.</p>
             </div>
 
             <div class="glass-card p-10 rounded-xl shadow-sm max-w-4xl mx-auto flex flex-col items-center border border-gray-200/50 relative overflow-hidden">
-                <div id="ai-hr-orb" class="gd-avatar shadow-2xl transition-all duration-300 mb-6 border-4 border-brand-400 relative z-10 bg-slate-800" style="width: 150px; height: 150px;">
+                <div id="ai-hr-orb" class="gd-avatar shadow-2xl transition-all duration-300 mb-6 border-4 border-brand-400 relative z-10" style="width: 150px; height: 150px;">
                 </div>
                 
                 <h3 class="text-xl font-bold mb-2">Virtual HR Director Sarah</h3>
@@ -462,58 +456,6 @@
                 </div>
             </div>
         </section>
-
-        <section id="tab-about" class="tab-content">
-            <div class="mb-8 text-center max-w-3xl mx-auto">
-                <h2 class="text-3xl font-extrabold text-slate-800 mb-4">Academic Framework & Architecture</h2>
-                <p class="text-slate-600 text-lg">This platform was engineered to bridge the gap between theoretical MBA Human Resource modules and practical, executive-level recruitment technology.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="module-card glass-card p-6 rounded-xl border-t-4 border-t-blue-500">
-                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4 text-blue-600 text-xl"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Talent Acquisition & ATS</h3>
-                    <p class="text-sm text-slate-600"><strong>Platform Feature: Stage 1 (ATS Audit)</strong></p>
-                    <p class="text-sm text-slate-500 mt-2">Demonstrates the practical application of Applicant Tracking Systems. Uses algorithmic keyword density scanning to evaluate resumes against core competency matrices, a fundamental concept in modern e-recruitment.</p>
-                </div>
-
-                <div class="module-card glass-card p-6 rounded-xl border-t-4 border-t-purple-500">
-                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4 text-purple-600 text-xl"><i class="fa-solid fa-brain"></i></div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Organizational Behavior (OB)</h3>
-                    <p class="text-sm text-slate-600"><strong>Platform Feature: Onboarding & Stage 3 (Virtual GD)</strong></p>
-                    <p class="text-sm text-slate-500 mt-2">Applies OB theory through psychological archetype surveying (Strategist, Innovator, etc.) and simulates group dynamics, conflict resolution, and persuasion through the multi-agent AI group discussion.</p>
-                </div>
-
-                <div class="module-card glass-card p-6 rounded-xl border-t-4 border-t-emerald-500">
-                    <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-4 text-emerald-600 text-xl"><i class="fa-solid fa-comments"></i></div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Strategic HRM (SHRM)</h3>
-                    <p class="text-sm text-slate-600"><strong>Platform Feature: Stage 4 (AI Interview)</strong></p>
-                    <p class="text-sm text-slate-500 mt-2">Executes behavioral interviewing techniques based on the S.T.A.R. (Situation, Task, Action, Result) methodology to predict future candidate performance based on past behavior.</p>
-                </div>
-
-                <div class="module-card glass-card p-6 rounded-xl border-t-4 border-t-amber-500">
-                    <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mb-4 text-amber-600 text-xl"><i class="fa-solid fa-gavel"></i></div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Industrial Relations & Law</h3>
-                    <p class="text-sm text-slate-600"><strong>Platform Feature: Labor Rights Masterclasses</strong></p>
-                    <p class="text-sm text-slate-500 mt-2">Provides essential statutory literacy. Covers the legal frameworks governing employment in India, including the POSH Act 2013, the New Labour Codes, severance, and legal definitions of CTC.</p>
-                </div>
-
-                <div class="module-card glass-card p-6 rounded-xl border-t-4 border-t-rose-500">
-                    <div class="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center mb-4 text-rose-600 text-xl"><i class="fa-solid fa-database"></i></div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">HR Information Systems (HRIS)</h3>
-                    <p class="text-sm text-slate-600"><strong>Platform Feature: Admin Panel & Firebase Cloud</strong></p>
-                    <p class="text-sm text-slate-500 mt-2">Demonstrates the backend of corporate HR management. Features real-time NoSQL database syncing, data aggregation, readiness index formulation, and automated executive reporting.</p>
-                </div>
-
-                <div class="module-card glass-card p-6 rounded-xl border-t-4 border-t-indigo-500">
-                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4 text-indigo-600 text-xl"><i class="fa-solid fa-stopwatch"></i></div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Cognitive Assessment</h3>
-                    <p class="text-sm text-slate-600"><strong>Platform Feature: Stage 2 (Aptitude Test)</strong></p>
-                    <p class="text-sm text-slate-500 mt-2">Utilizes time-pressured situational judgment tests (SJTs) to evaluate decision velocity, ethical compliance, and domain literacy under constrained corporate scenarios.</p>
-                </div>
-            </div>
-        </section>
-
     </main>
 
     <script type="module">
@@ -551,10 +493,6 @@
             document.getElementById(tabId).classList.add('active');
             btn.classList.remove('text-brand-100'); btn.classList.add('bg-brand-700', 'text-white', 'active');
             if(tabId === 'tab-passport') window.updatePassportUI();
-            
-            // Force 3D canvases to measure their new visible size instantly to prevent disappearing
-            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 10);
-            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 100);
         }
 
         window.showMessage = function(text, type = 'success') {
@@ -656,7 +594,7 @@
                 document.getElementById('interview-controls').classList.add('flex');
                 
                 guide.classList.add('visible');
-                guideText.innerText = "AI Protocol Activated. I will guide you through this assessment.";
+                guideText.innerText = "AI Protocol Activated.";
                 window.activeSpeaker = 'guide'; 
                 await window.speakAIPromise("AI Protocol Activated. I will guide you through this assessment.", 'female', 1.1, 1);
                 window.activeSpeaker = null;
@@ -674,8 +612,6 @@
                 window.speechSynthesis.cancel();
                 window.activeSpeaker = null;
             }
-            
-            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 100);
         }
 
         window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -693,22 +629,6 @@
             line.innerHTML = `<span class="font-bold text-brand-400">[${speaker}]</span> <span class="text-white ml-2">${text}</span>`;
             box.appendChild(line);
             box.scrollTop = box.scrollHeight;
-        }
-
-        function setAvatarState(id, state) {
-            const el = document.getElementById(id);
-            if(!el) return;
-            el.classList.remove('is-talking', 'is-listening');
-            if(state) el.classList.add(state);
-            
-            if(state === 'is-talking') {
-                if(id.includes('alex')) window.activeSpeaker = 'alex';
-                else if(id.includes('maya')) window.activeSpeaker = 'maya';
-                else if(id.includes('david')) window.activeSpeaker = 'david';
-                else if(id.includes('hr-orb')) window.activeSpeaker = 'sarah';
-            } else {
-                window.activeSpeaker = null;
-            }
         }
 
         const pdfjsLib = window['pdfjs-dist/build/pdf'];
@@ -884,22 +804,22 @@
             const btn = document.getElementById('aiVoiceBtn4');
             btn.disabled = true;
             document.getElementById('gd-transcript').innerHTML = "";
-            writeTranscript('gd-transcript', 'System', 'Initiating 7-Turn AI Candidate Evaluation Simulator...');
+            writeTranscript('gd-transcript', 'System', 'Initiating AI Candidate Evaluation Simulator...');
 
-            setAvatarState('avatar-alex', 'is-talking');
-            writeTranscript('gd-transcript', 'Alex', 'Implementing AI in performance reviews is a necessary evolution. It completely removes human bias and standardizes metrics across the board.'); 
+            window.activeSpeaker = 'alex';
+            writeTranscript('gd-transcript', 'Alex', 'Implementing AI in performance reviews is a necessary evolution. It removes bias and standardizes metrics.'); 
             await window.speakAIPromise("Implementing AI in performance reviews is a necessary evolution. It completely removes human bias and standardizes metrics across the board.", 'male1', 0.9, 1.1);
-            setAvatarState('avatar-alex', null);
+            window.activeSpeaker = null;
 
-            setAvatarState('avatar-maya', 'is-talking');
-            writeTranscript('gd-transcript', 'Maya', 'I strongly disagree, Alex. Algorithms are trained on historical data, which inherently contains human biases. We risk automating and hiding discrimination.'); 
+            window.activeSpeaker = 'maya';
+            writeTranscript('gd-transcript', 'Maya', 'I strongly disagree, Alex. Algorithms are trained on historical data, which inherently contains human biases.'); 
             await window.speakAIPromise("I strongly disagree, Alex. Algorithms are trained on historical data, which inherently contains human biases. We risk automating and hiding discrimination.", 'female', 1.1, 1.05);
-            setAvatarState('avatar-maya', null);
+            window.activeSpeaker = null;
 
-            setAvatarState('avatar-david', 'is-talking');
-            writeTranscript('gd-transcript', 'David', 'Both are valid points. The key lies in hybrid implementation—AI for quantitative data, humans for qualitative nuance. Candidate, what is your stance?'); 
+            window.activeSpeaker = 'david';
+            writeTranscript('gd-transcript', 'David', 'Both are valid points. The key lies in hybrid implementation. Candidate, what is your stance?'); 
             await window.speakAIPromise("Both are valid points. The key lies in hybrid implementation. AI for quantitative data, humans for qualitative nuance. Candidate, what is your stance?", 'male2', 0.85, 0.95);
-            setAvatarState('avatar-david', null);
+            window.activeSpeaker = null;
 
             writeTranscript('gd-transcript', 'System', 'Mic active. Candidate, hold the mic button to share your perspective.');
             document.getElementById('gd-mic-zone').classList.remove('hidden');
@@ -931,10 +851,10 @@
             
             if (gdStep === 1) {
                 setTimeout(async () => {
-                    setAvatarState('avatar-alex', 'is-talking');
+                    window.activeSpeaker = 'alex';
                     writeTranscript('gd-transcript', 'Alex', 'Interesting perspective. But how do you ensure transparency if the AI logic is a black box? Explain your audit strategy.');
                     await window.speakAIPromise("Interesting perspective. But how do you ensure transparency if the AI logic is a black box? Explain your audit strategy.", 'male1', 0.9, 1.1);
-                    setAvatarState('avatar-alex', null);
+                    window.activeSpeaker = null;
                     
                     writeTranscript('gd-transcript', 'System', 'Mic active. Defend your point.');
                     document.getElementById('gd-mic-zone').classList.remove('hidden');
@@ -942,10 +862,10 @@
                 }, 1000);
             } else if (gdStep === 2) {
                 setTimeout(async () => {
-                    setAvatarState('avatar-maya', 'is-talking');
+                    window.activeSpeaker = 'maya';
                     writeTranscript('gd-transcript', 'Maya', 'That requires heavy auditing infrastructure, but it is a solid conclusion. Let us wrap up this session.');
                     await window.speakAIPromise("That requires heavy auditing infrastructure, but it is a solid conclusion. Let us wrap up this session.", 'female', 1.1, 1.05);
-                    setAvatarState('avatar-maya', null);
+                    window.activeSpeaker = null;
                     
                     let score = 25 + Math.floor(Math.random() * 5); 
                     window.userData.gd_score = score;
@@ -980,19 +900,19 @@
 
         async function askNextInterviewQuestion() {
             if (interviewStep < interviewQuestions.length) {
-                setAvatarState('ai-hr-orb', 'is-talking');
+                window.activeSpeaker = 'sarah';
                 let q = interviewQuestions[interviewStep];
                 writeTranscript('interview-transcript', 'HR Director Sarah', q);
                 await window.speakAIPromise(q, 'female', 1.05, 0.95);
+                window.activeSpeaker = null;
                 
-                setAvatarState('ai-hr-orb', null);
                 document.getElementById('interview-mic-zone').classList.remove('hidden');
                 document.getElementById('interview-mic-zone').classList.add('flex');
             } else {
-                setAvatarState('ai-hr-orb', 'is-talking');
+                window.activeSpeaker = 'sarah';
                 writeTranscript('interview-transcript', 'HR Director Sarah', 'Excellent. That concludes our 7 questions. I have logged your responses for final evaluation.');
                 await window.speakAIPromise("Excellent. That concludes our 7 questions. I have logged your responses for final evaluation.", 'female', 1.05, 0.95);
-                setAvatarState('ai-hr-orb', null);
+                window.activeSpeaker = null;
                 
                 let score = 88 + Math.floor(Math.random() * 10); 
                 window.userData.interview_score = score;
@@ -1003,7 +923,6 @@
 
         window.startInterviewRecording = function() {
             if(!recognition) return window.showMessage("Speech API not supported in this browser.", "error");
-            setAvatarState('ai-hr-orb', 'is-listening');
             interviewRecording = true;
             interviewFinalText = "";
             recognition.onresult = (event) => {
@@ -1016,7 +935,6 @@
 
         window.stopInterviewRecording = function() {
             if(!interviewRecording) return;
-            setAvatarState('ai-hr-orb', null);
             document.getElementById('interview-mic-zone').classList.add('hidden');
             document.getElementById('interview-mic-zone').classList.remove('flex');
             recognition.stop();
@@ -1184,274 +1102,107 @@
             window.showMessage(`Opening detailed report in Gmail for ${window.userData.email}...`);
         }
 
-        let mouseX = 0;
-        let mouseY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-        });
-
-        function init3DAvatars() {
-            function createRealisticFace(containerId, skinColorHex, hairColorHex, styleType, speakerId) {
+        function initRealisticAvatars() {
+            function createAvatar(containerId, imageUrl, skinColorHex, speakerId) {
                 const container = document.getElementById(containerId);
                 if (!container) return;
                 
-                // Scene Setup
-                const scene = new THREE.Scene();
-                const initAspect = container.clientWidth > 0 ? container.clientWidth / container.clientHeight : 1;
-                const camera = new THREE.PerspectiveCamera(40, initAspect, 0.1, 100);
-                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+                container.innerHTML = ''; 
+                const canvas = document.createElement('canvas');
+                canvas.width = 150;
+                canvas.height = 150;
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
+                canvas.style.borderRadius = '50%';
+                container.appendChild(canvas);
                 
-                let w = container.clientWidth || 100;
-                let h = container.clientHeight || 100;
-                renderer.setSize(w, h, false);
-                renderer.setPixelRatio(window.devicePixelRatio);
-                renderer.shadowMap.enabled = true;
-                renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-                container.appendChild(renderer.domElement);
-
-                // Realistic PBR Lighting
-                const ambientLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
-                scene.add(ambientLight);
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.src = imageUrl;
                 
-                const mainLight = new THREE.DirectionalLight(0xffffff, 0.8);
-                mainLight.position.set(5, 10, 7);
-                mainLight.castShadow = true;
-                scene.add(mainLight);
-                
-                const fillLight = new THREE.PointLight(0xffeedd, 0.4);
-                fillLight.position.set(-5, 3, 5);
-                scene.add(fillLight);
-
-                const headGroup = new THREE.Group();
-
-                // 1. Torso/Clothes (Adding Anatomy to avoid floating heads)
-                const clothesMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.9 }); // Dark suit
-                if (styleType === 'pink-bun') clothesMat.color.setHex(0xdb2777); // Maya pink blouse
-                if (styleType === 'silver-bun-glasses') clothesMat.color.setHex(0xf8fafc); // Sarah white blazer
-                if (styleType === 'headset') clothesMat.color.setHex(0xf97316); // Guide orange suit
-
-                const torsoGeo = new THREE.SphereGeometry(2.8, 32, 32);
-                torsoGeo.scale(1, 0.8, 0.5);
-                const torso = new THREE.Mesh(torsoGeo, clothesMat);
-                torso.position.set(0, -3.2, -0.5);
-                torso.castShadow = true;
-                scene.add(torso);
-
-                // 2. Realistic Head Shape (Oval, PBR Skin)
-                const skinMat = new THREE.MeshStandardMaterial({ 
-                    color: skinColorHex, 
-                    roughness: 0.4, 
-                    metalness: 0.1 
-                });
-                const headGeo = new THREE.SphereGeometry(1.6, 64, 64);
-                headGeo.scale(1, 1.2, 1.1);
-                const head = new THREE.Mesh(headGeo, skinMat);
-                head.castShadow = true;
-                headGroup.add(head);
-
-                // 3. Neck
-                const neckGeo = new THREE.CylinderGeometry(0.7, 0.8, 1.5, 32);
-                const neck = new THREE.Mesh(neckGeo, skinMat);
-                neck.position.set(0, -1.6, 0.2);
-                headGroup.add(neck);
-
-                // 4. Ears
-                const earGeo = new THREE.SphereGeometry(0.3, 32, 32);
-                earGeo.scale(0.5, 1.2, 1);
-                const leftEar = new THREE.Mesh(earGeo, skinMat);
-                leftEar.position.set(-1.6, 0, 0.2);
-                leftEar.rotation.y = -Math.PI / 6;
-                const rightEar = new THREE.Mesh(earGeo, skinMat);
-                rightEar.position.set(1.6, 0, 0.2);
-                rightEar.rotation.y = Math.PI / 6;
-                headGroup.add(leftEar, rightEar);
-
-                // 5. Nose
-                const noseGeo = new THREE.ConeGeometry(0.15, 0.5, 32);
-                const nose = new THREE.Mesh(noseGeo, skinMat);
-                nose.position.set(0, 0, 1.7);
-                nose.rotation.x = Math.PI / 2.5;
-                headGroup.add(nose);
-
-                // 6. Realistic Eyes (Sclera, Iris, Pupil, Catchlight)
-                const eyeGroupL = new THREE.Group();
-                const eyeGroupR = new THREE.Group();
-                eyeGroupL.position.set(-0.6, 0.4, 1.4);
-                eyeGroupR.position.set(0.6, 0.4, 1.4);
-                
-                const scleraGeo = new THREE.SphereGeometry(0.28, 32, 32);
-                const scleraMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.1 });
-                const scleraL = new THREE.Mesh(scleraGeo, scleraMat);
-                const scleraR = new THREE.Mesh(scleraGeo, scleraMat);
-                eyeGroupL.add(scleraL);
-                eyeGroupR.add(scleraR);
-                
-                let irisColor = 0x4B3621; // Brown
-                if(styleType === 'glasses') irisColor = 0x2e5c8a; // Blue
-                if(styleType === 'pink-bun') irisColor = 0x4a7c59; // Green
-                const irisMat = new THREE.MeshStandardMaterial({ color: irisColor, roughness: 0.2 });
-                const irisL = new THREE.Mesh(new THREE.SphereGeometry(0.14, 32, 32), irisMat);
-                const irisR = new THREE.Mesh(new THREE.SphereGeometry(0.14, 32, 32), irisMat);
-                irisL.position.z = 0.18; irisR.position.z = 0.18;
-                eyeGroupL.add(irisL); eyeGroupR.add(irisR);
-
-                const pupilMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
-                const pupilL = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), pupilMat);
-                const pupilR = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), pupilMat);
-                pupilL.position.z = 0.12; pupilR.position.z = 0.12;
-                irisL.add(pupilL); irisR.add(pupilR);
-                
-                const lightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-                const clL = new THREE.Mesh(new THREE.SphereGeometry(0.03, 8, 8), lightMat);
-                const clR = new THREE.Mesh(new THREE.SphereGeometry(0.03, 8, 8), lightMat);
-                clL.position.set(0.05, 0.05, 0.06); clR.position.set(0.05, 0.05, 0.06);
-                pupilL.add(clL); pupilR.add(clR);
-                
-                const lidGeo = new THREE.SphereGeometry(0.3, 32, 32, 0, Math.PI * 2, 0, Math.PI / 2);
-                const lidL = new THREE.Mesh(lidGeo, skinMat);
-                const lidR = new THREE.Mesh(lidGeo, skinMat);
-                lidL.rotation.x = -Math.PI / 2; lidR.rotation.x = -Math.PI / 2;
-                eyeGroupL.add(lidL); eyeGroupR.add(lidR);
-
-                headGroup.add(eyeGroupL, eyeGroupR);
-
-                // 7. Eyebrows
-                const browGeo = new THREE.BoxGeometry(0.5, 0.08, 0.1);
-                const browMat = new THREE.MeshStandardMaterial({ color: hairColorHex, roughness: 0.9 });
-                const browL = new THREE.Mesh(browGeo, browMat);
-                browL.position.set(-0.6, 0.8, 1.45);
-                browL.rotation.z = 0.1;
-                const browR = new THREE.Mesh(browGeo, browMat);
-                browR.position.set(0.6, 0.8, 1.45);
-                browR.rotation.z = -0.1;
-                headGroup.add(browL, browR);
-
-                // 8. Realistic Mouth
-                const mouthGroup = new THREE.Group();
-                mouthGroup.position.set(0, -0.5, 1.55);
-                
-                const cavity = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.1, 0.2), new THREE.MeshBasicMaterial({ color: 0x220000 }));
-                mouthGroup.add(cavity);
-                
-                const lipMat = new THREE.MeshStandardMaterial({ color: skinColorHex, roughness: 0.6 });
-                lipMat.color.lerp(new THREE.Color(0xffaaaa), 0.2); 
-                const lips = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.05, 16, 32), lipMat);
-                lips.scale.set(1, 0.2, 1);
-                lips.position.z = 0.1;
-                mouthGroup.add(lips);
-                
-                headGroup.add(mouthGroup);
-
-                // 9. Hair & Accessories
-                const hairMat = new THREE.MeshStandardMaterial({ color: hairColorHex, roughness: 0.8 });
-                
-                if (styleType === 'headset') {
-                    const band = new THREE.Mesh(new THREE.TorusGeometry(1.65, 0.1, 16, 32, Math.PI), new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.8 }));
-                    band.rotation.x = Math.PI / 2; band.position.y = 0.2;
-                    const mic = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 1), new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.8 })); 
-                    mic.position.set(1.6, -0.4, 0.8); mic.rotation.x = Math.PI/3;
-                    const ant = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.6), new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.8 }));
-                    ant.position.set(0, 1.8, 0);
-                    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.2), new THREE.MeshBasicMaterial({ color: 0xff3333 }));
-                    bulb.position.set(0, 2.1, 0);
-                    headGroup.add(band, mic, ant, bulb);
-                } else if (styleType === 'glasses') {
-                    const hair = new THREE.Mesh(new THREE.SphereGeometry(1.65, 64, 64, 0, Math.PI * 2, 0, Math.PI / 2.2), hairMat);
-                    hair.position.set(0, 0.2, -0.1);
-                    const glassMat = new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.5 });
-                    const lG = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.06, 16, 32), glassMat); lG.position.set(-0.6, 0.4, 1.5);
-                    const rG = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.06, 16, 32), glassMat); rG.position.set(0.6, 0.4, 1.5);
-                    const bridge = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.06, 0.06), glassMat); bridge.position.set(0, 0.4, 1.5);
-                    headGroup.add(hair, lG, rG, bridge);
-                } else if (styleType === 'pink-bun') {
-                    const hair = new THREE.Mesh(new THREE.SphereGeometry(1.65, 64, 64, 0, Math.PI * 2, 0, Math.PI / 1.8), hairMat);
-                    hair.position.set(0, 0.1, -0.1);
-                    const bun = new THREE.Mesh(new THREE.SphereGeometry(0.7, 32, 32), hairMat);
-                    bun.position.set(0, 1.6, -1.0);
-                    headGroup.add(hair, bun);
-                } else if (styleType === 'black-fade') {
-                    const hair = new THREE.Mesh(new THREE.SphereGeometry(1.65, 64, 64, 0, Math.PI * 2, 0, Math.PI / 2.5), hairMat);
-                    hair.position.set(0, 0.2, 0);
-                    headGroup.add(hair);
-                } else if (styleType === 'silver-bun-glasses') {
-                    const hair = new THREE.Mesh(new THREE.SphereGeometry(1.65, 64, 64, 0, Math.PI * 2, 0, Math.PI / 2.1), hairMat);
-                    hair.position.set(0, 0.2, -0.1);
-                    const bun = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), hairMat);
-                    bun.position.set(0, 1.4, -1.2);
-                    const glassMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.8 });
-                    const lG = new THREE.Mesh(new THREE.TorusGeometry(0.38, 0.04, 16, 32), glassMat); lG.position.set(-0.6, 0.4, 1.5);
-                    const rG = new THREE.Mesh(new THREE.TorusGeometry(0.38, 0.04, 16, 32), glassMat); rG.position.set(0.6, 0.4, 1.5);
-                    const bridge = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.04, 0.04), glassMat); bridge.position.set(0, 0.4, 1.5);
-                    headGroup.add(hair, bun, lG, rG, bridge);
-                }
-
-                scene.add(headGroup);
-                camera.position.z = 7.5; // Pulled back slightly to show shoulders
-                camera.position.y = -0.5;
-
                 let blinkTimer = 0;
                 let isBlinking = false;
-
-                const animate = function () {
-                    requestAnimationFrame(animate);
-                    
-                    const canvas = renderer.domElement;
-                    const cw = container.clientWidth;
-                    const ch = container.clientHeight;
-                    if (cw > 0 && ch > 0 && (canvas.clientWidth !== cw || canvas.clientHeight !== ch)) {
-                        renderer.setSize(cw, ch, false);
-                        camera.aspect = cw / ch;
-                        camera.updateProjectionMatrix();
+                let talkPhase = 0;
+                
+                img.onload = () => {
+                    function animate() {
+                        requestAnimationFrame(animate);
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        
+                        // 1. Draw the complete base face
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        const isTalking = (window.activeSpeaker === speakerId);
+                        
+                        // 2. Jaw Drop / Lip-Sync Logic
+                        if (isTalking) {
+                            talkPhase += 0.4; // Speed of mouth moving
+                            const jawDrop = Math.abs(Math.sin(talkPhase)) * 8; // Drop up to 8 pixels
+                            
+                            const mouthLine = canvas.height * 0.65; // Slice exactly at the mouth
+                            
+                            // Draw the dark inside of the mouth to cover the gap
+                            ctx.fillStyle = '#110000';
+                            ctx.fillRect(canvas.width * 0.3, mouthLine, canvas.width * 0.4, jawDrop + 2);
+                            
+                            // Redraw the lower jaw shifted downward
+                            ctx.drawImage(
+                                img, 
+                                0, img.height * 0.65, img.width, img.height * 0.35, 
+                                0, mouthLine + jawDrop, canvas.width, canvas.height * 0.35 
+                            );
+                        } else {
+                            talkPhase = 0;
+                        }
+                        
+                        // 3. Eyelid / Blinking Logic
+                        blinkTimer++;
+                        if (!isBlinking && Math.random() > 0.99 && blinkTimer > 100) {
+                            isBlinking = true;
+                            blinkTimer = 0;
+                        }
+                        
+                        if (isBlinking) {
+                            let blinkHeight = 0;
+                            if (blinkTimer < 5) blinkHeight = (blinkTimer / 5) * 12; // Eyelids closing
+                            else if (blinkTimer < 10) blinkHeight = ((10 - blinkTimer) / 5) * 12; // Eyelids opening
+                            else isBlinking = false;
+                            
+                            if (blinkHeight > 0) {
+                                ctx.fillStyle = skinColorHex;
+                                // Draw Left Eyelid
+                                ctx.beginPath();
+                                ctx.ellipse(canvas.width * 0.35, canvas.height * 0.42, 18, blinkHeight, 0, 0, Math.PI * 2);
+                                ctx.fill();
+                                // Draw Right Eyelid
+                                ctx.beginPath();
+                                ctx.ellipse(canvas.width * 0.65, canvas.height * 0.42, 18, blinkHeight, 0, 0, Math.PI * 2);
+                                ctx.fill();
+                            }
+                        }
                     }
-
-                    const time = Date.now() * 0.003;
-                    
-                    // Breathe (Shoulders move)
-                    torso.scale.y = 0.8 + Math.sin(time * 0.5) * 0.02;
-                    headGroup.position.y = Math.sin(time * 0.8) * 0.15;
-                    
-                    let targetRotY = mouseX * 0.3;
-                    let targetRotX = -mouseY * 0.3;
-                    headGroup.rotation.y += (targetRotY - headGroup.rotation.y) * 0.1;
-                    headGroup.rotation.x += (targetRotX - headGroup.rotation.x) * 0.1;
-                    
-                    eyeGroupL.rotation.y = mouseX * 0.2; eyeGroupL.rotation.x = -mouseY * 0.2;
-                    eyeGroupR.rotation.y = mouseX * 0.2; eyeGroupR.rotation.x = -mouseY * 0.2;
-
-                    blinkTimer++;
-                    if (!isBlinking && Math.random() > 0.99 && blinkTimer > 100) { isBlinking = true; blinkTimer = 0; }
-                    
-                    if (isBlinking) {
-                        if (blinkTimer < 5) { lidL.rotation.x += 0.2; lidR.rotation.x += 0.2; } 
-                        else if (blinkTimer < 10) { lidL.rotation.x -= 0.2; lidR.rotation.x -= 0.2; } 
-                        else { isBlinking = false; lidL.rotation.x = -Math.PI / 2; lidR.rotation.x = -Math.PI / 2; }
-                    }
-
-                    if (window.activeSpeaker === speakerId) {
-                        let mouthOpen = 1 + Math.abs(Math.sin(time * 6)) * 2;
-                        cavity.scale.y = mouthOpen;
-                        lips.scale.y = 0.2 * mouthOpen; 
-                    } else {
-                        cavity.scale.y = 0.1;
-                        lips.scale.y = 0.2;
-                    }
-
-                    renderer.render(scene, camera);
-                };
-                animate();
+                    animate();
+                }
             }
-
-            createRealisticFace('guide-avatar', 0xffb347, 0x333333, 'headset', 'guide');
-            createRealisticFace('avatar-alex', 0xffdfc4, 0x4a3018, 'glasses', 'alex');
-            createRealisticFace('avatar-maya', 0xc68642, 0xc026d3, 'pink-bun', 'maya');
-            createRealisticFace('avatar-david', 0x8d5524, 0x111111, 'black-fade', 'david');
-            createRealisticFace('ai-hr-orb', 0xf1c27d, 0xe2e8f0, 'silver-bun-glasses', 'sarah');
+            
+            // Unsplash Auto-Face Detection Crops (Extremely realistic corporate photos)
+            const sarahUrl = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
+            const alexUrl = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
+            const mayaUrl = "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
+            const davidUrl = "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
+            
+            // Map the photos and matching skin tones to the specific UI avatars
+            createAvatar('guide-avatar', sarahUrl, '#dcb295', 'guide');
+            createAvatar('avatar-alex', alexUrl, '#f0c8b0', 'alex');
+            createAvatar('avatar-maya', mayaUrl, '#b57b5c', 'maya');
+            createAvatar('avatar-david', davidUrl, '#9a6a4a', 'david');
+            createAvatar('ai-hr-orb', sarahUrl, '#dcb295', 'sarah');
         }
 
+        // Initialize immediately on load
         window.addEventListener('load', () => {
-            init3DAvatars();
+            initRealisticAvatars();
         });
 
     </script>
