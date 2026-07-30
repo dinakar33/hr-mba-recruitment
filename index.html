@@ -66,11 +66,61 @@
 
         .gd-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; transform-origin: bottom center; }
         body.ai-mode .gd-avatar { background: #334155; }
-        .gd-avatar canvas { width: 100% !important; height: 100% !important; display: block; outline: none; border-radius: 50%; }
         
         /* Apply breathing globally, and bobbing only when talking */
         .avatar-breathing { animation: breathe 4s infinite ease-in-out; }
-        .avatar-talking { animation: head-bob 1s infinite alternate ease-in-out !important; }
+        .avatar-talking { animation: head-bob 1s infinite alternate ease-in-out !important; border-color: #60a5fa; }
+
+        /* DOM CSS FACE ENGINE - 100% BROWSER COMPATIBLE */
+        .avatar-wrap {
+            width: 100%; height: 100%;
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #111;
+        }
+        .face-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .face-top {
+            clip-path: inset(0 0 45% 0); /* Shows only top 55% */
+            z-index: 3;
+        }
+        .face-bottom {
+            clip-path: inset(54.5% 0 0 0); /* Shows only bottom 45.5% */
+            z-index: 4;
+            transition: transform 0.08s ease-in-out;
+        }
+        .mouth-void {
+            position: absolute;
+            top: 50%; left: 30%; width: 40%; height: 30%;
+            background-color: #1a0000;
+            border-radius: 10px;
+            z-index: 2;
+        }
+        .eyelid {
+            position: absolute;
+            width: 30%; height: 0%;
+            background: rgba(0,0,0,0.6);
+            top: 32%;
+            border-radius: 0 0 50% 50%;
+            z-index: 5;
+        }
+        .eyelid.left { left: 16%; }
+        .eyelid.right { right: 16%; }
+        
+        @keyframes blink {
+            0%, 94%, 100% { height: 0%; }
+            97% { height: 20%; }
+        }
+        .face-top .eyelid {
+            animation: blink 4s infinite ease-in-out;
+        }
+        /* END FACE ENGINE */
 
         #global-ai-guide { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateX(200%); }
         #global-ai-guide.visible { transform: translateX(0); }
@@ -138,7 +188,7 @@
     <div id="global-ai-guide" class="fixed bottom-6 right-6 z-50 flex items-center space-x-4 bg-slate-900 text-white p-4 rounded-full shadow-2xl border-4 border-brand-400">
         <div class="text-sm font-bold w-48 text-right hidden md:block" id="guide-text">Systems initializing...</div>
         <div id="guide-avatar" class="gd-avatar avatar-breathing w-16 h-16 border-2 border-brand-400" style="width: 64px; height: 64px;">
-            <!-- Canvas injected here by JS -->
+            <!-- DOM Face Engine injected here -->
         </div>
     </div>
 
@@ -283,15 +333,15 @@
                         <div class="flex space-x-4 justify-center mb-6">
                             <div class="text-center">
                                 <div id="avatar-alex" class="gd-avatar avatar-breathing border-blue-400"></div>
-                                <span class="text-xs font-bold mt-2 block">Alex (Analytical)</span>
+                                <span class="text-xs font-bold mt-2 block text-blue-400">Alex (Analytical)</span>
                             </div>
                             <div class="text-center">
                                 <div id="avatar-maya" class="gd-avatar avatar-breathing border-pink-400"></div>
-                                <span class="text-xs font-bold mt-2 block">Maya (Creative)</span>
+                                <span class="text-xs font-bold mt-2 block text-pink-400">Maya (Creative)</span>
                             </div>
                             <div class="text-center">
                                 <div id="avatar-david" class="gd-avatar avatar-breathing border-green-400"></div>
-                                <span class="text-xs font-bold mt-2 block">David (Pragmatic)</span>
+                                <span class="text-xs font-bold mt-2 block text-green-400">David (Pragmatic)</span>
                             </div>
                         </div>
                         
@@ -336,7 +386,7 @@
 
             <div class="glass-card p-10 rounded-xl shadow-sm max-w-4xl mx-auto flex flex-col items-center border border-gray-200/50 relative overflow-hidden">
                 <div id="ai-hr-orb" class="gd-avatar avatar-breathing shadow-2xl transition-all duration-300 mb-6 border-4 border-brand-400 relative z-10" style="width: 150px; height: 150px;">
-                    <!-- Canvas injected here -->
+                    <!-- DOM Face Engine injected here -->
                 </div>
                 
                 <h3 class="text-xl font-bold mb-2">Virtual HR Director Sarah</h3>
@@ -662,7 +712,6 @@
                 document.getElementById('interview-controls').classList.remove('hidden');
                 document.getElementById('interview-controls').classList.add('flex');
                 
-                // Add animated classes
                 document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
 
                 guide.classList.add('visible');
@@ -1204,118 +1253,52 @@
             window.showMessage(`Opening detailed report in Gmail for ${window.userData.email}...`);
         }
 
+        // --- PURE DOM CSS FACE ENGINE ---
+        // This is guaranteed to work and bypasses all Canvas/CORS security blocks.
         function initRealisticAvatars() {
-            console.log("Fluid Easing Avatar Engine Initializing...");
-            
-            function createAvatar(containerId, imageUrl, skinColorHex, speakerId) {
-                const container = document.getElementById(containerId);
+            console.log("DOM Face Engine Initializing...");
+            const avatars = [
+                { id: 'guide-avatar', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&h=300&crop=faces', speaker: 'guide' },
+                { id: 'avatar-alex', img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=300&h=300&crop=faces', speaker: 'alex' },
+                { id: 'avatar-maya', img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&h=300&crop=faces', speaker: 'maya' },
+                { id: 'avatar-david', img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=300&h=300&crop=faces', speaker: 'david' },
+                { id: 'ai-hr-orb', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&h=300&crop=faces', speaker: 'sarah' }
+            ];
+
+            avatars.forEach(av => {
+                const container = document.getElementById(av.id);
                 if (!container) return;
                 
-                container.innerHTML = ''; 
-                const canvas = document.createElement('canvas');
-                canvas.width = 150;
-                canvas.height = 150;
-                canvas.style.width = '100%';
-                canvas.style.height = '100%';
-                canvas.style.borderRadius = '50%';
-                container.appendChild(canvas);
-                
-                const ctx = canvas.getContext('2d');
-                const img = new Image();
-                img.crossOrigin = "Anonymous";
-                img.src = imageUrl;
-                
-                // Animation State Variables
-                let currentJaw = 0;
-                let targetJaw = 0;
-                let talkTick = 0;
-                
-                let currentBlink = 0;
-                let targetBlink = 0;
-                
-                img.onload = () => {
-                    function animate() {
-                        requestAnimationFrame(animate);
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        
-                        // 1. Draw Base Face
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        
-                        const isTalking = (window.activeSpeaker === speakerId);
-                        
-                        // 2. Jaw Easing Logic
-                        if (isTalking) {
-                            talkTick++;
-                            // Change the target jaw drop randomly every 6 frames to simulate syllables
-                            if (talkTick % 6 === 0) {
-                                targetJaw = Math.random() * 25 + 5; 
-                            }
-                        } else {
-                            targetJaw = 0; // Close mouth
-                        }
-                        
-                        // Smoothly interpolate current jaw position towards target
-                        currentJaw += (targetJaw - currentJaw) * 0.35;
-                        
-                        const mouthLine = canvas.height * 0.55; 
-                        
-                        // 3. Draw Mouth Interior (Dark background behind teeth)
-                        if (currentJaw > 1) {
-                            ctx.fillStyle = '#110000';
-                            ctx.fillRect(canvas.width * 0.20, mouthLine, canvas.width * 0.60, currentJaw + 2);
-                        }
-                        
-                        // 4. Draw Lower Jaw (shifted down by currentJaw)
-                        ctx.drawImage(
-                            img, 
-                            0, img.height * 0.55, img.width, img.height * 0.45, 
-                            0, mouthLine + currentJaw, canvas.width, canvas.height * 0.45 
-                        );
-                        
-                        // 5. Blinking Easing Logic
-                        if (Math.random() > 0.99 && targetBlink === 0) { 
-                            targetBlink = 20; // Snap eyes closed
-                            setTimeout(() => { targetBlink = 0; }, 150); // Open after 150ms
-                        }
-                        
-                        // Smoothly interpolate current blink height
-                        currentBlink += (targetBlink - currentBlink) * 0.5;
-                        
-                        // 6. Draw Eyelids
-                        if (currentBlink > 1) {
-                            ctx.fillStyle = skinColorHex;
-                            ctx.beginPath();
-                            ctx.ellipse(canvas.width * 0.35, canvas.height * 0.42, 22, currentBlink, 0, 0, Math.PI * 2);
-                            ctx.fill();
-                            ctx.beginPath();
-                            ctx.ellipse(canvas.width * 0.65, canvas.height * 0.42, 22, currentBlink, 0, 0, Math.PI * 2);
-                            ctx.fill();
-                        }
+                // Inject the raw CSS sliced face structure
+                container.innerHTML = `
+                    <div class="avatar-wrap">
+                        <div class="mouth-void"></div>
+                        <div class="face-layer face-top" style="background-image: url('${av.img}')">
+                            <div class="eyelid left"></div>
+                            <div class="eyelid right"></div>
+                        </div>
+                        <div class="face-layer face-bottom" id="jaw-${av.speaker}" style="background-image: url('${av.img}')"></div>
+                    </div>
+                `;
+            });
+
+            // The Jaw Easing Engine
+            // This runs continuously. If a character is the 'activeSpeaker', their jaw drops randomly to simulate speech.
+            setInterval(() => {
+                avatars.forEach(av => {
+                    const jaw = document.getElementById(`jaw-${av.speaker}`);
+                    if (!jaw) return;
+                    
+                    if (window.activeSpeaker === av.speaker) {
+                        // Drop jaw between 2% and 12% to reveal the mouth void behind it
+                        const drop = Math.random() * 10 + 2; 
+                        jaw.style.transform = `translateY(${drop}%)`;
+                    } else {
+                        // Keep mouth firmly closed
+                        jaw.style.transform = `translateY(0%)`;
                     }
-                    animate();
-                }
-                
-                // Fallback if Unsplash image gets blocked by browser
-                img.onerror = () => {
-                    ctx.fillStyle = skinColorHex;
-                    ctx.fillRect(0,0, canvas.width, canvas.height);
-                    ctx.fillStyle = "#fff";
-                    ctx.font = "20px Arial";
-                    ctx.fillText(speakerId, 30, 75);
-                }
-            }
-            
-            // High-Resolution Photorealistic Human Portraits
-            const sarahUrl = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
-            const alexUrl = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
-            const mayaUrl = "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
-            const davidUrl = "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
-            
-            createAvatar('guide-avatar', sarahUrl, '#dcb295', 'guide');
-            createAvatar('avatar-alex', alexUrl, '#f0c8b0', 'alex');
-            createAvatar('avatar-maya', mayaUrl, '#b57b5c', 'maya');
-            createAvatar('avatar-david', davidUrl, '#9a6a4a', 'david');
-            createAvatar('ai-hr-orb', sarahUrl, '#dcb295', 'sarah');
+                });
+            }, 80); // Fast interval for realistic, jittery syllable movement
         }
 
         window.addEventListener('load', () => {
