@@ -71,56 +71,9 @@
         .avatar-breathing { animation: breathe 4s infinite ease-in-out; }
         .avatar-talking { animation: head-bob 1s infinite alternate ease-in-out !important; border-color: #60a5fa; }
 
-        /* DOM CSS FACE ENGINE - 100% BROWSER COMPATIBLE */
-        .avatar-wrap {
-            width: 100%; height: 100%;
-            position: relative;
-            border-radius: 50%;
-            overflow: hidden;
-            background: #111;
-        }
-        .face-layer {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-        .face-top {
-            clip-path: inset(0 0 45% 0); /* Shows only top 55% */
-            z-index: 3;
-        }
-        .face-bottom {
-            clip-path: inset(54.5% 0 0 0); /* Shows only bottom 45.5% */
-            z-index: 4;
-            transition: transform 0.08s ease-in-out;
-        }
-        .mouth-void {
-            position: absolute;
-            top: 50%; left: 30%; width: 40%; height: 30%;
-            background-color: #1a0000;
-            border-radius: 10px;
-            z-index: 2;
-        }
-        .eyelid {
-            position: absolute;
-            width: 30%; height: 0%;
-            background: rgba(0,0,0,0.6);
-            top: 32%;
-            border-radius: 0 0 50% 50%;
-            z-index: 5;
-        }
-        .eyelid.left { left: 16%; }
-        .eyelid.right { right: 16%; }
-        
-        @keyframes blink {
-            0%, 94%, 100% { height: 0%; }
-            97% { height: 20%; }
-        }
-        .face-top .eyelid {
-            animation: blink 4s infinite ease-in-out;
-        }
-        /* END FACE ENGINE */
+        /* SVG CARTOON ENGINE CSS */
+        .avatar-mouth { transform-box: fill-box; transform-origin: center; transition: transform 0.08s; }
+        .avatar-eyelid { transform-box: fill-box; transform-origin: top; transform: scaleY(0); transition: transform 0.1s ease-in-out; }
 
         #global-ai-guide { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateX(200%); }
         #global-ai-guide.visible { transform: translateX(0); }
@@ -137,7 +90,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
                     <h1 class="text-3xl font-extrabold tracking-tight">HR Blog</h1>
-                    <p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth. <span class="bg-brand-500 text-white px-2 py-0.5 rounded ml-2 text-xs font-bold">v2.0</span></p>
+                    <p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth. <span class="bg-brand-500 text-white px-2 py-0.5 rounded ml-2 text-xs font-bold">v3.0</span></p>
                 </div>
                 
                 <div class="flex items-center space-x-6">
@@ -188,7 +141,7 @@
     <div id="global-ai-guide" class="fixed bottom-6 right-6 z-50 flex items-center space-x-4 bg-slate-900 text-white p-4 rounded-full shadow-2xl border-4 border-brand-400">
         <div class="text-sm font-bold w-48 text-right hidden md:block" id="guide-text">Systems initializing...</div>
         <div id="guide-avatar" class="gd-avatar avatar-breathing w-16 h-16 border-2 border-brand-400" style="width: 64px; height: 64px;">
-            <!-- DOM Face Engine injected here -->
+            <!-- SVG Face Engine injected here -->
         </div>
     </div>
 
@@ -386,7 +339,7 @@
 
             <div class="glass-card p-10 rounded-xl shadow-sm max-w-4xl mx-auto flex flex-col items-center border border-gray-200/50 relative overflow-hidden">
                 <div id="ai-hr-orb" class="gd-avatar avatar-breathing shadow-2xl transition-all duration-300 mb-6 border-4 border-brand-400 relative z-10" style="width: 150px; height: 150px;">
-                    <!-- DOM Face Engine injected here -->
+                    <!-- SVG Face Engine injected here -->
                 </div>
                 
                 <h3 class="text-xl font-bold mb-2">Virtual HR Director Sarah</h3>
@@ -942,7 +895,7 @@
             window.activeSpeaker = id;
             document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
             if(id) {
-                const avatar = document.getElementById(id === 'sarah' ? 'ai-hr-orb' : `avatar-${id}`);
+                const avatar = document.getElementById(id === 'sarah' ? 'ai-hr-orb' : (id==='guide' ? 'guide-avatar' : `avatar-${id}`));
                 if(avatar) avatar.classList.add('avatar-talking');
             }
             
@@ -1008,11 +961,7 @@
                     await syncToCloud();
                     writeTranscript('gd-transcript', 'System', `Candidate evaluation complete. Score synced: ${score}/30`);
                     
-                    window.activeSpeaker = 'guide';
-                    document.getElementById('guide-avatar').classList.add('avatar-talking');
-                    await window.speakAIPromise(`Simulation concluded. I have analyzed your vocabulary and assigned a score of ${score} out of 30.`, 'female', 1, 1);
-                    window.activeSpeaker = null;
-                    document.getElementById('guide-avatar').classList.remove('avatar-talking');
+                    await setSpeaker('guide', 'Guide', `Simulation concluded. I have analyzed your vocabulary and assigned a score of ${score} out of 30.`, 'female', 1, 1);
                     
                     document.getElementById('aiVoiceBtn4').innerText = "Simulation Complete";
                 }, 1000);
@@ -1253,52 +1202,112 @@
             window.showMessage(`Opening detailed report in Gmail for ${window.userData.email}...`);
         }
 
-        // --- PURE DOM CSS FACE ENGINE ---
-        // This is guaranteed to work and bypasses all Canvas/CORS security blocks.
+        // --- PURE INLINE SVG CARTOON FACE ENGINE ---
         function initRealisticAvatars() {
-            console.log("DOM Face Engine Initializing...");
-            const avatars = [
-                { id: 'guide-avatar', img: 'https://api.dicebear.com/9.x/bottts-neutral/svg?seed=Robot&backgroundColor=1e293b', speaker: 'guide' },
-                { id: 'avatar-alex', img: 'https://api.dicebear.com/9.x/micah/svg?seed=Alex&backgroundColor=bfdbfe', speaker: 'alex' },
-                { id: 'avatar-maya', img: 'https://api.dicebear.com/9.x/micah/svg?seed=Maya&backgroundColor=fbcfe8', speaker: 'maya' },
-                { id: 'avatar-david', img: 'https://api.dicebear.com/9.x/micah/svg?seed=David&backgroundColor=bbf7d0', speaker: 'david' },
-                { id: 'ai-hr-orb', img: 'https://api.dicebear.com/9.x/micah/svg?seed=Sarah&backgroundColor=e9d5ff', speaker: 'sarah' }
-            ];
+            console.log("SVG Cartoon Face Engine Initializing...");
 
-            avatars.forEach(av => {
-                const container = document.getElementById(av.id);
-                if (!container) return;
-                
-                // Inject the raw CSS sliced face structure
-                container.innerHTML = `
-                    <div class="avatar-wrap">
-                        <div class="mouth-void"></div>
-                        <div class="face-layer face-top" style="background-image: url('${av.img}')">
-                            <div class="eyelid left"></div>
-                            <div class="eyelid right"></div>
-                        </div>
-                        <div class="face-layer face-bottom" id="jaw-${av.speaker}" style="background-image: url('${av.img}')"></div>
-                    </div>
-                `;
+            const avatarConfigs = {
+                'guide-avatar': { bg: '#1e293b', skin: '#94a3b8', shirt: '#334155', isRobot: true },
+                'avatar-alex': { bg: '#bfdbfe', skin: '#fcd34d', hair: '#451a03', shirt: '#ffffff', glasses: true },
+                'avatar-maya': { bg: '#fbcfe8', skin: '#d97706', hair: '#111827', shirt: '#fef08a', hairType: 'curly' },
+                'avatar-david': { bg: '#bbf7d0', skin: '#78350f', hair: '#000000', shirt: '#1e293b' },
+                'ai-hr-orb': { bg: '#e9d5ff', skin: '#ffedd5', hair: '#9ca3af', shirt: '#4c1d95', hairType: 'bun' }
+            };
+
+            function generateSVG(config) {
+                let hairPath = config.hairType === 'curly'
+                    ? '<path d="M 15 45 C 15 10, 85 10, 85 45 C 95 45, 95 65, 80 65 C 85 80, 50 85, 50 85 C 50 85, 15 80, 20 65 C 5 65, 5 45, 15 45 Z" fill="'+config.hair+'"/>'
+                    : config.hairType === 'bun'
+                    ? '<circle cx="50" cy="15" r="14" fill="'+config.hair+'"/><path d="M 22 45 C 22 15, 78 15, 78 45 L 78 35 C 78 5, 22 5, 22 35 Z" fill="'+config.hair+'"/>'
+                    : config.isRobot ? ''
+                    : '<path d="M 22 45 C 22 15, 78 15, 78 45 L 78 30 C 78 10, 22 10, 22 30 Z" fill="'+config.hair+'"/>';
+
+                let robotFeatures = config.isRobot
+                    ? '<rect x="25" y="30" width="50" height="40" rx="8" fill="'+config.skin+'"/>' +
+                      '<rect x="20" y="40" width="5" height="15" rx="2" fill="#64748b"/>' +
+                      '<rect x="75" y="40" width="5" height="15" rx="2" fill="#64748b"/>' +
+                      '<circle cx="50" cy="20" r="4" fill="#ef4444"/>' +
+                      '<line x1="50" y1="20" x2="50" y2="30" stroke="#64748b" stroke-width="3"/>'
+                    : '<circle cx="50" cy="45" r="26" fill="'+config.skin+'"/>';
+
+                let eyes = config.isRobot
+                    ? '<rect x="35" y="40" width="10" height="8" rx="2" fill="#38bdf8"/>' +
+                      '<rect x="55" y="40" width="10" height="8" rx="2" fill="#38bdf8"/>'
+                    : '<circle cx="39" cy="42" r="5" fill="#ffffff"/><circle cx="39" cy="42" r="2.5" fill="#000000"/>' +
+                      '<circle cx="61" cy="42" r="5" fill="#ffffff"/><circle cx="61" cy="42" r="2.5" fill="#000000"/>';
+
+                let glasses = config.glasses
+                    ? '<rect x="31" y="37" width="16" height="10" rx="2" fill="none" stroke="#1e293b" stroke-width="2.5"/>' +
+                      '<rect x="53" y="37" width="16" height="10" rx="2" fill="none" stroke="#1e293b" stroke-width="2.5"/>' +
+                      '<line x1="47" y1="42" x2="53" y2="42" stroke="#1e293b" stroke-width="2.5"/>' : '';
+
+                let mouth = config.isRobot
+                    ? '<rect x="40" y="55" width="20" height="4" rx="2" fill="#0f172a" class="avatar-mouth" />'
+                    : '<ellipse cx="50" cy="58" rx="8" ry="1.5" fill="#431407" class="avatar-mouth" />';
+
+                let eyelids = config.isRobot ? '' :
+                    '<rect x="33" y="34" width="12" height="14" fill="'+config.skin+'" class="avatar-eyelid" />' +
+                    '<rect x="55" y="34" width="12" height="14" fill="'+config.skin+'" class="avatar-eyelid" />';
+
+                return '<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">' +
+                    '<rect width="100" height="100" fill="'+config.bg+'"/>' +
+                    '<path d="M 15 100 C 15 70, 85 70, 85 100" fill="'+config.shirt+'"/>' +
+                    (config.isRobot ? '' : '<rect x="40" y="60" width="20" height="15" fill="'+config.skin+'" stroke="rgba(0,0,0,0.1)" stroke-width="2"/>') +
+                    hairPath + robotFeatures + glasses + eyes + eyelids + mouth +
+                '</svg>';
+            }
+
+            Object.keys(avatarConfigs).forEach(id => {
+                const container = document.getElementById(id);
+                if(container) {
+                    container.innerHTML = generateSVG(avatarConfigs[id]);
+                }
             });
 
-            // The Jaw Easing Engine
-            // This runs continuously. If a character is the 'activeSpeaker', their jaw drops randomly to simulate speech.
+            // Lip Sync Engine
             setInterval(() => {
-                avatars.forEach(av => {
-                    const jaw = document.getElementById(`jaw-${av.speaker}`);
-                    if (!jaw) return;
-                    
-                    if (window.activeSpeaker === av.speaker) {
-                        // Drop jaw between 2% and 12% to reveal the mouth void behind it
-                        const drop = Math.random() * 10 + 2; 
-                        jaw.style.transform = `translateY(${drop}%)`;
+                Object.keys(avatarConfigs).forEach(id => {
+                    const container = document.getElementById(id);
+                    if(!container) return;
+                    const mouth = container.querySelector('.avatar-mouth');
+                    if(!mouth) return;
+
+                    let speakerMap = {
+                        'guide-avatar': 'guide',
+                        'avatar-alex': 'alex',
+                        'avatar-maya': 'maya',
+                        'avatar-david': 'david',
+                        'ai-hr-orb': 'sarah'
+                    };
+
+                    if(window.activeSpeaker === speakerMap[id]) {
+                        // Talking (rapid scaling to simulate syllables)
+                        let scaleY = Math.random() * 3.5 + 1; // scale height
+                        let scaleX = Math.random() * 0.4 + 0.8; // scale width
+                        mouth.style.transform = `scale(${scaleX}, ${scaleY})`;
                     } else {
-                        // Keep mouth firmly closed
-                        jaw.style.transform = `translateY(0%)`;
+                        // Silent
+                        mouth.style.transform = `scale(1, 1)`;
                     }
                 });
-            }, 80); // Fast interval for realistic, jittery syllable movement
+            }, 80); // 80ms interval for fast, snappy lip movement
+
+            // Blinking Engine
+            setInterval(() => {
+                Object.keys(avatarConfigs).forEach(id => {
+                    const container = document.getElementById(id);
+                    if(!container) return;
+                    const eyelids = container.querySelectorAll('.avatar-eyelid');
+                    if(!eyelids.length) return;
+
+                    if(Math.random() < 0.05) { // 5% chance to blink
+                        eyelids.forEach(lid => lid.style.transform = 'scaleY(1)');
+                        setTimeout(() => {
+                            eyelids.forEach(lid => lid.style.transform = 'scaleY(0)');
+                        }, 150);
+                    }
+                });
+            }, 200);
         }
 
         window.addEventListener('load', () => {
