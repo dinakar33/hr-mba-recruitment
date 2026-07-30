@@ -36,6 +36,7 @@
         .admin-only-flex { display: none; }
         body.admin-mode .admin-only-flex { display: flex; }
 
+        /* AI Dark Mode Styles */
         body.ai-mode { background-color: #0f172a; color: #f1f5f9; }
         body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgba(51, 65, 85, 0.8); color: #f8fafc; }
         body.ai-mode h2, body.ai-mode h3, body.ai-mode p, body.ai-mode span, body.ai-mode label { color: #f8fafc !important; }
@@ -54,10 +55,23 @@
         .is-talking { animation: talk-bounce 0.4s ease-in-out infinite alternate !important; border: 4px solid #60a5fa !important; }
         .is-listening { animation: listen-pulse 1.5s infinite !important; border: 4px solid #10b981 !important; }
         
-        .gd-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        @keyframes head-bob {
+            0% { transform: rotate(-3deg) translateY(2px); }
+            100% { transform: rotate(3deg) translateY(-2px); }
+        }
+
+        .gd-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; transform-origin: bottom center; }
         body.ai-mode .gd-avatar { background: #334155; }
         .gd-avatar canvas { width: 100% !important; height: 100% !important; display: block; outline: none; border-radius: 50%; }
         
+        /* Apply breathing globally, and bobbing only when talking */
+        .avatar-breathing { animation: breathe 4s infinite ease-in-out; }
+        .avatar-talking { animation: head-bob 1s infinite alternate ease-in-out !important; }
+
         #global-ai-guide { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateX(200%); }
         #global-ai-guide.visible { transform: translateX(0); }
         
@@ -73,7 +87,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
                     <h1 class="text-3xl font-extrabold tracking-tight">HR Blog</h1>
-                    <p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth.</p>
+                    <p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth. <span class="bg-brand-500 text-white px-2 py-0.5 rounded ml-2 text-xs font-bold">v2.0</span></p>
                 </div>
                 
                 <div class="flex items-center space-x-6">
@@ -123,7 +137,7 @@
 
     <div id="global-ai-guide" class="fixed bottom-6 right-6 z-50 flex items-center space-x-4 bg-slate-900 text-white p-4 rounded-full shadow-2xl border-4 border-brand-400">
         <div class="text-sm font-bold w-48 text-right hidden md:block" id="guide-text">Systems initializing...</div>
-        <div id="guide-avatar" class="gd-avatar w-16 h-16 border-2 border-brand-400" style="width: 64px; height: 64px;">
+        <div id="guide-avatar" class="gd-avatar avatar-breathing w-16 h-16 border-2 border-brand-400" style="width: 64px; height: 64px;">
             <!-- Canvas injected here by JS -->
         </div>
     </div>
@@ -268,15 +282,15 @@
                     <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
                         <div class="flex space-x-4 justify-center mb-6">
                             <div class="text-center">
-                                <div id="avatar-alex" class="gd-avatar border-blue-400"></div>
+                                <div id="avatar-alex" class="gd-avatar avatar-breathing border-blue-400"></div>
                                 <span class="text-xs font-bold mt-2 block">Alex (Analytical)</span>
                             </div>
                             <div class="text-center">
-                                <div id="avatar-maya" class="gd-avatar border-pink-400"></div>
+                                <div id="avatar-maya" class="gd-avatar avatar-breathing border-pink-400"></div>
                                 <span class="text-xs font-bold mt-2 block">Maya (Creative)</span>
                             </div>
                             <div class="text-center">
-                                <div id="avatar-david" class="gd-avatar border-green-400"></div>
+                                <div id="avatar-david" class="gd-avatar avatar-breathing border-green-400"></div>
                                 <span class="text-xs font-bold mt-2 block">David (Pragmatic)</span>
                             </div>
                         </div>
@@ -321,7 +335,7 @@
             </div>
 
             <div class="glass-card p-10 rounded-xl shadow-sm max-w-4xl mx-auto flex flex-col items-center border border-gray-200/50 relative overflow-hidden">
-                <div id="ai-hr-orb" class="gd-avatar shadow-2xl transition-all duration-300 mb-6 border-4 border-brand-400 relative z-10" style="width: 150px; height: 150px;">
+                <div id="ai-hr-orb" class="gd-avatar avatar-breathing shadow-2xl transition-all duration-300 mb-6 border-4 border-brand-400 relative z-10" style="width: 150px; height: 150px;">
                     <!-- Canvas injected here -->
                 </div>
                 
@@ -418,8 +432,8 @@
                     <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-coins mr-2 text-blue-500"></i>1. Compensation & CTC Breakdowns</h3>
                     <p class="text-sm mb-6 text-slate-600">Understand Base vs. Variable Pay, Provident Funds, and Gratuity. Do not let hidden components lower your in-hand salary expectations.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/Qz1VhbNjboE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/UqjZEC2Ykb4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/Qz1VhbNjboE?si=WqFq057njlqp0ocb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/UqjZEC2Ykb4?si=5Yf-fGJ-eAXGg-Ou" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
 
@@ -427,8 +441,8 @@
                     <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-shield-halved mr-2 text-pink-500"></i>2. Prevention of Sexual Harassment (POSH)</h3>
                     <p class="text-sm mb-6 text-slate-600">Learn about the 2013 Act, Vishakha Guidelines, mandatory Internal Complaints Committees (ICC), and your rights to a safe workplace environment.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/M8C2B949BqA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/tEulz5dqQL4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/M8C2B949BqA?si=DXddUt1YXOrBTig0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/tEulz5dqQL4?si=LH05s_AwAX2m2P2M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
 
@@ -436,8 +450,8 @@
                     <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-file-signature mr-2 text-amber-500"></i>3. Notice Periods & Severance</h3>
                     <p class="text-sm mb-6 text-slate-600">Understand legal enforceable limits, early resignation buyouts, probation vs. confirmed employee rights, and severance packages.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/rsdpxkqiRZA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/7ePoEuDdM_k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/rsdpxkqiRZA?si=eEhHZ7v4aOuvdFqD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/7ePoEuDdM_k?si=fz1brC09r2NwLltV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
 
@@ -445,8 +459,8 @@
                     <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-clock mr-2 text-green-500"></i>4. Working Hours & Overtime</h3>
                     <p class="text-sm mb-6 text-slate-600">Statutory caps under the New Labour Codes, definition of standard shifts, breaks, and eligibility criteria for overtime compensation.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/60vqSpXut7Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/VMTlvc-wiyA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/60vqSpXut7Y?si=TP9qLXnVi8QgTUyd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/VMTlvc-wiyA?si=2zBKTtiVmdledPW2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -454,29 +468,59 @@
 
         <section id="tab-about" class="tab-content">
             <div class="mb-8">
-                <h2 class="text-2xl font-bold text-slate-800">Academic Modules & Curriculum Mapping</h2>
-                <p class="text-slate-500 mt-2">How this platform bridges classroom theory with real-world HR technology.</p>
+                <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & Curriculum Mapping</h2>
+                <p class="text-slate-500 mt-2 text-lg">Detailed analysis of how this platform bridges postgraduate classroom theory with real-world HR technology execution.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass-card p-6 rounded-xl shadow-sm border-t-4 border-t-brand-500">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2"><i class="fa-solid fa-users-gear text-brand-500 mr-2"></i>1. Talent Acquisition & ATS</h3>
-                    <p class="text-sm text-slate-600">Demonstrates the mechanics of automated resume screening. Students learn how keyword density, formatting, and structural parsing dictate candidate shortlisting before human intervention.</p>
+            
+            <div class="grid grid-cols-1 gap-8">
+                <div class="glass-card p-8 rounded-xl shadow-md border-l-8 border-l-brand-500">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-4"><i class="fa-solid fa-users-gear text-brand-500 mr-3"></i>1. Talent Acquisition & ATS Analytics</h3>
+                    <p class="text-slate-600 mb-4 leading-relaxed">The <strong>Stage 1 ATS Audit</strong> demonstrates the foundational mechanics of automated resume screening used by Fortune 500 companies. It actively explores:</p>
+                    <ul class="list-disc list-inside text-slate-600 space-y-2 ml-4">
+                        <li><strong>Term Frequency-Inverse Document Frequency (TF-IDF):</strong> How algorithms weight specific corporate keywords against general vocabulary to determine candidate relevance.</li>
+                        <li><strong>Algorithmic Bias & Formatting Constraints:</strong> Demonstrating how complex PDF layouts (tables, dual columns) fail parsing engines, leading to false negatives in the recruitment funnel.</li>
+                        <li><strong>Boolean Search Logic:</strong> How HR professionals use AND/OR/NOT operators to build the very keyword arrays this system scans against.</li>
+                    </ul>
                 </div>
-                <div class="glass-card p-6 rounded-xl shadow-sm border-t-4 border-t-purple-500">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2"><i class="fa-solid fa-brain text-purple-500 mr-2"></i>2. Organizational Behavior (OB)</h3>
-                    <p class="text-sm text-slate-600">Maps to OB concepts through the initial psychological archetype assessment and the Virtual GD, exploring group dynamics, cognitive biases, and collaborative problem-solving.</p>
+
+                <div class="glass-card p-8 rounded-xl shadow-md border-l-8 border-l-purple-500">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-4"><i class="fa-solid fa-brain text-purple-500 mr-3"></i>2. Organizational Behavior (OB)</h3>
+                    <p class="text-slate-600 mb-4 leading-relaxed">The <strong>Initial Archetype Assessment</strong> and <strong>Virtual GD</strong> are direct applications of core OB theories regarding human interaction in corporate structures:</p>
+                    <ul class="list-disc list-inside text-slate-600 space-y-2 ml-4">
+                        <li><strong>Tuckman's Stages of Group Development:</strong> The Virtual GD forces candidates to navigate Forming, Storming, and Norming phases rapidly with distinct AI personality types (Analytical, Creative, Pragmatic).</li>
+                        <li><strong>Behavioral Profiling:</strong> The archetype generation mirrors standard corporate psychometric tools (like DiSC or MBTI) to predict conflict resolution styles.</li>
+                        <li><strong>Cognitive Biases:</strong> The platform highlights the dangers of the Halo Effect and Confirmation Bias by strictly separating the automated quantitative scoring from the Admin's subjective qualitative override.</li>
+                    </ul>
                 </div>
-                <div class="glass-card p-6 rounded-xl shadow-sm border-t-4 border-t-green-500">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2"><i class="fa-solid fa-chess-knight text-green-500 mr-2"></i>3. Strategic HRM (SHRM)</h3>
-                    <p class="text-sm text-slate-600">The 7-question STAR method interview applies SHRM principles, assessing a candidate's strategic alignment, resilience, and executive potential under simulated pressure.</p>
+
+                <div class="glass-card p-8 rounded-xl shadow-md border-l-8 border-l-green-500">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-4"><i class="fa-solid fa-chess-knight text-green-500 mr-3"></i>3. Strategic HRM (SHRM)</h3>
+                    <p class="text-slate-600 mb-4 leading-relaxed">The <strong>Stage 4 AI Interview</strong> is built strictly upon SHRM best practices for predictive candidate success:</p>
+                    <ul class="list-disc list-inside text-slate-600 space-y-2 ml-4">
+                        <li><strong>The STAR Method Validation:</strong> Questions are explicitly designed to force Situation, Task, Action, and Result formatting, the gold standard for behavioral consistency validation.</li>
+                        <li><strong>Predictive Validity:</strong> Structuring the interview to measure competencies (resilience under tight time budgets, stakeholder influence) rather than just technical skill.</li>
+                        <li><strong>Strategic Alignment:</strong> Assessing if a candidate's core philosophy prioritizes long-term employee well-being alongside aggressive quarterly corporate metrics.</li>
+                    </ul>
                 </div>
-                <div class="glass-card p-6 rounded-xl shadow-sm border-t-4 border-t-amber-500">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2"><i class="fa-solid fa-scale-balanced text-amber-500 mr-2"></i>4. Industrial Relations & Labor Law</h3>
-                    <p class="text-sm text-slate-600">The Labor Rights module directly tackles statutory compliance, covering the POSH Act 2013, CTC structuring, severance limitations, and mandatory working hour caps.</p>
+
+                <div class="glass-card p-8 rounded-xl shadow-md border-l-8 border-l-amber-500">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-4"><i class="fa-solid fa-scale-balanced text-amber-500 mr-3"></i>4. Industrial Relations & Labor Law</h3>
+                    <p class="text-slate-600 mb-4 leading-relaxed">The <strong>Labor Rights Module</strong> provides critical statutory literacy necessary for ethical HR management and personal career protection:</p>
+                    <ul class="list-disc list-inside text-slate-600 space-y-2 ml-4">
+                        <li><strong>The POSH Act 2013:</strong> Understanding the legal mandates for Internal Complaints Committees (ICC) and the definitions of safe workplace environments.</li>
+                        <li><strong>CTC Structuring & Taxation:</strong> Breaking down Base Pay versus Variable Pay, Gratuity eligibility, and Provident Fund (EPF) statutory contributions.</li>
+                        <li><strong>Severance & Notice Periods:</strong> The legal enforceability of non-compete clauses, notice period buyouts, and termination severance under current labor codes.</li>
+                    </ul>
                 </div>
-                <div class="glass-card p-6 rounded-xl shadow-sm border-t-4 border-t-blue-500 md:col-span-2">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2"><i class="fa-solid fa-network-wired text-blue-500 mr-2"></i>5. HR Information Systems (HRIS)</h3>
-                    <p class="text-sm text-slate-600">The cloud-synced backend acts as a live HRIS, demonstrating real-time data flow, automated talent passport generation, and administrative override capabilities.</p>
+
+                <div class="glass-card p-8 rounded-xl shadow-md border-l-8 border-l-blue-500">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-4"><i class="fa-solid fa-network-wired text-blue-500 mr-3"></i>5. HR Information Systems (HRIS) & Analytics</h3>
+                    <p class="text-slate-600 mb-4 leading-relaxed">The <strong>Cloud-Synced Backend</strong> and <strong>Executive Passport</strong> function as a live demonstration of a modern HRIS architecture:</p>
+                    <ul class="list-disc list-inside text-slate-600 space-y-2 ml-4">
+                        <li><strong>Real-Time Data Streaming:</strong> How NoSQL cloud databases (Firebase) instantly push candidate metadata to administrative dashboards without page refreshes.</li>
+                        <li><strong>Quantitative Readiness Indexing:</strong> Aggregating disparate data points (ATS scores, cognitive agility, behavioral sentiment) into a single, actionable executive metric.</li>
+                        <li><strong>Automated Reporting:</strong> Utilizing API hooks to generate and dispatch formatted corporate dossiers directly to candidate email systems (Gmail integration).</li>
+                    </ul>
                 </div>
             </div>
         </section>
@@ -618,11 +662,19 @@
                 document.getElementById('interview-controls').classList.remove('hidden');
                 document.getElementById('interview-controls').classList.add('flex');
                 
+                // Add animated classes
+                document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
+
                 guide.classList.add('visible');
                 guideText.innerText = "AI Protocol Activated.";
+                
                 window.activeSpeaker = 'guide'; 
+                document.getElementById('guide-avatar').classList.add('avatar-talking');
+                
                 await window.speakAIPromise("AI Protocol Activated. I will guide you through this assessment.", 'female', 1.1, 1);
+                
                 window.activeSpeaker = null;
+                document.getElementById('guide-avatar').classList.remove('avatar-talking');
                 guideText.innerText = "Please complete the Onboarding tab to begin.";
             } else {
                 body.classList.remove('ai-mode');
@@ -633,6 +685,10 @@
                 document.getElementById('interview-controls').classList.add('hidden');
                 document.getElementById('interview-controls').classList.remove('flex');
                 
+                document.querySelectorAll('.gd-avatar').forEach(el => {
+                    el.classList.remove('avatar-breathing', 'avatar-talking');
+                });
+
                 guide.classList.remove('visible');
                 window.speechSynthesis.cancel();
                 window.activeSpeaker = null;
@@ -698,8 +754,10 @@
                 if(window.isAIMode) {
                     document.getElementById('guide-text').innerText = "ATS Scan Complete.";
                     window.activeSpeaker = 'guide';
+                    document.getElementById('guide-avatar').classList.add('avatar-talking');
                     await window.speakAIPromise(`ATS Scan complete. I detected ${window.userData.ats_score} percent of our required core competencies in your document.`, 'female');
                     window.activeSpeaker = null;
+                    document.getElementById('guide-avatar').classList.remove('avatar-talking');
                 }
                 
             } catch (err) {
@@ -769,8 +827,10 @@
             if(window.isAIMode) {
                 document.getElementById('guide-text').innerText = "10 minutes on the clock. Go.";
                 window.activeSpeaker = 'guide';
+                document.getElementById('guide-avatar').classList.add('avatar-talking');
                 await window.speakAIPromise("The clock is ticking. You have exactly 10 minutes to complete these 25 cognitive scenarios. Go.", 'female');
                 window.activeSpeaker = null;
+                document.getElementById('guide-avatar').classList.remove('avatar-talking');
             }
 
             quizTimerInterval = setInterval(() => {
@@ -806,15 +866,19 @@
                 window.showMessage(`Time's up! Auto-submitted. Score: ${score}/100.`);
                 if(window.isAIMode) {
                     window.activeSpeaker = 'guide';
+                    document.getElementById('guide-avatar').classList.add('avatar-talking');
                     await window.speakAIPromise(`Time is up. I have auto-submitted your assessment. You scored ${score} out of 100.`, 'female');
                     window.activeSpeaker = null;
+                    document.getElementById('guide-avatar').classList.remove('avatar-talking');
                 }
             } else {
                 window.showMessage(`Test Submitted! You scored ${score}/100.`);
                 if(window.isAIMode) {
                     window.activeSpeaker = 'guide';
+                    document.getElementById('guide-avatar').classList.add('avatar-talking');
                     await window.speakAIPromise(`Evaluation complete. You scored ${score} out of 100 on the cognitive aptitude test.`, 'female');
                     window.activeSpeaker = null;
+                    document.getElementById('guide-avatar').classList.remove('avatar-talking');
                 }
             }
             
@@ -825,26 +889,30 @@
         let gdRecording = false;
         let gdFinalText = "";
         
+        async function setSpeaker(id, name, text, voiceType, pitch, rate) {
+            window.activeSpeaker = id;
+            document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
+            if(id) {
+                const avatar = document.getElementById(id === 'sarah' ? 'ai-hr-orb' : `avatar-${id}`);
+                if(avatar) avatar.classList.add('avatar-talking');
+            }
+            
+            writeTranscript('gd-transcript', name, text); 
+            await window.speakAIPromise(text, voiceType, pitch, rate);
+            
+            window.activeSpeaker = null;
+            document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
+        }
+
         window.startAIGD = async function() {
             const btn = document.getElementById('aiVoiceBtn4');
             btn.disabled = true;
             document.getElementById('gd-transcript').innerHTML = "";
             writeTranscript('gd-transcript', 'System', 'Initiating AI Candidate Evaluation Simulator...');
 
-            window.activeSpeaker = 'alex';
-            writeTranscript('gd-transcript', 'Alex', 'Implementing AI in performance reviews is a necessary evolution. It removes bias and standardizes metrics.'); 
-            await window.speakAIPromise("Implementing AI in performance reviews is a necessary evolution. It completely removes human bias and standardizes metrics across the board.", 'male1', 0.9, 1.1);
-            window.activeSpeaker = null;
-
-            window.activeSpeaker = 'maya';
-            writeTranscript('gd-transcript', 'Maya', 'I strongly disagree, Alex. Algorithms are trained on historical data, which inherently contains human biases.'); 
-            await window.speakAIPromise("I strongly disagree, Alex. Algorithms are trained on historical data, which inherently contains human biases. We risk automating and hiding discrimination.", 'female', 1.1, 1.05);
-            window.activeSpeaker = null;
-
-            window.activeSpeaker = 'david';
-            writeTranscript('gd-transcript', 'David', 'Both are valid points. The key lies in hybrid implementation. Candidate, what is your stance?'); 
-            await window.speakAIPromise("Both are valid points. The key lies in hybrid implementation. AI for quantitative data, humans for qualitative nuance. Candidate, what is your stance?", 'male2', 0.85, 0.95);
-            window.activeSpeaker = null;
+            await setSpeaker('alex', 'Alex', "Implementing AI in performance reviews is a necessary evolution. It completely removes human bias and standardizes metrics across the board.", 'male1', 0.9, 1.1);
+            await setSpeaker('maya', 'Maya', "I strongly disagree, Alex. Algorithms are trained on historical data, which inherently contains human biases. We risk automating and hiding discrimination.", 'female', 1.1, 1.05);
+            await setSpeaker('david', 'David', "Both are valid points. The key lies in hybrid implementation. AI for quantitative data, humans for qualitative nuance. Candidate, what is your stance?", 'male2', 0.85, 0.95);
 
             writeTranscript('gd-transcript', 'System', 'Mic active. Candidate, hold the mic button to share your perspective.');
             document.getElementById('gd-mic-zone').classList.remove('hidden');
@@ -876,10 +944,7 @@
             
             if (gdStep === 1) {
                 setTimeout(async () => {
-                    window.activeSpeaker = 'alex';
-                    writeTranscript('gd-transcript', 'Alex', 'Interesting perspective. But how do you ensure transparency if the AI logic is a black box? Explain your audit strategy.');
-                    await window.speakAIPromise("Interesting perspective. But how do you ensure transparency if the AI logic is a black box? Explain your audit strategy.", 'male1', 0.9, 1.1);
-                    window.activeSpeaker = null;
+                    await setSpeaker('alex', 'Alex', "Interesting perspective. But how do you ensure transparency if the AI logic is a black box? Explain your audit strategy.", 'male1', 0.9, 1.1);
                     
                     writeTranscript('gd-transcript', 'System', 'Mic active. Defend your point.');
                     document.getElementById('gd-mic-zone').classList.remove('hidden');
@@ -887,18 +952,19 @@
                 }, 1000);
             } else if (gdStep === 2) {
                 setTimeout(async () => {
-                    window.activeSpeaker = 'maya';
-                    writeTranscript('gd-transcript', 'Maya', 'That requires heavy auditing infrastructure, but it is a solid conclusion. Let us wrap up this session.');
-                    await window.speakAIPromise("That requires heavy auditing infrastructure, but it is a solid conclusion. Let us wrap up this session.", 'female', 1.1, 1.05);
-                    window.activeSpeaker = null;
+                    await setSpeaker('maya', 'Maya', "That requires heavy auditing infrastructure, but it is a solid conclusion. Let us wrap up this session.", 'female', 1.1, 1.05);
                     
                     let score = 25 + Math.floor(Math.random() * 5); 
                     window.userData.gd_score = score;
                     await syncToCloud();
                     writeTranscript('gd-transcript', 'System', `Candidate evaluation complete. Score synced: ${score}/30`);
+                    
                     window.activeSpeaker = 'guide';
+                    document.getElementById('guide-avatar').classList.add('avatar-talking');
                     await window.speakAIPromise(`Simulation concluded. I have analyzed your vocabulary and assigned a score of ${score} out of 30.`, 'female', 1, 1);
                     window.activeSpeaker = null;
+                    document.getElementById('guide-avatar').classList.remove('avatar-talking');
+                    
                     document.getElementById('aiVoiceBtn4').innerText = "Simulation Complete";
                 }, 1000);
             }
@@ -927,19 +993,23 @@
 
         async function askNextInterviewQuestion() {
             if (interviewStep < interviewQuestions.length) {
-                window.activeSpeaker = 'sarah';
                 let q = interviewQuestions[interviewStep];
+                window.activeSpeaker = 'sarah';
+                document.getElementById('ai-hr-orb').classList.add('avatar-talking');
                 writeTranscript('interview-transcript', 'HR Director Sarah', q);
                 await window.speakAIPromise(q, 'female', 1.05, 0.95);
                 window.activeSpeaker = null;
+                document.getElementById('ai-hr-orb').classList.remove('avatar-talking');
                 
                 document.getElementById('interview-mic-zone').classList.remove('hidden');
                 document.getElementById('interview-mic-zone').classList.add('flex');
             } else {
                 window.activeSpeaker = 'sarah';
+                document.getElementById('ai-hr-orb').classList.add('avatar-talking');
                 writeTranscript('interview-transcript', 'HR Director Sarah', 'Excellent. That concludes our 7 questions. I have logged your responses for final evaluation.');
                 await window.speakAIPromise("Excellent. That concludes our 7 questions. I have logged your responses for final evaluation.", 'female', 1.05, 0.95);
                 window.activeSpeaker = null;
+                document.getElementById('ai-hr-orb').classList.remove('avatar-talking');
                 
                 let score = 88 + Math.floor(Math.random() * 10); 
                 window.userData.interview_score = score;
@@ -1088,9 +1158,14 @@
             let text = `Candidate ${window.userData.name}. Processing complete. Your calculated readiness index is ${total}. You have exhibited the traits of a ${window.userData.archetype}. Your ATS and Cognitive scores indicate strong domain literacy. Ensure you review the Labor Rights masterclasses before proceeding to onboarding.`;
             document.getElementById('guide-text').innerText = "Playing Executive Audio Debrief.";
             document.getElementById('global-ai-guide').classList.add('visible');
+            
             window.activeSpeaker = 'guide';
+            document.getElementById('guide-avatar').classList.add('avatar-talking');
+            
             await window.speakAIPromise(text, 'female', 1, 0.95);
+            
             window.activeSpeaker = null;
+            document.getElementById('guide-avatar').classList.remove('avatar-talking');
         }
 
         window.emailDetailedReport = function() {
@@ -1130,7 +1205,8 @@
         }
 
         function initRealisticAvatars() {
-            console.log("Avatar Engine Initializing...");
+            console.log("Fluid Easing Avatar Engine Initializing...");
+            
             function createAvatar(containerId, imageUrl, skinColorHex, speakerId) {
                 const container = document.getElementById(containerId);
                 if (!container) return;
@@ -1149,78 +1225,87 @@
                 img.crossOrigin = "Anonymous";
                 img.src = imageUrl;
                 
-                let blinkTimer = 0;
-                let isBlinking = false;
-                let talkPhase = 0;
+                // Animation State Variables
+                let currentJaw = 0;
+                let targetJaw = 0;
+                let talkTick = 0;
+                
+                let currentBlink = 0;
+                let targetBlink = 0;
                 
                 img.onload = () => {
                     function animate() {
                         requestAnimationFrame(animate);
                         ctx.clearRect(0, 0, canvas.width, canvas.height);
                         
-                        // Draw Base Face
+                        // 1. Draw Base Face
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                         
                         const isTalking = (window.activeSpeaker === speakerId);
                         
-                        // Exaggerated Jaw Drop / Lip-Sync Logic
+                        // 2. Jaw Easing Logic
                         if (isTalking) {
-                            talkPhase += 0.8; // Fast talk speed
-                            const jawDrop = Math.abs(Math.sin(talkPhase)) * 18; // Huge jaw drop for visibility
-                            
-                            const mouthLine = canvas.height * 0.58; 
-                            
-                            // Draw inside mouth (dark)
-                            ctx.fillStyle = '#110000';
-                            ctx.fillRect(canvas.width * 0.20, mouthLine, canvas.width * 0.60, jawDrop + 2);
-                            
-                            // Redraw shifted jaw
-                            ctx.drawImage(
-                                img, 
-                                0, img.height * 0.58, img.width, img.height * 0.42, 
-                                0, mouthLine + jawDrop, canvas.width, canvas.height * 0.42 
-                            );
-                        } else {
-                            talkPhase = 0;
-                        }
-                        
-                        // Exaggerated Blinking Logic
-                        blinkTimer++;
-                        if (!isBlinking && Math.random() > 0.98 && blinkTimer > 60) { 
-                            isBlinking = true;
-                            blinkTimer = 0;
-                        }
-                        
-                        if (isBlinking) {
-                            let blinkHeight = 0;
-                            if (blinkTimer < 5) blinkHeight = (blinkTimer / 5) * 16; 
-                            else if (blinkTimer < 10) blinkHeight = ((10 - blinkTimer) / 5) * 16; 
-                            else isBlinking = false;
-                            
-                            if (blinkHeight > 0) {
-                                ctx.fillStyle = skinColorHex;
-                                ctx.beginPath();
-                                ctx.ellipse(canvas.width * 0.35, canvas.height * 0.42, 22, blinkHeight, 0, 0, Math.PI * 2);
-                                ctx.fill();
-                                ctx.beginPath();
-                                ctx.ellipse(canvas.width * 0.65, canvas.height * 0.42, 22, blinkHeight, 0, 0, Math.PI * 2);
-                                ctx.fill();
+                            talkTick++;
+                            // Change the target jaw drop randomly every 6 frames to simulate syllables
+                            if (talkTick % 6 === 0) {
+                                targetJaw = Math.random() * 25 + 5; 
                             }
+                        } else {
+                            targetJaw = 0; // Close mouth
+                        }
+                        
+                        // Smoothly interpolate current jaw position towards target
+                        currentJaw += (targetJaw - currentJaw) * 0.35;
+                        
+                        const mouthLine = canvas.height * 0.55; 
+                        
+                        // 3. Draw Mouth Interior (Dark background behind teeth)
+                        if (currentJaw > 1) {
+                            ctx.fillStyle = '#110000';
+                            ctx.fillRect(canvas.width * 0.20, mouthLine, canvas.width * 0.60, currentJaw + 2);
+                        }
+                        
+                        // 4. Draw Lower Jaw (shifted down by currentJaw)
+                        ctx.drawImage(
+                            img, 
+                            0, img.height * 0.55, img.width, img.height * 0.45, 
+                            0, mouthLine + currentJaw, canvas.width, canvas.height * 0.45 
+                        );
+                        
+                        // 5. Blinking Easing Logic
+                        if (Math.random() > 0.99 && targetBlink === 0) { 
+                            targetBlink = 20; // Snap eyes closed
+                            setTimeout(() => { targetBlink = 0; }, 150); // Open after 150ms
+                        }
+                        
+                        // Smoothly interpolate current blink height
+                        currentBlink += (targetBlink - currentBlink) * 0.5;
+                        
+                        // 6. Draw Eyelids
+                        if (currentBlink > 1) {
+                            ctx.fillStyle = skinColorHex;
+                            ctx.beginPath();
+                            ctx.ellipse(canvas.width * 0.35, canvas.height * 0.42, 22, currentBlink, 0, 0, Math.PI * 2);
+                            ctx.fill();
+                            ctx.beginPath();
+                            ctx.ellipse(canvas.width * 0.65, canvas.height * 0.42, 22, currentBlink, 0, 0, Math.PI * 2);
+                            ctx.fill();
                         }
                     }
                     animate();
                 }
                 
-                // Fallback if Unsplash image gets blocked
+                // Fallback if Unsplash image gets blocked by browser
                 img.onerror = () => {
                     ctx.fillStyle = skinColorHex;
                     ctx.fillRect(0,0, canvas.width, canvas.height);
                     ctx.fillStyle = "#fff";
-                    ctx.fillText("Avatar", 50, 75);
+                    ctx.font = "20px Arial";
+                    ctx.fillText(speakerId, 30, 75);
                 }
             }
             
-            // Photorealistic Human Portraits
+            // High-Resolution Photorealistic Human Portraits
             const sarahUrl = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
             const alexUrl = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
             const mayaUrl = "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=facearea&facepad=2.5&w=150&h=150&q=80";
