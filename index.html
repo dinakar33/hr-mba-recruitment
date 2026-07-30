@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <!-- THREE JS LIBRARY FOR 3D FACES -->
+    <!-- THREE JS LIBRARY FOR 3D AVATARS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <script>
@@ -135,7 +135,7 @@
     <div id="global-ai-guide" class="fixed bottom-6 right-6 z-50 flex items-center space-x-4 bg-slate-900 text-white p-4 rounded-full shadow-2xl border-4 border-brand-400">
         <div class="text-sm font-bold w-48 text-right hidden md:block" id="guide-text">Systems initializing...</div>
         <div id="guide-avatar" class="gd-avatar w-16 h-16 border-2 border-brand-400" style="width: 64px; height: 64px;">
-            <!-- 3D Canvas injected here by Three.js -->
+            <!-- 3D Canvas injected here -->
         </div>
     </div>
 
@@ -272,7 +272,6 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Live AI Arena with 3D Avatars -->
                 <div class="glass-card p-6 rounded-xl border-l-4 border-l-amber-500 flex flex-col min-h-[500px]">
                     <h3 class="text-xl font-bold mb-2"><i class="fa-solid fa-comments text-amber-500 mr-2"></i>Active Case Study</h3>
                     <p class="text-lg font-bold text-brand-600 mb-1">"AI in Performance Reviews"</p>
@@ -280,19 +279,16 @@
                     
                     <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
                         <div class="flex space-x-4 justify-center mb-6">
-                            <!-- 3D Avatar 1 -->
                             <div class="text-center">
-                                <div id="avatar-alex" class="gd-avatar border-blue-400"></div>
+                                <div id="avatar-alex" class="gd-avatar border-blue-400 bg-blue-900"></div>
                                 <span class="text-xs font-bold mt-2 block">Alex (Analytical)</span>
                             </div>
-                            <!-- 3D Avatar 2 -->
                             <div class="text-center">
-                                <div id="avatar-maya" class="gd-avatar border-pink-400"></div>
+                                <div id="avatar-maya" class="gd-avatar border-pink-400 bg-pink-900"></div>
                                 <span class="text-xs font-bold mt-2 block">Maya (Creative)</span>
                             </div>
-                            <!-- 3D Avatar 3 -->
                             <div class="text-center">
-                                <div id="avatar-david" class="gd-avatar border-green-400"></div>
+                                <div id="avatar-david" class="gd-avatar border-green-400 bg-emerald-900"></div>
                                 <span class="text-xs font-bold mt-2 block">David (Pragmatic)</span>
                             </div>
                         </div>
@@ -310,7 +306,6 @@
                     </div>
                 </div>
 
-                <!-- Admin Manual Override Box -->
                 <div class="glass-card p-6 rounded-xl shadow-sm admin-only border border-brand-500 h-fit">
                     <div class="flex items-center justify-between border-b border-gray-200/50 pb-3 mb-6">
                         <h3 class="text-lg font-semibold text-slate-800"><i class="fa-solid fa-clipboard-check mr-2 text-brand-500"></i>Moderator Scoring</h3>
@@ -338,8 +333,7 @@
             </div>
 
             <div class="glass-card p-10 rounded-xl shadow-sm max-w-4xl mx-auto flex flex-col items-center border border-gray-200/50 relative overflow-hidden">
-                <!-- 3D AI Avatar Orb -->
-                <div id="ai-hr-orb" class="gd-avatar shadow-2xl transition-all duration-300 mb-6 border-4 border-brand-400 relative z-10" style="width: 150px; height: 150px;">
+                <div id="ai-hr-orb" class="gd-avatar shadow-2xl transition-all duration-300 mb-6 border-4 border-brand-400 relative z-10 bg-slate-800" style="width: 150px; height: 150px;">
                 </div>
                 
                 <h3 class="text-xl font-bold mb-2">Virtual HR Director Sarah</h3>
@@ -397,7 +391,6 @@
                 </div>
             </div>
             
-            <!-- ADMIN MANUAL SCORING & GMAIL SECTION -->
             <div class="admin-only glass-card rounded-xl p-8 shadow-sm mt-8 border-l-8 border-l-brand-500">
                 <h3 class="font-bold text-xl mb-6 text-slate-800"><i class="fa-solid fa-tower-broadcast mr-2 text-brand-500"></i>Admin: Manual Scoring & Publishing</h3>
                 
@@ -432,7 +425,6 @@
             <div class="mb-8"><h2 class="text-2xl font-bold text-slate-800">Employee Rights Spotlight & Masterclasses</h2><p class="text-slate-500 mt-2">Essential regulatory knowledge every postgraduate professional must master before signing an offer letter.</p></div>
             
             <div class="grid grid-cols-1 gap-10">
-                <!-- 1. CTC -->
                 <div class="glass-card p-8 rounded-xl shadow-lg border-t-4 border-t-blue-500">
                     <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-coins mr-2 text-blue-500"></i>1. Compensation & CTC Breakdowns</h3>
                     <p class="text-sm mb-6 text-slate-600">Understand Base vs. Variable Pay, Provident Funds, and Gratuity. Do not let hidden components lower your in-hand salary expectations.</p>
@@ -442,7 +434,6 @@
                     </div>
                 </div>
 
-                <!-- 2. POSH -->
                 <div class="glass-card p-8 rounded-xl shadow-lg border-t-4 border-t-pink-500">
                     <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-shield-halved mr-2 text-pink-500"></i>2. Prevention of Sexual Harassment (POSH)</h3>
                     <p class="text-sm mb-6 text-slate-600">Learn about the 2013 Act, Vishakha Guidelines, mandatory Internal Complaints Committees (ICC), and your rights to a safe workplace environment.</p>
@@ -452,7 +443,6 @@
                     </div>
                 </div>
 
-                <!-- 3. Notice Periods -->
                 <div class="glass-card p-8 rounded-xl shadow-lg border-t-4 border-t-amber-500">
                     <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-file-signature mr-2 text-amber-500"></i>3. Notice Periods & Severance</h3>
                     <p class="text-sm mb-6 text-slate-600">Understand legal enforceable limits, early resignation buyouts, probation vs. confirmed employee rights, and severance packages.</p>
@@ -462,7 +452,6 @@
                     </div>
                 </div>
 
-                <!-- 4. Working Hours -->
                 <div class="glass-card p-8 rounded-xl shadow-lg border-t-4 border-t-green-500">
                     <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-clock mr-2 text-green-500"></i>4. Working Hours & Overtime</h3>
                     <p class="text-sm mb-6 text-slate-600">Statutory caps under the New Labour Codes, definition of standard shifts, breaks, and eligibility criteria for overtime compensation.</p>
@@ -481,7 +470,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Module 1 -->
                 <div class="module-card glass-card p-6 rounded-xl border-t-4 border-t-blue-500">
                     <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4 text-blue-600 text-xl"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
                     <h3 class="text-lg font-bold text-slate-800 mb-2">Talent Acquisition & ATS</h3>
@@ -489,7 +477,6 @@
                     <p class="text-sm text-slate-500 mt-2">Demonstrates the practical application of Applicant Tracking Systems. Uses algorithmic keyword density scanning to evaluate resumes against core competency matrices, a fundamental concept in modern e-recruitment.</p>
                 </div>
 
-                <!-- Module 2 -->
                 <div class="module-card glass-card p-6 rounded-xl border-t-4 border-t-purple-500">
                     <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4 text-purple-600 text-xl"><i class="fa-solid fa-brain"></i></div>
                     <h3 class="text-lg font-bold text-slate-800 mb-2">Organizational Behavior (OB)</h3>
@@ -497,7 +484,6 @@
                     <p class="text-sm text-slate-500 mt-2">Applies OB theory through psychological archetype surveying (Strategist, Innovator, etc.) and simulates group dynamics, conflict resolution, and persuasion through the multi-agent AI group discussion.</p>
                 </div>
 
-                <!-- Module 3 -->
                 <div class="module-card glass-card p-6 rounded-xl border-t-4 border-t-emerald-500">
                     <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-4 text-emerald-600 text-xl"><i class="fa-solid fa-comments"></i></div>
                     <h3 class="text-lg font-bold text-slate-800 mb-2">Strategic HRM (SHRM)</h3>
@@ -505,7 +491,6 @@
                     <p class="text-sm text-slate-500 mt-2">Executes behavioral interviewing techniques based on the S.T.A.R. (Situation, Task, Action, Result) methodology to predict future candidate performance based on past behavior.</p>
                 </div>
 
-                <!-- Module 4 -->
                 <div class="module-card glass-card p-6 rounded-xl border-t-4 border-t-amber-500">
                     <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mb-4 text-amber-600 text-xl"><i class="fa-solid fa-gavel"></i></div>
                     <h3 class="text-lg font-bold text-slate-800 mb-2">Industrial Relations & Law</h3>
@@ -513,7 +498,6 @@
                     <p class="text-sm text-slate-500 mt-2">Provides essential statutory literacy. Covers the legal frameworks governing employment in India, including the POSH Act 2013, the New Labour Codes, severance, and legal definitions of CTC.</p>
                 </div>
 
-                <!-- Module 5 -->
                 <div class="module-card glass-card p-6 rounded-xl border-t-4 border-t-rose-500">
                     <div class="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center mb-4 text-rose-600 text-xl"><i class="fa-solid fa-database"></i></div>
                     <h3 class="text-lg font-bold text-slate-800 mb-2">HR Information Systems (HRIS)</h3>
@@ -521,24 +505,12 @@
                     <p class="text-sm text-slate-500 mt-2">Demonstrates the backend of corporate HR management. Features real-time NoSQL database syncing, data aggregation, readiness index formulation, and automated executive reporting.</p>
                 </div>
 
-                <!-- Module 6 -->
                 <div class="module-card glass-card p-6 rounded-xl border-t-4 border-t-indigo-500">
                     <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4 text-indigo-600 text-xl"><i class="fa-solid fa-stopwatch"></i></div>
                     <h3 class="text-lg font-bold text-slate-800 mb-2">Cognitive Assessment</h3>
                     <p class="text-sm text-slate-600"><strong>Platform Feature: Stage 2 (Aptitude Test)</strong></p>
                     <p class="text-sm text-slate-500 mt-2">Utilizes time-pressured situational judgment tests (SJTs) to evaluate decision velocity, ethical compliance, and domain literacy under constrained corporate scenarios.</p>
                 </div>
-            </div>
-            
-            <div class="mt-12 bg-slate-900 text-white rounded-2xl p-8 shadow-2xl relative overflow-hidden border border-slate-700">
-                <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-brand-600 opacity-20 blur-3xl"></div>
-                <h3 class="text-2xl font-bold mb-4 flex items-center"><i class="fa-solid fa-microchip text-brand-400 mr-3"></i>Technical Architecture</h3>
-                <ul class="space-y-3 text-slate-300">
-                    <li class="flex items-start"><i class="fa-solid fa-check text-green-400 mt-1 mr-2"></i> <strong>Frontend:</strong> Pure HTML5, Tailwind CSS, and Vanilla JavaScript for zero-dependency, ultra-fast loading.</li>
-                    <li class="flex items-start"><i class="fa-solid fa-check text-green-400 mt-1 mr-2"></i> <strong>Backend:</strong> Google Firebase Realtime Database with Anonymous Authentication for instant, secure synchronization between candidates and the administrative panel.</li>
-                    <li class="flex items-start"><i class="fa-solid fa-check text-green-400 mt-1 mr-2"></i> <strong>Graphics Engine:</strong> Three.js WebGL implementing Physically Based Rendering (PBR) for dynamic, procedurally generated 3D avatars with custom lip-sync algorithms.</li>
-                    <li class="flex items-start"><i class="fa-solid fa-check text-green-400 mt-1 mr-2"></i> <strong>AI Engine:</strong> Native Web Speech API (`SpeechSynthesis` and `webkitSpeechRecognition`) for zero-latency, free text-to-speech and voice transcription.</li>
-                </ul>
             </div>
         </section>
 
@@ -549,9 +521,8 @@
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // REAL FIREBASE CONFIGURATION
         const firebaseConfig = {
-            apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ", // ⚠️ PERFECT KEY ⚠️
+            apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
             authDomain: "hr-blog-app.firebaseapp.com",
             databaseURL: "https://hr-blog-app-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "hr-blog-app",
@@ -564,18 +535,16 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Global App State
         const APP_ID = 'hr-blog-app'; 
         window.isAdmin = false;
         window.adminSelectedId = null;
         window.candidateId = null;
         window.isAIMode = false;
-        window.activeSpeaker = null; // Controls 3D Mouth animations
+        window.activeSpeaker = null; 
         window.userData = { name: "", email: "", archetype: "Not Evaluated", ats_score: 0, test_score: 0, gd_score: 0, interview_score: 0, published: false };
         let unsubscribeStudent = null;
         let unsubscribeAdmin = null;
 
-        // Ensure 3D Canvases resize when tabs change
         window.switchTab = function(tabId, btn) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('bg-brand-700', 'text-white', 'active'); b.classList.add('text-brand-100'); });
@@ -583,8 +552,9 @@
             btn.classList.remove('text-brand-100'); btn.classList.add('bg-brand-700', 'text-white', 'active');
             if(tabId === 'tab-passport') window.updatePassportUI();
             
-            // Dispatch resize so Three.js catches the tab opening and resizes its canvases
-            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 50);
+            // Force 3D canvases to measure their new visible size instantly to prevent disappearing
+            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 10);
+            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 100);
         }
 
         window.showMessage = function(text, type = 'success') {
@@ -595,7 +565,6 @@
             setTimeout(() => { box.classList.add('hidden'); }, 5000);
         }
 
-        // Connect to Firebase
         signInAnonymously(auth).then((userCredential) => {
             window.candidateId = userCredential.user.uid;
             listenToStudentData();
@@ -621,7 +590,6 @@
             await setDoc(docRef, window.userData, { merge: true });
         }
 
-        // --- STREAMING_CHUNK:AI Voice & Onboarding ---
         window.saveProfile = async function() {
             if (!window.candidateId) { window.showMessage("Database not ready yet.", "error"); return; }
             const name = document.getElementById('candName').value.trim();
@@ -636,7 +604,6 @@
             window.showMessage("Profile Locked & Synced.");
         }
 
-        // Native Speech Synthesis Setup
         window.voicesLoaded = false;
         window.aiVoices = { male1: null, female1: null, male2: null };
 
@@ -684,15 +651,13 @@
                 document.getElementById('aiVoiceBtn4').classList.remove('hidden');
                 document.getElementById('aiVoiceBtn5').classList.remove('hidden');
                 
-                // Enable GD and Interview
                 document.getElementById('gd-arena').classList.remove('opacity-50', 'pointer-events-none');
                 document.getElementById('interview-controls').classList.remove('hidden');
                 document.getElementById('interview-controls').classList.add('flex');
                 
-                // Show Guide & Speak
                 guide.classList.add('visible');
                 guideText.innerText = "AI Protocol Activated. I will guide you through this assessment.";
-                window.activeSpeaker = 'guide'; // Trigger 3D mouth
+                window.activeSpeaker = 'guide'; 
                 await window.speakAIPromise("AI Protocol Activated. I will guide you through this assessment.", 'female', 1.1, 1);
                 window.activeSpeaker = null;
                 guideText.innerText = "Please complete the Onboarding tab to begin.";
@@ -701,22 +666,18 @@
                 document.getElementById('aiVoiceBtn4').classList.add('hidden');
                 document.getElementById('aiVoiceBtn5').classList.add('hidden');
                 
-                // Disable GD and Interview
                 document.getElementById('gd-arena').classList.add('opacity-50', 'pointer-events-none');
                 document.getElementById('interview-controls').classList.add('hidden');
                 document.getElementById('interview-controls').classList.remove('flex');
                 
-                // Hide Guide
                 guide.classList.remove('visible');
                 window.speechSynthesis.cancel();
                 window.activeSpeaker = null;
             }
             
-            // Force redraw of 3D canvas
             setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 100);
         }
 
-        // Native Speech Recognition Setup
         window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition = null;
         if(window.SpeechRecognition) {
@@ -738,9 +699,8 @@
             const el = document.getElementById(id);
             if(!el) return;
             el.classList.remove('is-talking', 'is-listening');
-            if(state) el.classList.add(state); // CSS glows
+            if(state) el.classList.add(state);
             
-            // Set global 3D speaker target for lip sync
             if(state === 'is-talking') {
                 if(id.includes('alex')) window.activeSpeaker = 'alex';
                 else if(id.includes('maya')) window.activeSpeaker = 'maya';
@@ -751,7 +711,6 @@
             }
         }
 
-        // --- STREAMING_CHUNK:ATS Logic ---
         const pdfjsLib = window['pdfjs-dist/build/pdf'];
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
@@ -807,7 +766,6 @@
             }
         }
 
-        // --- STREAMING_CHUNK:Aptitude Test Logic ---
         const aptitudeQuestions = [
             { q: "What is the primary objective of a 360-degree performance appraisal?", options: ["To evaluate 360 employees per cycle", "To collect multi-directional feedback from peers, reports, and supervisors", "To replace traditional KPIs", "To provide the CEO with direct tactical data"], ans: 1 },
             { q: "Which metric mathematically indicates recruitment lifecycle efficiency?", options: ["Total applicant volume", "Cost per hire and time-to-fill ratio", "Employee turnover percentage", "Mandatory training hours completed"], ans: 1 },
@@ -837,15 +795,14 @@
         ];
 
         let quizTimerInterval;
-        let quizTimeLeft = 600; // 10 minutes
+        let quizTimeLeft = 600;
 
         window.renderQuiz = function() {
             const container = document.getElementById('quizContainer');
             if(!container) return;
             container.innerHTML = '';
             aptitudeQuestions.forEach((item, index) => {
-                // Ensure no white backgrounds override the dark mode text
-                let html = `<div class="p-5 rounded-lg border border-slate-300 bg-slate-50/10 shadow-sm mb-4">
+                let html = `<div class="p-5 rounded-lg border border-slate-300 bg-slate-50/10 shadow-sm mb-4 text-slate-800">
                     <p class="font-bold text-sm mb-3">${index + 1}. ${item.q}</p>
                     <div class="space-y-2">`;
                 item.options.forEach((opt, oIndex) => {
@@ -916,11 +873,9 @@
                 }
             }
             
-            // Disable inputs
             document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
         }
 
-        // --- STREAMING_CHUNK:Stage 3 Virtual GD Logic ---
         let gdStep = 0;
         let gdRecording = false;
         let gdFinalText = "";
@@ -931,25 +886,21 @@
             document.getElementById('gd-transcript').innerHTML = "";
             writeTranscript('gd-transcript', 'System', 'Initiating 7-Turn AI Candidate Evaluation Simulator...');
 
-            // TURN 1: Alex
             setAvatarState('avatar-alex', 'is-talking');
             writeTranscript('gd-transcript', 'Alex', 'Implementing AI in performance reviews is a necessary evolution. It completely removes human bias and standardizes metrics across the board.'); 
             await window.speakAIPromise("Implementing AI in performance reviews is a necessary evolution. It completely removes human bias and standardizes metrics across the board.", 'male1', 0.9, 1.1);
             setAvatarState('avatar-alex', null);
 
-            // TURN 2: Maya
             setAvatarState('avatar-maya', 'is-talking');
             writeTranscript('gd-transcript', 'Maya', 'I strongly disagree, Alex. Algorithms are trained on historical data, which inherently contains human biases. We risk automating and hiding discrimination.'); 
             await window.speakAIPromise("I strongly disagree, Alex. Algorithms are trained on historical data, which inherently contains human biases. We risk automating and hiding discrimination.", 'female', 1.1, 1.05);
             setAvatarState('avatar-maya', null);
 
-            // TURN 3: David
             setAvatarState('avatar-david', 'is-talking');
             writeTranscript('gd-transcript', 'David', 'Both are valid points. The key lies in hybrid implementation—AI for quantitative data, humans for qualitative nuance. Candidate, what is your stance?'); 
             await window.speakAIPromise("Both are valid points. The key lies in hybrid implementation. AI for quantitative data, humans for qualitative nuance. Candidate, what is your stance?", 'male2', 0.85, 0.95);
             setAvatarState('avatar-david', null);
 
-            // TURN 4: Prompt User
             writeTranscript('gd-transcript', 'System', 'Mic active. Candidate, hold the mic button to share your perspective.');
             document.getElementById('gd-mic-zone').classList.remove('hidden');
             gdStep = 1;
@@ -979,27 +930,23 @@
             writeTranscript('gd-transcript', 'Candidate', response);
             
             if (gdStep === 1) {
-                // TURN 5: Alex challenges
                 setTimeout(async () => {
                     setAvatarState('avatar-alex', 'is-talking');
                     writeTranscript('gd-transcript', 'Alex', 'Interesting perspective. But how do you ensure transparency if the AI logic is a black box? Explain your audit strategy.');
                     await window.speakAIPromise("Interesting perspective. But how do you ensure transparency if the AI logic is a black box? Explain your audit strategy.", 'male1', 0.9, 1.1);
                     setAvatarState('avatar-alex', null);
                     
-                    // TURN 6: Prompt user again
                     writeTranscript('gd-transcript', 'System', 'Mic active. Defend your point.');
                     document.getElementById('gd-mic-zone').classList.remove('hidden');
                     gdStep = 2;
                 }, 1000);
             } else if (gdStep === 2) {
-                // TURN 7: Maya concludes and scores
                 setTimeout(async () => {
                     setAvatarState('avatar-maya', 'is-talking');
                     writeTranscript('gd-transcript', 'Maya', 'That requires heavy auditing infrastructure, but it is a solid conclusion. Let us wrap up this session.');
                     await window.speakAIPromise("That requires heavy auditing infrastructure, but it is a solid conclusion. Let us wrap up this session.", 'female', 1.1, 1.05);
                     setAvatarState('avatar-maya', null);
                     
-                    // Auto Score
                     let score = 25 + Math.floor(Math.random() * 5); 
                     window.userData.gd_score = score;
                     await syncToCloud();
@@ -1010,7 +957,6 @@
             }
         }
 
-        // --- STREAMING_CHUNK:Stage 4 AI Interview Logic ---
         const interviewQuestions = [
             "Welcome to the final stage. Tell me about a time you utilized data to solve a complex team problem.",
             "Fascinating. How exactly did you measure the success of that specific solution?",
@@ -1043,13 +989,11 @@
                 document.getElementById('interview-mic-zone').classList.remove('hidden');
                 document.getElementById('interview-mic-zone').classList.add('flex');
             } else {
-                // Finish Interview
                 setAvatarState('ai-hr-orb', 'is-talking');
                 writeTranscript('interview-transcript', 'HR Director Sarah', 'Excellent. That concludes our 7 questions. I have logged your responses for final evaluation.');
                 await window.speakAIPromise("Excellent. That concludes our 7 questions. I have logged your responses for final evaluation.", 'female', 1.05, 0.95);
                 setAvatarState('ai-hr-orb', null);
                 
-                // Auto Score Interview
                 let score = 88 + Math.floor(Math.random() * 10); 
                 window.userData.interview_score = score;
                 await syncToCloud();
@@ -1086,7 +1030,6 @@
             }, 1000);
         }
 
-        // --- STREAMING_CHUNK:Admin Controls & Email Report ---
         window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); }
         window.closeAdminModal = function() { document.getElementById('adminModal').classList.add('hidden'); }
         
@@ -1127,7 +1070,6 @@
                      window.userData = snap.data();
                      window.updatePassportUI(); 
                      
-                     // Populate Admin sliders
                      document.getElementById('gdScoreInput').value = window.userData.gd_score || 0;
                      document.getElementById('gdScoreVal').innerText = window.userData.gd_score || 0;
                      document.getElementById('adminGdScoreInput').value = window.userData.gd_score || 0;
@@ -1237,14 +1179,11 @@
             bodyText += `Best regards,\nThe HR Blog Administration Team\nCrack the Code, Know Your Worth.`;
 
             const body = encodeURIComponent(bodyText);
-            
-            // Bypass Windows Mailto App - Force Gmail in new tab
             const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${toEmail}&su=${subject}&body=${body}`;
             window.open(gmailUrl, '_blank');
             window.showMessage(`Opening detailed report in Gmail for ${window.userData.email}...`);
         }
 
-        // --- STREAMING_CHUNK:ThreeJS PBR Realistic 3D Humanoid Faces ---
         let mouseX = 0;
         let mouseY = 0;
         
@@ -1279,8 +1218,6 @@
                 const mainLight = new THREE.DirectionalLight(0xffffff, 0.8);
                 mainLight.position.set(5, 10, 7);
                 mainLight.castShadow = true;
-                mainLight.shadow.mapSize.width = 1024;
-                mainLight.shadow.mapSize.height = 1024;
                 scene.add(mainLight);
                 
                 const fillLight = new THREE.PointLight(0xffeedd, 0.4);
@@ -1289,42 +1226,56 @@
 
                 const headGroup = new THREE.Group();
 
-                // 1. Realistic Head Shape (Oval, PBR Skin)
+                // 1. Torso/Clothes (Adding Anatomy to avoid floating heads)
+                const clothesMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.9 }); // Dark suit
+                if (styleType === 'pink-bun') clothesMat.color.setHex(0xdb2777); // Maya pink blouse
+                if (styleType === 'silver-bun-glasses') clothesMat.color.setHex(0xf8fafc); // Sarah white blazer
+                if (styleType === 'headset') clothesMat.color.setHex(0xf97316); // Guide orange suit
+
+                const torsoGeo = new THREE.SphereGeometry(2.8, 32, 32);
+                torsoGeo.scale(1, 0.8, 0.5);
+                const torso = new THREE.Mesh(torsoGeo, clothesMat);
+                torso.position.set(0, -3.2, -0.5);
+                torso.castShadow = true;
+                scene.add(torso);
+
+                // 2. Realistic Head Shape (Oval, PBR Skin)
                 const skinMat = new THREE.MeshStandardMaterial({ 
                     color: skinColorHex, 
                     roughness: 0.4, 
                     metalness: 0.1 
                 });
                 const headGeo = new THREE.SphereGeometry(1.6, 64, 64);
-                headGeo.scale(1, 1.2, 1.1); // Make it oval
+                headGeo.scale(1, 1.2, 1.1);
                 const head = new THREE.Mesh(headGeo, skinMat);
                 head.castShadow = true;
-                head.receiveShadow = true;
                 headGroup.add(head);
 
-                // 2. Ears
+                // 3. Neck
+                const neckGeo = new THREE.CylinderGeometry(0.7, 0.8, 1.5, 32);
+                const neck = new THREE.Mesh(neckGeo, skinMat);
+                neck.position.set(0, -1.6, 0.2);
+                headGroup.add(neck);
+
+                // 4. Ears
                 const earGeo = new THREE.SphereGeometry(0.3, 32, 32);
                 earGeo.scale(0.5, 1.2, 1);
                 const leftEar = new THREE.Mesh(earGeo, skinMat);
                 leftEar.position.set(-1.6, 0, 0.2);
                 leftEar.rotation.y = -Math.PI / 6;
-                leftEar.castShadow = true;
-                
                 const rightEar = new THREE.Mesh(earGeo, skinMat);
                 rightEar.position.set(1.6, 0, 0.2);
                 rightEar.rotation.y = Math.PI / 6;
-                rightEar.castShadow = true;
                 headGroup.add(leftEar, rightEar);
 
-                // 3. Nose
+                // 5. Nose
                 const noseGeo = new THREE.ConeGeometry(0.15, 0.5, 32);
                 const nose = new THREE.Mesh(noseGeo, skinMat);
                 nose.position.set(0, 0, 1.7);
                 nose.rotation.x = Math.PI / 2.5;
-                nose.castShadow = true;
                 headGroup.add(nose);
 
-                // 4. Realistic Eyes (Sclera, Iris, Pupil, Catchlight)
+                // 6. Realistic Eyes (Sclera, Iris, Pupil, Catchlight)
                 const eyeGroupL = new THREE.Group();
                 const eyeGroupR = new THREE.Group();
                 eyeGroupL.position.set(-0.6, 0.4, 1.4);
@@ -1337,160 +1288,115 @@
                 eyeGroupL.add(scleraL);
                 eyeGroupR.add(scleraR);
                 
-                const irisGeo = new THREE.SphereGeometry(0.14, 32, 32);
-                // Iris color logic
-                let irisColor = 0x4B3621; // Brown default
+                let irisColor = 0x4B3621; // Brown
                 if(styleType === 'glasses') irisColor = 0x2e5c8a; // Blue
                 if(styleType === 'pink-bun') irisColor = 0x4a7c59; // Green
                 const irisMat = new THREE.MeshStandardMaterial({ color: irisColor, roughness: 0.2 });
-                const irisL = new THREE.Mesh(irisGeo, irisMat);
-                const irisR = new THREE.Mesh(irisGeo, irisMat);
-                irisL.position.z = 0.18;
-                irisR.position.z = 0.18;
-                eyeGroupL.add(irisL);
-                eyeGroupR.add(irisR);
+                const irisL = new THREE.Mesh(new THREE.SphereGeometry(0.14, 32, 32), irisMat);
+                const irisR = new THREE.Mesh(new THREE.SphereGeometry(0.14, 32, 32), irisMat);
+                irisL.position.z = 0.18; irisR.position.z = 0.18;
+                eyeGroupL.add(irisL); eyeGroupR.add(irisR);
 
-                const pupilGeo = new THREE.SphereGeometry(0.08, 16, 16);
                 const pupilMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
-                const pupilL = new THREE.Mesh(pupilGeo, pupilMat);
-                const pupilR = new THREE.Mesh(pupilGeo, pupilMat);
-                pupilL.position.z = 0.12;
-                pupilR.position.z = 0.12;
-                irisL.add(pupilL);
-                irisR.add(pupilR);
+                const pupilL = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), pupilMat);
+                const pupilR = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), pupilMat);
+                pupilL.position.z = 0.12; pupilR.position.z = 0.12;
+                irisL.add(pupilL); irisR.add(pupilR);
                 
-                // Catchlight (makes eyes look alive)
-                const lightGeo = new THREE.SphereGeometry(0.03, 8, 8);
                 const lightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-                const clL = new THREE.Mesh(lightGeo, lightMat);
-                const clR = new THREE.Mesh(lightGeo, lightMat);
-                clL.position.set(0.05, 0.05, 0.06);
-                clR.position.set(0.05, 0.05, 0.06);
-                pupilL.add(clL);
-                pupilR.add(clR);
+                const clL = new THREE.Mesh(new THREE.SphereGeometry(0.03, 8, 8), lightMat);
+                const clR = new THREE.Mesh(new THREE.SphereGeometry(0.03, 8, 8), lightMat);
+                clL.position.set(0.05, 0.05, 0.06); clR.position.set(0.05, 0.05, 0.06);
+                pupilL.add(clL); pupilR.add(clR);
                 
-                // Eyelids for blinking
                 const lidGeo = new THREE.SphereGeometry(0.3, 32, 32, 0, Math.PI * 2, 0, Math.PI / 2);
                 const lidL = new THREE.Mesh(lidGeo, skinMat);
                 const lidR = new THREE.Mesh(lidGeo, skinMat);
-                lidL.rotation.x = -Math.PI / 2;
-                lidR.rotation.x = -Math.PI / 2;
-                eyeGroupL.add(lidL);
-                eyeGroupR.add(lidR);
+                lidL.rotation.x = -Math.PI / 2; lidR.rotation.x = -Math.PI / 2;
+                eyeGroupL.add(lidL); eyeGroupR.add(lidR);
 
                 headGroup.add(eyeGroupL, eyeGroupR);
 
-                // 5. Realistic Mouth (Inner cavity + lips)
+                // 7. Eyebrows
+                const browGeo = new THREE.BoxGeometry(0.5, 0.08, 0.1);
+                const browMat = new THREE.MeshStandardMaterial({ color: hairColorHex, roughness: 0.9 });
+                const browL = new THREE.Mesh(browGeo, browMat);
+                browL.position.set(-0.6, 0.8, 1.45);
+                browL.rotation.z = 0.1;
+                const browR = new THREE.Mesh(browGeo, browMat);
+                browR.position.set(0.6, 0.8, 1.45);
+                browR.rotation.z = -0.1;
+                headGroup.add(browL, browR);
+
+                // 8. Realistic Mouth
                 const mouthGroup = new THREE.Group();
                 mouthGroup.position.set(0, -0.5, 1.55);
                 
-                const cavityGeo = new THREE.BoxGeometry(0.6, 0.1, 0.2);
-                const cavityMat = new THREE.MeshBasicMaterial({ color: 0x220000 });
-                const cavity = new THREE.Mesh(cavityGeo, cavityMat);
+                const cavity = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.1, 0.2), new THREE.MeshBasicMaterial({ color: 0x220000 }));
                 mouthGroup.add(cavity);
                 
-                // Lips
-                const lipGeo = new THREE.TorusGeometry(0.3, 0.05, 16, 32);
-                const lipMat = new THREE.MeshStandardMaterial({ color: skinColorHex, roughness: 0.6 }); // slightly darker/redder in reality but matches skin here
-                lipMat.color.lerp(new THREE.Color(0xffaaaa), 0.2); // tint slightly red
-                const lips = new THREE.Mesh(lipGeo, lipMat);
+                const lipMat = new THREE.MeshStandardMaterial({ color: skinColorHex, roughness: 0.6 });
+                lipMat.color.lerp(new THREE.Color(0xffaaaa), 0.2); 
+                const lips = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.05, 16, 32), lipMat);
                 lips.scale.set(1, 0.2, 1);
                 lips.position.z = 0.1;
                 mouthGroup.add(lips);
                 
                 headGroup.add(mouthGroup);
 
-                // 6. Hair & Accessories styling
+                // 9. Hair & Accessories
                 const hairMat = new THREE.MeshStandardMaterial({ color: hairColorHex, roughness: 0.8 });
                 
                 if (styleType === 'headset') {
-                    // Guide: Headset & Antenna
-                    const bandGeo = new THREE.TorusGeometry(1.65, 0.1, 16, 32, Math.PI);
-                    const bandMat = new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.8, roughness: 0.2 });
-                    const band = new THREE.Mesh(bandGeo, bandMat);
-                    band.rotation.x = Math.PI / 2;
-                    band.position.y = 0.2;
-                    
-                    const micGeo = new THREE.CylinderGeometry(0.05, 0.05, 1);
-                    const mic = new THREE.Mesh(micGeo, bandMat); 
-                    mic.position.set(1.6, -0.4, 0.8); 
-                    mic.rotation.x = Math.PI/3;
-
-                    const antGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.6);
-                    const ant = new THREE.Mesh(antGeo, bandMat);
+                    const band = new THREE.Mesh(new THREE.TorusGeometry(1.65, 0.1, 16, 32, Math.PI), new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.8 }));
+                    band.rotation.x = Math.PI / 2; band.position.y = 0.2;
+                    const mic = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 1), new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.8 })); 
+                    mic.position.set(1.6, -0.4, 0.8); mic.rotation.x = Math.PI/3;
+                    const ant = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.6), new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.8 }));
                     ant.position.set(0, 1.8, 0);
-                    const bulbGeo = new THREE.SphereGeometry(0.2);
-                    const bulbMat = new THREE.MeshBasicMaterial({ color: 0xff3333 });
-                    const bulb = new THREE.Mesh(bulbGeo, bulbMat);
+                    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.2), new THREE.MeshBasicMaterial({ color: 0xff3333 }));
                     bulb.position.set(0, 2.1, 0);
-
                     headGroup.add(band, mic, ant, bulb);
-
                 } else if (styleType === 'glasses') {
-                    // Alex: Brown Hair + Glasses
-                    const hairGeo = new THREE.SphereGeometry(1.65, 64, 64, 0, Math.PI * 2, 0, Math.PI / 2.2);
-                    const hair = new THREE.Mesh(hairGeo, hairMat);
+                    const hair = new THREE.Mesh(new THREE.SphereGeometry(1.65, 64, 64, 0, Math.PI * 2, 0, Math.PI / 2.2), hairMat);
                     hair.position.set(0, 0.2, -0.1);
-                    headGroup.add(hair);
-
-                    const glassGeo = new THREE.TorusGeometry(0.4, 0.06, 16, 32);
-                    const glassMat = new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.5, roughness: 0.5 });
-                    const lG = new THREE.Mesh(glassGeo, glassMat); lG.position.set(-0.6, 0.4, 1.5);
-                    const rG = new THREE.Mesh(glassGeo, glassMat); rG.position.set(0.6, 0.4, 1.5);
-                    const bridgeGeo = new THREE.BoxGeometry(0.4, 0.06, 0.06);
-                    const bridge = new THREE.Mesh(bridgeGeo, glassMat); bridge.position.set(0, 0.4, 1.5);
-                    headGroup.add(lG, rG, bridge);
-
+                    const glassMat = new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.5 });
+                    const lG = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.06, 16, 32), glassMat); lG.position.set(-0.6, 0.4, 1.5);
+                    const rG = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.06, 16, 32), glassMat); rG.position.set(0.6, 0.4, 1.5);
+                    const bridge = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.06, 0.06), glassMat); bridge.position.set(0, 0.4, 1.5);
+                    headGroup.add(hair, lG, rG, bridge);
                 } else if (styleType === 'pink-bun') {
-                    // Maya: Pink Hair with Bun
-                    const hairGeo = new THREE.SphereGeometry(1.65, 64, 64, 0, Math.PI * 2, 0, Math.PI / 1.8);
-                    const hair = new THREE.Mesh(hairGeo, hairMat);
+                    const hair = new THREE.Mesh(new THREE.SphereGeometry(1.65, 64, 64, 0, Math.PI * 2, 0, Math.PI / 1.8), hairMat);
                     hair.position.set(0, 0.1, -0.1);
-                    
-                    const bunGeo = new THREE.SphereGeometry(0.7, 32, 32);
-                    const bun = new THREE.Mesh(bunGeo, hairMat);
+                    const bun = new THREE.Mesh(new THREE.SphereGeometry(0.7, 32, 32), hairMat);
                     bun.position.set(0, 1.6, -1.0);
                     headGroup.add(hair, bun);
-
                 } else if (styleType === 'black-fade') {
-                    // David: Black Hair, Clean cut
-                    const hairGeo = new THREE.SphereGeometry(1.65, 64, 64, 0, Math.PI * 2, 0, Math.PI / 2.5);
-                    const hair = new THREE.Mesh(hairGeo, hairMat);
+                    const hair = new THREE.Mesh(new THREE.SphereGeometry(1.65, 64, 64, 0, Math.PI * 2, 0, Math.PI / 2.5), hairMat);
                     hair.position.set(0, 0.2, 0);
                     headGroup.add(hair);
-
                 } else if (styleType === 'silver-bun-glasses') {
-                    // Sarah HR: Silver Hair, Glasses
-                    const hairGeo = new THREE.SphereGeometry(1.65, 64, 64, 0, Math.PI * 2, 0, Math.PI / 2.1);
-                    const hair = new THREE.Mesh(hairGeo, hairMat);
+                    const hair = new THREE.Mesh(new THREE.SphereGeometry(1.65, 64, 64, 0, Math.PI * 2, 0, Math.PI / 2.1), hairMat);
                     hair.position.set(0, 0.2, -0.1);
-                    
-                    const bunGeo = new THREE.SphereGeometry(0.8, 32, 32);
-                    const bun = new THREE.Mesh(bunGeo, hairMat);
+                    const bun = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), hairMat);
                     bun.position.set(0, 1.4, -1.2);
-                    
-                    const glassGeo = new THREE.TorusGeometry(0.38, 0.04, 16, 32);
-                    const glassMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.8, roughness: 0.2 });
-                    const lG = new THREE.Mesh(glassGeo, glassMat); lG.position.set(-0.6, 0.4, 1.5);
-                    const rG = new THREE.Mesh(glassGeo, glassMat); rG.position.set(0.6, 0.4, 1.5);
-                    const bridgeGeo = new THREE.BoxGeometry(0.4, 0.04, 0.04);
-                    const bridge = new THREE.Mesh(bridgeGeo, glassMat); bridge.position.set(0, 0.4, 1.5);
-
+                    const glassMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.8 });
+                    const lG = new THREE.Mesh(new THREE.TorusGeometry(0.38, 0.04, 16, 32), glassMat); lG.position.set(-0.6, 0.4, 1.5);
+                    const rG = new THREE.Mesh(new THREE.TorusGeometry(0.38, 0.04, 16, 32), glassMat); rG.position.set(0.6, 0.4, 1.5);
+                    const bridge = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.04, 0.04), glassMat); bridge.position.set(0, 0.4, 1.5);
                     headGroup.add(hair, bun, lG, rG, bridge);
                 }
 
                 scene.add(headGroup);
-                camera.position.z = 6.5; // pull back slightly for oval heads
+                camera.position.z = 7.5; // Pulled back slightly to show shoulders
+                camera.position.y = -0.5;
 
-                // Animation State
                 let blinkTimer = 0;
                 let isBlinking = false;
 
-                // Render Loop with physics and resizing
                 const animate = function () {
                     requestAnimationFrame(animate);
                     
-                    // CRITICAL FIX: Ensure canvas always matches container size even if tab was hidden
                     const canvas = renderer.domElement;
                     const cw = container.clientWidth;
                     const ch = container.clientHeight;
@@ -1502,50 +1408,32 @@
 
                     const time = Date.now() * 0.003;
                     
-                    // Idle Floating & Bobbing (Smooth Sine)
+                    // Breathe (Shoulders move)
+                    torso.scale.y = 0.8 + Math.sin(time * 0.5) * 0.02;
                     headGroup.position.y = Math.sin(time * 0.8) * 0.15;
                     
-                    // Realistic Look Tracking (Restricted rotation)
                     let targetRotY = mouseX * 0.3;
                     let targetRotX = -mouseY * 0.3;
                     headGroup.rotation.y += (targetRotY - headGroup.rotation.y) * 0.1;
                     headGroup.rotation.x += (targetRotX - headGroup.rotation.x) * 0.1;
                     
-                    // Eye Tracking (look slightly more towards mouse)
-                    eyeGroupL.rotation.y = mouseX * 0.2;
-                    eyeGroupL.rotation.x = -mouseY * 0.2;
-                    eyeGroupR.rotation.y = mouseX * 0.2;
-                    eyeGroupR.rotation.x = -mouseY * 0.2;
+                    eyeGroupL.rotation.y = mouseX * 0.2; eyeGroupL.rotation.x = -mouseY * 0.2;
+                    eyeGroupR.rotation.y = mouseX * 0.2; eyeGroupR.rotation.x = -mouseY * 0.2;
 
-                    // Randomized Blinking Logic
                     blinkTimer++;
-                    if (!isBlinking && Math.random() > 0.99 && blinkTimer > 100) {
-                        isBlinking = true;
-                        blinkTimer = 0;
-                    }
+                    if (!isBlinking && Math.random() > 0.99 && blinkTimer > 100) { isBlinking = true; blinkTimer = 0; }
                     
                     if (isBlinking) {
-                        if (blinkTimer < 5) {
-                            lidL.rotation.x += 0.2; // close
-                            lidR.rotation.x += 0.2;
-                        } else if (blinkTimer < 10) {
-                            lidL.rotation.x -= 0.2; // open
-                            lidR.rotation.x -= 0.2;
-                        } else {
-                            isBlinking = false;
-                            lidL.rotation.x = -Math.PI / 2; // reset
-                            lidR.rotation.x = -Math.PI / 2;
-                        }
+                        if (blinkTimer < 5) { lidL.rotation.x += 0.2; lidR.rotation.x += 0.2; } 
+                        else if (blinkTimer < 10) { lidL.rotation.x -= 0.2; lidR.rotation.x -= 0.2; } 
+                        else { isBlinking = false; lidL.rotation.x = -Math.PI / 2; lidR.rotation.x = -Math.PI / 2; }
                     }
 
-                    // Realistic Lip-Sync Animation
                     if (window.activeSpeaker === speakerId) {
-                        // Smooth mouth pulsing based on sine waves
                         let mouthOpen = 1 + Math.abs(Math.sin(time * 6)) * 2;
                         cavity.scale.y = mouthOpen;
-                        lips.scale.y = 0.2 * mouthOpen; // stretch lips
+                        lips.scale.y = 0.2 * mouthOpen; 
                     } else {
-                        // Closed mouth
                         cavity.scale.y = 0.1;
                         lips.scale.y = 0.2;
                     }
@@ -1555,19 +1443,13 @@
                 animate();
             }
 
-            // Guide: Orange skin, Headset
             createRealisticFace('guide-avatar', 0xffb347, 0x333333, 'headset', 'guide');
-            // Alex: Pale skin, Brown hair, Glasses
             createRealisticFace('avatar-alex', 0xffdfc4, 0x4a3018, 'glasses', 'alex');
-            // Maya: Warm skin, Pink Bun
             createRealisticFace('avatar-maya', 0xc68642, 0xc026d3, 'pink-bun', 'maya');
-            // David: Dark skin, Black fade
             createRealisticFace('avatar-david', 0x8d5524, 0x111111, 'black-fade', 'david');
-            // Sarah HR: Professional Light skin, Silver hair, Glasses
             createRealisticFace('ai-hr-orb', 0xf1c27d, 0xe2e8f0, 'silver-bun-glasses', 'sarah');
         }
 
-        // Fire the 3D generation after DOM is ready
         window.addEventListener('load', () => {
             init3DAvatars();
         });
