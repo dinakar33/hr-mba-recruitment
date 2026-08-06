@@ -68,22 +68,21 @@
         <div class="px-4 py-3 flex justify-between items-center">
             <div>
                 <h1 class="text-xl font-extrabold tracking-tight text-white">HR Assessment</h1>
-                <p class="text-brand-300 text-xs font-medium mt-0.5 uppercase tracking-wider">AI Mobile Edition v5.0</p>
             </div>
             
             <div class="flex items-center space-x-3">
-                <div class="flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-600">
+                <label class="flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-600 cursor-pointer transition hover:bg-slate-700">
                     <input type="checkbox" id="aiToggle" class="hidden" checked onchange="window.toggleAIMode()">
-                    <i class="fa-solid fa-sparkles text-yellow-400 text-xs"></i>
-                    <span class="text-xs font-bold uppercase text-white">AI Active</span>
-                </div>
+                    <i id="aiIcon" class="fa-solid fa-sparkles text-yellow-400 text-xs"></i>
+                    <span id="aiLabel" class="text-xs font-bold uppercase text-white">AI Active</span>
+                </label>
                 <button onclick="window.openAdminModal()" class="text-brand-200 hover:text-white"><i class="fa-solid fa-lock"></i></button>
             </div>
         </div>
         
         <!-- Progress Indicator -->
-        <div class="bg-slate-900 px-4 py-3 overflow-x-auto whitespace-nowrap hide-scrollbar flex space-x-2 border-t border-slate-800 pointer-events-none" id="progress-nav">
-            <!-- Steps injected via JS to prevent manual clicking -->
+        <div class="bg-slate-900 px-4 py-3 overflow-x-auto whitespace-nowrap hide-scrollbar flex space-x-2 border-t border-slate-800" id="progress-nav">
+            <!-- Steps injected via JS -->
         </div>
     </header>
 
@@ -393,6 +392,36 @@
             { id: 'step-6', name: 'Passport' }
         ];
 
+        window.toggleAIMode = function() {
+            window.isAIMode = document.getElementById('aiToggle').checked;
+            const label = document.getElementById('aiLabel');
+            const icon = document.getElementById('aiIcon');
+            
+            if(window.isAIMode) {
+                label.innerText = "AI Active";
+                label.classList.remove('text-slate-400');
+                label.classList.add('text-white');
+                icon.className = "fa-solid fa-sparkles text-yellow-400 text-xs";
+                window.showMessage("AI Voice & Auto-Pilot Enabled", "success");
+            } else {
+                label.innerText = "Manual Mode";
+                label.classList.remove('text-white');
+                label.classList.add('text-slate-400');
+                icon.className = "fa-solid fa-hand text-slate-400 text-xs";
+                window.speechSynthesis.cancel();
+                window.showMessage("Switched to Manual Mode", "success");
+            }
+        }
+
+        window.goToStep = function(stepNum) {
+            document.getElementById(STEPS[window.currentStep - 1].id).classList.remove('active');
+            window.currentStep = stepNum;
+            document.getElementById(STEPS[window.currentStep - 1].id).classList.add('active');
+            renderProgress();
+            if(window.currentStep === 6) window.updatePassportUI();
+            window.scrollTo(0, 0);
+        }
+
         // Custom UI Helper
         window.showMessage = function(text, type = 'success') {
             const box = document.getElementById('msgBox');
@@ -408,12 +437,12 @@
             nav.innerHTML = '';
             STEPS.forEach((step, index) => {
                 const num = index + 1;
-                let classes = "inline-block px-3 py-1 rounded-full text-[10px] font-bold border mr-2 step-indicator ";
-                if (num === window.currentStep) classes += "step-active";
-                else if (num < window.currentStep) classes += "step-completed";
+                let classes = "inline-block px-3 py-1 rounded-full text-[10px] font-bold border mr-2 step-indicator cursor-pointer transition hover:bg-slate-700 ";
+                if (num === window.currentStep) classes += "step-active shadow-lg";
+                else if (num < window.currentStep) classes += "step-completed shadow-md";
                 else classes += "bg-slate-800 text-slate-500 border-slate-700";
                 
-                nav.innerHTML += `<span class="${classes}">${num}. ${step.name}</span>`;
+                nav.innerHTML += `<span class="${classes}" onclick="window.goToStep(${num})">${num}. ${step.name}</span>`;
             });
         }
 
