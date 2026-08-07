@@ -154,15 +154,9 @@ body.ai-mode .gd-avatar { background: #334155; }
 </div>
 
 <section id="tab-onboarding" class="tab-content active">
-<div class="mb-8 flex justify-between items-center flex-wrap gap-4">
-<div>
-<h2 class="text-2xl font-bold text-slate-800">Candidate Registration & Login</h2>
-<p class="text-slate-500 mt-2">Enter your credentials and complete the psychological survey. Your session will be saved.</p>
-</div>
-<div class="flex gap-2">
-<input type="email" id="loginEmailLookup" class="border border-gray-300 rounded-lg px-3 py-2 text-sm text-slate-800 outline-none" placeholder="Enter existing email...">
-<button onclick="window.restoreUserSession()" class="bg-slate-800 hover:bg-slate-900 text-white text-sm font-semibold px-4 py-2 rounded-lg transition"><i class="fa-solid fa-arrows-rotate mr-1"></i> Restore Session</button>
-</div>
+<div class="mb-8">
+<h2 class="text-2xl font-bold text-slate-800">Candidate Registration</h2>
+<p class="text-slate-500 mt-2">Enter your credentials and complete the psychological survey.</p>
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -193,7 +187,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 
 <div class="mt-8 flex justify-end">
 <button onclick="window.saveProfile()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition">
-Lock Profile & Auto-Advance <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
+Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </button>
 </div>
 </section>
@@ -227,7 +221,7 @@ Lock Profile & Auto-Advance <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 <span id="atsScoreDisplay" class="text-4xl font-extrabold text-brand-600">0%</span>
 </div>
 <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mt-3 mb-4">Match Score</p>
-<p class="text-sm text-green-700 bg-green-500/20 p-2 rounded hidden" id="atsSuccessMsg"><i class="fa-solid fa-check"></i> Auto-advancing...</p>
+<p class="text-sm text-green-700 bg-green-500/20 p-2 rounded hidden" id="atsSuccessMsg"><i class="fa-solid fa-check"></i> Score synced to cloud!</p>
 </div>
 </div>
 </section>
@@ -236,7 +230,7 @@ Lock Profile & Auto-Advance <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 <div class="mb-8 flex justify-between items-center bg-red-500/10 p-4 rounded-lg border border-red-500/30">
 <div>
 <h2 class="text-2xl font-bold text-slate-800">Stage 2: Cognitive Agility & Decision Velocity</h2>
-<p class="text-slate-600 mt-1 font-medium">Warning: Tight time budget. The test will auto-submit when the clock hits zero.</p>
+<p class="text-slate-600 mt-1 font-medium">Warning: Dynamic randomized question set. Auto-submits when timer hits zero.</p>
 </div>
 <div class="text-center">
 <span class="block text-xs uppercase font-bold text-red-500 tracking-widest">Time Remaining</span>
@@ -247,7 +241,7 @@ Lock Profile & Auto-Advance <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 <div id="quizStartOverlay" class="glass-card p-12 text-center rounded-xl mb-8">
 <i class="fa-solid fa-stopwatch text-6xl text-brand-500 mb-4 hover:scale-110 transition-transform"></i>
 <h3 class="text-2xl font-bold mb-2">Ready to begin?</h3>
-<p class="mb-6 max-w-lg mx-auto">This section contains 25 dynamic situational judgment questions designed to test your domain literacy and cognitive agility under pressure.</p>
+<p class="mb-6 max-w-lg mx-auto">This section generates a dynamic set of 10 situational judgment questions designed to test your domain literacy and cognitive agility under pressure.</p>
 <button onclick="window.startAptitudeTest()" class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-10 rounded-full shadow-lg transition text-lg">
 Start 10-Minute Timer
 </button>
@@ -259,7 +253,7 @@ Start 10-Minute Timer
 </div>
 <div class="mt-10 pt-6 border-t border-gray-200/50 flex justify-center pb-4">
 <button onclick="window.submitTest(false)" class="bg-brand-800 hover:bg-brand-700 text-white font-bold py-4 px-12 rounded-lg shadow-xl transition transform hover:-translate-y-1">
-Submit & Advance
+Submit Final Answers
 </button>
 </div>
 </div>
@@ -524,12 +518,13 @@ Submit & Advance
 </div>
 </div>
 </section>
+
 </main>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 const firebaseConfig = {
 apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
@@ -559,16 +554,13 @@ window.switchTab = function(tabId, btn) {
 document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
 document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('bg-brand-700', 'text-white', 'active'); b.classList.add('text-brand-100'); });
 document.getElementById(tabId).classList.add('active');
-
-if (btn) {
-    btn.classList.remove('text-brand-100'); 
-    btn.classList.add('bg-brand-700', 'text-white', 'active');
+if(btn) {
+  btn.classList.remove('text-brand-100'); btn.classList.add('bg-brand-700', 'text-white', 'active');
 } else {
-    const targetBtn = document.querySelector(`button[onclick*="'${tabId}'"]`);
-    if(targetBtn) {
-        targetBtn.classList.remove('text-brand-100'); 
-        targetBtn.classList.add('bg-brand-700', 'text-white', 'active');
-    }
+  const targetBtn = document.querySelector(`button[onclick*="'${tabId}'"]`);
+  if(targetBtn) {
+    targetBtn.classList.remove('text-brand-100'); targetBtn.classList.add('bg-brand-700', 'text-white', 'active');
+  }
 }
 if(tabId === 'tab-passport') window.updatePassportUI();
 }
@@ -584,61 +576,18 @@ setTimeout(() => {
 window.showMessage = function(text, type = 'success') {
 const box = document.getElementById('msgBox');
 box.className = `mb-6 p-4 rounded-lg shadow-md font-bold text-sm flex items-center justify-between z-50 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`;
-document.getElementById('msgText').innerHTML = text;
+document.getElementById('msgText').innerHTML = `${type === 'success' ? '<i class="fa-solid fa-circle-check mr-2"></i>' : '<i class="fa-solid fa-triangle-exclamation mr-2"></i>'} ${text}`;
 box.classList.remove('hidden');
 setTimeout(() => { box.classList.add('hidden'); }, 5000);
 }
 
 signInAnonymously(auth).then((userCredential) => {
-    window.candidateId = userCredential.user.uid;
-    const savedEmail = localStorage.getItem('hr_candidate_email');
-    if(savedEmail) {
-        document.getElementById('loginEmailLookup').value = savedEmail;
-        window.restoreUserSession();
-    } else {
-        listenToStudentData();
-    }
+window.candidateId = userCredential.user.uid;
+listenToStudentData();
 }).catch((error) => {
-    console.error("Auth failed:", error);
-    window.showMessage(`Database connection failed: ${error.message}`, "error");
+console.error("Auth failed:", error);
+window.showMessage(`Database connection failed: ${error.message}`, "error");
 });
-
-window.restoreUserSession = async function() {
-    const lookupEmail = document.getElementById('loginEmailLookup').value.trim();
-    if (!lookupEmail) { window.showMessage("Enter email to restore session.", "error"); return; }
-    
-    try {
-        const colRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates');
-        const q = query(colRef, where("email", "==", lookupEmail));
-        const querySnapshot = await getDocs(q);
-        
-        if (!querySnapshot.empty) {
-            const userDoc = querySnapshot.docs[0];
-            window.candidateId = userDoc.id;
-            window.userData = userDoc.data();
-            localStorage.setItem('hr_candidate_email', lookupEmail);
-            
-            document.getElementById('candName').value = window.userData.name || "";
-            document.getElementById('candEmail').value = window.userData.email || "";
-            
-            window.updatePassportUI();
-            window.showMessage(`Welcome back, ${window.userData.name}! Session restored.`);
-            listenToStudentData();
-            
-            if (window.userData.interview_score > 0) window.switchTab('tab-passport');
-            else if (window.userData.gd_score > 0) window.switchTab('tab-interview');
-            else if (window.userData.test_score > 0) window.switchTab('tab-gd');
-            else if (window.userData.ats_score > 0) window.switchTab('tab-test');
-            else window.switchTab('tab-ats');
-
-        } else {
-            window.showMessage("No prior session found for this email.", "error");
-        }
-    } catch(e) {
-        console.error(e);
-        window.showMessage("Failed to lookup session.", "error");
-    }
-}
 
 function listenToStudentData() {
 if (!window.candidateId || window.isAdmin) return;
@@ -660,14 +609,12 @@ await setDoc(docRef, window.userData, { merge: true });
 window.saveProfile = async function() {
 if (!window.candidateId) { window.showMessage("Database not ready yet.", "error"); return; }
 const name = document.getElementById('candName').value.trim();
-const email = document.getElementById('candEmail').value.trim();
 const checkedRadio = document.querySelector('input[name="archetypeQ"]:checked');
-if (!name || !email || !checkedRadio) { window.showMessage("Enter name, email, and select an archetype.", "error"); return; }
+if (!name || !checkedRadio) { window.showMessage("Enter name and select an archetype.", "error"); return; }
 
 window.userData.name = name;
-window.userData.email = email;
+window.userData.email = document.getElementById('candEmail').value.trim();
 window.userData.archetype = checkedRadio.value;
-localStorage.setItem('hr_candidate_email', email);
 
 await syncToCloud();
 window.autoAdvanceTab('tab-onboarding', 'tab-ats', 'Onboarding Profile');
@@ -832,7 +779,7 @@ btn.disabled = false;
 }
 }
 
-const aptitudeQuestions = [
+const masterAptitudeQuestions = [
 { q: "What is the primary objective of a 360-degree performance appraisal?", options: ["To evaluate 360 employees per cycle", "To collect multi-directional feedback from peers, reports, and supervisors", "To replace traditional KPIs", "To provide the CEO with direct tactical data"], ans: 1 },
 { q: "Which metric mathematically indicates recruitment lifecycle efficiency?", options: ["Total applicant volume", "Cost per hire and time-to-fill ratio", "Employee turnover percentage", "Mandatory training hours completed"], ans: 1 },
 { q: "An employee consistently arrives 30 mins late but exceeds all quantitative KPIs. As an HR Director, you should:", options: ["Terminate to enforce uniform compliance", "Ignore the lateness completely due to high performance", "Investigate root cause and negotiate a flexible schedule if policy permits", "Deduct pay corresponding to the 30 minutes"], ans: 2 },
@@ -860,6 +807,7 @@ const aptitudeQuestions = [
 { q: "What is the definitive indicator of a successful onboarding program?", options: ["The employee signed all forms on day one", "Reduced time-to-productivity and increased 1-year retention rates", "The employee attended the welcome lunch", "The IT department issued their laptop on time"], ans: 1 }
 ];
 
+let selectedAptitudeQuestions = [];
 let quizTimerInterval;
 let quizTimeLeft = 600;
 
@@ -867,7 +815,8 @@ window.renderQuiz = function() {
 const container = document.getElementById('quizContainer');
 if(!container) return;
 container.innerHTML = '';
-aptitudeQuestions.forEach((item, index) => {
+selectedAptitudeQuestions = masterAptitudeQuestions.sort(() => 0.5 - Math.random()).slice(0, 10);
+selectedAptitudeQuestions.forEach((item, index) => {
 let html = `<div class="p-5 rounded-lg border border-slate-300 bg-slate-50/10 shadow-sm mb-4 text-slate-800">
                    <p class="font-bold text-sm mb-3">${index + 1}. ${item.q}</p>
                    <div class="space-y-2">`;
@@ -891,7 +840,7 @@ if(window.isAIMode) {
 document.getElementById('guide-text').innerText = "10 minutes on the clock. Go.";
 window.activeSpeaker = 'guide';
 document.getElementById('guide-avatar').classList.add('avatar-talking');
-await window.speakAIPromise("The clock is ticking. You have exactly 10 minutes to complete these 25 cognitive scenarios. Go.", 'female');
+await window.speakAIPromise("The clock is ticking. You have exactly 10 minutes to complete these 10 randomized cognitive scenarios. Go.", 'female');
 window.activeSpeaker = null;
 document.getElementById('guide-avatar').classList.remove('avatar-talking');
 }
@@ -918,9 +867,9 @@ document.getElementById('quizTimer').classList.remove('timer-urgent');
 document.getElementById('quizTimer').innerText = "DONE";
 
 let score = 0;
-aptitudeQuestions.forEach((item, index) => {
+selectedAptitudeQuestions.forEach((item, index) => {
 const selected = document.querySelector(`input[name="q${index}"]:checked`);
-if(selected && parseInt(selected.value) === item.ans) score += 4; 
+if(selected && parseInt(selected.value) === item.ans) score += 10; 
 });
 window.userData.test_score = score;
 await syncToCloud();
@@ -1029,16 +978,19 @@ window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
 }
 }
 
-const interviewQuestions = [
-"Welcome to the final stage. Tell me about a time you utilized data to solve a complex team problem.",
-"Fascinating. How exactly did you measure the success of that specific solution?",
+const masterInterviewQuestions = [
+"Tell me about a time you utilized data to solve a complex team problem.",
+"How exactly did you measure the success of that specific solution?",
 "Describe a situation where you had to influence a highly resistant stakeholder.",
 "In a scenario with a very tight time budget, how do you prioritize conflicting HR tasks?",
 "Give me an example of a policy or project you implemented that failed, and what you learned.",
 "How do you ensure strict labor law compliance while your company pushes for rapid, aggressive growth?",
-"Finally, what is your core philosophy regarding employee well-being versus strict company metrics?"
+"What is your core philosophy regarding employee well-being versus strict company metrics?",
+"Describe a time when you had to manage a toxic employee who was a high performer.",
+"How do you handle delivering negative performance reviews to senior staff?"
 ];
 
+let selectedInterviewQuestions = [];
 let interviewStep = 0;
 let interviewRecording = false;
 let interviewFinalText = "";
@@ -1046,13 +998,14 @@ let interviewFinalText = "";
 window.startAIInterview = async function() {
 document.getElementById('startInterviewBtn').classList.add('hidden');
 document.getElementById('interview-transcript').innerHTML = "";
+selectedInterviewQuestions = masterInterviewQuestions.sort(() => 0.5 - Math.random()).slice(0, 5);
 interviewStep = 0;
 askNextInterviewQuestion();
 }
 
 async function askNextInterviewQuestion() {
-if (interviewStep < interviewQuestions.length) {
-let q = interviewQuestions[interviewStep];
+if (interviewStep < selectedInterviewQuestions.length) {
+let q = selectedInterviewQuestions[interviewStep];
 window.activeSpeaker = 'sarah';
 document.getElementById('ai-hr-orb').classList.add('avatar-talking');
 writeTranscript('interview-transcript', 'HR Director Sarah', q);
@@ -1065,8 +1018,8 @@ document.getElementById('interview-mic-zone').classList.add('flex');
 } else {
 window.activeSpeaker = 'sarah';
 document.getElementById('ai-hr-orb').classList.add('avatar-talking');
-writeTranscript('interview-transcript', 'HR Director Sarah', 'Excellent. That concludes our 7 questions. I have logged your responses for final evaluation.');
-await window.speakAIPromise("Excellent. That concludes our 7 questions. I have logged your responses for final evaluation.", 'female', 1.05, 0.95);
+writeTranscript('interview-transcript', 'HR Director Sarah', 'Excellent. That concludes our questions. I have logged your responses for final evaluation.');
+await window.speakAIPromise("Excellent. That concludes our questions. I have logged your responses for final evaluation.", 'female', 1.05, 0.95);
 window.activeSpeaker = null;
 document.getElementById('ai-hr-orb').classList.remove('avatar-talking');
 
