@@ -154,9 +154,15 @@ body.ai-mode .gd-avatar { background: #334155; }
 </div>
 
 <section id="tab-onboarding" class="tab-content active">
-<div class="mb-8">
-<h2 class="text-2xl font-bold text-slate-800">Candidate Registration</h2>
-<p class="text-slate-500 mt-2">Enter your credentials and complete the psychological survey.</p>
+<div class="mb-8 flex justify-between items-center flex-wrap gap-4">
+<div>
+<h2 class="text-2xl font-bold text-slate-800">Candidate Registration & Login</h2>
+<p class="text-slate-500 mt-2">Enter your credentials and complete the psychological survey. Your session will be saved.</p>
+</div>
+<div class="flex gap-2">
+<input type="email" id="loginEmailLookup" class="border border-gray-300 rounded-lg px-3 py-2 text-sm text-slate-800 outline-none" placeholder="Enter existing email...">
+<button onclick="window.restoreUserSession()" class="bg-slate-800 hover:bg-slate-900 text-white text-sm font-semibold px-4 py-2 rounded-lg transition"><i class="fa-solid fa-arrows-rotate mr-1"></i> Restore Session</button>
+</div>
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -187,7 +193,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 
 <div class="mt-8 flex justify-end">
 <button onclick="window.saveProfile()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition">
-Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
+Lock Profile & Auto-Advance <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </button>
 </div>
 </section>
@@ -221,7 +227,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 <span id="atsScoreDisplay" class="text-4xl font-extrabold text-brand-600">0%</span>
 </div>
 <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mt-3 mb-4">Match Score</p>
-<p class="text-sm text-green-700 bg-green-500/20 p-2 rounded hidden" id="atsSuccessMsg"><i class="fa-solid fa-check"></i> Score synced to cloud!</p>
+<p class="text-sm text-green-700 bg-green-500/20 p-2 rounded hidden" id="atsSuccessMsg"><i class="fa-solid fa-check"></i> Auto-advancing...</p>
 </div>
 </div>
 </section>
@@ -253,7 +259,7 @@ Start 10-Minute Timer
 </div>
 <div class="mt-10 pt-6 border-t border-gray-200/50 flex justify-center pb-4">
 <button onclick="window.submitTest(false)" class="bg-brand-800 hover:bg-brand-700 text-white font-bold py-4 px-12 rounded-lg shadow-xl transition transform hover:-translate-y-1">
-Submit Final Answers
+Submit & Advance
 </button>
 </div>
 </div>
@@ -518,13 +524,12 @@ Submit Final Answers
 </div>
 </div>
 </section>
-
 </main>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 const firebaseConfig = {
 apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
@@ -554,25 +559,86 @@ window.switchTab = function(tabId, btn) {
 document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
 document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('bg-brand-700', 'text-white', 'active'); b.classList.add('text-brand-100'); });
 document.getElementById(tabId).classList.add('active');
-btn.classList.remove('text-brand-100'); btn.classList.add('bg-brand-700', 'text-white', 'active');
+
+if (btn) {
+    btn.classList.remove('text-brand-100'); 
+    btn.classList.add('bg-brand-700', 'text-white', 'active');
+} else {
+    const targetBtn = document.querySelector(`button[onclick*="'${tabId}'"]`);
+    if(targetBtn) {
+        targetBtn.classList.remove('text-brand-100'); 
+        targetBtn.classList.add('bg-brand-700', 'text-white', 'active');
+    }
+}
 if(tabId === 'tab-passport') window.updatePassportUI();
+}
+
+window.autoAdvanceTab = function(currentTabId, nextTabId, stageName) {
+window.showMessage(`<i class="fa-solid fa-circle-check mr-1"></i> ${stageName} Complete! Auto-moving to next stage...`, 'success');
+setTimeout(() => {
+    window.switchTab(nextTabId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}, 2000);
 }
 
 window.showMessage = function(text, type = 'success') {
 const box = document.getElementById('msgBox');
 box.className = `mb-6 p-4 rounded-lg shadow-md font-bold text-sm flex items-center justify-between z-50 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`;
-document.getElementById('msgText').innerHTML = `${type === 'success' ? '<i class="fa-solid fa-circle-check mr-2"></i>' : '<i class="fa-solid fa-triangle-exclamation mr-2"></i>'} ${text}`;
+document.getElementById('msgText').innerHTML = text;
 box.classList.remove('hidden');
 setTimeout(() => { box.classList.add('hidden'); }, 5000);
 }
 
 signInAnonymously(auth).then((userCredential) => {
-window.candidateId = userCredential.user.uid;
-listenToStudentData();
+    window.candidateId = userCredential.user.uid;
+    const savedEmail = localStorage.getItem('hr_candidate_email');
+    if(savedEmail) {
+        document.getElementById('loginEmailLookup').value = savedEmail;
+        window.restoreUserSession();
+    } else {
+        listenToStudentData();
+    }
 }).catch((error) => {
-console.error("Auth failed:", error);
-window.showMessage(`Database connection failed: ${error.message}`, "error");
+    console.error("Auth failed:", error);
+    window.showMessage(`Database connection failed: ${error.message}`, "error");
 });
+
+window.restoreUserSession = async function() {
+    const lookupEmail = document.getElementById('loginEmailLookup').value.trim();
+    if (!lookupEmail) { window.showMessage("Enter email to restore session.", "error"); return; }
+    
+    try {
+        const colRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates');
+        const q = query(colRef, where("email", "==", lookupEmail));
+        const querySnapshot = await getDocs(q);
+        
+        if (!querySnapshot.empty) {
+            const userDoc = querySnapshot.docs[0];
+            window.candidateId = userDoc.id;
+            window.userData = userDoc.data();
+            localStorage.setItem('hr_candidate_email', lookupEmail);
+            
+            document.getElementById('candName').value = window.userData.name || "";
+            document.getElementById('candEmail').value = window.userData.email || "";
+            
+            window.updatePassportUI();
+            window.showMessage(`Welcome back, ${window.userData.name}! Session restored.`);
+            listenToStudentData();
+            
+            if (window.userData.interview_score > 0) window.switchTab('tab-passport');
+            else if (window.userData.gd_score > 0) window.switchTab('tab-interview');
+            else if (window.userData.test_score > 0) window.switchTab('tab-gd');
+            else if (window.userData.ats_score > 0) window.switchTab('tab-test');
+            else window.switchTab('tab-ats');
+
+        } else {
+            window.showMessage("No prior session found for this email.", "error");
+        }
+    } catch(e) {
+        console.error(e);
+        window.showMessage("Failed to lookup session.", "error");
+    }
+}
 
 function listenToStudentData() {
 if (!window.candidateId || window.isAdmin) return;
@@ -594,15 +660,17 @@ await setDoc(docRef, window.userData, { merge: true });
 window.saveProfile = async function() {
 if (!window.candidateId) { window.showMessage("Database not ready yet.", "error"); return; }
 const name = document.getElementById('candName').value.trim();
+const email = document.getElementById('candEmail').value.trim();
 const checkedRadio = document.querySelector('input[name="archetypeQ"]:checked');
-if (!name || !checkedRadio) { window.showMessage("Enter name and select an archetype.", "error"); return; }
+if (!name || !email || !checkedRadio) { window.showMessage("Enter name, email, and select an archetype.", "error"); return; }
 
 window.userData.name = name;
-window.userData.email = document.getElementById('candEmail').value.trim();
+window.userData.email = email;
 window.userData.archetype = checkedRadio.value;
+localStorage.setItem('hr_candidate_email', email);
 
 await syncToCloud();
-window.showMessage("Profile Locked & Synced.");
+window.autoAdvanceTab('tab-onboarding', 'tab-ats', 'Onboarding Profile');
 }
 
 window.voicesLoaded = false;
@@ -753,6 +821,8 @@ window.activeSpeaker = null;
 document.getElementById('guide-avatar').classList.remove('avatar-talking');
 }
 
+window.autoAdvanceTab('tab-ats', 'tab-test', 'ATS Audit');
+
 } catch (err) {
 console.error(err);
 window.showMessage("Failed to parse PDF.", "error");
@@ -856,7 +926,6 @@ window.userData.test_score = score;
 await syncToCloud();
 
 if(isAutoSubmit) {
-window.showMessage(`Time's up! Auto-submitted. Score: ${score}/100.`);
 if(window.isAIMode) {
 window.activeSpeaker = 'guide';
 document.getElementById('guide-avatar').classList.add('avatar-talking');
@@ -865,7 +934,6 @@ window.activeSpeaker = null;
 document.getElementById('guide-avatar').classList.remove('avatar-talking');
 }
 } else {
-window.showMessage(`Test Submitted! You scored ${score}/100.`);
 if(window.isAIMode) {
 window.activeSpeaker = 'guide';
 document.getElementById('guide-avatar').classList.add('avatar-talking');
@@ -876,6 +944,7 @@ document.getElementById('guide-avatar').classList.remove('avatar-talking');
 }
 
 document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
+window.autoAdvanceTab('tab-test', 'tab-gd', 'Cognitive Aptitude Test');
 }
 
 let gdStep = 0;
@@ -955,6 +1024,7 @@ writeTranscript('gd-transcript', 'System', `Candidate evaluation complete. Score
 await setSpeaker('guide', 'Guide', `Simulation concluded. I have analyzed your vocabulary and assigned a score of ${score} out of 30.`, 'female', 1, 1);
 
 document.getElementById('aiVoiceBtn4').innerText = "Simulation Complete";
+window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
 }, 1000);
 }
 }
@@ -1004,6 +1074,7 @@ let score = 88 + Math.floor(Math.random() * 10);
 window.userData.interview_score = score;
 await syncToCloud();
 writeTranscript('interview-transcript', 'System', `Interview auto-score synced to cloud: ${score}/100`);
+window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI HR Interview');
 }
 }
 
@@ -1218,7 +1289,7 @@ hairPath: '<path d="M 22 45 C 22 10, 78 10, 78 45 L 78 30 C 78 5, 22 5, 22 30 Z"
 },
 'avatar-maya': {
 bg: '#fbcfe8', skin: '#d97706', skinDark: '#92400e', hair: '#111827', shirt: '#fef08a',
-                hairPath: '<path d="M 15 45 C 15 -10, 85 -10, 85 45 C 95 45, 95 75, 80 75 C 85 90, 50 95, 50 95 C 50 95, 15 90, 20 75 C 5 75, 5 45, 15 45 Z" fill="#111827"/>'
+                hairPath: '<circle cx="50" cy="15" r="18" fill="#111827"/><circle cx="35" cy="25" r="14" fill="#111827"/><circle cx="65" cy="25" r="14" fill="#111827"/><path d="M 22 45 C 22 15, 78 15, 78 45 C 78 30, 50 25, 22 45 Z" fill="#111827"/>'
 },
 'avatar-david': {
 bg: '#bbf7d0', skin: '#78350f', skinDark: '#451a03', hair: '#000000', shirt: '#1e293b',
