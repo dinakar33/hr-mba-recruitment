@@ -742,6 +742,30 @@ recognition.continuous = true;
 recognition.interimResults = true;
 }
 
+async function callGemini(systemPrompt, chatHistory) {
+    const apiKey = "";
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+    const payload = {
+        contents: chatHistory,
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+        generationConfig: { temperature: 0.7, maxOutputTokens: 200 }
+    };
+
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        return result.candidates[0].content.parts[0].text;
+    } catch (error) {
+        console.error(error);
+        return "System encountered a network disruption. Could you expand on your last point?";
+    }
+}
+
 function writeTranscript(targetId, speaker, text) {
 const box = document.getElementById(targetId);
 const line = document.createElement('div');
@@ -873,6 +897,9 @@ let currentGDRound = 1;
 let totalGDRounds = 5;
 let gdRecording = false;
 
+let gdChatHistory = [];
+const gdSystemPrompt = "You are moderating a postgraduate HR group discussion. There are two AI personas: Alex (Analytical, data-driven) and Maya (Creative, ethical). The case study is 'AI in Performance Reviews'. Based on the candidate's input, provide a highly accurate, business-professional critique or counter-argument (1-2 sentences), and ask a probing follow-up question. Format your response exactly like this: 'SpeakerName: Response text'. Choose either Alex or Maya to respond depending on the context. Be sharp and knowledgeable.";
+
 async function setSpeaker(id, name, text, voiceType, pitch, rate) {
 window.activeSpeaker = id;
 document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('is-talking'));
@@ -892,15 +919,23 @@ window.startAIGD = async function() {
 const btn = document.getElementById('aiVoiceBtn4');
 btn.disabled = true;
 currentGDRound = 1;
+gdChatHistory = [];
 document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
 document.getElementById('gd-transcript').innerHTML = "";
 writeTranscript('gd-transcript', 'System', 'Initiating 5-Round Virtual GD (Alex & Maya)...');
 
-await setSpeaker('avatar-alex', 'Alex', "Round 1: Implementing AI in performance reviews is essential. It standardizes metrics across departments.", 'male1', 0.9, 0.82);
+const initialAlex = "Round 1: Implementing AI in performance reviews is essential. It standardizes metrics across departments.";
+const initialMaya = "I disagree, Alex. Historical bias in datasets risks automating systemic discrimination.";
+const initialQuestion = "Candidate, how should we balance automated scoring with human oversight in Round 1?";
+
+await setSpeaker('avatar-alex', 'Alex', initialAlex, 'male1', 0.9, 0.82);
 await new Promise(r => setTimeout(r, 1500));
-await setSpeaker('avatar-maya', 'Maya', "I disagree, Alex. Historical bias in datasets risks automating systemic discrimination.", 'female', 1.1, 0.82);
+await setSpeaker('avatar-maya', 'Maya', initialMaya, 'female', 1.1, 0.82);
 await new Promise(r => setTimeout(r, 1500));
-await setSpeaker('avatar-alex', 'Alex', "Candidate, how should we balance automated scoring with human oversight in Round 1?", 'male1', 0.9, 0.82);
+await setSpeaker('avatar-alex', 'Alex', initialQuestion, 'male1', 0.9, 0.82);
+
+gdChatHistory.push({ role: "user", parts: [{ text: "Context: The GD just started. Alex argued for AI metrics. Maya argued against bias. Alex asked me how to balance automated scoring with human oversight." }] });
+gdChatHistory.push({ role: "model", parts: [{ text: "Understood. I await the candidate's first response." }] });
 
 document.getElementById('gd-mic-zone').classList.remove('hidden');
 }
@@ -932,13 +967,36 @@ writeTranscript('gd-transcript', 'Candidate', userSpeech);
 document.getElementById('gdLiveSubtitle').classList.add('hidden');
 document.getElementById('gd-mic-zone').classList.add('hidden');
 
+writeTranscript('gd-transcript', 'System', 'AI is analyzing your argument...');
+
+gdChatHistory.push({ role: "user", parts: [{ text: userSpeech }] });
+let aiResponse = await callGemini(gdSystemPrompt, gdChatHistory);
+gdChatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
+
 currentGDRound++;
 if(currentGDRound <= totalGDRounds) {
 document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
-setTimeout(async () => {
-await setSpeaker('avatar-maya', 'Maya', `Round ${currentGDRound}: How do you enforce transparency and audit trail in that framework?`, 'female', 1.1, 0.82);
+
+let speakerName = "Maya";
+let textToSpeak = aiResponse;
+let avatarId = 'avatar-maya';
+let voice = 'female';
+let pitch = 1.1;
+
+if (aiResponse.toLowerCase().startsWith("alex:")) {
+speakerName = "Alex";
+textToSpeak = aiResponse.replace(/^Alex:\s*/i, "");
+avatarId = 'avatar-alex';
+voice = 'male1';
+pitch = 0.9;
+} else if (aiResponse.toLowerCase().startsWith("maya:")) {
+speakerName = "Maya";
+textToSpeak = aiResponse.replace(/^Maya:\s*/i, "");
+}
+
+textToSpeak = `Round ${currentGDRound}: ` + textToSpeak;
+await setSpeaker(avatarId, speakerName, textToSpeak, voice, pitch, 0.82);
 document.getElementById('gd-mic-zone').classList.remove('hidden');
-}, 2500);
 } else {
 let score = 24 + Math.floor(Math.random() * 6);
 window.userData.gd_score = score;
@@ -965,49 +1023,37 @@ document.getElementById('composureVal').innerText = "Simulated";
 }
 }
 
-const masterInterviewQuestions = [
-"Tell me about a situation where you utilized HR analytics to resolve a team dispute.",
-"Describe a time you had to enforce policy compliance under intense deadline pressure.",
-"How do you handle managing resistant stakeholders during structural re-organization?",
-"Give an example of an HR initiative you led that failed and how you adapted.",
-"How do you balance employee well-being mandates with aggressive financial quarterly KPIs?"
-];
-
 let interviewStep = 0;
 let interviewRecording = false;
+let interviewChatHistory = [];
+const interviewSystemPrompt = "You are Sarah, an expert HR Director at a Fortune 500 company conducting a final-round behavioral interview. The candidate is applying for a strategic HR role. They will answer your question. Evaluate their response critically but professionally. First, give a 1-2 sentence direct feedback on their answer (e.g., assessing their use of the STAR method, leadership, or metrics). Then, ask the next tough, realistic HR behavioral question. Keep it concise and realistic. If it is the final round, conclude the interview warmly and provide a final rating out of 100 formatted EXACTLY like this at the very end of your response: [Score]. Example: [88].";
 
 window.startAIInterview = async function() {
 document.getElementById('startInterviewBtn').classList.add('hidden');
 document.getElementById('interview-transcript').innerHTML = "";
-interviewStep = 0;
-askNextInterviewQuestion();
-}
+interviewStep = 1;
+interviewChatHistory = [];
 
-async function askNextInterviewQuestion() {
-if (interviewStep < masterInterviewQuestions.length) {
-let q = masterInterviewQuestions[interviewStep];
+writeTranscript('interview-transcript', 'System', 'Sarah is reviewing your profile...');
+
+const prompt = `Start the interview. Welcome the candidate briefly, and ask a tough behavioral question about resolving a team dispute using HR analytics.`;
+interviewChatHistory.push({ role: "user", parts: [{ text: prompt }] });
+const aiResponse = await callGemini(interviewSystemPrompt, interviewChatHistory);
+interviewChatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
+
 window.activeSpeaker = 'sarah';
 document.getElementById('ai-hr-orb').classList.add('is-talking');
-writeTranscript('interview-transcript', 'HR Director Sarah', `[Q${interviewStep+1}/5] ${q}`);
-await window.speakAIPromise(q, 'female', 1.05, 0.82);
+writeTranscript('interview-transcript', 'HR Director Sarah', `[Q${interviewStep}/5] ${aiResponse}`);
+await window.speakAIPromise(aiResponse, 'female', 1.05, 0.82);
 window.activeSpeaker = null;
 document.getElementById('ai-hr-orb').classList.remove('is-talking');
 
 document.getElementById('interview-mic-zone').classList.remove('hidden');
 document.getElementById('interview-mic-zone').classList.add('flex');
-} else {
-window.activeSpeaker = 'sarah';
-document.getElementById('ai-hr-orb').classList.add('is-talking');
-writeTranscript('interview-transcript', 'HR Director Sarah', 'Interview complete. Behavioral video analysis logged.');
-await window.speakAIPromise("Interview complete. Behavioral video analysis logged.", 'female', 1.05, 0.82);
-window.activeSpeaker = null;
-document.getElementById('ai-hr-orb').classList.remove('is-talking');
-
-let score = 85 + Math.floor(Math.random() * 12); 
-window.userData.interview_score = score;
-await syncToCloud();
-window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral Interview');
 }
+
+async function askNextInterviewQuestion() {
+// This legacy function is bypassed by the new dynamic flow above.
 }
 
 window.startInterviewRecording = function() {
@@ -1025,7 +1071,7 @@ document.getElementById('interviewLiveSpeechText').innerText = liveText;
 recognition.start();
 }
 
-window.stopInterviewRecording = function() {
+window.stopInterviewRecording = async function() {
 if(!interviewRecording) return;
 document.getElementById('interview-mic-zone').classList.add('hidden');
 document.getElementById('interview-mic-zone').classList.remove('flex');
@@ -1036,8 +1082,35 @@ const candidateResponse = document.getElementById('interviewLiveSpeechText').inn
 writeTranscript('interview-transcript', 'Candidate', candidateResponse);
 document.getElementById('interviewLiveSubtitle').classList.add('hidden');
 
+writeTranscript('interview-transcript', 'System', 'Sarah is analyzing your response...');
+
 interviewStep++;
-setTimeout(askNextInterviewQuestion, 1500);
+let promptText = candidateResponse;
+if (interviewStep === 5) {
+promptText += "\n\n(System Note: This is the final round. Evaluate this final answer, conclude the interview warmly, and provide the final rating out of 100 in the format [Score]).";
+}
+
+interviewChatHistory.push({ role: "user", parts: [{ text: promptText }] });
+const aiResponse = await callGemini(interviewSystemPrompt, interviewChatHistory);
+interviewChatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
+
+window.activeSpeaker = 'sarah';
+document.getElementById('ai-hr-orb').classList.add('is-talking');
+writeTranscript('interview-transcript', 'HR Director Sarah', `[Q${interviewStep}/5] ${aiResponse}`);
+await window.speakAIPromise(aiResponse, 'female', 1.05, 0.82);
+window.activeSpeaker = null;
+document.getElementById('ai-hr-orb').classList.remove('is-talking');
+
+if (interviewStep < 5) {
+document.getElementById('interview-mic-zone').classList.remove('hidden');
+document.getElementById('interview-mic-zone').classList.add('flex');
+} else {
+let scoreMatch = aiResponse.match(/\[(\d+)\]/);
+let score = scoreMatch ? parseInt(scoreMatch[1]) : (85 + Math.floor(Math.random() * 12));
+window.userData.interview_score = score;
+await syncToCloud();
+window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral Interview');
+}
 }
 
 window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); }
