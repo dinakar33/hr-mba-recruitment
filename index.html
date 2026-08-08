@@ -49,11 +49,26 @@ body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode 
 .toggle-checkbox:checked { right: 0; border-color: #68D391; }
 .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
 
-@keyframes talk-glow { 0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.8); } 70% { box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); } 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); } }
-.avatar-talking { border-color: #3b82f6 !important; animation: talk-glow 1.2s infinite ease-out; transform: scale(1.03); }
+@keyframes jawMove { 
+  0% { transform: scaleY(0.3) translateY(0px); } 
+  50% { transform: scaleY(1.4) translateY(3px); } 
+  100% { transform: scaleY(0.5) translateY(1px); } 
+}
+@keyframes blinkEyelid { 
+  0%, 90%, 100% { transform: scaleY(0); } 
+  95% { transform: scaleY(1); } 
+}
 
 .gd-avatar { width: 110px; height: 110px; border-radius: 50%; overflow: hidden; background: #cbd5e1; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid #94a3b8; position: relative; margin: 0 auto; }
-.gd-avatar video, .gd-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.gd-avatar img { width: 100%; height: 100% !important; object-fit: cover !important; position: absolute; top: 0; left: 0; z-index: 1; }
+
+/* Dynamic Moving Mouth Overlay over the photo */
+.avatar-mouth-overlay { position: absolute; bottom: 22px; left: 40px; width: 30px; height: 12px; background: #581c87; border-radius: 50%; z-index: 3; opacity: 0; transform-origin: top center; transition: opacity 0.2s; }
+.gd-avatar.is-talking .avatar-mouth-overlay { opacity: 0.9; animation: jawMove 0.25s infinite alternate ease-in-out; }
+.gd-avatar.is-talking { border-color: #3b82f6 !important; box-shadow: 0 0 25px rgba(59, 130, 246, 0.8); }
+
+/* Dynamic Blinking Eyelid Overlay over the photo */
+.avatar-eyelid-overlay { position: absolute; top: 32px; left: 25px; width: 60px; height: 15px; background: rgba(0,0,0,0.4); z-index: 3; transform: scaleY(0); transform-origin: top; animation: blinkEyelid 4s infinite ease-in-out; pointer-events: none; }
 
 #global-ai-guide { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateX(200%); }
 #global-ai-guide.visible { transform: translateX(0); }
@@ -120,8 +135,10 @@ body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode 
 
 <div id="global-ai-guide" class="fixed bottom-6 right-6 z-50 flex items-center space-x-4 bg-slate-900 text-white p-4 rounded-full shadow-2xl border-4 border-brand-400">
 <div class="text-sm font-bold w-48 text-right hidden md:block" id="guide-text">Systems initializing...</div>
-<div id="guide-avatar" class="gd-avatar w-16 h-16 border-2 border-brand-400 overflow-hidden" style="width: 64px; height: 64px;">
-<img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=faces" class="w-full h-full object-cover" alt="Guide">
+<div id="guide-avatar" class="gd-avatar w-16 h-16 border-2 border-brand-400" style="width: 64px; height: 64px;">
+<img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=faces" alt="Guide">
+<div class="avatar-mouth-overlay"></div>
+<div class="avatar-eyelid-overlay"></div>
 </div>
 </div>
 
@@ -274,12 +291,16 @@ Submit Final Answers
 <div class="text-center">
 <div id="avatar-alex" class="gd-avatar border-blue-400">
 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=faces" alt="Alex">
+<div class="avatar-mouth-overlay"></div>
+<div class="avatar-eyelid-overlay"></div>
 </div>
 <span class="text-xs font-bold mt-2 block text-blue-600">Alex (Analytical)</span>
 </div>
 <div class="text-center">
 <div id="avatar-maya" class="gd-avatar border-pink-400">
 <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=faces" alt="Maya">
+<div class="avatar-mouth-overlay"></div>
+<div class="avatar-eyelid-overlay"></div>
 </div>
 <span class="text-xs font-bold mt-2 block text-pink-600">Maya (Creative)</span>
 </div>
@@ -349,6 +370,8 @@ Submit Final Answers
 <div class="lg:col-span-2 glass-card p-8 rounded-xl shadow-sm flex flex-col items-center border border-gray-200/50 relative">
 <div id="ai-hr-orb" class="gd-avatar shadow-2xl transition-all duration-300 mb-4 border-4 border-brand-400 relative z-10 overflow-hidden" style="width: 120px; height: 120px;">
 <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop&crop=faces" alt="Sarah">
+<div class="avatar-mouth-overlay"></div>
+<div class="avatar-eyelid-overlay"></div>
 </div>
 
 <h3 class="text-xl font-bold mb-1">Virtual HR Director Sarah</h3>
@@ -655,7 +678,7 @@ window.aiVoices.female1 = voices.find(v => v.name.includes('Google UK English Fe
 window.speechSynthesis.onvoiceschanged = loadVoices;
 loadVoices();
 
-window.speakAI = function(text, type, pitch = 1, rate = 0.8, onEndCallback = null) {
+window.speakAI = function(text, type, pitch = 1, rate = 0.82, onEndCallback = null) {
 if (!window.isAIMode) { if(onEndCallback) onEndCallback(); return; }
 window.speechSynthesis.cancel();
 
@@ -664,12 +687,12 @@ if(type === 'male1' && window.aiVoices.male1) utterance.voice = window.aiVoices.
 else if(type === 'female' && window.aiVoices.female1) utterance.voice = window.aiVoices.female1;
 
 utterance.pitch = pitch;
-utterance.rate = rate; // Slowed down pace for natural conversation
+utterance.rate = rate; // Calm, natural speaking pace
 if(onEndCallback) utterance.onend = onEndCallback;
 window.speechSynthesis.speak(utterance);
 }
 
-window.speakAIPromise = function(text, type, pitch = 1, rate = 0.8) {
+window.speakAIPromise = function(text, type, pitch = 1, rate = 0.82) {
 return new Promise(resolve => {
 window.speakAI(text, type, pitch, rate, resolve);
 });
@@ -693,10 +716,10 @@ guide.classList.add('visible');
 guideText.innerText = "AI Protocol Activated.";
 
 window.activeSpeaker = 'guide'; 
-document.getElementById('guide-avatar').classList.add('avatar-talking');
-await window.speakAIPromise("AI Protocol Activated. I will guide you calmly through this assessment.", 'female', 1, 0.8);
+document.getElementById('guide-avatar').classList.add('is-talking');
+await window.speakAIPromise("AI Protocol Activated. I will guide you smoothly through this assessment.", 'female', 1, 0.82);
 window.activeSpeaker = null;
-document.getElementById('guide-avatar').classList.remove('avatar-talking');
+document.getElementById('guide-avatar').classList.remove('is-talking');
 guideText.innerText = "Navigate through your assessment stages.";
 } else {
 body.classList.remove('ai-mode');
@@ -852,17 +875,17 @@ let gdRecording = false;
 
 async function setSpeaker(id, name, text, voiceType, pitch, rate) {
 window.activeSpeaker = id;
-document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
+document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('is-talking'));
 if(id) {
 const avatar = document.getElementById(id === 'sarah' ? 'ai-hr-orb' : (id==='guide' ? 'guide-avatar' : `avatar-${id}`));
-if(avatar) avatar.classList.add('avatar-talking');
+if(avatar) avatar.classList.add('is-talking');
 }
 
 writeTranscript('gd-transcript', name, text); 
 await window.speakAIPromise(text, voiceType, pitch, rate);
 
 window.activeSpeaker = null;
-document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
+document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('is-talking'));
 }
 
 window.startAIGD = async function() {
@@ -873,11 +896,11 @@ document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of 
 document.getElementById('gd-transcript').innerHTML = "";
 writeTranscript('gd-transcript', 'System', 'Initiating 5-Round Virtual GD (Alex & Maya)...');
 
-await setSpeaker('avatar-alex', 'Alex', "Round 1: Implementing AI in performance reviews is essential. It standardizes metrics across departments.", 'male1', 0.9, 0.8);
+await setSpeaker('avatar-alex', 'Alex', "Round 1: Implementing AI in performance reviews is essential. It standardizes metrics across departments.", 'male1', 0.9, 0.82);
 await new Promise(r => setTimeout(r, 1500));
-await setSpeaker('avatar-maya', 'Maya', "I disagree, Alex. Historical bias in datasets risks automating systemic discrimination.", 'female', 1.1, 0.8);
+await setSpeaker('avatar-maya', 'Maya', "I disagree, Alex. Historical bias in datasets risks automating systemic discrimination.", 'female', 1.1, 0.82);
 await new Promise(r => setTimeout(r, 1500));
-await setSpeaker('avatar-alex', 'Alex', "Candidate, how should we balance automated scoring with human oversight in Round 1?", 'male1', 0.9, 0.8);
+await setSpeaker('avatar-alex', 'Alex', "Candidate, how should we balance automated scoring with human oversight in Round 1?", 'male1', 0.9, 0.82);
 
 document.getElementById('gd-mic-zone').classList.remove('hidden');
 }
@@ -913,9 +936,9 @@ currentGDRound++;
 if(currentGDRound <= totalGDRounds) {
 document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
 setTimeout(async () => {
-await setSpeaker('avatar-maya', 'Maya', `Round ${currentGDRound}: How do you enforce transparency and audit trail in that framework?`, 'female', 1.1, 0.8);
+await setSpeaker('avatar-maya', 'Maya', `Round ${currentGDRound}: How do you enforce transparency and audit trail in that framework?`, 'female', 1.1, 0.82);
 document.getElementById('gd-mic-zone').classList.remove('hidden');
-}, 2000);
+}, 2500);
 } else {
 let score = 24 + Math.floor(Math.random() * 6);
 window.userData.gd_score = score;
@@ -963,22 +986,22 @@ askNextInterviewQuestion();
 async function askNextInterviewQuestion() {
 if (interviewStep < masterInterviewQuestions.length) {
 let q = masterInterviewQuestions[interviewStep];
-window.activeSpeaker = 'ai-hr-orb';
-document.getElementById('ai-hr-orb').classList.add('avatar-talking');
+window.activeSpeaker = 'sarah';
+document.getElementById('ai-hr-orb').classList.add('is-talking');
 writeTranscript('interview-transcript', 'HR Director Sarah', `[Q${interviewStep+1}/5] ${q}`);
-await window.speakAIPromise(q, 'female', 1.05, 0.8);
+await window.speakAIPromise(q, 'female', 1.05, 0.82);
 window.activeSpeaker = null;
-document.getElementById('ai-hr-orb').classList.remove('avatar-talking');
+document.getElementById('ai-hr-orb').classList.remove('is-talking');
 
 document.getElementById('interview-mic-zone').classList.remove('hidden');
 document.getElementById('interview-mic-zone').classList.add('flex');
 } else {
-window.activeSpeaker = 'ai-hr-orb';
-document.getElementById('ai-hr-orb').classList.add('avatar-talking');
+window.activeSpeaker = 'sarah';
+document.getElementById('ai-hr-orb').classList.add('is-talking');
 writeTranscript('interview-transcript', 'HR Director Sarah', 'Interview complete. Behavioral video analysis logged.');
-await window.speakAIPromise("Interview complete. Behavioral video analysis logged.", 'female', 1.05, 0.8);
+await window.speakAIPromise("Interview complete. Behavioral video analysis logged.", 'female', 1.05, 0.82);
 window.activeSpeaker = null;
-document.getElementById('ai-hr-orb').classList.remove('avatar-talking');
+document.getElementById('ai-hr-orb').classList.remove('is-talking');
 
 let score = 85 + Math.floor(Math.random() * 12); 
 window.userData.interview_score = score;
@@ -1143,11 +1166,11 @@ let text = `Candidate ${window.userData.name}. Processing complete. Your calcula
 document.getElementById('guide-text').innerText = "Playing Audio Debrief.";
 document.getElementById('global-ai-guide').classList.add('visible');
 
-window.activeSpeaker = 'guide-avatar';
-document.getElementById('guide-avatar').classList.add('avatar-talking');
-await window.speakAIPromise(text, 'female', 1, 0.8);
+window.activeSpeaker = 'guide';
+document.getElementById('guide-avatar').classList.add('is-talking');
+await window.speakAIPromise(text, 'female', 1, 0.82);
 window.activeSpeaker = null;
-document.getElementById('guide-avatar').classList.remove('avatar-talking');
+document.getElementById('guide-avatar').classList.remove('is-talking');
 }
 
 window.emailDetailedReport = function() {
