@@ -1019,29 +1019,10 @@ selectedQuizQuestions.forEach((item, index) => {
 const selected = document.querySelector(`input[name="q${index}"]:checked`);
 if(selected && parseInt(selected.value) === item.ans) score += 5; 
 });
-window.userData.test_score = score;
-await syncToCloud();
-
-window.autoAdvanceTab('tab-test', 'tab-gd', 'Cognitive Aptitude Test');
 document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
 }
 
-// --- VIRTUAL GD ---
-let currentGDRound = 1;
-let totalGDRounds = 5;
 let gdRecording = false;
-
-// Mock Gemini Analyzer for GD
-function analyzeGDSpeech(text) {
-    let lower = text.toLowerCase();
-    if(lower.includes("agree") || lower.includes("hybrid") || lower.includes("balance") || lower.includes("transparent")) {
-        return "That is a very solid strategic middle-ground.";
-    } else if (lower.includes("but") || lower.includes("disagree") || lower.includes("however")) {
-        return "A fair counter-point, let's explore that nuance.";
-    } else {
-        return "Interesting perspective. How would you quantify that?";
-    }
-}
 let gdFinalText = "";
 let gdRound = 1;
 let gdChatHistory = [];
@@ -1064,18 +1045,12 @@ document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avata
 window.startAIGD = async function() {
 const btn = document.getElementById('aiVoiceBtn4');
 btn.disabled = true;
-currentGDRound = 1;
-document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
 gdRound = 1;
 gdChatHistory = [];
 document.getElementById('gdRoundBadge').innerText = `Round ${gdRound} of 5`;
 document.getElementById('gd-transcript').innerHTML = "";
-writeTranscript('gd-transcript', 'System', 'Initiating 5-Round Virtual GD...');
 writeTranscript('gd-transcript', 'System', 'Connecting to Gemini AI Evaluation Core...');
 
-// Slower rate 0.95
-await setSpeaker('alex', 'Alex', "Round 1: Implementing AI in performance reviews is essential. It standardizes metrics across departments.", 'male1', 0.9, 0.95);
-await setSpeaker('maya', 'Maya', "I disagree, Alex. Historical bias in datasets risks automating systemic discrimination.", 'female', 1.1, 0.95);
 await setSpeaker('alex', 'Alex', "Implementing AI in performance reviews is a necessary evolution. It completely removes human bias and standardizes metrics across the board.", 'male1', 0.9, 1.1);
 await setSpeaker('maya', 'Maya', "I strongly disagree, Alex. Algorithms are trained on historical data, which inherently contains human biases. We risk automating and hiding discrimination.", 'female', 1.1, 1.05);
 await setSpeaker('david', 'David', "Both are valid points. The key lies in hybrid implementation. Candidate, what is your stance on this?", 'male2', 0.85, 0.95);
@@ -1085,20 +1060,15 @@ document.getElementById('gd-mic-zone').classList.remove('hidden');
 }
 
 window.startGDRecording = function() {
-if(!recognition) return window.showMessage("Speech API not supported.", "error");
 if(!recognition) return window.showMessage("Speech API not supported in this browser.", "error");
 document.getElementById('gdMicBtn').classList.add('bg-red-400');
 document.getElementById('gdLiveSubtitle').classList.remove('hidden');
 gdRecording = true;
-
 gdFinalText = "";
 recognition.onresult = (event) => {
-let liveText = "";
 for (let i = event.resultIndex; i < event.results.length; ++i) {
-liveText += event.results[i][0].transcript;
 if (event.results[i].isFinal) gdFinalText += event.results[i][0].transcript;
 }
-document.getElementById('gdLiveSpeechText').innerText = liveText;
 document.getElementById('gdLiveSpeechText').innerText = gdFinalText;
 };
 recognition.start();
@@ -1111,30 +1081,12 @@ recognition.stop();
 gdRecording = false;
 document.getElementById('gd-mic-zone').classList.add('hidden');
 
-const userSpeech = document.getElementById('gdLiveSpeechText').innerText.trim() || "A hybrid model ensures both efficiency and fairness.";
 const userSpeech = gdFinalText.trim() || "I believe a balanced approach is necessary.";
 writeTranscript('gd-transcript', 'Candidate', userSpeech);
 document.getElementById('gdLiveSubtitle').classList.add('hidden');
-document.getElementById('gd-mic-zone').classList.add('hidden');
 
-let aiResponse = analyzeGDSpeech(userSpeech);
 writeTranscript('gd-transcript', 'System', 'AI analyzing logical framework...');
 
-currentGDRound++;
-if(currentGDRound <= totalGDRounds) {
-document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
-setTimeout(async () => {
-await setSpeaker(currentGDRound % 2 === 0 ? 'alex' : 'maya', currentGDRound % 2 === 0 ? 'Alex' : 'Maya', `${aiResponse} Moving to Round ${currentGDRound}: How do you enforce transparency and audit trail in that framework?`, currentGDRound % 2 === 0 ? 'male1' : 'female', currentGDRound % 2 === 0 ? 0.9 : 1.1, 0.95);
-document.getElementById('gd-mic-zone').classList.remove('hidden');
-}, 1000);
-} else {
-let score = 24 + Math.floor(Math.random() * 6);
-window.userData.gd_score = score;
-await syncToCloud();
-writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Score: ${score}/30`);
-window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
-}
-}
 const systemPrompt = `You are a critical Fortune 500 HR moderator managing a Group Discussion on 'AI in Performance Reviews'. 
 There are 3 AI agents (Alex: Analytical/Data-driven, Maya: Creative/Ethical, David: Pragmatic) and the Candidate. 
 The candidate just spoke. 
@@ -1142,57 +1094,8 @@ If round is < 5: Pick EITHER Alex, Maya, or David to fiercely but professionally
 Format EXACTLY as "AgentName: [response]". 
 If round == 5: Conclude the GD and provide a strict final score for the candidate out of 30 based on their logic, emotional intelligence, and vocabulary. Format EXACTLY as "System: GD Concluded. [Feedback]. [SCORE: X]".`;
 
-// --- AI INTERVIEW ---
-let webcamStream = null;
-let aiScanInterval = null;
-
-function initWebcamStream() {
-const video = document.getElementById('userWebcam');
-if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(stream => {
-webcamStream = stream;
-video.srcObject = stream;
-startBehavioralSimulation();
-}).catch(err => {
-console.log("Webcam access declined/unavailable:", err);
-document.getElementById('scanEye').innerText = "Camera Offline";
-document.getElementById('scanPosture').innerText = "Camera Offline";
-document.getElementById('scanExpr').innerText = "Camera Offline";
-document.getElementById('scanStress').innerText = "Camera Offline";
-});
-}
-}
-
-function startBehavioralSimulation() {
-if (aiScanInterval) clearInterval(aiScanInterval);
-const postures = ["Upright Base", "Engaged Forward", "Neutral Base", "Micro-shift detected"];
-const expressions = ["Neutral", "Active Listening", "Contemplative", "High Engagement"];
-const stressLevels = ["Baseline (Low)", "Regulated", "Optimal Focus", "Micro-Spike detected"];
-
-document.getElementById('scanEye').innerText = "Locked (94%)";
-document.getElementById('scanPosture').innerText = "Upright Base";
-document.getElementById('scanExpr').innerText = "Neutral";
-document.getElementById('scanStress').innerText = "Baseline (Low)";
-
-aiScanInterval = setInterval(() => {
-let eye = Math.floor(Math.random() * 8) + 90; // fluctuates between 90-97%
-document.getElementById('scanEye').innerText = `Locked (${eye}%)`;
-
-if(Math.random() > 0.7) document.getElementById('scanPosture').innerText = postures[Math.floor(Math.random() * postures.length)];
-if(Math.random() > 0.6) document.getElementById('scanExpr').innerText = expressions[Math.floor(Math.random() * expressions.length)];
-if(Math.random() > 0.8) document.getElementById('scanStress').innerText = stressLevels[Math.floor(Math.random() * stressLevels.length)];
-}, 800);
-}
 gdChatHistory.push({ role: "user", parts: [{ text: `Round ${gdRound}: Candidate says: "${userSpeech}"` }] });
 
-const masterInterviewQuestions = [
-"Tell me about a situation where you utilized HR analytics to resolve a team dispute.",
-"Describe a time you had to enforce policy compliance under intense deadline pressure.",
-"How do you handle managing resistant stakeholders during structural re-organization?",
-"Give an example of an HR initiative you led that failed and how you adapted.",
-"How do you balance employee well-being mandates with aggressive financial quarterly KPIs?",
-"Describe a time you had to deliver difficult feedback to a senior leader."
-];
 const payload = {
     contents: gdChatHistory,
     systemInstruction: { parts: [{ text: systemPrompt }] },
@@ -1201,21 +1104,6 @@ const payload = {
 const apiKey = ""; 
 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
-let interviewStep = 0;
-let interviewRecording = false;
-let selectedInterviewQuestions = [];
-
-// Mock Gemini Analyzer for Interview
-function analyzeInterviewSpeech(text) {
-    let lower = text.toLowerCase();
-    let hasSituation = lower.includes("when") || lower.includes("situation") || lower.includes("during");
-    let hasAction = lower.includes("i implemented") || lower.includes("i led") || lower.includes("i created") || lower.includes("i communicated");
-    let hasResult = lower.includes("result") || lower.includes("percent") || lower.includes("%") || lower.includes("increased") || lower.includes("decreased");
-    
-    if (hasSituation && hasAction && hasResult) {
-        return "Excellent use of the STAR method with concrete metrics.";
-    } else if (hasAction && !hasResult) {
-        return "Good action steps, but in the future, remember to quantify your results with data.";
 try {
     const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
     const result = await response.json();
@@ -1238,7 +1126,6 @@ try {
         await setSpeaker(speakerId, speakerName, aiText, voice, pitch, 1.05);
         document.getElementById('gd-mic-zone').classList.remove('hidden');
     } else {
-        return "Make sure to structure your answers using Situation, Task, Action, and Result.";
         let scoreMatch = aiText.match(/\[SCORE:\s*(\d+)\]/);
         let score = scoreMatch ? parseInt(scoreMatch[1]) : (20 + Math.floor(Math.random() * 10));
         aiText = aiText.replace(/\[SCORE:\s*\d+\]/, "").replace("System:", "").trim();
@@ -1266,22 +1153,13 @@ let interviewChatHistory = [];
 window.startAIInterview = async function() {
 document.getElementById('startInterviewBtn').classList.add('hidden');
 document.getElementById('interview-transcript').innerHTML = "";
-interviewStep = 0;
-// Pick 5 random
-selectedInterviewQuestions = masterInterviewQuestions.sort(() => 0.5 - Math.random()).slice(0, 5);
-askNextInterviewQuestion();
-}
 interviewStep = 1;
 interviewChatHistory = [];
 
 let q = "Welcome to the final stage. I am Sarah, the HR Director. We are looking for executives who rely on data, not just intuition. Let's begin. Tell me about a time you utilized data to solve a complex team problem.";
 
-async function askNextInterviewQuestion() {
-if (interviewStep < selectedInterviewQuestions.length) {
-let q = selectedInterviewQuestions[interviewStep];
 window.activeSpeaker = 'sarah';
 document.getElementById('ai-hr-orb').classList.add('avatar-talking');
-writeTranscript('interview-transcript', 'HR Director Sarah', `[Q${interviewStep+1}/5] ${q}`);
 writeTranscript('interview-transcript', 'HR Director Sarah', `[Q1/5] ${q}`);
 await window.speakAIPromise(q, 'female', 1.05, 0.95);
 window.activeSpeaker = null;
@@ -1289,23 +1167,9 @@ document.getElementById('ai-hr-orb').classList.remove('avatar-talking');
 
 document.getElementById('interview-mic-zone').classList.remove('hidden');
 document.getElementById('interview-mic-zone').classList.add('flex');
-} else {
-window.activeSpeaker = 'sarah';
-document.getElementById('ai-hr-orb').classList.add('avatar-talking');
-writeTranscript('interview-transcript', 'HR Director Sarah', 'Interview complete. Behavioral video analysis logged.');
-await window.speakAIPromise("Interview complete. Behavioral video analysis logged.", 'female', 1.05, 0.95);
-window.activeSpeaker = null;
-document.getElementById('ai-hr-orb').classList.remove('avatar-talking');
-
-let score = 85 + Math.floor(Math.random() * 12); 
-window.userData.interview_score = score;
-await syncToCloud();
-window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral Interview');
-}
 }
 
 window.startInterviewRecording = function() {
-if(!recognition) return window.showMessage("Speech API not supported.", "error");
 if(!recognition) return window.showMessage("Speech API not supported in this browser.", "error");
 interviewRecording = true;
 interviewFinalText = "";
@@ -1329,28 +1193,18 @@ document.getElementById('interview-mic-zone').classList.remove('flex');
 recognition.stop();
 interviewRecording = false;
 
-const candidateResponse = document.getElementById('interviewLiveSpeechText').innerText.trim() || "I structured a clear framework prioritizing direct communication, resulting in a 20% improvement.";
 const candidateResponse = interviewFinalText.trim() || "[Candidate provided audio response]";
 writeTranscript('interview-transcript', 'Candidate', candidateResponse);
 document.getElementById('interviewLiveSubtitle').classList.add('hidden');
 
-let aiFeedback = analyzeInterviewSpeech(candidateResponse);
 document.getElementById('interview-status').innerText = "Analyzing STAR metrics...";
 writeTranscript('interview-transcript', 'System', 'Running STAR-method behavioral analysis...');
 
-window.activeSpeaker = 'sarah';
-document.getElementById('ai-hr-orb').classList.add('avatar-talking');
-writeTranscript('interview-transcript', 'HR Director Sarah', `[Feedback] ${aiFeedback}`);
-await window.speakAIPromise(aiFeedback, 'female', 1.05, 0.95);
-window.activeSpeaker = null;
-document.getElementById('ai-hr-orb').classList.remove('avatar-talking');
 const systemPrompt = `You are Sarah, a ruthless, highly critical Fortune 500 HR Director conducting a behavioral interview.
 The candidate is applying for an executive role.
 If question step is < 5: Critically evaluate their previous answer. Did they use the STAR method? Did they provide hard numbers, percentages, or metrics? If not, point it out bluntly in 1 sentence. Then, ask the next tough behavioral question related to corporate strategy. (Total response 2-3 sentences max).
 If question step == 5: This is the final evaluation. Give blunt feedback on their overall interview performance based on their actual answers. Assign a strict score out of 100. Format EXACTLY as "Feedback. [SCORE: X]". Do not ask another question.`;
 
-interviewStep++;
-setTimeout(askNextInterviewQuestion, 1000);
 interviewChatHistory.push({ role: "user", parts: [{ text: `Question ${interviewStep} Answer: "${candidateResponse}"` }] });
 
 const payload = {
@@ -1412,7 +1266,6 @@ try {
 }
 }
 
-// --- ADMIN CONTROLS ---
 window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); }
 window.closeAdminModal = function() { document.getElementById('adminModal').classList.add('hidden'); }
 
@@ -1535,8 +1388,6 @@ document.getElementById('passportContent').classList.add('hidden');
 window.playDebrief = async function() {
 if(!window.isAIMode) return;
 let total = document.getElementById('passTotal').innerText;
-let text = `Candidate ${window.userData.name}. Processing complete. Your calculated readiness index is ${total}. You exhibited traits of a ${window.userData.archetype}. Your ATS and Cognitive scores indicate strong domain literacy.`;
-document.getElementById('guide-text').innerText = "Playing Audio Debrief.";
 let text = `Candidate ${window.userData.name}. Processing complete. Your calculated readiness index is ${total}. You have exhibited the traits of a ${window.userData.archetype}. Your ATS and Cognitive scores indicate strong domain literacy. Ensure you review the Labor Rights masterclasses before proceeding to onboarding.`;
 document.getElementById('guide-text').innerText = "Playing Executive Audio Debrief.";
 document.getElementById('global-ai-guide').classList.add('visible');
@@ -1556,9 +1407,6 @@ if (!window.userData.email) { window.showMessage("Candidate did not provide an e
 
 const total = document.getElementById('passTotal').innerText;
 const toEmail = encodeURIComponent(window.userData.email);
-const subject = encodeURIComponent("CONFIDENTIAL: Your Executive Talent Passport");
-
-let bodyText = `Dear ${window.userData.name},\n\nYour Talent Passport score is ${total}.\nArchetype: ${window.userData.archetype}\nATS Score: ${window.userData.ats_score}/100\nCognitive Score: ${window.userData.test_score}/100\nGD Score: ${window.userData.gd_score}/30\nInterview Score: ${window.userData.interview_score}/100\n\nBest regards,\nHR Blog Administration Team`;
 const subject = encodeURIComponent("CONFIDENTIAL: Comprehensive Executive Talent Assessment & Growth Report");
 
 // Generate highly detailed, critical feedback based on specific scores
@@ -1604,19 +1452,13 @@ window.open(gmailUrl, '_blank');
 window.showMessage(`Opening detailed growth report in Gmail for ${window.userData.email}...`);
 }
 
-// --- AVATAR SYSTEM ---
 // Global variables for eye-tracking disabled
 window.mouseX = window.innerWidth / 2;
 window.mouseY = window.innerHeight / 2;
 
 window.addEventListener('load', () => {
-document.addEventListener('mousemove', (e) => {
-window.mouseX = e.clientX;
-window.mouseY = e.clientY;
-});
 // Eye-tracking event listeners removed to keep avatars looking straight ahead
 initRealisticAvatars();
-updateParallax();
 // updateParallax() removed
 });
 
