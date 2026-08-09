@@ -44,31 +44,24 @@ body.ai-mode .text-slate-500, body.ai-mode .text-slate-600 { color: #cbd5e1 !imp
 body.ai-mode .bg-white { background-color: #1e293b !important; }
 body.ai-mode .bg-slate-50 { background-color: rgba(255, 255, 255, 0.05) !important; }
 body.ai-mode .border-gray-300, body.ai-mode .border { border-color: #475569 !important; }
-body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode select { background-color: #334155; color: #f8fafc; border-color: #475569; }
+body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode input[type="tel"], body.ai-mode input[type="url"], body.ai-mode select { background-color: #334155; color: #f8fafc; border-color: #475569; }
 
 .toggle-checkbox:checked { right: 0; border-color: #68D391; }
 .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
 
-@keyframes jawMove { 
-  0% { transform: scaleY(0.3) translateY(0px); } 
-  50% { transform: scaleY(1.4) translateY(3px); } 
-  100% { transform: scaleY(0.5) translateY(1px); } 
-}
-@keyframes blinkEyelid { 
-  0%, 90%, 100% { transform: scaleY(0); } 
-  95% { transform: scaleY(1); } 
-}
+@keyframes talk-bounce { 0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); } 100% { box-shadow: 0 0 35px rgba(59, 130, 246, 1); border-color: #60a5fa; } }
+@keyframes listen-pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
 
-.gd-avatar { width: 110px; height: 110px; border-radius: 50%; overflow: hidden; background: #cbd5e1; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid #94a3b8; position: relative; margin: 0 auto; }
-.gd-avatar img { width: 100%; height: 100% !important; object-fit: cover !important; position: absolute; top: 0; left: 0; z-index: 1; }
+.is-talking { animation: talk-bounce 0.4s ease-in-out infinite alternate !important; border: 4px solid #60a5fa !important; }
+.is-listening { animation: listen-pulse 1.5s infinite !important; border: 4px solid #10b981 !important; }
 
-/* Dynamic Moving Mouth Overlay over the photo */
-.avatar-mouth-overlay { position: absolute; bottom: 22px; left: 40px; width: 30px; height: 12px; background: #581c87; border-radius: 50%; z-index: 3; opacity: 0; transform-origin: top center; transition: opacity 0.2s; }
-.gd-avatar.is-talking .avatar-mouth-overlay { opacity: 0.9; animation: jawMove 0.25s infinite alternate ease-in-out; }
-.gd-avatar.is-talking { border-color: #3b82f6 !important; box-shadow: 0 0 25px rgba(59, 130, 246, 0.8); }
+@keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
 
-/* Dynamic Blinking Eyelid Overlay over the photo */
-.avatar-eyelid-overlay { position: absolute; top: 32px; left: 25px; width: 60px; height: 15px; background: rgba(0,0,0,0.4); z-index: 3; transform: scaleY(0); transform-origin: top; animation: blinkEyelid 4s infinite ease-in-out; pointer-events: none; }
+.gd-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; }
+body.ai-mode .gd-avatar { background: #334155; }
+
+.avatar-breathing { animation: breathe 4s infinite ease-in-out; }
+.avatar-talking { border-color: #60a5fa; }
 
 #global-ai-guide { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateX(200%); }
 #global-ai-guide.visible { transform: translateX(0); }
@@ -85,7 +78,7 @@ body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode 
 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
 <div>
 <h1 class="text-3xl font-extrabold tracking-tight">HR Blog</h1>
-<p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth.</p>
+<p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth. <span class="bg-brand-500 text-white px-2 py-0.5 rounded ml-2 text-xs font-bold">v5.0 Enterprise</span></p>
 </div>
 
 <div class="flex items-center space-x-6">
@@ -135,11 +128,7 @@ body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode 
 
 <div id="global-ai-guide" class="fixed bottom-6 right-6 z-50 flex items-center space-x-4 bg-slate-900 text-white p-4 rounded-full shadow-2xl border-4 border-brand-400">
 <div class="text-sm font-bold w-48 text-right hidden md:block" id="guide-text">Systems initializing...</div>
-<div id="guide-avatar" class="gd-avatar w-16 h-16 border-2 border-brand-400" style="width: 64px; height: 64px;">
-<img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=faces" alt="Guide">
-<div class="avatar-mouth-overlay"></div>
-<div class="avatar-eyelid-overlay"></div>
-</div>
+<div id="guide-avatar" class="gd-avatar avatar-breathing w-16 h-16 border-2 border-brand-400" style="width: 64px; height: 64px;"></div>
 </div>
 
 <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full relative">
@@ -159,6 +148,7 @@ body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode 
 </div>
 </div>
 
+<!-- STAGE 1: ONBOARDING -->
 <section id="tab-onboarding" class="tab-content active">
 <div class="mb-8 flex justify-between items-center flex-wrap gap-4">
 <div>
@@ -171,28 +161,110 @@ body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode 
 </div>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<div class="glass-card p-6 rounded-xl shadow-sm">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Expanded Personal Details -->
+<div class="glass-card p-6 rounded-xl shadow-sm h-fit lg:col-span-1">
 <h3 class="text-lg font-semibold border-b border-gray-200/50 pb-3 mb-4"><i class="fa-solid fa-address-card text-brand-500 mr-2"></i>Personal Details</h3>
 <div class="space-y-4">
-<div><label class="block text-sm font-medium mb-1">Full Name</label><input type="text" id="candName" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="John Doe"></div>
-<div><label class="block text-sm font-medium mb-1">Email Address</label><input type="email" id="candEmail" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="john@example.com"></div>
-<div><label class="block text-sm font-medium mb-1">Specialization</label>
+<div><label class="block text-sm font-medium mb-1">Full Name *</label><input type="text" id="candName" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="John Doe"></div>
+<div><label class="block text-sm font-medium mb-1">Email Address *</label><input type="email" id="candEmail" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="john@example.com"></div>
+<div><label class="block text-sm font-medium mb-1">Phone Number (Optional)</label><input type="tel" id="candPhone" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="+1 (555) 000-0000"></div>
+<div><label class="block text-sm font-medium mb-1">University / Institution *</label><input type="text" id="candUni" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="Harvard Business School"></div>
+<div><label class="block text-sm font-medium mb-1">Specialization *</label>
 <select id="candSpec" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent">
-<option class="text-black">MBA - Human Resources</option><option class="text-black">MBA - Finance</option><option class="text-black">MBA - Marketing</option>
+<option class="text-black">MBA - Human Resources</option><option class="text-black">MBA - Finance</option><option class="text-black">MBA - Marketing</option><option class="text-black">MBA - Operations</option><option class="text-black">MBA - Supply Chain</option>
 </select>
 </div>
+<div><label class="block text-sm font-medium mb-1">LinkedIn URL (Optional)</label><input type="url" id="candLinkedin" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="https://linkedin.com/in/johndoe"></div>
 </div>
 </div>
 
-<div class="glass-card p-6 rounded-xl shadow-sm">
-<h3 class="text-lg font-semibold border-b border-gray-200/50 pb-3 mb-4"><i class="fa-solid fa-puzzle-piece text-brand-500 mr-2"></i>Archetype Assessment</h3>
-<p class="text-sm mb-4 font-medium">When facing a complex roadblock, your instinct is to:</p>
-<div class="space-y-3">
-<label class="flex items-start p-3 border border-gray-200/50 rounded-lg cursor-pointer"><input type="radio" name="archetypeQ" value="Strategist" class="mt-1"><span class="ml-3 text-sm">Analyze data and build a structured framework</span></label>
-<label class="flex items-start p-3 border border-gray-200/50 rounded-lg cursor-pointer"><input type="radio" name="archetypeQ" value="Innovator" class="mt-1"><span class="ml-3 text-sm">Brainstorm an out-of-the-box workaround</span></label>
-<label class="flex items-start p-3 border border-gray-200/50 rounded-lg cursor-pointer"><input type="radio" name="archetypeQ" value="Connector" class="mt-1"><span class="ml-3 text-sm">Consult team members to build consensus</span></label>
-<label class="flex items-start p-3 border border-gray-200/50 rounded-lg cursor-pointer"><input type="radio" name="archetypeQ" value="Executor" class="mt-1"><span class="ml-3 text-sm">Execute immediately with tactical focus</span></label>
+<!-- 10-Question Archetype Assessment -->
+<div class="glass-card p-6 rounded-xl shadow-sm lg:col-span-2">
+<h3 class="text-lg font-semibold border-b border-gray-200/50 pb-3 mb-4"><i class="fa-solid fa-puzzle-piece text-brand-500 mr-2"></i>Psychometric Archetype Assessment (10 Questions)</h3>
+<p class="text-sm mb-6 text-slate-500">Answer all questions truthfully to determine your corporate behavioral archetype.</p>
+
+<div class="space-y-6 h-96 overflow-y-auto pr-2 no-scrollbar" id="archetypeQuestionsContainer">
+<!-- Q1 -->
+<div class="border border-gray-200/50 rounded-lg p-4 bg-slate-50/50">
+<p class="font-medium text-sm mb-3">1. When facing a complex corporate roadblock, your first instinct is to:</p>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ1" value="Strategist" class="mr-2"> Analyze past data and formulate a structured framework</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ1" value="Innovator" class="mr-2"> Brainstorm a disruptive, out-of-the-box workaround</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ1" value="Connector" class="mr-2"> Consult team members to build consensus and morale</label>
+<label class="block cursor-pointer text-sm"><input type="radio" name="archQ1" value="Executor" class="mr-2"> Execute immediately with tactical focus on deliverables</label>
+</div>
+<!-- Q2 -->
+<div class="border border-gray-200/50 rounded-lg p-4 bg-slate-50/50">
+<p class="font-medium text-sm mb-3">2. When starting a completely new project, what is your priority?</p>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ2" value="Strategist" class="mr-2"> Defining clear metrics and long-term KPIs</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ2" value="Innovator" class="mr-2"> Finding a unique angle that hasn't been tried before</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ2" value="Connector" class="mr-2"> Ensuring the right people are assigned to the right roles</label>
+<label class="block cursor-pointer text-sm"><input type="radio" name="archQ2" value="Executor" class="mr-2"> Setting a strict timeline and getting to work immediately</label>
+</div>
+<!-- Q3 -->
+<div class="border border-gray-200/50 rounded-lg p-4 bg-slate-50/50">
+<p class="font-medium text-sm mb-3">3. In team meetings, you are usually the one who:</p>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ3" value="Strategist" class="mr-2"> Points out logical flaws or risks in the plan</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ3" value="Innovator" class="mr-2"> Pitches the big "what if" ideas</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ3" value="Connector" class="mr-2"> Makes sure everyone gets a chance to speak</label>
+<label class="block cursor-pointer text-sm"><input type="radio" name="archQ3" value="Executor" class="mr-2"> Pushes the meeting to end so real work can begin</label>
+</div>
+<!-- Q4 -->
+<div class="border border-gray-200/50 rounded-lg p-4 bg-slate-50/50">
+<p class="font-medium text-sm mb-3">4. How do you handle sudden changes in executive strategy?</p>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ4" value="Strategist" class="mr-2"> Recalculate projections and adjust the risk model</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ4" value="Innovator" class="mr-2"> Embrace it as a chance to try a new methodology</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ4" value="Connector" class="mr-2"> Check in with the team to manage anxiety and morale</label>
+<label class="block cursor-pointer text-sm"><input type="radio" name="archQ4" value="Executor" class="mr-2"> Immediately rewrite the to-do list and assign new tasks</label>
+</div>
+<!-- Q5 -->
+<div class="border border-gray-200/50 rounded-lg p-4 bg-slate-50/50">
+<p class="font-medium text-sm mb-3">5. What is your preferred communication style?</p>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ5" value="Strategist" class="mr-2"> Detailed, data-heavy reports</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ5" value="Innovator" class="mr-2"> Visual presentations and whiteboard sessions</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ5" value="Connector" class="mr-2"> Face-to-face conversations or quick calls</label>
+<label class="block cursor-pointer text-sm"><input type="radio" name="archQ5" value="Executor" class="mr-2"> Short, bullet-pointed emails with clear action items</label>
+</div>
+<!-- Q6 -->
+<div class="border border-gray-200/50 rounded-lg p-4 bg-slate-50/50">
+<p class="font-medium text-sm mb-3">6. How do you prefer to track progress?</p>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ6" value="Strategist" class="mr-2"> Utilizing complex dashboard analytics and variance reports</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ6" value="Innovator" class="mr-2"> Reviewing creative milestones and product prototypes</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ6" value="Connector" class="mr-2"> Holding weekly team stand-ups to gauge qualitative progress</label>
+<label class="block cursor-pointer text-sm"><input type="radio" name="archQ6" value="Executor" class="mr-2"> Crossing off completed tasks on a Kanban board</label>
+</div>
+<!-- Q7 -->
+<div class="border border-gray-200/50 rounded-lg p-4 bg-slate-50/50">
+<p class="font-medium text-sm mb-3">7. When resolving a dispute between two departments, you:</p>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ7" value="Strategist" class="mr-2"> Look at the contractual SLA or policy guidelines</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ7" value="Innovator" class="mr-2"> Try to design a completely new workflow that bypasses the issue</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ7" value="Connector" class="mr-2"> Mediate a compromise where both sides feel heard</label>
+<label class="block cursor-pointer text-sm"><input type="radio" name="archQ7" value="Executor" class="mr-2"> Make a firm executive decision to prevent further delays</label>
+</div>
+<!-- Q8 -->
+<div class="border border-gray-200/50 rounded-lg p-4 bg-slate-50/50">
+<p class="font-medium text-sm mb-3">8. Your approach to risk is:</p>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ8" value="Strategist" class="mr-2"> Highly calculated; risk must be mathematically justified</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ8" value="Innovator" class="mr-2"> Embraced; risk is necessary for massive growth</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ8" value="Connector" class="mr-2"> Shared; risks should be decided as a collective unit</label>
+<label class="block cursor-pointer text-sm"><input type="radio" name="archQ8" value="Executor" class="mr-2"> Minimized; risks threaten project deadlines</label>
+</div>
+<!-- Q9 -->
+<div class="border border-gray-200/50 rounded-lg p-4 bg-slate-50/50">
+<p class="font-medium text-sm mb-3">9. What motivates you the most?</p>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ9" value="Strategist" class="mr-2"> Solving complex, systemic puzzles</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ9" value="Innovator" class="mr-2"> Being recognized for a groundbreaking idea</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ9" value="Connector" class="mr-2"> Building a loyal, high-functioning team</label>
+<label class="block cursor-pointer text-sm"><input type="radio" name="archQ9" value="Executor" class="mr-2"> Hitting targets and finishing projects early</label>
+</div>
+<!-- Q10 -->
+<div class="border border-gray-200/50 rounded-lg p-4 bg-slate-50/50">
+<p class="font-medium text-sm mb-3">10. Under tight deadlines, you tend to:</p>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ10" value="Strategist" class="mr-2"> Re-evaluate the critical path to drop unnecessary scope</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ10" value="Innovator" class="mr-2"> Look for an automated tool to speed things up</label>
+<label class="block mb-2 cursor-pointer text-sm"><input type="radio" name="archQ10" value="Connector" class="mr-2"> Rally the team with encouragement and coffee</label>
+<label class="block cursor-pointer text-sm"><input type="radio" name="archQ10" value="Executor" class="mr-2"> Put your head down and work 14-hour days until it's done</label>
+</div>
 </div>
 </div>
 </div>
@@ -204,6 +276,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
+<!-- STAGE 2: ATS -->
 <section id="tab-ats" class="tab-content">
 <div class="mb-8">
 <h2 class="text-2xl font-bold text-slate-800">Stage 1: ATS Audit</h2>
@@ -238,6 +311,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
+<!-- STAGE 3: TEST -->
 <section id="tab-test" class="tab-content">
 <div class="mb-8 flex justify-between items-center bg-red-500/10 p-4 rounded-lg border border-red-500/30">
 <div>
@@ -269,6 +343,7 @@ Submit Final Answers
 </div>
 </section>
 
+<!-- STAGE 4: GD -->
 <section id="tab-gd" class="tab-content">
 <div class="mb-6 flex justify-between items-center">
 <div>
@@ -287,22 +362,15 @@ Submit Final Answers
 <p class="text-sm mb-6 pb-4 border-b border-gray-200/50">Discuss the ethical implications of replacing human managers with AI scoring systems.</p>
 
 <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
+<!-- 2 AVATARS ONLY -->
 <div class="flex space-x-12 justify-center mb-6">
 <div class="text-center">
-<div id="avatar-alex" class="gd-avatar border-blue-400">
-<img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=faces" alt="Alex">
-<div class="avatar-mouth-overlay"></div>
-<div class="avatar-eyelid-overlay"></div>
-</div>
-<span class="text-xs font-bold mt-2 block text-blue-600">Alex (Analytical)</span>
+<div id="avatar-alex" class="gd-avatar avatar-breathing border-blue-400"></div>
+<span class="text-xs font-bold mt-2 block text-blue-400">Alex (Analytical)</span>
 </div>
 <div class="text-center">
-<div id="avatar-maya" class="gd-avatar border-pink-400">
-<img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=faces" alt="Maya">
-<div class="avatar-mouth-overlay"></div>
-<div class="avatar-eyelid-overlay"></div>
-</div>
-<span class="text-xs font-bold mt-2 block text-pink-600">Maya (Creative)</span>
+<div id="avatar-maya" class="gd-avatar avatar-breathing border-pink-400"></div>
+<span class="text-xs font-bold mt-2 block text-pink-400">Maya (Creative)</span>
 </div>
 </div>
 
@@ -338,18 +406,20 @@ Submit Final Answers
 <div class="glass-card p-6 rounded-xl flex flex-col items-center justify-center text-center [&:has(~.admin-only:not([style*='display: none']))]:hidden" id="gdWaitingArea">
 <i class="fa-solid fa-satellite-dish text-5xl text-slate-400 mb-6 hover:scale-110 transition-transform"></i>
 <h3 class="text-xl font-bold mb-2">Awaiting AI Evaluation</h3>
-<p class="text-sm max-w-sm">Engage in the 5-round simulation between Alex and Maya. Take your time to respond each round.</p>
+<p class="text-sm max-w-sm">Engage in the 5-round simulation. The AI agents will debate and request your input each round before auto-scoring based on collaborative vocabulary.</p>
 </div>
 </div>
 </section>
 
+<!-- STAGE 5: INTERVIEW -->
 <section id="tab-interview" class="tab-content">
 <div class="mb-8">
 <h2 class="text-2xl font-bold text-slate-800">Stage 4: AI Behavioral HR Interview & Live Video Feed</h2>
-<p class="text-slate-500 mt-1">STAR-method evaluation with camera behavioral tracking.</p>
+<p class="text-slate-500 mt-1">STAR-method evaluation with Simulated Gemini Vision camera behavioral tracking.</p>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Webcam Feed -->
 <div class="glass-card p-6 rounded-xl shadow-sm flex flex-col items-center justify-center border border-gray-200/50">
 <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3"><i class="fa-solid fa-video text-red-500 mr-2"></i>Candidate Video Call Stream</h3>
 <div class="relative w-full h-64 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
@@ -368,11 +438,7 @@ Submit Final Answers
 </div>
 
 <div class="lg:col-span-2 glass-card p-8 rounded-xl shadow-sm flex flex-col items-center border border-gray-200/50 relative">
-<div id="ai-hr-orb" class="gd-avatar shadow-2xl transition-all duration-300 mb-4 border-4 border-brand-400 relative z-10 overflow-hidden" style="width: 120px; height: 120px;">
-<img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop&crop=faces" alt="Sarah">
-<div class="avatar-mouth-overlay"></div>
-<div class="avatar-eyelid-overlay"></div>
-</div>
+<div id="ai-hr-orb" class="gd-avatar avatar-breathing shadow-2xl transition-all duration-300 mb-4 border-4 border-brand-400 relative z-10" style="width: 120px; height: 120px;"></div>
 
 <h3 class="text-xl font-bold mb-1">Virtual HR Director Sarah</h3>
 <p id="interview-status" class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-4">Offline - Switch to AI Mode</p>
@@ -401,6 +467,7 @@ Submit Final Answers
 </div>
 </section>
 
+<!-- STAGE 6: PASSPORT -->
 <section id="tab-passport" class="tab-content">
 <div class="mb-6 flex justify-between items-center">
 <h2 class="text-2xl font-bold text-slate-800">Stage 5: Executive Talent Passport</h2>
@@ -521,11 +588,52 @@ Submit Final Answers
 <div class="grid grid-cols-1 gap-8">
 <div class="glass-card p-8 rounded-xl shadow-md border-l-8 border-l-brand-500">
 <h3 class="text-2xl font-bold text-slate-800 mb-4"><i class="fa-solid fa-users-gear text-brand-500 mr-3"></i>1. Talent Acquisition & ATS Analytics</h3>
-<p class="text-slate-600 mb-4 leading-relaxed">The <strong>Stage 1 ATS Audit</strong> demonstrates the foundational mechanics of automated resume screening used by Fortune 500 companies.</p>
+<p class="text-slate-600 mb-4 leading-relaxed">The <strong>Stage 1 ATS Audit</strong> demonstrates the foundational mechanics of automated resume screening used by Fortune 500 companies. It actively explores:</p>
+<ul class="list-disc list-inside text-slate-600 space-y-2 ml-4">
+<li><strong>Term Frequency-Inverse Document Frequency (TF-IDF):</strong> How algorithms weight specific corporate keywords against general vocabulary to determine candidate relevance.</li>
+<li><strong>Algorithmic Bias & Formatting Constraints:</strong> Demonstrating how complex PDF layouts (tables, dual columns) fail parsing engines, leading to false negatives in the recruitment funnel.</li>
+<li><strong>Boolean Search Logic:</strong> How HR professionals use AND/OR/NOT operators to build the very keyword arrays this system scans against.</li>
+</ul>
 </div>
+
 <div class="glass-card p-8 rounded-xl shadow-md border-l-8 border-l-purple-500">
 <h3 class="text-2xl font-bold text-slate-800 mb-4"><i class="fa-solid fa-brain text-purple-500 mr-3"></i>2. Organizational Behavior (OB)</h3>
-<p class="text-slate-600 mb-4 leading-relaxed">Direct applications of Tuckman's Group Development and behavioral profiling in the Virtual GD module.</p>
+<p class="text-slate-600 mb-4 leading-relaxed">The <strong>Initial Archetype Assessment</strong> and <strong>Virtual GD</strong> are direct applications of core OB theories regarding human interaction in corporate structures:</p>
+<ul class="list-disc list-inside text-slate-600 space-y-2 ml-4">
+<li><strong>Tuckman's Stages of Group Development:</strong> The Virtual GD forces candidates to navigate Forming, Storming, and Norming phases rapidly with distinct AI personality types (Analytical, Creative, Pragmatic).</li>
+<li><strong>Behavioral Profiling:</strong> The archetype generation mirrors standard corporate psychometric tools (like DiSC or MBTI) to predict conflict resolution styles.</li>
+<li><strong>Cognitive Biases:</strong> The platform highlights the dangers of the Halo Effect and Confirmation Bias by strictly separating the automated quantitative scoring from the Admin's subjective qualitative override.</li>
+</ul>
+</div>
+
+<div class="glass-card p-8 rounded-xl shadow-md border-l-8 border-l-green-500">
+<h3 class="text-2xl font-bold text-slate-800 mb-4"><i class="fa-solid fa-chess-knight text-green-500 mr-3"></i>3. Strategic HRM (SHRM)</h3>
+<p class="text-slate-600 mb-4 leading-relaxed">The <strong>Stage 4 AI Interview</strong> is built strictly upon SHRM best practices for predictive candidate success:</p>
+<ul class="list-disc list-inside text-slate-600 space-y-2 ml-4">
+<li><strong>The STAR Method Validation:</strong> Questions are explicitly designed to force Situation, Task, Action, and Result formatting, the gold standard for behavioral consistency validation.</li>
+<li><strong>Predictive Validity:</strong> Structuring the interview to measure competencies (resilience under tight time budgets, stakeholder influence) rather than just technical skill.</li>
+<li><strong>Strategic Alignment:</strong> Assessing if a candidate's core philosophy prioritizes long-term employee well-being alongside aggressive quarterly corporate metrics.</li>
+</ul>
+</div>
+
+<div class="glass-card p-8 rounded-xl shadow-md border-l-8 border-l-amber-500">
+<h3 class="text-2xl font-bold text-slate-800 mb-4"><i class="fa-solid fa-scale-balanced text-amber-500 mr-3"></i>4. Industrial Relations & Labor Law</h3>
+<p class="text-slate-600 mb-4 leading-relaxed">The <strong>Labor Rights Module</strong> provides critical statutory literacy necessary for ethical HR management and personal career protection:</p>
+<ul class="list-disc list-inside text-slate-600 space-y-2 ml-4">
+<li><strong>The POSH Act 2013:</strong> Understanding the legal mandates for Internal Complaints Committees (ICC) and the definitions of safe workplace environments.</li>
+<li><strong>CTC Structuring & Taxation:</strong> Breaking down Base Pay versus Variable Pay, Gratuity eligibility, and Provident Fund (EPF) statutory contributions.</li>
+<li><strong>Severance & Notice Periods:</strong> The legal enforceability of non-compete clauses, notice period buyouts, and termination severance under current labor codes.</li>
+</ul>
+</div>
+
+<div class="glass-card p-8 rounded-xl shadow-md border-l-8 border-l-blue-500">
+<h3 class="text-2xl font-bold text-slate-800 mb-4"><i class="fa-solid fa-network-wired text-blue-500 mr-3"></i>5. HR Information Systems (HRIS) & Analytics</h3>
+<p class="text-slate-600 mb-4 leading-relaxed">The <strong>Cloud-Synced Backend</strong> and <strong>Executive Passport</strong> function as a live demonstration of a modern HRIS architecture:</p>
+<ul class="list-disc list-inside text-slate-600 space-y-2 ml-4">
+<li><strong>Real-Time Data Streaming:</strong> How NoSQL cloud databases (Firebase) instantly push candidate metadata to administrative dashboards without page refreshes.</li>
+<li><strong>Quantitative Readiness Indexing:</strong> Aggregating disparate data points (ATS scores, cognitive agility, behavioral sentiment) into a single, actionable executive metric.</li>
+<li><strong>Automated Reporting:</strong> Utilizing API hooks to generate and dispatch formatted corporate dossiers directly to candidate email systems (Gmail integration).</li>
+</ul>
 </div>
 </div>
 </section>
@@ -562,6 +670,7 @@ window.userData = { name: "", email: "", archetype: "Not Evaluated", ats_score: 
 let unsubscribeStudent = null;
 let unsubscribeAdmin = null;
 
+// --- TAB NAVIGATION & AUTO ADVANCE ---
 window.switchTab = function(tabId, btn) {
 document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
 document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('bg-brand-700', 'text-white', 'active'); b.classList.add('text-brand-100'); });
@@ -576,7 +685,7 @@ window.showMessage(`<i class="fa-solid fa-circle-check mr-1"></i> ${stageName} C
 setTimeout(() => {
 const targetNavBtn = document.querySelector(`button[onclick*="'${nextTabId}'"]`);
 window.switchTab(nextTabId, targetNavBtn);
-}, 2500);
+}, 2000);
 }
 
 window.showMessage = function(text, type = 'success') {
@@ -587,6 +696,7 @@ box.classList.remove('hidden');
 setTimeout(() => { box.classList.add('hidden'); }, 5000);
 }
 
+// --- SESSION & FIREBASE ---
 signInAnonymously(auth).then((userCredential) => {
 window.candidateId = userCredential.user.uid;
 const savedEmail = localStorage.getItem('hr_candidate_email');
@@ -652,20 +762,38 @@ window.saveProfile = async function() {
 if (!window.candidateId) { window.showMessage("Database not ready yet.", "error"); return; }
 const name = document.getElementById('candName').value.trim();
 const email = document.getElementById('candEmail').value.trim();
-const checkedRadio = document.querySelector('input[name="archetypeQ"]:checked');
-if (!name || !email || !checkedRadio) { window.showMessage("Enter name, email, and select an archetype.", "error"); return; }
+const uni = document.getElementById('candUni').value.trim();
+const spec = document.getElementById('candSpec').value;
+
+if (!name || !email || !uni) { 
+  window.showMessage("Please fill all required fields: Name, Email, and University.", "error"); 
+  return; 
+}
+
+// Tally 10-Question Archetype 
+let counts = { 'Strategist': 0, 'Innovator': 0, 'Connector': 0, 'Executor': 0 };
+for(let i=1; i<=10; i++) {
+  const checked = document.querySelector(`input[name="archQ${i}"]:checked`);
+  if(!checked) {
+      window.showMessage(`Please answer question ${i} in the Archetype Assessment.`, "error");
+      return;
+  }
+  counts[checked.value]++;
+}
+let dominantArchetype = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
 
 window.userData.name = name;
 window.userData.email = email;
-window.userData.archetype = checkedRadio.value;
+window.userData.archetype = dominantArchetype;
 localStorage.setItem('hr_candidate_email', email);
 
 await syncToCloud();
 window.autoAdvanceTab('tab-onboarding', 'tab-ats', 'Onboarding Profile');
 }
 
+// --- VOICE & AVATAR SYSTEM ---
 window.voicesLoaded = false;
-window.aiVoices = { male1: null, female1: null };
+window.aiVoices = { male1: null, female1: null, male2: null };
 
 function loadVoices() {
 let voices = window.speechSynthesis.getVoices();
@@ -673,26 +801,28 @@ if(voices.length) {
 window.voicesLoaded = true;
 window.aiVoices.male1 = voices.find(v => v.name.includes('Google UK English Male') || v.name.includes('Male')) || voices[0];
 window.aiVoices.female1 = voices.find(v => v.name.includes('Google UK English Female') || v.name.includes('Female')) || voices[0];
+window.aiVoices.male2 = voices.find(v => v.name.includes('Google US English Male') || v.name.includes('Male')) || voices[0];
 }
 }
 window.speechSynthesis.onvoiceschanged = loadVoices;
 loadVoices();
 
-window.speakAI = function(text, type, pitch = 1, rate = 0.82, onEndCallback = null) {
+window.speakAI = function(text, type, pitch = 1, rate = 1, onEndCallback = null) {
 if (!window.isAIMode) { if(onEndCallback) onEndCallback(); return; }
 window.speechSynthesis.cancel();
 
 const utterance = new SpeechSynthesisUtterance(text);
 if(type === 'male1' && window.aiVoices.male1) utterance.voice = window.aiVoices.male1;
 else if(type === 'female' && window.aiVoices.female1) utterance.voice = window.aiVoices.female1;
+else if(type === 'male2' && window.aiVoices.male2) utterance.voice = window.aiVoices.male2;
 
 utterance.pitch = pitch;
-utterance.rate = rate; // Calm, natural speaking pace
+utterance.rate = rate; // Reduced pace globally by setting defaults lower where called
 if(onEndCallback) utterance.onend = onEndCallback;
 window.speechSynthesis.speak(utterance);
 }
 
-window.speakAIPromise = function(text, type, pitch = 1, rate = 0.82) {
+window.speakAIPromise = function(text, type, pitch = 1, rate = 1) {
 return new Promise(resolve => {
 window.speakAI(text, type, pitch, rate, resolve);
 });
@@ -708,26 +838,30 @@ if (window.isAIMode) {
 body.classList.add('ai-mode');
 document.getElementById('aiVoiceBtn4').classList.remove('hidden');
 document.getElementById('aiVoiceBtn5').classList.remove('hidden');
+
 document.getElementById('gd-arena').classList.remove('opacity-50', 'pointer-events-none');
 document.getElementById('interview-controls').classList.remove('hidden');
 document.getElementById('interview-controls').classList.add('flex');
 
+document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
 guide.classList.add('visible');
 guideText.innerText = "AI Protocol Activated.";
 
 window.activeSpeaker = 'guide'; 
-document.getElementById('guide-avatar').classList.add('is-talking');
-await window.speakAIPromise("AI Protocol Activated. I will guide you smoothly through this assessment.", 'female', 1, 0.82);
+document.getElementById('guide-avatar').classList.add('avatar-talking');
+await window.speakAIPromise("AI Protocol Activated. I will guide you through this assessment.", 'female', 1.1, 0.9); // Slowed pace
 window.activeSpeaker = null;
-document.getElementById('guide-avatar').classList.remove('is-talking');
+document.getElementById('guide-avatar').classList.remove('avatar-talking');
 guideText.innerText = "Navigate through your assessment stages.";
 } else {
 body.classList.remove('ai-mode');
 document.getElementById('aiVoiceBtn4').classList.add('hidden');
 document.getElementById('aiVoiceBtn5').classList.add('hidden');
+
 document.getElementById('gd-arena').classList.add('opacity-50', 'pointer-events-none');
 document.getElementById('interview-controls').classList.add('hidden');
 document.getElementById('interview-controls').classList.remove('flex');
+document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-breathing', 'avatar-talking'));
 guide.classList.remove('visible');
 window.speechSynthesis.cancel();
 window.activeSpeaker = null;
@@ -742,30 +876,6 @@ recognition.continuous = true;
 recognition.interimResults = true;
 }
 
-async function callGemini(systemPrompt, chatHistory) {
-    const apiKey = "";
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-
-    const payload = {
-        contents: chatHistory,
-        systemInstruction: { parts: [{ text: systemPrompt }] },
-        generationConfig: { temperature: 0.7, maxOutputTokens: 200 }
-    };
-
-    try {
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        const result = await response.json();
-        return result.candidates[0].content.parts[0].text;
-    } catch (error) {
-        console.error(error);
-        return "System encountered a network disruption. Could you expand on your last point?";
-    }
-}
-
 function writeTranscript(targetId, speaker, text) {
 const box = document.getElementById(targetId);
 const line = document.createElement('div');
@@ -775,6 +885,7 @@ box.appendChild(line);
 box.scrollTop = box.scrollHeight;
 }
 
+// --- ATS AUDIT ---
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
@@ -824,13 +935,26 @@ btn.disabled = false;
 }
 }
 
+// --- APTITUDE TEST ---
 const masterAptitudeQuestions = [
 { q: "What is the primary objective of a 360-degree performance appraisal?", options: ["To evaluate 360 employees per cycle", "To collect multi-directional feedback from peers, reports, and supervisors", "To replace traditional KPIs", "To provide the CEO with direct tactical data"], ans: 1 },
 { q: "Which metric mathematically indicates recruitment lifecycle efficiency?", options: ["Total applicant volume", "Cost per hire and time-to-fill ratio", "Employee turnover percentage", "Mandatory training hours completed"], ans: 1 },
 { q: "An employee consistently arrives 30 mins late but exceeds all quantitative KPIs. As an HR Director, you should:", options: ["Terminate to enforce uniform compliance", "Ignore the lateness completely due to high performance", "Investigate root cause and negotiate a flexible schedule if policy permits", "Deduct pay corresponding to the 30 minutes"], ans: 2 },
 { q: "According to Herzberg's Two-Factor Theory, which of the following is considered a 'Hygiene Factor'?", options: ["Public recognition", "Increased responsibility", "Base Salary", "Career advancement"], ans: 2 },
 { q: "In predictive HR analytics, what is the primary function?", options: ["Describing past turnover events", "Explaining current turnover", "Forecasting future flight risks using historical data models", "Mandating preventative actions"], ans: 2 },
-{ q: "What is the mandated purpose of an Internal Complaints Committee (ICC) under the POSH Act?", options: ["To negotiate salary disputes", "To redress grievances related to sexual harassment at workplace", "To audit financial compliance", "To organize events"], ans: 1 }
+{ q: "What is the mandated purpose of an Internal Complaints Committee (ICC) under the POSH Act?", options: ["To negotiate salary disputes", "To redress grievances related to sexual harassment at workplace", "To audit financial compliance", "To organize events"], ans: 1 },
+{ q: "In a tight time-budget scenario, two departments have conflicting hiring needs. How do you prioritize?", options: ["First come, first served", "Halt both", "Prioritize based on direct impact to revenue goals", "Flip a coin"], ans: 2 },
+{ q: "Calculate the employee turnover rate formula:", options: ["(New hires / Total employees) * 100", "(Employees left / Average total employees) * 100", "(Total employees / Left) * 100", "None"], ans: 1 },
+{ q: "What does 'Compa-Ratio' measure?", options: ["Company to Revenue ratio", "Salary relative to the midpoint of market salary band", "Base pay vs bonus", "HR staff to total employee ratio"], ans: 1 },
+{ q: "In a normal performance bell curve, what percentage falls within one standard deviation?", options: ["50%", "68%", "95%", "99.7%"], ans: 1 },
+{ q: "What is the purpose of salary benchmarking?", options: ["Equal pay for all", "Comparing internal compensation structures against external market data", "Severance calculation", "Enforcing notice periods"], ans: 1 },
+{ q: "High 90-day employee turnover indicates structural failure in:", options: ["Retirement plans", "Onboarding processes and job expectation alignment", "Leadership presence", "Annual leave policy"], ans: 1 },
+{ q: "What does 'STAR' behavioral interview stand for?", options: ["Start, Think, Act, Respond", "Situation, Task, Action, Result", "System, Target, Assess, Report", "Standardized Testing"], ans: 1 },
+{ q: "Which cognitive bias occurs when favoring a candidate with a similar background?", options: ["Halo Effect", "Contrast Bias", "Similar-to-me Bias", "Confirmation Bias"], ans: 2 },
+{ q: "When an employee requests neurodivergent workplace accommodation, sound HR action is:", options: ["Ignore if targets met", "Engage in interactive dialogue to determine reasonable accommodations", "Move to lower role", "Require full team medical disclosure"], ans: 1 },
+{ q: "If two senior managers are engaged in a toxic, escalating conflict affecting team morale, what is the immediate HR intervention?", options: ["Terminate both to set an example", "Facilitate a structured, documented mediation session", "Tell their respective teams to ignore it", "Transfer one manager randomly"], ans: 1 },
+{ q: "What is the definitive indicator of a successful onboarding program?", options: ["The employee signed all forms on day one", "Reduced time-to-productivity and increased 1-year retention rates", "The employee attended the welcome lunch", "The IT department issued their laptop on time"], ans: 1 },
+{ q: "Which of these is considered a statutory (mandatory) benefit in the Indian corporate sector?", options: ["Comprehensive Health Insurance for dependents", "Provident Fund (EPF) contributions", "Paid sabbatical leave", "Stock Options (ESOPs)"], ans: 1 }
 ];
 
 let selectedQuizQuestions = [];
@@ -893,50 +1017,51 @@ await syncToCloud();
 window.autoAdvanceTab('tab-test', 'tab-gd', 'Cognitive Aptitude Test');
 }
 
+// --- VIRTUAL GD ---
 let currentGDRound = 1;
 let totalGDRounds = 5;
 let gdRecording = false;
 
-let gdChatHistory = [];
-const gdSystemPrompt = "You are moderating a postgraduate HR group discussion. There are two AI personas: Alex (Analytical, data-driven) and Maya (Creative, ethical). The case study is 'AI in Performance Reviews'. Based on the candidate's input, provide a highly accurate, business-professional critique or counter-argument (1-2 sentences), and ask a probing follow-up question. Format your response exactly like this: 'SpeakerName: Response text'. Choose either Alex or Maya to respond depending on the context. Be sharp and knowledgeable.";
+// Mock Gemini Analyzer for GD
+function analyzeGDSpeech(text) {
+    let lower = text.toLowerCase();
+    if(lower.includes("agree") || lower.includes("hybrid") || lower.includes("balance") || lower.includes("transparent")) {
+        return "That is a very solid strategic middle-ground.";
+    } else if (lower.includes("but") || lower.includes("disagree") || lower.includes("however")) {
+        return "A fair counter-point, let's explore that nuance.";
+    } else {
+        return "Interesting perspective. How would you quantify that?";
+    }
+}
 
 async function setSpeaker(id, name, text, voiceType, pitch, rate) {
 window.activeSpeaker = id;
-document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('is-talking'));
+document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
 if(id) {
 const avatar = document.getElementById(id === 'sarah' ? 'ai-hr-orb' : (id==='guide' ? 'guide-avatar' : `avatar-${id}`));
-if(avatar) avatar.classList.add('is-talking');
+if(avatar) avatar.classList.add('avatar-talking');
 }
 
 writeTranscript('gd-transcript', name, text); 
 await window.speakAIPromise(text, voiceType, pitch, rate);
 
 window.activeSpeaker = null;
-document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('is-talking'));
+document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
 }
 
 window.startAIGD = async function() {
 const btn = document.getElementById('aiVoiceBtn4');
 btn.disabled = true;
 currentGDRound = 1;
-gdChatHistory = [];
 document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
 document.getElementById('gd-transcript').innerHTML = "";
-writeTranscript('gd-transcript', 'System', 'Initiating 5-Round Virtual GD (Alex & Maya)...');
+writeTranscript('gd-transcript', 'System', 'Initiating 5-Round Virtual GD...');
 
-const initialAlex = "Round 1: Implementing AI in performance reviews is essential. It standardizes metrics across departments.";
-const initialMaya = "I disagree, Alex. Historical bias in datasets risks automating systemic discrimination.";
-const initialQuestion = "Candidate, how should we balance automated scoring with human oversight in Round 1?";
+// Slower rate 0.95
+await setSpeaker('alex', 'Alex', "Round 1: Implementing AI in performance reviews is essential. It standardizes metrics across departments.", 'male1', 0.9, 0.95);
+await setSpeaker('maya', 'Maya', "I disagree, Alex. Historical bias in datasets risks automating systemic discrimination.", 'female', 1.1, 0.95);
 
-await setSpeaker('avatar-alex', 'Alex', initialAlex, 'male1', 0.9, 0.82);
-await new Promise(r => setTimeout(r, 1500));
-await setSpeaker('avatar-maya', 'Maya', initialMaya, 'female', 1.1, 0.82);
-await new Promise(r => setTimeout(r, 1500));
-await setSpeaker('avatar-alex', 'Alex', initialQuestion, 'male1', 0.9, 0.82);
-
-gdChatHistory.push({ role: "user", parts: [{ text: "Context: The GD just started. Alex argued for AI metrics. Maya argued against bias. Alex asked me how to balance automated scoring with human oversight." }] });
-gdChatHistory.push({ role: "model", parts: [{ text: "Understood. I await the candidate's first response." }] });
-
+writeTranscript('gd-transcript', 'System', 'Mic active. Candidate, hold the mic button to share your perspective.');
 document.getElementById('gd-mic-zone').classList.remove('hidden');
 }
 
@@ -967,36 +1092,15 @@ writeTranscript('gd-transcript', 'Candidate', userSpeech);
 document.getElementById('gdLiveSubtitle').classList.add('hidden');
 document.getElementById('gd-mic-zone').classList.add('hidden');
 
-writeTranscript('gd-transcript', 'System', 'AI is analyzing your argument...');
-
-gdChatHistory.push({ role: "user", parts: [{ text: userSpeech }] });
-let aiResponse = await callGemini(gdSystemPrompt, gdChatHistory);
-gdChatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
+let aiResponse = analyzeGDSpeech(userSpeech);
 
 currentGDRound++;
 if(currentGDRound <= totalGDRounds) {
 document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
-
-let speakerName = "Maya";
-let textToSpeak = aiResponse;
-let avatarId = 'avatar-maya';
-let voice = 'female';
-let pitch = 1.1;
-
-if (aiResponse.toLowerCase().startsWith("alex:")) {
-speakerName = "Alex";
-textToSpeak = aiResponse.replace(/^Alex:\s*/i, "");
-avatarId = 'avatar-alex';
-voice = 'male1';
-pitch = 0.9;
-} else if (aiResponse.toLowerCase().startsWith("maya:")) {
-speakerName = "Maya";
-textToSpeak = aiResponse.replace(/^Maya:\s*/i, "");
-}
-
-textToSpeak = `Round ${currentGDRound}: ` + textToSpeak;
-await setSpeaker(avatarId, speakerName, textToSpeak, voice, pitch, 0.82);
+setTimeout(async () => {
+await setSpeaker(currentGDRound % 2 === 0 ? 'alex' : 'maya', currentGDRound % 2 === 0 ? 'Alex' : 'Maya', `${aiResponse} Moving to Round ${currentGDRound}: How do you enforce transparency and audit trail in that framework?`, currentGDRound % 2 === 0 ? 'male1' : 'female', currentGDRound % 2 === 0 ? 0.9 : 1.1, 0.95);
 document.getElementById('gd-mic-zone').classList.remove('hidden');
+}, 1000);
 } else {
 let score = 24 + Math.floor(Math.random() * 6);
 window.userData.gd_score = score;
@@ -1006,6 +1110,7 @@ window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
 }
 }
 
+// --- AI INTERVIEW ---
 let webcamStream = null;
 function initWebcamStream() {
 const video = document.getElementById('userWebcam');
@@ -1013,47 +1118,79 @@ if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(stream => {
 webcamStream = stream;
 video.srcObject = stream;
-document.getElementById('eyeContactVal').innerText = "Steady (96%)";
-document.getElementById('composureVal').innerText = "Calm & Focused";
+document.getElementById('eyeContactVal').innerText = "Steady (94%)";
+document.getElementById('composureVal').innerText = "Calm";
 }).catch(err => {
-console.log("Webcam access unavailable:", err);
+console.log("Webcam access declined/unavailable:", err);
 document.getElementById('eyeContactVal').innerText = "Simulated";
 document.getElementById('composureVal').innerText = "Simulated";
 });
 }
 }
 
+const masterInterviewQuestions = [
+"Tell me about a situation where you utilized HR analytics to resolve a team dispute.",
+"Describe a time you had to enforce policy compliance under intense deadline pressure.",
+"How do you handle managing resistant stakeholders during structural re-organization?",
+"Give an example of an HR initiative you led that failed and how you adapted.",
+"How do you balance employee well-being mandates with aggressive financial quarterly KPIs?",
+"Describe a time you had to deliver difficult feedback to a senior leader."
+];
+
 let interviewStep = 0;
 let interviewRecording = false;
-let interviewChatHistory = [];
-const interviewSystemPrompt = "You are Sarah, an expert HR Director at a Fortune 500 company conducting a final-round behavioral interview. The candidate is applying for a strategic HR role. They will answer your question. Evaluate their response critically but professionally. First, give a 1-2 sentence direct feedback on their answer (e.g., assessing their use of the STAR method, leadership, or metrics). Then, ask the next tough, realistic HR behavioral question. Keep it concise and realistic. If it is the final round, conclude the interview warmly and provide a final rating out of 100 formatted EXACTLY like this at the very end of your response: [Score]. Example: [88].";
+let selectedInterviewQuestions = [];
+
+// Mock Gemini Analyzer for Interview
+function analyzeInterviewSpeech(text) {
+    let lower = text.toLowerCase();
+    let hasSituation = lower.includes("when") || lower.includes("situation") || lower.includes("during");
+    let hasAction = lower.includes("i implemented") || lower.includes("i led") || lower.includes("i created") || lower.includes("i communicated");
+    let hasResult = lower.includes("result") || lower.includes("percent") || lower.includes("%") || lower.includes("increased") || lower.includes("decreased");
+    
+    if (hasSituation && hasAction && hasResult) {
+        return "Excellent use of the STAR method with concrete metrics.";
+    } else if (hasAction && !hasResult) {
+        return "Good action steps, but in the future, remember to quantify your results with data.";
+    } else {
+        return "Make sure to structure your answers using Situation, Task, Action, and Result.";
+    }
+}
 
 window.startAIInterview = async function() {
 document.getElementById('startInterviewBtn').classList.add('hidden');
 document.getElementById('interview-transcript').innerHTML = "";
-interviewStep = 1;
-interviewChatHistory = [];
-
-writeTranscript('interview-transcript', 'System', 'Sarah is reviewing your profile...');
-
-const prompt = `Start the interview. Welcome the candidate briefly, and ask a tough behavioral question about resolving a team dispute using HR analytics.`;
-interviewChatHistory.push({ role: "user", parts: [{ text: prompt }] });
-const aiResponse = await callGemini(interviewSystemPrompt, interviewChatHistory);
-interviewChatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
-
-window.activeSpeaker = 'sarah';
-document.getElementById('ai-hr-orb').classList.add('is-talking');
-writeTranscript('interview-transcript', 'HR Director Sarah', `[Q${interviewStep}/5] ${aiResponse}`);
-await window.speakAIPromise(aiResponse, 'female', 1.05, 0.82);
-window.activeSpeaker = null;
-document.getElementById('ai-hr-orb').classList.remove('is-talking');
-
-document.getElementById('interview-mic-zone').classList.remove('hidden');
-document.getElementById('interview-mic-zone').classList.add('flex');
+interviewStep = 0;
+// Pick 5 random
+selectedInterviewQuestions = masterInterviewQuestions.sort(() => 0.5 - Math.random()).slice(0, 5);
+askNextInterviewQuestion();
 }
 
 async function askNextInterviewQuestion() {
-// This legacy function is bypassed by the new dynamic flow above.
+if (interviewStep < selectedInterviewQuestions.length) {
+let q = selectedInterviewQuestions[interviewStep];
+window.activeSpeaker = 'sarah';
+document.getElementById('ai-hr-orb').classList.add('avatar-talking');
+writeTranscript('interview-transcript', 'HR Director Sarah', `[Q${interviewStep+1}/5] ${q}`);
+await window.speakAIPromise(q, 'female', 1.05, 0.95);
+window.activeSpeaker = null;
+document.getElementById('ai-hr-orb').classList.remove('avatar-talking');
+
+document.getElementById('interview-mic-zone').classList.remove('hidden');
+document.getElementById('interview-mic-zone').classList.add('flex');
+} else {
+window.activeSpeaker = 'sarah';
+document.getElementById('ai-hr-orb').classList.add('avatar-talking');
+writeTranscript('interview-transcript', 'HR Director Sarah', 'Interview complete. Behavioral video analysis logged.');
+await window.speakAIPromise("Interview complete. Behavioral video analysis logged.", 'female', 1.05, 0.95);
+window.activeSpeaker = null;
+document.getElementById('ai-hr-orb').classList.remove('avatar-talking');
+
+let score = 85 + Math.floor(Math.random() * 12); 
+window.userData.interview_score = score;
+await syncToCloud();
+window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral Interview');
+}
 }
 
 window.startInterviewRecording = function() {
@@ -1078,41 +1215,24 @@ document.getElementById('interview-mic-zone').classList.remove('flex');
 recognition.stop();
 interviewRecording = false;
 
-const candidateResponse = document.getElementById('interviewLiveSpeechText').innerText.trim() || "I structured a clear framework prioritizing direct communication.";
+const candidateResponse = document.getElementById('interviewLiveSpeechText').innerText.trim() || "I structured a clear framework prioritizing direct communication, resulting in a 20% improvement.";
 writeTranscript('interview-transcript', 'Candidate', candidateResponse);
 document.getElementById('interviewLiveSubtitle').classList.add('hidden');
 
-writeTranscript('interview-transcript', 'System', 'Sarah is analyzing your response...');
-
-interviewStep++;
-let promptText = candidateResponse;
-if (interviewStep === 5) {
-promptText += "\n\n(System Note: This is the final round. Evaluate this final answer, conclude the interview warmly, and provide the final rating out of 100 in the format [Score]).";
-}
-
-interviewChatHistory.push({ role: "user", parts: [{ text: promptText }] });
-const aiResponse = await callGemini(interviewSystemPrompt, interviewChatHistory);
-interviewChatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
+let aiFeedback = analyzeInterviewSpeech(candidateResponse);
 
 window.activeSpeaker = 'sarah';
-document.getElementById('ai-hr-orb').classList.add('is-talking');
-writeTranscript('interview-transcript', 'HR Director Sarah', `[Q${interviewStep}/5] ${aiResponse}`);
-await window.speakAIPromise(aiResponse, 'female', 1.05, 0.82);
+document.getElementById('ai-hr-orb').classList.add('avatar-talking');
+writeTranscript('interview-transcript', 'HR Director Sarah', `[Feedback] ${aiFeedback}`);
+await window.speakAIPromise(aiFeedback, 'female', 1.05, 0.95);
 window.activeSpeaker = null;
-document.getElementById('ai-hr-orb').classList.remove('is-talking');
+document.getElementById('ai-hr-orb').classList.remove('avatar-talking');
 
-if (interviewStep < 5) {
-document.getElementById('interview-mic-zone').classList.remove('hidden');
-document.getElementById('interview-mic-zone').classList.add('flex');
-} else {
-let scoreMatch = aiResponse.match(/\[(\d+)\]/);
-let score = scoreMatch ? parseInt(scoreMatch[1]) : (85 + Math.floor(Math.random() * 12));
-window.userData.interview_score = score;
-await syncToCloud();
-window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral Interview');
-}
+interviewStep++;
+setTimeout(askNextInterviewQuestion, 1000);
 }
 
+// --- ADMIN CONTROLS ---
 window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); }
 window.closeAdminModal = function() { document.getElementById('adminModal').classList.add('hidden'); }
 
@@ -1240,10 +1360,10 @@ document.getElementById('guide-text').innerText = "Playing Audio Debrief.";
 document.getElementById('global-ai-guide').classList.add('visible');
 
 window.activeSpeaker = 'guide';
-document.getElementById('guide-avatar').classList.add('is-talking');
-await window.speakAIPromise(text, 'female', 1, 0.82);
+document.getElementById('guide-avatar').classList.add('avatar-talking');
+await window.speakAIPromise(text, 'female', 1, 0.95);
 window.activeSpeaker = null;
-document.getElementById('guide-avatar').classList.remove('is-talking');
+document.getElementById('guide-avatar').classList.remove('avatar-talking');
 }
 
 window.emailDetailedReport = function() {
@@ -1259,6 +1379,127 @@ let bodyText = `Dear ${window.userData.name},\n\nYour Talent Passport score is $
 const body = encodeURIComponent(bodyText);
 const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${toEmail}&su=${subject}&body=${body}`;
 window.open(gmailUrl, '_blank');
+}
+
+// --- AVATAR SYSTEM ---
+window.mouseX = window.innerWidth / 2;
+window.mouseY = window.innerHeight / 2;
+
+window.addEventListener('load', () => {
+document.addEventListener('mousemove', (e) => {
+window.mouseX = e.clientX;
+window.mouseY = e.clientY;
+});
+initRealisticAvatars();
+updateParallax();
+});
+
+const avatarConfigs = {
+'guide-avatar': { bg: '#e2e8f0', skin: '#fcd34d', skinDark: '#d97706', hair: '#1e293b', shirt: '#3b82f6', hairPath: '<path d="M 15 45 C 15 10, 85 10, 85 45 L 85 30 C 85 5, 15 5, 15 30 Z" fill="#1e293b"/>' },
+'avatar-alex': { bg: '#bfdbfe', skin: '#fed7aa', skinDark: '#ea580c', hair: '#451a03', shirt: '#ffffff', glasses: true, hairPath: '<path d="M 22 45 C 22 10, 78 10, 78 45 L 78 30 C 78 5, 22 5, 22 30 Z" fill="#451a03"/>' },
+'avatar-maya': { bg: '#fbcfe8', skin: '#d97706', skinDark: '#92400e', hair: '#111827', shirt: '#fef08a', hairPath: '<circle cx="50" cy="15" r="18" fill="#111827"/><circle cx="35" cy="25" r="14" fill="#111827"/><circle cx="65" cy="25" r="14" fill="#111827"/><path d="M 22 45 C 22 15, 78 15, 78 45 C 78 30, 50 25, 22 45 Z" fill="#111827"/>' },
+'ai-hr-orb': { bg: '#e9d5ff', skin: '#ffedd5', skinDark: '#f97316', hair: '#9ca3af', shirt: '#4c1d95', glasses: true, hairPath: '<circle cx="50" cy="10" r="15" fill="#9ca3af"/><path d="M 22 45 C 22 15, 78 15, 78 45 L 78 35 C 78 5, 22 5, 22 35 Z" fill="#9ca3af"/>' }
+};
+
+function generateSVG(config, id) {
+return `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<radialGradient id="skin-grad-${id}" cx="35%" cy="35%" r="65%">
+<stop offset="0%" stop-color="${config.skin}"/>
+<stop offset="100%" stop-color="${config.skinDark}"/>
+</radialGradient>
+<clipPath id="eye-clip-l-${id}"><ellipse cx="35" cy="40" rx="6" ry="7"/></clipPath>
+<clipPath id="eye-clip-r-${id}"><ellipse cx="65" cy="40" rx="6" ry="7"/></clipPath>
+</defs>
+<rect width="100" height="100" fill="${config.bg}"/>
+<path d="M 20 100 C 20 65, 80 65, 80 100" fill="${config.shirt}"/>
+<path d="M 38 70 L 62 70 L 58 100 L 42 100 Z" fill="${config.skinDark}"/>
+<ellipse cx="22" cy="45" rx="4" ry="7" fill="${config.skinDark}"/>
+<ellipse cx="78" cy="45" rx="4" ry="7" fill="${config.skinDark}"/>
+<g class="face-features">
+<ellipse cx="50" cy="45" rx="26" ry="32" fill="url(#skin-grad-${id})"/>
+<path d="M 27 33 Q 35 29 42 33" stroke="${config.hair}" stroke-width="2.5" fill="none" stroke-linecap="round" class="avatar-eyebrow"/>
+<path d="M 58 33 Q 65 29 73 33" stroke="${config.hair}" stroke-width="2.5" fill="none" stroke-linecap="round" class="avatar-eyebrow"/>
+<ellipse cx="35" cy="40" rx="6" ry="7" fill="white"/>
+<ellipse cx="65" cy="40" rx="6" ry="7" fill="white"/>
+<g class="avatar-pupil"><circle cx="35" cy="40" r="3.5" fill="${config.hair}"/><circle cx="34" cy="39" r="1" fill="white"/></g>
+<g class="avatar-pupil"><circle cx="65" cy="40" r="3.5" fill="${config.hair}"/><circle cx="64" cy="39" r="1" fill="white"/></g>
+<rect x="25" y="30" width="20" height="20" fill="${config.skinDark}" class="avatar-eyelid" style="transform-origin: top; transform: scaleY(0);" clip-path="url(#eye-clip-l-${id})"/>
+<rect x="55" y="30" width="20" height="20" fill="${config.skinDark}" class="avatar-eyelid" style="transform-origin: top; transform: scaleY(0);" clip-path="url(#eye-clip-r-${id})"/>
+<path d="M 50 42 Q 48 52 50 54 Q 52 54 52 50" fill="none" stroke="${config.skinDark}" stroke-width="2" stroke-linecap="round"/>
+<path d="M 35 65 Q 50 70 65 65 Q 50 68 35 65" fill="#431407" class="avatar-mouth-path"/>
+<path d="M 40 66 Q 50 66 60 66 Q 50 66 40 66" fill="#ffffff" class="avatar-teeth-path"/>
+${config.glasses ? `<rect x="25" y="34" width="20" height="12" rx="3" fill="none" stroke="#1e293b" stroke-width="2"/><rect x="55" y="34" width="20" height="12" rx="3" fill="none" stroke="#1e293b" stroke-width="2"/><line x1="45" y1="40" x2="55" y2="40" stroke="#1e293b" stroke-width="2"/>` : ''}
+</g>
+<g class="hair-front">${config.hairPath}</g>
+</svg>`;
+}
+
+function updateParallax() {
+Object.keys(avatarConfigs).forEach(id => {
+const container = document.getElementById(id);
+if(!container) return;
+const rect = container.getBoundingClientRect();
+if(rect.width === 0) return;
+
+const centerX = rect.left + rect.width / 2;
+const centerY = rect.top + rect.height / 2;
+let deltaX = Math.max(-0.5, Math.min(0.5, (window.mouseX - centerX) / window.innerWidth));
+let deltaY = Math.max(-0.5, Math.min(0.5, (window.mouseY - centerY) / window.innerHeight));
+
+const faceFeatures = container.querySelector('.face-features');
+const pupils = container.querySelectorAll('.avatar-pupil');
+const hairFront = container.querySelector('.hair-front');
+
+if(faceFeatures) faceFeatures.style.transform = `translate(${deltaX * 8}px, ${deltaY * 8}px)`;
+if(hairFront) hairFront.style.transform = `translate(${deltaX * 12}px, ${deltaY * 12}px)`;
+pupils.forEach(pupil => pupil.style.transform = `translate(${deltaX * 15}px, ${deltaY * 15}px)`);
+});
+requestAnimationFrame(updateParallax);
+}
+
+function initRealisticAvatars() {
+Object.keys(avatarConfigs).forEach(id => {
+const container = document.getElementById(id);
+if(container) container.innerHTML = generateSVG(avatarConfigs[id], id);
+});
+
+setInterval(() => {
+Object.keys(avatarConfigs).forEach(id => {
+const container = document.getElementById(id);
+if(!container) return;
+const mouth = container.querySelector('.avatar-mouth-path');
+const teeth = container.querySelector('.avatar-teeth-path');
+if(!mouth) return;
+
+let speakerMap = { 'guide-avatar': 'guide', 'avatar-alex': 'alex', 'avatar-maya': 'maya', 'ai-hr-orb': 'sarah' };
+
+if(window.activeSpeaker === speakerMap[id]) {
+const visemes = ["M 35 65 Q 50 55 65 65 Q 50 85 35 65", "M 40 65 Q 50 50 60 65 Q 50 80 40 65", "M 32 65 Q 50 60 68 65 Q 50 75 32 65"];
+const teethPaths = ["M 38 62 Q 50 58 62 62 Q 50 65 38 62", "M 42 55 Q 50 52 58 55 Q 50 60 42 55", "M 35 62 Q 50 58 65 62 Q 50 66 35 62"];
+const r = Math.floor(Math.random() * visemes.length);
+mouth.setAttribute('d', visemes[r]);
+teeth.setAttribute('d', teethPaths[r]);
+} else {
+mouth.setAttribute('d', "M 35 65 Q 50 70 65 65 Q 50 68 35 65"); 
+teeth.setAttribute('d', "M 40 66 Q 50 66 60 66 Q 50 66 40 66"); 
+}
+});
+}, 80);
+
+setInterval(() => {
+Object.keys(avatarConfigs).forEach(id => {
+const container = document.getElementById(id);
+if(!container) return;
+const eyelids = container.querySelectorAll('.avatar-eyelid');
+if(!eyelids.length) return;
+
+if(Math.random() < 0.05) { 
+eyelids.forEach(lid => lid.style.transform = 'scaleY(1)');
+setTimeout(() => { eyelids.forEach(lid => lid.style.transform = 'scaleY(0)'); }, 150);
+}
+});
+}, 200);
 }
 </script>
 </body>
