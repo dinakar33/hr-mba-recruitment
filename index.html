@@ -12,7 +12,7 @@
 
 <script>
 tailwind.config = {
-theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { brand: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' } } } }
+  theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { brand: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' } } } }
 }
 </script>
 
@@ -768,19 +768,19 @@ const uni = document.getElementById('candUni').value.trim();
 const spec = document.getElementById('candSpec').value;
 
 if (!name || !email || !uni) { 
-window.showMessage("Please fill all required fields: Name, Email, and University.", "error"); 
-return; 
+  window.showMessage("Please fill all required fields: Name, Email, and University.", "error"); 
+  return; 
 }
 
 // Tally 10-Question Archetype 
 let counts = { 'Strategist': 0, 'Innovator': 0, 'Connector': 0, 'Executor': 0 };
 for(let i=1; i<=10; i++) {
-const checked = document.querySelector(`input[name="archQ${i}"]:checked`);
-if(!checked) {
-window.showMessage(`Please answer question ${i} in the Archetype Assessment.`, "error");
-return;
-}
-counts[checked.value]++;
+  const checked = document.querySelector(`input[name="archQ${i}"]:checked`);
+  if(!checked) {
+      window.showMessage(`Please answer question ${i} in the Archetype Assessment.`, "error");
+      return;
+  }
+  counts[checked.value]++;
 }
 let dominantArchetype = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
 
@@ -978,12 +978,12 @@ selectedQuizQuestions = masterAptitudeQuestions.sort(() => 0.5 - Math.random()).
 
 selectedQuizQuestions.forEach((item, index) => {
 let html = `<div class="p-5 rounded-lg border border-slate-300 bg-slate-50/10 shadow-sm mb-4 text-slate-800">
-                  <p class="font-bold text-sm mb-3">${index + 1}. ${item.q}</p>
-                  <div class="space-y-2">`;
+                   <p class="font-bold text-sm mb-3">${index + 1}. ${item.q}</p>
+                   <div class="space-y-2">`;
 item.options.forEach((opt, oIndex) => {
 html += `<label class="flex items-start text-sm cursor-pointer hover:bg-slate-200/20 p-2 rounded border border-transparent transition">
-                      <input type="radio" name="q${index}" value="${oIndex}" class="mt-0.5 mr-3 accent-brand-500"> <span>${opt}</span>
-                  </label>`;
+                       <input type="radio" name="q${index}" value="${oIndex}" class="mt-0.5 mr-3 accent-brand-500"> <span>${opt}</span>
+                   </label>`;
 });
 html += `</div></div>`;
 container.innerHTML += html;
@@ -1237,7 +1237,7 @@ try {
 
         await setSpeaker(speakerId, speakerName, aiText, voice, pitch, 1.05);
         document.getElementById('gd-mic-zone').classList.remove('hidden');
-} else {
+    } else {
         return "Make sure to structure your answers using Situation, Task, Action, and Result.";
         let scoreMatch = aiText.match(/\[SCORE:\s*(\d+)\]/);
         let score = scoreMatch ? parseInt(scoreMatch[1]) : (20 + Math.floor(Math.random() * 10));
@@ -1249,7 +1249,7 @@ try {
         await setSpeaker('guide', 'Guide', aiText, 'female', 1, 1);
         document.getElementById('aiVoiceBtn4').innerText = "Simulation Complete";
         window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
-}
+    }
 } catch(e) {
     console.error("Gemini API Error:", e);
     gdRound++;
