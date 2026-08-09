@@ -327,7 +327,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 <div id="quizStartOverlay" class="glass-card p-12 text-center rounded-xl mb-8">
 <i class="fa-solid fa-stopwatch text-6xl text-brand-500 mb-4 hover:scale-110 transition-transform"></i>
 <h3 class="text-2xl font-bold mb-2">Ready to begin?</h3>
-<p class="mb-6 max-w-lg mx-auto">This test shuffles and selects 10 distinct situational judgment questions from our master question bank.</p>
+<p class="mb-6 max-w-lg mx-auto">This test shuffles and selects 20 distinct situational judgment questions from our master question bank.</p>
 <button onclick="window.startAptitudeTest()" class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-10 rounded-full shadow-lg transition text-lg">
 Start 10-Minute Timer
 </button>
@@ -426,12 +426,14 @@ Submit Final Answers
 <video id="userWebcam" class="w-full h-full object-cover transform -scale-x-100" autoplay playsinline muted></video>
 <canvas id="webcamCanvas" class="hidden"></canvas>
 <div id="aiScanOverlay" class="absolute inset-0 pointer-events-none border-2 border-green-400/40 rounded-xl flex flex-col justify-between p-3">
-<div class="flex justify-between text-xs font-mono text-green-400 bg-black/60 px-2 py-1 rounded">
-<span>Eye Contact: <strong id="eyeContactVal">Scanning...</strong></span>
-<span>Composure: <strong id="composureVal">Scanning...</strong></span>
+<div class="grid grid-cols-2 gap-2 text-[10px] font-mono text-green-400 bg-black/70 px-3 py-2 rounded">
+<span><i class="fa-solid fa-eye text-green-500"></i> Eye Track: <strong id="scanEye">Initializing...</strong></span>
+<span><i class="fa-solid fa-user text-green-500"></i> Posture: <strong id="scanPosture">Initializing...</strong></span>
+<span><i class="fa-solid fa-brain text-green-500"></i> Micro-Exp: <strong id="scanExpr">Initializing...</strong></span>
+<span><i class="fa-solid fa-heart-pulse text-green-500"></i> Stress Idx: <strong id="scanStress">Initializing...</strong></span>
 </div>
-<div class="text-xs font-mono text-green-400 bg-black/60 px-2 py-1 rounded text-center">
-<i class="fa-solid fa-eye-dropper mr-1"></i> Behavioral AI: Active
+<div class="text-xs font-mono text-green-400 bg-black/70 px-2 py-1 rounded text-center border border-green-400/30">
+<i class="fa-solid fa-satellite-dish animate-pulse mr-1"></i> Live Behavioral AI Core: Active
 </div>
 </div>
 </div>
@@ -954,7 +956,13 @@ const masterAptitudeQuestions = [
 { q: "When an employee requests neurodivergent workplace accommodation, sound HR action is:", options: ["Ignore if targets met", "Engage in interactive dialogue to determine reasonable accommodations", "Move to lower role", "Require full team medical disclosure"], ans: 1 },
 { q: "If two senior managers are engaged in a toxic, escalating conflict affecting team morale, what is the immediate HR intervention?", options: ["Terminate both to set an example", "Facilitate a structured, documented mediation session", "Tell their respective teams to ignore it", "Transfer one manager randomly"], ans: 1 },
 { q: "What is the definitive indicator of a successful onboarding program?", options: ["The employee signed all forms on day one", "Reduced time-to-productivity and increased 1-year retention rates", "The employee attended the welcome lunch", "The IT department issued their laptop on time"], ans: 1 },
-{ q: "Which of these is considered a statutory (mandatory) benefit in the Indian corporate sector?", options: ["Comprehensive Health Insurance for dependents", "Provident Fund (EPF) contributions", "Paid sabbatical leave", "Stock Options (ESOPs)"], ans: 1 }
+{ q: "A candidate bluntly asks about work-life balance during a final round. The most strategic HR response is:", options: ["Refuse to answer to maintain authority", "'We expect 60 hours a week minimum.'", "Provide transparent, honest examples of actual company policies like flexible hours and PTO.", "'It's fantastic, don't worry about it.'"], ans: 2 },
+{ q: "What is the primary function of an exit interview?", options: ["To guilt the employee into staying", "To gather actionable data on organizational deficiencies causing the departure", "To negotiate their final paycheck", "To assign their unfinished tasks to remaining peers"], ans: 1 },
+{ q: "What is the difference between Base Pay and Variable Pay?", options: ["Base is fixed; Variable is tied to performance metrics", "Base is for executives; Variable is for entry-level", "Base is taxed; Variable is tax-free", "There is no functional difference"], ans: 0 },
+{ q: "Which visual mapping tool is utilized to represent the hierarchical structure of an organization?", options: ["Scatter Plot", "Gantt Chart", "Organogram (Org Chart)", "Pareto Chart"], ans: 2 },
+{ q: "In compensation strategy, a 'Buyout' typically refers to:", options: ["Purchasing a competitor company", "The new employer paying the candidate to waive their existing notice period", "Buying back company shares", "Purchasing new HR software"], ans: 1 },
+{ q: "What is 'Succession Planning' in a mature corporate environment?", options: ["Planning the corporate holiday calendar", "Identifying and systematically developing internal talent for future leadership roles", "Budgeting for impending mass layoffs", "Automating payroll systems"], ans: 1 },
+{ q: "If you want to determine the statistical correlation between engagement scores and sales productivity, which method is appropriate?", options: ["Chi-square test", "T-test", "Pearson correlation coefficient", "ANOVA"], ans: 2 }
 ];
 
 let selectedQuizQuestions = [];
@@ -966,7 +974,7 @@ const container = document.getElementById('quizContainer');
 if(!container) return;
 container.innerHTML = '';
 
-selectedQuizQuestions = masterAptitudeQuestions.sort(() => 0.5 - Math.random()).slice(0, 10);
+selectedQuizQuestions = masterAptitudeQuestions.sort(() => 0.5 - Math.random()).slice(0, 20);
 
 selectedQuizQuestions.forEach((item, index) => {
 let html = `<div class="p-5 rounded-lg border border-slate-300 bg-slate-50/10 shadow-sm mb-4 text-slate-800">
@@ -1009,7 +1017,7 @@ document.getElementById('quizTimer').innerText = "DONE";
 let score = 0;
 selectedQuizQuestions.forEach((item, index) => {
 const selected = document.querySelector(`input[name="q${index}"]:checked`);
-if(selected && parseInt(selected.value) === item.ans) score += 10; 
+if(selected && parseInt(selected.value) === item.ans) score += 5; 
 });
 window.userData.test_score = score;
 await syncToCloud();
@@ -1112,20 +1120,44 @@ window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
 
 // --- AI INTERVIEW ---
 let webcamStream = null;
+let aiScanInterval = null;
+
 function initWebcamStream() {
 const video = document.getElementById('userWebcam');
 if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(stream => {
 webcamStream = stream;
 video.srcObject = stream;
-document.getElementById('eyeContactVal').innerText = "Steady (94%)";
-document.getElementById('composureVal').innerText = "Calm";
+startBehavioralSimulation();
 }).catch(err => {
 console.log("Webcam access declined/unavailable:", err);
-document.getElementById('eyeContactVal').innerText = "Simulated";
-document.getElementById('composureVal').innerText = "Simulated";
+document.getElementById('scanEye').innerText = "Camera Offline";
+document.getElementById('scanPosture').innerText = "Camera Offline";
+document.getElementById('scanExpr').innerText = "Camera Offline";
+document.getElementById('scanStress').innerText = "Camera Offline";
 });
 }
+}
+
+function startBehavioralSimulation() {
+if (aiScanInterval) clearInterval(aiScanInterval);
+const postures = ["Upright Base", "Engaged Forward", "Neutral Base", "Micro-shift detected"];
+const expressions = ["Neutral", "Active Listening", "Contemplative", "High Engagement"];
+const stressLevels = ["Baseline (Low)", "Regulated", "Optimal Focus", "Micro-Spike detected"];
+
+document.getElementById('scanEye').innerText = "Locked (94%)";
+document.getElementById('scanPosture').innerText = "Upright Base";
+document.getElementById('scanExpr').innerText = "Neutral";
+document.getElementById('scanStress').innerText = "Baseline (Low)";
+
+aiScanInterval = setInterval(() => {
+let eye = Math.floor(Math.random() * 8) + 90; // fluctuates between 90-97%
+document.getElementById('scanEye').innerText = `Locked (${eye}%)`;
+
+if(Math.random() > 0.7) document.getElementById('scanPosture').innerText = postures[Math.floor(Math.random() * postures.length)];
+if(Math.random() > 0.6) document.getElementById('scanExpr').innerText = expressions[Math.floor(Math.random() * expressions.length)];
+if(Math.random() > 0.8) document.getElementById('scanStress').innerText = stressLevels[Math.floor(Math.random() * stressLevels.length)];
+}, 800);
 }
 
 const masterInterviewQuestions = [
