@@ -49,7 +49,7 @@ body.ai-mode .text-slate-500, body.ai-mode .text-slate-600 { color: #cbd5e1 !imp
 body.ai-mode .bg-white { background-color: #1e293b !important; }
 body.ai-mode .bg-slate-50 { background-color: rgba(255, 255, 255, 0.05) !important; }
 body.ai-mode .border-gray-300, body.ai-mode .border { border-color: #475569 !important; }
-body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode input[type="tel"], body.ai-mode input[type="url"], body.ai-mode select, body.ai-mode textarea { background-color: #334155; color: #f8fafc; border-color: #475569; }
+body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode input[type="tel"], body.ai-mode input[type="url"], body.ai-mode input[type="password"], body.ai-mode select, body.ai-mode textarea { background-color: #334155; color: #f8fafc; border-color: #475569; }
 
 .toggle-checkbox:checked { right: 0; border-color: #68D391; }
 .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
@@ -58,7 +58,6 @@ body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode 
 @keyframes listen-pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
 
 .is-talking { animation: talk-bounce 0.4s ease-in-out infinite alternate !important; border: 4px solid #60a5fa !important; }
-.is-listening { animation: listen-pulse 1.5s infinite !important; border: 4px solid #10b981 !important; }
 
 @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
 
@@ -97,8 +96,8 @@ body.ai-mode .gd-avatar { background: #334155; }
 </div>
 
 <div class="hidden md:flex items-center space-x-4">
-<button onclick="window.openAdminModal()" class="admin-login-btn text-brand-100 hover:text-white transition text-sm font-medium">
-<i class="fa-solid fa-lock mr-1"></i> Admin Login
+<button onclick="window.openAdminModal()" class="admin-login-btn text-brand-100 hover:text-white transition text-sm font-medium ml-2">
+<i class="fa-solid fa-lock mr-1"></i> Admin
 </button>
 
 <div id="adminControls" class="admin-only-flex items-center space-x-3">
@@ -139,23 +138,22 @@ body.ai-mode .gd-avatar { background: #334155; }
 <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full relative">
 <div id="msgBox" class="hidden mb-6 p-4 rounded-lg shadow-md font-medium text-sm flex items-center justify-between transition-all z-50">
 <span id="msgText"></span>
-<button onclick="document.getElementById('msgBox').classList.add('hidden')" class="text-gray-500 hover:text-gray-800"><i class="fa-solid fa-times"></i></button>
+<button onclick="document.getElementById('msgBox').classList.add('hidden')" class="text-white hover:text-gray-200"><i class="fa-solid fa-times"></i></button>
 </div>
 
-<div id="adminModal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center">
+<!-- ADMIN MODAL -->
+<div id="adminModal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-70 backdrop-blur-sm z-50 flex items-center justify-center">
 <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4">
 <div class="flex justify-between items-center mb-6">
 <h3 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-lock text-brand-600 mr-2"></i> Admin Command Center</h3>
-<button onclick="window.closeAdminModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-times"></i></button>
+<button onclick="window.closeAdminModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-times text-xl"></i></button>
 </div>
 <input type="password" id="adminPass" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-500 outline-none mb-4 text-slate-800" placeholder="Enter Passcode (admin123)">
 <button onclick="window.verifyAdmin()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-lg transition">Connect to Cloud</button>
 </div>
 </div>
 
-<!-- STAGE 1: ONBOARDING -->
 <section id="tab-onboarding" class="tab-content active">
-<!-- ... existing code for onboarding tab ... -->
 <div class="mb-8 flex justify-between items-center flex-wrap gap-4">
 <div>
 <h2 class="text-2xl font-bold text-slate-800">Candidate Registration & Login</h2>
@@ -163,7 +161,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 </div>
 <div class="flex gap-2">
 <input type="email" id="loginEmailLookup" class="border border-gray-300 rounded-lg px-3 py-2 text-sm text-slate-800 outline-none" placeholder="Enter existing email...">
-<button onclick="window.restoreUserSession()" class="bg-slate-800 hover:bg-slate-900 text-white text-sm font-semibold px-4 py-2 rounded-lg transition"><i class="fa-solid fa-arrows-rotate mr-1"></i> Restore Session</button>
+<button onclick="window.restoreUserSession()" class="bg-slate-800 hover:bg-slate-900 text-white text-sm font-semibold px-4 py-2 rounded-lg transition"><i class="fa-solid fa-arrows-rotate mr-1"></i> Restore</button>
 </div>
 </div>
 
@@ -180,7 +178,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 <option class="text-black">MBA - Human Resources</option><option class="text-black">MBA - Finance</option><option class="text-black">MBA - Marketing</option><option class="text-black">MBA - Supply Chain</option>
 </select>
 </div>
-<div><label class="block text-sm font-medium mb-1">LinkedIn Profile</label><input type="url" id="candLinkedin" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="https://linkedin.com/in/janedoe"></div>
 </div>
 </div>
 
@@ -203,9 +200,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
-<!-- STAGE 2: ATS -->
 <section id="tab-ats" class="tab-content">
-<!-- ... existing code for ats tab ... -->
 <div class="mb-8">
 <h2 class="text-2xl font-bold text-slate-800">Stage 1: Enterprise ATS Audit (TF-IDF)</h2>
 <p class="text-slate-500 mt-2">Paste a Job Description and upload your resume. The AI will extract core competencies and score your match.</p>
@@ -249,9 +244,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
-<!-- STAGE 3: TEST -->
 <section id="tab-test" class="tab-content">
-<!-- ... existing code for test tab ... -->
 <div class="mb-8 flex justify-between items-center bg-red-500/10 p-4 rounded-lg border border-red-500/30">
 <div>
 <h2 class="text-2xl font-bold text-slate-800">Stage 2: Cognitive Agility & Decision Velocity</h2>
@@ -282,7 +275,6 @@ Submit Final Answers
 </div>
 </section>
 
-<!-- STAGE 4: GD -->
 <section id="tab-gd" class="tab-content">
 <div class="mb-6 flex justify-between items-center">
 <div>
@@ -312,12 +304,12 @@ Submit Final Answers
 </div>
 </div>
 
-<div id="gd-transcript" class="bg-slate-900 text-green-400 p-4 rounded-lg font-mono text-sm flex-grow overflow-y-auto h-48 border border-slate-700 shadow-inner">
+<div id="gd-transcript" class="bg-slate-900 text-green-400 p-4 rounded-lg font-mono text-sm flex-grow overflow-y-auto h-48 border border-slate-700 shadow-inner mb-4">
 > System Ready. Awaiting initialization...
 </div>
 
-<!-- INDUSTRY STANDARD DICTATION UI -->
-<div id="gd-mic-zone" class="mt-4 w-full flex-col items-center hidden">
+<!-- INDUSTRY STANDARD DICTATION UI (No Android Bugs) -->
+<div id="gd-mic-zone" class="w-full flex-col items-center hidden">
 <textarea id="gdTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-3 mb-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
 <div class="flex items-center justify-center space-x-4 w-full">
 <button id="gdMicBtn" onclick="window.toggleGDRecording(event)" class="bg-slate-700 hover:bg-slate-600 text-white rounded-full w-14 h-14 shadow-lg transition flex items-center justify-center border border-slate-500">
@@ -334,7 +326,7 @@ Submit Response <i class="fa-solid fa-paper-plane ml-2"></i>
 </div>
 
 <div class="flex flex-col gap-6 h-fit">
-<!-- NEW: GD Webcam Feed (No Metrics Overlay) -->
+<!-- REAL CV WEBCAM OVERLAY -->
 <div class="glass-card p-6 rounded-xl shadow-sm flex flex-col items-center justify-center border border-gray-200/50">
 <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3"><i class="fa-solid fa-video text-red-500 mr-2"></i>Live Stream</h3>
 <div class="w-full h-48 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
@@ -363,7 +355,6 @@ Submit Response <i class="fa-solid fa-paper-plane ml-2"></i>
 </div>
 </section>
 
-<!-- STAGE 5: INTERVIEW -->
 <section id="tab-interview" class="tab-content">
 <div class="mb-8">
 <h2 class="text-2xl font-bold text-slate-800">Stage 4: AI Behavioral HR Interview & Live Video Feed</h2>
@@ -426,9 +417,7 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 </div>
 </section>
 
-<!-- STAGE 6: PASSPORT -->
 <section id="tab-passport" class="tab-content">
-<!-- ... existing code for passport tab ... -->
 <div class="mb-6 flex justify-between items-center">
 <h2 class="text-2xl font-bold text-slate-800">Stage 5: Executive Talent Passport</h2>
 <button id="aiVoiceBtn5" onclick="window.playDebrief()" class="hidden bg-brand-600 hover:bg-brand-500 text-white px-6 py-2 rounded-full shadow-lg transition font-bold border border-brand-400"><i class="fa-solid fa-bullhorn mr-2"></i>Play Audio Debrief</button>
@@ -491,9 +480,7 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 </div>
 </section>
 
-<!-- MODULES -->
 <section id="tab-rights" class="tab-content">
-<!-- ... existing code for rights tab ... -->
 <div class="mb-8"><h2 class="text-2xl font-bold text-slate-800">Employee Rights Spotlight & Masterclasses</h2><p class="text-slate-500 mt-2">Essential regulatory knowledge every postgraduate professional must master before signing an offer letter.</p></div>
 
 <div class="grid grid-cols-1 gap-10">
@@ -518,7 +505,6 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 </section>
 
 <section id="tab-about" class="tab-content">
-<!-- ... existing code for about tab ... -->
 <div class="mb-8">
 <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & Curriculum Mapping</h2>
 <p class="text-slate-500 mt-2 text-lg">Detailed analysis of how this platform bridges postgraduate classroom theory with real-world HR technology execution.</p>
@@ -542,6 +528,9 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+// === PASTE YOUR GEMINI API KEY HERE FOR THE EVENT ===
+const GEMINI_API_KEY = "AQ.Ab8RN6JtbsagulPqU_7_NOxrBT2DFSj7E1iKFItDd_qdMLsEUw"; 
 
 const firebaseConfig = {
 apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
@@ -570,22 +559,30 @@ let unsubscribeAdmin = null;
 // Biometric Memory Arrays
 window.bioMetrics = { eyeContact: [], stress: [] };
 
-// Live API Connection
-async function callGemini(prompt) {
+// --- GEMINI LIVE CONVERSATIONAL ENGINE ---
+async function callGemini(prompt, systemInstruction = null) {
     try {
-        const apiKey = ""; // Insert Gemini API Key here if available
-        if (!apiKey) return "Interesting point. Let's move to the next phase."; // Safe fallback
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+        if (!GEMINI_API_KEY || GEMINI_API_KEY === "PASTE_YOUR_API_KEY_HERE") {
+            console.warn("API key missing. Using offline fallback.");
+            return "That is an interesting point. Let's explore that further or move to the next topic.";
+        }
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
+        
         const payload = { contents: [{ parts: [{ text: prompt }] }] };
+        if (systemInstruction) {
+            payload.systemInstruction = { parts: [{ text: systemInstruction }] };
+        }
+        
         const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
         const result = await response.json();
+        
         if (result.candidates && result.candidates[0].content.parts[0].text) {
             return result.candidates[0].content.parts[0].text.replace(/\*/g, '').trim();
         }
-        return "Interesting point. Let's move to the next phase.";
+        return "Noted. Let's proceed.";
     } catch (e) {
         console.error("API Error:", e);
-        return "Noted. Let's proceed.";
+        return "I understand. Let's move on to the next phase.";
     }
 }
 
@@ -744,6 +741,7 @@ window.toggleAIMode = async function() {
 window.isAIMode = document.getElementById('aiToggle').checked;
 const body = document.body;
 const guide = document.getElementById('global-ai-guide');
+
 if (window.isAIMode) {
 body.classList.add('ai-mode');
 document.getElementById('aiVoiceBtn4').classList.remove('hidden'); document.getElementById('aiVoiceBtn5').classList.remove('hidden');
@@ -767,7 +765,7 @@ guide.classList.remove('visible'); window.speechSynthesis.cancel(); window.activ
 }
 
 // -------------------------------------------------------------
-// MOBILE TOUCH & DICTATION ENGINE
+// MOBILE TOUCH & DICTATION ENGINE (FIXED)
 // -------------------------------------------------------------
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = null;
@@ -777,7 +775,7 @@ let isRecording = false;
 
 if(window.SpeechRecognition) { 
     recognition = new window.SpeechRecognition(); 
-    recognition.continuous = false; 
+    recognition.continuous = false; // Prevent Android infinite loop
     recognition.interimResults = false; 
     recognition.lang = 'en-IN'; // Indian Accent Localization
     
@@ -946,11 +944,14 @@ window.autoAdvanceTab('tab-test', 'tab-gd', 'Cognitive Aptitude Test');
 document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
 }
 
+// --- CONVERSATIONAL GD ENGINE ---
 let currentGDRound = 1; let totalGDRounds = 5; let gdHistory = "";
 async function setSpeaker(id, name, text, voiceType, pitch, rate) {
 window.activeSpeaker = id; document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
 if(id) { const avatar = document.getElementById(id === 'meera' ? 'ai-hr-meera' : (id==='guide' ? 'guide-avatar' : `avatar-${id}`)); if(avatar) avatar.classList.add('avatar-talking'); }
-writeTranscript('gd-transcript', name, text); gdHistory += `${name}: ${text}\n`; await window.speakAIPromise(text, voiceType, pitch, rate);
+writeTranscript(id === 'meera' ? 'interview-transcript' : 'gd-transcript', name, text); 
+if(id !== 'meera') gdHistory += `${name}: ${text}\n`;
+await window.speakAIPromise(text, voiceType, pitch, rate);
 window.activeSpeaker = null; document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
 }
 
@@ -963,7 +964,6 @@ document.getElementById('gd-mic-zone').classList.remove('hidden');
 document.getElementById('gd-mic-zone').classList.add('flex');
 }
 
-// GD DICTATION FIX
 window.toggleGDRecording = function(e) {
 if(e) e.preventDefault();
 if(!recognition) return window.showMessage("Speech API not supported.", "error");
@@ -983,7 +983,7 @@ const box = document.getElementById('gdTextInput');
 const userSpeech = box.value.trim();
 if(!userSpeech) return window.showMessage("Please provide an answer first.", "error");
 
-box.value = ""; // clear for next round
+box.value = ""; 
 window.processGDSpeech(userSpeech);
 }
 
@@ -994,22 +994,29 @@ document.getElementById('gd-mic-zone').classList.add('hidden'); document.getElem
 currentGDRound++;
 
 if(currentGDRound <= totalGDRounds) {
-document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
-writeTranscript('gd-transcript', 'System', 'Analyzing candidate response...');
+    document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
+    writeTranscript('gd-transcript', 'System', 'AI is thinking...');
 
-let aiReply = await callGemini(`You are an analytical manager named Arjun in a GD. The candidate just said: "${userSpeech}". Generate a 1-sentence critical counter-argument based strictly on their point.`);
-await setSpeaker('arjun', 'Arjun', `Round ${currentGDRound}: ${aiReply}`, 'male1', 0.9, 1.1); document.getElementById('gd-mic-zone').classList.remove('hidden'); document.getElementById('gd-mic-zone').classList.add('flex');
+    let persona = currentGDRound % 2 === 0 ? "Kavya (Creative and empathetic)" : "Arjun (Analytical and data-driven)";
+    let speakerId = currentGDRound % 2 === 0 ? "kavya" : "arjun";
+    let voiceName = currentGDRound % 2 === 0 ? "female" : "male1";
+    
+    let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "AI in Performance Reviews". Respond to the candidate's last point. Keep it conversational, natural, and professional. 1 to 2 sentences max. You can agree and build on it, or politely disagree. Do not use your name or brackets in your response.`;
+    
+    let aiReply = await callGemini(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
+    
+    await setSpeaker(speakerId, speakerId === 'kavya' ? 'Kavya' : 'Arjun', `Round ${currentGDRound}: ${aiReply}`, voiceName, 1.0, 1.05); 
+    document.getElementById('gd-mic-zone').classList.remove('hidden'); document.getElementById('gd-mic-zone').classList.add('flex');
 } else {
-writeTranscript('gd-transcript', 'System', 'Calculating final GD score via LLM...');
-let finalScoreStr = await callGemini(`Evaluate this candidate's GD performance: ${gdHistory}. Return only a number out of 30 representing their score. Example: 26`);
-let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (22 + Math.floor(Math.random() * 8)); 
-window.userData.gd_score = score; await syncToCloud(); writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Score: ${score}/30`); window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
+    writeTranscript('gd-transcript', 'System', 'Calculating final GD score via LLM...');
+    let finalScoreStr = await callGemini(`Evaluate this candidate's GD performance: ${gdHistory}. Return only a number out of 30 representing their score. Example: 26`);
+    let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (22 + Math.floor(Math.random() * 8)); 
+    window.userData.gd_score = score; await syncToCloud(); writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Score: ${score}/30`); window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
 }
 }
 
+// --- TRUE CV TRACKING (WEBCAM) ---
 let webcamStream = null; 
-
-// Start True CV Tracking (Tracking.js)
 function startRealFaceTracking() {
     try {
         if(!window.tracking) return;
@@ -1025,7 +1032,6 @@ function startRealFaceTracking() {
         let lastTrackTime = Date.now();
 
         tracker.on('track', function(event) {
-            // Throttle to 1 update per second to prevent freezing the UI
             const now = Date.now();
             if (now - lastTrackTime < 1000) return;
             lastTrackTime = now;
@@ -1033,7 +1039,6 @@ function startRealFaceTracking() {
             if(!window.isAIMode || !document.getElementById('tab-interview').classList.contains('active')) return;
 
             if (event.data.length === 0) {
-                // Face Lost
                 lostCount++;
                 if (lostCount > 2) {
                     currentEye = Math.max(15, currentEye - 15);
@@ -1042,19 +1047,16 @@ function startRealFaceTracking() {
                     document.getElementById('postureVal').innerText = "Not Detected";
                 }
             } else {
-                // Face Found!
                 lostCount = 0;
                 const rect = event.data[0];
                 const move = Math.abs(rect.x - lastX) + Math.abs(rect.y - lastY);
                 lastX = rect.x; lastY = rect.y;
 
                 if (move > 15) {
-                    // High Movement = Stress/Shifting
                     currentStress = Math.min(90, currentStress + 8);
                     currentEye = Math.max(45, currentEye - 5);
                     document.getElementById('postureVal').innerText = "Shifting";
                 } else {
-                    // Stable = Calm/Aligned
                     currentStress = Math.max(10, currentStress - 3);
                     currentEye = Math.min(98, currentEye + 4);
                     document.getElementById('postureVal').innerText = "Aligned";
@@ -1077,11 +1079,8 @@ function initWebcamStream() {
             webcamStream = stream; 
             const gdVid = document.getElementById('gdWebcam');
             const intVid = document.getElementById('interviewWebcam');
-            
             if(gdVid) { gdVid.srcObject = stream; }
             if(intVid) { intVid.srcObject = stream; }
-
-            // Initialize True Computer Vision Tracker
             startRealFaceTracking();
         }).catch(err => { 
             console.log("Webcam denied.", err); 
@@ -1089,7 +1088,7 @@ function initWebcamStream() {
     }
 }
 
-const masterInterviewQuestions = ["Tell me about a situation where you utilized HR analytics to resolve a team dispute.", "Describe a time you had to enforce policy compliance under intense deadline pressure.", "How do you handle managing resistant stakeholders during structural re-organization?", "Give an example of an HR initiative you led that failed and how you adapted.", "How do you balance employee well-being mandates with aggressive financial quarterly KPIs?"];
+// --- CONVERSATIONAL INTERVIEW ENGINE ---
 let interviewStep = 0; let intHistory = "";
 
 window.startAIInterview = async function() {
@@ -1097,18 +1096,14 @@ document.getElementById('startInterviewBtn').classList.add('hidden'); document.g
 }
 
 async function askNextInterviewQuestion() {
-if (interviewStep < masterInterviewQuestions.length) {
-let q = masterInterviewQuestions[interviewStep]; window.activeSpeaker = 'meera'; document.getElementById('ai-hr-meera').classList.add('avatar-talking'); writeTranscript('interview-transcript', 'HR Director Meera', `[Q${interviewStep+1}/5] ${q}`); intHistory += `Meera: ${q}\n`; await window.speakAIPromise(q, 'female', 1.05, 0.95); window.activeSpeaker = null; document.getElementById('ai-hr-meera').classList.remove('avatar-talking'); document.getElementById('interview-mic-zone').classList.remove('hidden'); document.getElementById('interview-mic-zone').classList.add('flex');
-} else {
-window.activeSpeaker = 'meera'; document.getElementById('ai-hr-meera').classList.add('avatar-talking'); writeTranscript('interview-transcript', 'HR Director Meera', 'Interview complete. Evaluating.'); await window.speakAIPromise("Interview complete. Evaluating.", 'female', 1.05, 0.95); window.activeSpeaker = null; document.getElementById('ai-hr-meera').classList.remove('avatar-talking');
-
-let finalScoreStr = await callGemini(`Evaluate this candidate's interview performance using the STAR method: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`);
-let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (82 + Math.floor(Math.random() * 15)); 
-window.userData.interview_score = score; await syncToCloud(); window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral Interview');
+if (interviewStep === 0) {
+    let q = "Welcome to the final stage. To start, could you walk me through a complex problem you solved using data analytics?";
+    intHistory += `Meera: ${q}\n`;
+    await setSpeaker('meera', 'HR Director Meera', `[Q1/5] ${q}`, 'female', 1.05, 0.95);
+    document.getElementById('interview-mic-zone').classList.remove('hidden'); document.getElementById('interview-mic-zone').classList.add('flex');
 }
 }
 
-// INTERVIEW DICTATION FIX
 window.toggleInterviewRecording = function(e) {
 if(e) e.preventDefault();
 if(!recognition) return window.showMessage("Speech API not supported.", "error"); 
@@ -1136,12 +1131,27 @@ window.processInterviewSpeech = async function(candidateResponse) {
 writeTranscript('interview-transcript', 'Candidate', candidateResponse); 
 intHistory += `Candidate: ${candidateResponse}\n`;
 document.getElementById('interview-mic-zone').classList.add('hidden'); document.getElementById('interview-mic-zone').classList.remove('flex');
+interviewStep++;
 
-writeTranscript('interview-transcript', 'System', 'Evaluating STAR response...');
-let feedback = await callGemini(`You are HR Director Meera. The candidate answered an interview question with: "${candidateResponse}". Give a critical 1-sentence feedback on their answer noting if they used concrete metrics.`);
-await setSpeaker('meera', 'HR Director Meera', feedback, 'female', 1.05, 0.95);
-
-interviewStep++; setTimeout(askNextInterviewQuestion, 1500);
+if (interviewStep < 5) {
+    writeTranscript('interview-transcript', 'System', 'Meera is analyzing your response...');
+    
+    let systemPrompt = `You are Meera, a strict but professional HR Director. You are conducting a behavioral interview. The candidate just answered your last question. 
+    Respond in exactly 2 sentences: First, acknowledge their answer naturally (e.g., "That's a great example," or "I see."). Second, ask a relevant follow-up question using the STAR method based on their specific background or previous answer. Do not include your name or brackets.`;
+    
+    let meeraReply = await callGemini(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
+    
+    intHistory += `Meera: ${meeraReply}\n`;
+    await setSpeaker('meera', 'HR Director Meera', `[Q${interviewStep+1}/5] ${meeraReply}`, 'female', 1.05, 0.95);
+    document.getElementById('interview-mic-zone').classList.remove('hidden'); document.getElementById('interview-mic-zone').classList.add('flex');
+} else {
+    writeTranscript('interview-transcript', 'System', 'Evaluating overall performance...');
+    await setSpeaker('meera', 'HR Director Meera', 'Interview complete. I am calculating your final metrics now.', 'female', 1.05, 0.95);
+    
+    let finalScoreStr = await callGemini(`Evaluate this candidate's interview performance based on the STAR method: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`);
+    let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (82 + Math.floor(Math.random() * 15)); 
+    window.userData.interview_score = score; await syncToCloud(); window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral Interview');
+}
 }
 
 window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); }
