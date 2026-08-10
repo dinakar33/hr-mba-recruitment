@@ -394,6 +394,14 @@ Posture: <strong id="postureVal">Pending</strong>
 </div>
 
 <div id="interview-controls" class="hidden w-full flex-col items-center">
+<div id="interviewModeToggle" class="flex items-center space-x-4 mb-4 bg-slate-800 p-2 rounded-lg border border-slate-700">
+<span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Style:</span>
+<div class="flex bg-slate-900 rounded-md p-1">
+<button id="btnMethodSTAR" onclick="window.setInterviewMethod('star')" class="px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors">STAR</button>
+<button id="btnMethodGeneral" onclick="window.setInterviewMethod('general')" class="px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent">General</button>
+</div>
+</div>
+
 <button id="startInterviewBtn" onclick="window.startAIInterview()" class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-8 rounded-full shadow-lg transition mb-2 border border-brand-400">
 <i class="fa-solid fa-play mr-2"></i> Initialize Protocol
 </button>
@@ -530,7 +538,7 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/1
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // === PASTE YOUR GEMINI API KEY HERE FOR THE EVENT ===
-const GEMINI_API_KEY = "AQ.Ab8RN6JtbsagulPqU_7_NOxrBT2DFSj7E1iKFItDd_qdMLsEUw"; 
+const GEMINI_API_KEY = "PASTE_YOUR_API_KEY_HERE"; 
 
 const firebaseConfig = {
 apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
@@ -1091,13 +1099,31 @@ function initWebcamStream() {
 // --- CONVERSATIONAL INTERVIEW ENGINE ---
 let interviewStep = 0; let intHistory = "";
 
+window.interviewMethod = 'star';
+window.setInterviewMethod = function(method) {
+    window.interviewMethod = method;
+    const btnStar = document.getElementById('btnMethodSTAR');
+    const btnGen = document.getElementById('btnMethodGeneral');
+    if(method === 'star') {
+        btnStar.className = "px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors";
+        btnGen.className = "px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent";
+    } else {
+        btnGen.className = "px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors";
+        btnStar.className = "px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent";
+    }
+}
+
 window.startAIInterview = async function() {
-document.getElementById('startInterviewBtn').classList.add('hidden'); document.getElementById('interview-transcript').innerHTML = ""; interviewStep = 0; intHistory = ""; window.bioMetrics = { eyeContact: [], stress: [] }; askNextInterviewQuestion();
+document.getElementById('startInterviewBtn').classList.add('hidden');
+document.getElementById('interviewModeToggle').classList.add('hidden');
+document.getElementById('interview-transcript').innerHTML = ""; interviewStep = 0; intHistory = ""; window.bioMetrics = { eyeContact: [], stress: [] }; askNextInterviewQuestion();
 }
 
 async function askNextInterviewQuestion() {
 if (interviewStep === 0) {
-    let q = "Welcome to the final stage. To start, could you walk me through a complex problem you solved using data analytics?";
+    let q = window.interviewMethod === 'star' 
+        ? "Welcome to the final stage. To start, could you walk me through a complex problem you solved using data analytics?" 
+        : "Welcome to the final stage. To start, could you tell me a little bit about yourself and what drives you professionally?";
     intHistory += `Meera: ${q}\n`;
     await setSpeaker('meera', 'HR Director Meera', `[Q1/5] ${q}`, 'female', 1.05, 0.95);
     document.getElementById('interview-mic-zone').classList.remove('hidden'); document.getElementById('interview-mic-zone').classList.add('flex');
@@ -1136,8 +1162,9 @@ interviewStep++;
 if (interviewStep < 5) {
     writeTranscript('interview-transcript', 'System', 'Meera is analyzing your response...');
     
-    let systemPrompt = `You are Meera, a strict but professional HR Director. You are conducting a behavioral interview. The candidate just answered your last question. 
-    Respond in exactly 2 sentences: First, acknowledge their answer naturally (e.g., "That's a great example," or "I see."). Second, ask a relevant follow-up question using the STAR method based on their specific background or previous answer. Do not include your name or brackets.`;
+    let systemPrompt = window.interviewMethod === 'star'
+        ? `You are Meera, a strict but professional HR Director. You are conducting a behavioral interview. The candidate just answered your last question.\nRespond in exactly 2 sentences: First, acknowledge their answer naturally (e.g., "That's a great example," or "I see."). Second, ask a relevant follow-up question using the STAR method based on their specific background or previous answer. Do not include your name or brackets.`
+        : `You are Meera, a professional HR Director. You are conducting a general conversational interview. The candidate just answered your last question.\nRespond in exactly 2 sentences: First, acknowledge their answer naturally. Second, ask a broad, open-ended follow-up question exploring their motivations, communication style, or general background. Do not include your name or brackets.`;
     
     let meeraReply = await callGemini(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
     
@@ -1148,7 +1175,11 @@ if (interviewStep < 5) {
     writeTranscript('interview-transcript', 'System', 'Evaluating overall performance...');
     await setSpeaker('meera', 'HR Director Meera', 'Interview complete. I am calculating your final metrics now.', 'female', 1.05, 0.95);
     
-    let finalScoreStr = await callGemini(`Evaluate this candidate's interview performance based on the STAR method: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`);
+    let evalPrompt = window.interviewMethod === 'star'
+        ? `Evaluate this candidate's interview performance based on the STAR method: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`
+        : `Evaluate this candidate's general interview performance, focusing on communication, clarity, and relevance: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`;
+        
+    let finalScoreStr = await callGemini(evalPrompt);
     let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (82 + Math.floor(Math.random() * 15)); 
     window.userData.interview_score = score; await syncToCloud(); window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral Interview');
 }
