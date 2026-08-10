@@ -539,8 +539,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-// === GEMINI API KEY CONFIGURED ===
-const GEMINI_API_KEY = "AQ.Ab8RN6L6-6e5BXEpWR6w1CtbKsmHpS_GCaoGN5Yk8xD7B88pug"; 
+// === PASTE YOUR GEMINI API KEY HERE FOR THE EVENT ===
+const GEMINI_API_KEY = "PASTE_YOUR_API_KEY_HERE"; 
 
 const firebaseConfig = {
 apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
@@ -574,17 +574,27 @@ async function callGemini(prompt, systemInstruction = null) {
     try {
         if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("PASTE_YOUR_API_KEY_HERE")) {
             console.error("API Key missing.");
-            return "[SYSTEM ERROR: Google Gemini API Key is missing. Please edit the HTML file and paste your key on line 368.]";
+            return "[SYSTEM ERROR: Google Gemini API Key is missing. Please edit the HTML file and paste your key on line 369.]";
         }
         
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        // Setup API URL and Headers based on Key Type
+        let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
+        let headers = { 'Content-Type': 'application/json' };
         
+        if (GEMINI_API_KEY.startsWith('AQ.')) {
+             // New Auth Key format
+             headers['Authorization'] = `Bearer ${GEMINI_API_KEY}`;
+        } else {
+             // Legacy Standard Key format
+             apiUrl += `?key=${GEMINI_API_KEY}`;
+        }
+
         const payload = { contents: [{ parts: [{ text: prompt }] }] };
         if (systemInstruction) {
             payload.systemInstruction = { parts: [{ text: systemInstruction }] };
         }
         
-        const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        const response = await fetch(apiUrl, { method: 'POST', headers: headers, body: JSON.stringify(payload) });
         const result = await response.json();
         
         if (!response.ok) {
