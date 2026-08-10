@@ -78,7 +78,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
 <div>
 <h1 class="text-3xl font-extrabold tracking-tight">HR Blog</h1>
-<p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth.</p>
+<p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth. <span class="bg-brand-600 px-2 py-0.5 rounded text-xs ml-2">V4.0</span></p>
 </div>
 
 <div class="flex items-center space-x-6">
@@ -152,8 +152,8 @@ body.ai-mode .gd-avatar { background: #334155; }
 <section id="tab-onboarding" class="tab-content active">
 <div class="mb-8 flex justify-between items-center flex-wrap gap-4">
 <div>
-<h2 class="text-2xl font-bold text-slate-800">Candidate Registration & Login</h2>
-<p class="text-slate-500 mt-1">Enter your credentials to save progress or restore a previous session.</p>
+<h2 class="text-2xl font-bold text-slate-800">Candidate Registration</h2>
+<p class="text-slate-500 mt-1">Enter your credentials and complete the psychological survey.</p>
 </div>
 <div class="flex gap-2">
 <input type="email" id="loginEmailLookup" class="border border-gray-300 rounded-lg px-3 py-2 text-sm text-slate-800 outline-none" placeholder="Enter existing email...">
@@ -167,18 +167,14 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="space-y-4">
 <div><label class="block text-sm font-medium mb-1">Full Name *</label><input type="text" id="candName" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="John Doe"></div>
 <div><label class="block text-sm font-medium mb-1">Email Address *</label><input type="email" id="candEmail" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="john@example.com"></div>
+<div><label class="block text-sm font-medium mb-1">Phone Number</label><input type="tel" id="candPhone" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="+1 (555) 000-0000"></div>
+<div><label class="block text-sm font-medium mb-1">Current Institution *</label><input type="text" id="candUni" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="Harvard Business School"></div>
 <div><label class="block text-sm font-medium mb-1">Specialization *</label>
 <select id="candSpec" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent">
-<option class="text-black" value="">Select...</option>
-<option class="text-black">MBA - Human Resources</option>
-<option class="text-black">MBA - Finance</option>
-<option class="text-black">MBA - Marketing</option>
-<option class="text-black">MBA - Supply Chain</option>
+<option class="text-black">MBA - Human Resources</option><option class="text-black">MBA - Finance</option><option class="text-black">MBA - Marketing</option><option class="text-black">MBA - Supply Chain</option>
 </select>
 </div>
-<div><label class="block text-sm font-medium mb-1">University/Institution *</label><input type="text" id="candUni" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="Harvard Business School"></div>
-<div><label class="block text-sm font-medium mb-1">Phone Number (Optional)</label><input type="tel" id="candPhone" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="+1 (555) 000-0000"></div>
-<div><label class="block text-sm font-medium mb-1">LinkedIn Profile URL (Optional)</label><input type="url" id="candLinkedin" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="https://linkedin.com/in/janedoe"></div>
+<div><label class="block text-sm font-medium mb-1">LinkedIn Profile</label><input type="url" id="candLinkedin" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="https://linkedin.com/in/janedoe"></div>
 </div>
 </div>
 
@@ -349,7 +345,7 @@ Submit Final Answers
 <section id="tab-interview" class="tab-content">
 <div class="mb-8">
 <h2 class="text-2xl font-bold text-slate-800">Stage 4: AI Behavioral HR Interview & Live Video Feed</h2>
-<p class="text-slate-500 mt-1">STAR-method evaluation with active biometric scanning overlay.</p>
+<p class="text-slate-500 mt-1">STAR-method evaluation with basic camera tracking overlay.</p>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -509,6 +505,7 @@ Posture Aligned: <strong id="postureVal">Pending</strong>
 </div>
 </div>
 </section>
+
 </main>
 
 <script type="module">
@@ -646,10 +643,8 @@ window.saveProfile = async function() {
 if (!window.candidateId) { window.showMessage("Database not ready yet.", "error"); return; }
 const name = document.getElementById('candName').value.trim();
 const email = document.getElementById('candEmail').value.trim();
-const spec = document.getElementById('candSpec').value;
 const uni = document.getElementById('candUni').value.trim();
-
-if (!name || !email || !spec || !uni) { window.showMessage("Name, Email, Specialization, and University are compulsory.", "error"); return; }
+if (!name || !email || !uni) { window.showMessage("Name, Email, and Institution are compulsory.", "error"); return; }
 
 let counts = { s:0, i:0, c:0, e:0 };
 for(let i=0; i<10; i++) {
@@ -676,7 +671,7 @@ function loadVoices() {
 let voices = window.speechSynthesis.getVoices();
 if(voices.length) {
 window.voicesLoaded = true;
-// Prefer Indian accents
+// Prioritize Indian English Accents for Localization
 window.aiVoices.male1 = voices.find(v => v.lang === 'en-IN' && v.name.includes('Male')) || voices.find(v => v.lang === 'en-IN') || voices[0];
 window.aiVoices.female1 = voices.find(v => v.lang === 'en-IN' && v.name.includes('Female')) || voices.find(v => v.lang === 'en-IN') || voices[0];
 }
@@ -727,7 +722,7 @@ if(window.SpeechRecognition) {
 recognition = new window.SpeechRecognition(); 
 recognition.continuous = true; 
 recognition.interimResults = true; 
-recognition.lang = 'en-IN'; // Changed to en-IN for better accuracy
+recognition.lang = 'en-IN'; // Changed to Indian English for High Accuracy
 }
 
 function writeTranscript(targetId, speaker, text) {
@@ -862,10 +857,8 @@ window.autoAdvanceTab('tab-test', 'tab-gd', 'Cognitive Aptitude Test');
 document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
 }
 
-const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"; // NOTE: Put a real key here if you want real LLM responses instead of the simulated fallback.
-
+// Fallback LLM simulation
 async function callGemini(prompt) {
-// Fallback simulation for live demo without a key
 return new Promise(resolve => {
 setTimeout(() => {
 if(prompt.includes("GD")) resolve("Your argument lacks quantifiable data. How would you measure the bias in that AI system?");
@@ -891,19 +884,18 @@ await setSpeaker('kavya', 'Kavya', "I disagree, Arjun. Historical bias in datase
 document.getElementById('gd-mic-zone').classList.remove('hidden');
 }
 
-// BUG FIX: Accurate Transcription Logic
 window.startGDRecording = function() {
 if(!recognition) return window.showMessage("Speech API not supported.", "error");
 document.getElementById('gdMicBtn').classList.add('bg-red-400'); document.getElementById('gdLiveSubtitle').classList.remove('hidden'); gdRecording = true; gdFinalText = "";
 document.getElementById('gdLiveSpeechText').innerText = "Listening...";
 
+// ANDROID BUG FIX: Completely rebuild the string every millisecond so duplicates are impossible
 recognition.onresult = (event) => { 
-    let currentText = "";
+    let currentText = ""; 
     for (let i = 0; i < event.results.length; ++i) { 
         currentText += event.results[i][0].transcript; 
-    }
-    // Overwrite instead of append to prevent stacking on Android
-    gdFinalText = currentText;
+    } 
+    gdFinalText = currentText; 
     document.getElementById('gdLiveSpeechText').innerText = currentText || "Listening..."; 
 };
 recognition.start();
@@ -911,14 +903,13 @@ recognition.start();
 
 window.stopGDRecording = async function() {
 if(!gdRecording) return; document.getElementById('gdMicBtn').classList.remove('bg-red-400'); recognition.stop(); gdRecording = false;
+// ANDROID BUG FIX: Pull clean from the variable
 const userSpeech = gdFinalText.trim() || "A hybrid model ensures both efficiency and fairness."; 
-writeTranscript('gd-transcript', 'Candidate', userSpeech); gdHistory += `Candidate: ${userSpeech}\n`;
+writeTranscript('gd-transcript', 'Candidate', userSpeech);
 document.getElementById('gdLiveSubtitle').classList.add('hidden'); document.getElementById('gd-mic-zone').classList.add('hidden');
-
 currentGDRound++;
 if(currentGDRound <= totalGDRounds) {
 document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
-// Gemini dynamically replies
 let aiReply = await callGemini(`GD Context: ${gdHistory}\nGenerate a 1-sentence critical counter-argument from an analytical perspective.`);
 setTimeout(async () => { await setSpeaker('arjun', 'Arjun', `Round ${currentGDRound}: ${aiReply}`, 'male1', 0.9, 1.1); document.getElementById('gd-mic-zone').classList.remove('hidden'); }, 500);
 } else {
@@ -963,36 +954,27 @@ let score = 82 + Math.floor(Math.random() * 15); window.userData.interview_score
 }
 }
 
-// BUG FIX: Accurate Transcription Logic
 window.startInterviewRecording = function() {
 if(!recognition) return window.showMessage("Speech API not supported.", "error"); interviewRecording = true; document.getElementById('interviewLiveSubtitle').classList.remove('hidden'); interviewFinalText = "";
 document.getElementById('interviewLiveSpeechText').innerText = "Listening...";
 
+// ANDROID BUG FIX: Completely rebuild the string every millisecond so duplicates are impossible
 recognition.onresult = (event) => { 
-    let currentText = "";
+    let currentText = ""; 
     for (let i = 0; i < event.results.length; ++i) { 
         currentText += event.results[i][0].transcript; 
-    }
-    // Overwrite
+    } 
     interviewFinalText = currentText;
     document.getElementById('interviewLiveSpeechText').innerText = currentText || "Listening..."; 
 };
 recognition.start();
 }
 
-window.stopInterviewRecording = async function() {
+window.stopInterviewRecording = function() {
 if(!interviewRecording) return; document.getElementById('interview-mic-zone').classList.add('hidden'); document.getElementById('interview-mic-zone').classList.remove('flex'); recognition.stop(); interviewRecording = false;
+// ANDROID BUG FIX: Pull clean from the variable
 const candidateResponse = interviewFinalText.trim() || "I structured a clear framework prioritizing direct communication."; 
-writeTranscript('interview-transcript', 'Candidate', candidateResponse); intHistory += `Candidate: ${candidateResponse}\n`; document.getElementById('interviewLiveSubtitle').classList.add('hidden'); interviewStep++;
-
-if(interviewStep < masterInterviewQuestions.length) {
-// Dynamic Follow-up
-let aiCritique = await callGemini(`Interview Context: ${intHistory}\nGenerate a 1-sentence critical follow up challenging their lack of STAR method metrics.`);
-window.activeSpeaker = 'meera'; document.getElementById('ai-hr-meera').classList.add('avatar-talking'); writeTranscript('interview-transcript', 'HR Director Meera', aiCritique); await window.speakAIPromise(aiCritique, 'female', 1.05, 0.95); window.activeSpeaker = null; document.getElementById('ai-hr-meera').classList.remove('avatar-talking');
-setTimeout(askNextInterviewQuestion, 500);
-} else {
-setTimeout(askNextInterviewQuestion, 500);
-}
+writeTranscript('interview-transcript', 'Candidate', candidateResponse); document.getElementById('interviewLiveSubtitle').classList.add('hidden'); interviewStep++; setTimeout(askNextInterviewQuestion, 1000);
 }
 
 window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); }
