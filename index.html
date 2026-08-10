@@ -540,6 +540,30 @@ let unsubscribeAdmin = null;
 // Biometric Memory Arrays
 window.bioMetrics = { eyeContact: [], stress: [] };
 
+// Fallback LLM simulation / Live API Connection
+async function callGemini(prompt) {
+    try {
+        const apiKey = ""; // Automatically provided by environment
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+        const payload = {
+            contents: [{ parts: [{ text: prompt }] }]
+        };
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        if (result.candidates && result.candidates[0].content.parts[0].text) {
+            return result.candidates[0].content.parts[0].text.replace(/\*/g, '').trim();
+        }
+        return "Interesting point. Let's move to the next phase.";
+    } catch (e) {
+        console.error("Gemini API Error:", e);
+        return "Noted. Let's proceed.";
+    }
+}
+
 // ARCHETYPE QUESTIONS
 const archQ = [
 {q: "1. When starting a complex new project, your first priority is to:", o: {s: "Define clear metrics", i: "Find a unique angle", c: "Ensure the right people are assigned", e: "Set a strict timeline"}},
@@ -715,16 +739,6 @@ guide.classList.remove('visible'); window.speechSynthesis.cancel(); window.activ
 }
 }
 
-// Ensure high accuracy Indian accent transcription
-window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-let recognition = null;
-if(window.SpeechRecognition) { 
-recognition = new window.SpeechRecognition(); 
-recognition.continuous = true; 
-recognition.interimResults = true; 
-recognition.lang = 'en-IN'; 
-}
-
 function writeTranscript(targetId, speaker, text) {
 const box = document.getElementById(targetId);
 const line = document.createElement('div'); line.className = "mb-3 pb-3 border-b border-slate-700/50";
@@ -857,18 +871,43 @@ window.autoAdvanceTab('tab-test', 'tab-gd', 'Cognitive Aptitude Test');
 document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
 }
 
-// Fallback LLM simulation
-async function callGemini(prompt) {
-return new Promise(resolve => {
-setTimeout(() => {
-if(prompt.includes("GD")) resolve("Your argument lacks quantifiable data. How would you measure the bias in that AI system?");
-else if(prompt.includes("STAR")) resolve("You mentioned the situation, but what were the specific metrics associated with your result?");
-else resolve("Thank you for your input. Let's proceed.");
-}, 1000);
-});
+// -------------------------------------------------------------
+// THE NUCLEAR MICROPHONE FIX (ANDROID MEMORY FLUSH)
+// -------------------------------------------------------------
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition = null;
+let activeTranscriptText = ""; 
+let gdHistory = ""; // Context for the Gemini AI
+
+if(window.SpeechRecognition) { 
+    recognition = new window.SpeechRecognition(); 
+    // CRITICAL: continuous = false forces Android to flush its memory on every phrase!
+    recognition.continuous = false; 
+    recognition.interimResults = true; 
+    // High-accuracy Indian accent tracking
+    recognition.lang = 'en-IN'; 
+    
+    // Auto-restart if user is still holding the button and it times out
+    recognition.onend = () => {
+        if (document.getElementById('gdMicBtn').classList.contains('bg-red-400') || document.getElementById('interviewMicBtn').classList.contains('bg-red-400')) {
+            try { recognition.start(); } catch(e) {}
+        }
+    };
+    
+    recognition.onresult = (event) => { 
+        // Completely overwrite the string. Never use += here.
+        activeTranscriptText = Array.from(event.results)
+            .map(result => result[0].transcript)
+            .join(''); 
+            
+        const gdBox = document.getElementById('gdLiveSpeechText');
+        const intBox = document.getElementById('interviewLiveSpeechText');
+        if (!gdBox.parentElement.classList.contains('hidden')) gdBox.innerText = activeTranscriptText;
+        if (!intBox.parentElement.classList.contains('hidden')) intBox.innerText = activeTranscriptText;
+    };
 }
 
-let currentGDRound = 1; let totalGDRounds = 5; let gdRecording = false; let gdFinalText = ""; let gdHistory = "";
+let currentGDRound = 1; let totalGDRounds = 5; let gdRecording = false; 
 async function setSpeaker(id, name, text, voiceType, pitch, rate) {
 window.activeSpeaker = id; document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
 if(id) { const avatar = document.getElementById(id === 'meera' ? 'ai-hr-meera' : (id==='guide' ? 'guide-avatar' : `avatar-${id}`)); if(avatar) avatar.classList.add('avatar-talking'); }
@@ -889,23 +928,8 @@ if(!recognition) return window.showMessage("Speech API not supported.", "error")
 document.getElementById('gdMicBtn').classList.add('bg-red-400'); 
 document.getElementById('gdLiveSubtitle').classList.remove('hidden'); 
 gdRecording = true; 
-gdFinalText = "";
+activeTranscriptText = "";
 document.getElementById('gdLiveSpeechText').innerText = "Listening...";
-
-recognition.onresult = (event) => { 
-    let finalStr = ""; 
-    let interimStr = ""; 
-    for (let i = 0; i < event.results.length; ++i) { 
-        if (event.results[i].isFinal) { 
-            finalStr += event.results[i][0].transcript + " "; 
-        } else if (i === event.results.length - 1) { 
-            // NUCLEAR ANDROID BUG FIX: Completely ignore previous interim stacking.
-            interimStr = event.results[i][0].transcript; 
-        } 
-    } 
-    gdFinalText = (finalStr + interimStr).trim(); 
-    document.getElementById('gdLiveSpeechText').innerText = gdFinalText || "Listening..."; 
-};
 try { recognition.start(); } catch(e) {}
 }
 
@@ -915,16 +939,29 @@ document.getElementById('gdMicBtn').classList.remove('bg-red-400');
 try { recognition.stop(); } catch(e) {} 
 gdRecording = false;
 
-const userSpeech = gdFinalText || "A hybrid model ensures both efficiency and fairness."; 
+const userSpeech = activeTranscriptText.trim();
+if (!userSpeech) {
+    document.getElementById('gdLiveSpeechText').innerText = "(Audio capture failed. Please hold to speak again.)";
+    return; // Don't advance the round if they didn't speak
+}
+
 writeTranscript('gd-transcript', 'Candidate', userSpeech);
+gdHistory += `Candidate: ${userSpeech}\n`;
 document.getElementById('gdLiveSubtitle').classList.add('hidden'); document.getElementById('gd-mic-zone').classList.add('hidden');
 currentGDRound++;
+
 if(currentGDRound <= totalGDRounds) {
 document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
-let aiReply = await callGemini(`GD Context: ${gdHistory}\nGenerate a 1-sentence critical counter-argument from an analytical perspective.`);
-setTimeout(async () => { await setSpeaker('arjun', 'Arjun', `Round ${currentGDRound}: ${aiReply}`, 'male1', 0.9, 1.1); document.getElementById('gd-mic-zone').classList.remove('hidden'); }, 500);
+writeTranscript('gd-transcript', 'System', 'Analyzing candidate response...');
+
+// Real API call to challenge the candidate
+let aiReply = await callGemini(`You are an analytical manager named Arjun in a GD. The candidate just said: "${userSpeech}". Generate a 1-sentence critical counter-argument based strictly on their point.`);
+await setSpeaker('arjun', 'Arjun', `Round ${currentGDRound}: ${aiReply}`, 'male1', 0.9, 1.1); document.getElementById('gd-mic-zone').classList.remove('hidden'); 
 } else {
-let score = 22 + Math.floor(Math.random() * 8); window.userData.gd_score = score; await syncToCloud(); writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Score: ${score}/30`); window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
+writeTranscript('gd-transcript', 'System', 'Calculating final GD score via LLM...');
+let finalScoreStr = await callGemini(`Evaluate this candidate's GD performance: ${gdHistory}. Return only a number out of 30 representing their score. Example: 26`);
+let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (22 + Math.floor(Math.random() * 8)); 
+window.userData.gd_score = score; await syncToCloud(); writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Score: ${score}/30`); window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
 }
 }
 
@@ -949,7 +986,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(stream =
 }
 
 const masterInterviewQuestions = ["Tell me about a situation where you utilized HR analytics to resolve a team dispute.", "Describe a time you had to enforce policy compliance under intense deadline pressure.", "How do you handle managing resistant stakeholders during structural re-organization?", "Give an example of an HR initiative you led that failed and how you adapted.", "How do you balance employee well-being mandates with aggressive financial quarterly KPIs?"];
-let interviewStep = 0; let interviewRecording = false; let interviewFinalText = ""; let intHistory = "";
+let interviewStep = 0; let interviewRecording = false; let intHistory = "";
 
 window.startAIInterview = async function() {
 document.getElementById('startInterviewBtn').classList.add('hidden'); document.getElementById('interview-transcript').innerHTML = ""; interviewStep = 0; intHistory = ""; window.bioMetrics = { eyeContact: [], stress: [] }; askNextInterviewQuestion();
@@ -961,7 +998,10 @@ let q = masterInterviewQuestions[interviewStep]; window.activeSpeaker = 'meera';
 } else {
 window.activeSpeaker = 'meera'; document.getElementById('ai-hr-meera').classList.add('avatar-talking'); writeTranscript('interview-transcript', 'HR Director Meera', 'Interview complete. Evaluating.'); await window.speakAIPromise("Interview complete. Evaluating.", 'female', 1.05, 0.95); window.activeSpeaker = null; document.getElementById('ai-hr-meera').classList.remove('avatar-talking');
 if(bioScanInterval) clearInterval(bioScanInterval);
-let score = 82 + Math.floor(Math.random() * 15); window.userData.interview_score = score; await syncToCloud(); window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral Interview');
+
+let finalScoreStr = await callGemini(`Evaluate this candidate's interview performance using the STAR method: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`);
+let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (82 + Math.floor(Math.random() * 15)); 
+window.userData.interview_score = score; await syncToCloud(); window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral Interview');
 }
 }
 
@@ -969,34 +1009,33 @@ window.startInterviewRecording = function() {
 if(!recognition) return window.showMessage("Speech API not supported.", "error"); 
 interviewRecording = true; 
 document.getElementById('interviewLiveSubtitle').classList.remove('hidden'); 
-interviewFinalText = "";
+activeTranscriptText = "";
 document.getElementById('interviewLiveSpeechText').innerText = "Listening...";
-
-recognition.onresult = (event) => { 
-    let finalStr = ""; 
-    let interimStr = ""; 
-    for (let i = 0; i < event.results.length; ++i) { 
-        if (event.results[i].isFinal) { 
-            finalStr += event.results[i][0].transcript + " "; 
-        } else if (i === event.results.length - 1) { 
-            // NUCLEAR ANDROID BUG FIX: Completely ignore previous interim stacking.
-            interimStr = event.results[i][0].transcript; 
-        } 
-    } 
-    interviewFinalText = (finalStr + interimStr).trim();
-    document.getElementById('interviewLiveSpeechText').innerText = interviewFinalText || "Listening..."; 
-};
 try { recognition.start(); } catch(e) {}
 }
 
-window.stopInterviewRecording = function() {
+window.stopInterviewRecording = async function() {
 if(!interviewRecording) return; 
-document.getElementById('interview-mic-zone').classList.add('hidden'); document.getElementById('interview-mic-zone').classList.remove('flex'); 
+document.getElementById('interviewMicBtn').classList.remove('bg-red-400'); 
 try { recognition.stop(); } catch(e) {} 
 interviewRecording = false;
 
-const candidateResponse = interviewFinalText || "I structured a clear framework prioritizing direct communication."; 
-writeTranscript('interview-transcript', 'Candidate', candidateResponse); document.getElementById('interviewLiveSubtitle').classList.add('hidden'); interviewStep++; setTimeout(askNextInterviewQuestion, 1000);
+const candidateResponse = activeTranscriptText.trim();
+if (!candidateResponse) {
+    document.getElementById('interviewLiveSpeechText').innerText = "(Audio capture failed. Please hold to speak again.)";
+    return; 
+}
+
+writeTranscript('interview-transcript', 'Candidate', candidateResponse); 
+intHistory += `Candidate: ${candidateResponse}\n`;
+document.getElementById('interviewLiveSubtitle').classList.add('hidden'); 
+document.getElementById('interview-mic-zone').classList.add('hidden'); document.getElementById('interview-mic-zone').classList.remove('flex');
+
+writeTranscript('interview-transcript', 'System', 'Evaluating STAR response...');
+let feedback = await callGemini(`You are HR Director Meera. The candidate answered an interview question with: "${candidateResponse}". Give a critical 1-sentence feedback on their answer noting if they used concrete metrics.`);
+await setSpeaker('meera', 'HR Director Meera', feedback, 'female', 1.05, 0.95);
+
+interviewStep++; setTimeout(askNextInterviewQuestion, 1500);
 }
 
 window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); }
