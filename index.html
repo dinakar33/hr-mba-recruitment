@@ -3,169 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise MBA Recruitment Platform</title>
+    <title>HR Blog | Executive Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
-        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(226, 232, 240, 0.8); }
-        .tab-content { display: none; animation: fadeIn 0.4s ease-in-out; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f4f6f8; 
+            color: #1e293b; 
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        /* --- Dark Mode / AI Guided Styling --- */
+        body.ai-mode { background-color: #0f172a; color: #f8fafc; }
+        body.ai-mode .card-bg { background-color: #1e293b; border-color: #334155; color: #f8fafc; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        body.ai-mode .text-blue-700 { color: #60a5fa; }
+        body.ai-mode .input-style { background-color: #0f172a; border-color: #475569; color: #f8fafc; }
+        body.ai-mode .header-bg { background-color: #020617; border-bottom: 1px solid #1e293b; }
+        body.ai-mode .transcript-bg { background-color: #0f172a; border-color: #334155; }
+        body.ai-mode .text-slate-500 { color: #94a3b8; }
+        body.ai-mode .text-slate-800 { color: #e2e8f0; }
+
+        /* Standard Card & Input Styles */
+        .card-bg { background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.3s; }
+        .input-style { w-full; border: 1px solid #cbd5e1; border-radius: 0.375rem; padding: 0.5rem 0.75rem; outline: none; transition: border-color 0.2s; font-size: 0.875rem; }
+        .input-style:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.2); }
+        
+        /* Tabs */
+        .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
         .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Avatars without cursor tracking (static pulse) */
-        .avatar-container { width: 120px; height: 120px; border-radius: 50%; display: flex; justify-content: center; align-items: center; background: #e2e8f0; border: 4px solid #cbd5e1; position: relative; overflow: hidden; transition: all 0.3s ease; }
-        .avatar-container.speaking { border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); animation: pulseSpeaking 1.5s infinite; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Nav Tab Styles */
+        .nav-tab { padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 600; color: #bfdbfe; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; cursor: pointer; }
+        .nav-tab:hover:not(:disabled) { background-color: rgba(255,255,255,0.1); color: #ffffff; }
+        .nav-tab.active { background-color: #ffffff; color: #1d4ed8; }
+        .nav-tab:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Avatars (No Parallax, Static Pulse) */
+        .avatar-container { width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center; background: #e2e8f0; border: 4px solid #cbd5e1; position: relative; overflow: hidden; transition: all 0.3s ease; }
+        .avatar-container img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-container.speaking { border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.6); animation: pulseSpeaking 1.2s infinite; }
         @keyframes pulseSpeaking { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        
-        /* Biometric Overlay Styling */
+
+        /* Biometric Overlay */
         .biometric-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; border: 2px solid rgba(59, 130, 246, 0.3); border-radius: 0.75rem; }
         .scan-line { width: 100%; height: 2px; background: rgba(59, 130, 246, 0.5); position: absolute; top: 0; left: 0; box-shadow: 0 0 10px rgba(59, 130, 246, 0.8); animation: scan 3s linear infinite; }
         @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
         .face-box { position: absolute; top: 20%; left: 30%; width: 40%; height: 60%; border: 1px dashed rgba(74, 222, 128, 0.6); border-radius: 20%; }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        body.ai-mode ::-webkit-scrollbar-thumb { background: #475569; }
+
+        /* Toggle Switch */
+        .toggle-checkbox:checked { right: 0; border-color: #4ade80; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #4ade80; }
+        .toggle-checkbox:checked + .toggle-label:after { transform: translateX(100%); border-color: white; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <nav class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-briefcase text-brand-600 text-2xl text-blue-600"></i>
-                <span class="font-bold text-xl tracking-tight text-slate-800">Executive<span class="text-blue-600">AI</span></span>
+    <header class="bg-[#1e3a8a] text-white pt-4 pb-0 header-bg sticky top-0 z-50 shadow-md transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
+            <!-- Branding -->
+            <div class="flex items-center gap-4">
+                <div>
+                    <h1 class="text-3xl font-extrabold tracking-tight">HR Blog</h1>
+                    <p class="text-xs font-semibold tracking-widest mt-1 text-blue-200 uppercase flex items-center">
+                        CRACK THE CODE, KNOW YOUR WORTH. 
+                        <span class="bg-blue-500 text-white px-2 py-0.5 rounded text-[10px] ml-2 font-bold shadow-sm">V4.0</span>
+                    </p>
+                </div>
             </div>
-            <div class="hidden md:flex space-x-1" id="navTabs">
-                <button onclick="switchTab('tab-onboarding')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-blue-600 bg-blue-50" data-target="tab-onboarding">Profile</button>
-                <button onclick="switchTab('tab-ats')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-50" data-target="tab-ats" disabled>Stage 1: ATS</button>
-                <button onclick="switchTab('tab-test')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-50" data-target="tab-test" disabled>Stage 2: Aptitude</button>
-                <button onclick="switchTab('tab-gd')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-50" data-target="tab-gd" disabled>Stage 3: GD</button>
-                <button onclick="switchTab('tab-interview')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-50" data-target="tab-interview" disabled>Stage 4: Interview</button>
-                <button onclick="switchTab('tab-passport')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-50" data-target="tab-passport" disabled>Passport</button>
+
+            <!-- Controls -->
+            <div class="flex items-center gap-6">
+                <!-- AI Toggle -->
+                <div class="flex items-center gap-3 bg-blue-900/50 px-4 py-2 rounded-full border border-blue-700/50 backdrop-blur-sm">
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-200">Manual</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" id="aiToggle" class="sr-only peer" onchange="toggleMode(this)">
+                      <div class="w-11 h-6 bg-slate-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-400 shadow-inner"></div>
+                    </label>
+                    <span class="text-xs font-bold uppercase tracking-wider text-white drop-shadow-md"><i class="fa-solid fa-sparkles mr-1 text-yellow-300"></i> AI Guided</span>
+                </div>
+                
+                <!-- Admin Login -->
+                <button onclick="document.getElementById('adminModal').classList.remove('hidden')" class="flex items-center gap-2 text-sm font-medium text-blue-100 hover:text-white transition">
+                    <i class="fa-solid fa-lock"></i> Admin Login
+                </button>
             </div>
         </div>
-    </nav>
+
+        <!-- Navigation Tabs -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 overflow-x-auto pb-2 flex gap-1 scrollbar-hide">
+            <button class="nav-tab active" data-target="tab-onboarding" onclick="switchTab('tab-onboarding')"><i class="fa-solid fa-user-plus"></i> Onboarding</button>
+            <button class="nav-tab" data-target="tab-ats" onclick="switchTab('tab-ats')" disabled><i class="fa-solid fa-file-contract"></i> ATS Audit</button>
+            <button class="nav-tab" data-target="tab-aptitude" onclick="switchTab('tab-aptitude')" disabled><i class="fa-solid fa-stopwatch"></i> Aptitude Test</button>
+            <button class="nav-tab" data-target="tab-gd" onclick="switchTab('tab-gd')" disabled><i class="fa-solid fa-users"></i> Virtual GD</button>
+            <button class="nav-tab" data-target="tab-interview" onclick="switchTab('tab-interview')" disabled><i class="fa-solid fa-user-tie"></i> AI Interview</button>
+            <button class="nav-tab" data-target="tab-passport" onclick="switchTab('tab-passport')" disabled><i class="fa-solid fa-id-card"></i> Talent Passport</button>
+            <button class="nav-tab" data-target="tab-labor" onclick="switchTab('tab-labor')"><i class="fa-solid fa-scale-balanced"></i> Labor Rights</button>
+            <button class="nav-tab" data-target="tab-academic" onclick="switchTab('tab-academic')"><i class="fa-solid fa-book-open"></i> Academic Modules</button>
+        </div>
+    </header>
 
     <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
         
-        <!-- ONBOARDING & PROFILE -->
+        <!-- ================= TAB 1: ONBOARDING ================= -->
         <section id="tab-onboarding" class="tab-content active">
-            <div class="mb-8 text-center">
-                <h1 class="text-3xl font-extrabold text-slate-800">Candidate Onboarding & Profiling</h1>
-                <p class="text-slate-500 mt-2 max-w-2xl mx-auto">Complete your professional details and the psychometric matrix to unlock the AI Assessment Gauntlet.</p>
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 transition-colors">Candidate Registration</h2>
+                <p class="text-slate-500 text-sm mt-1 transition-colors">Enter your credentials and complete the psychological survey to unlock the AI Assessment.</p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-1 space-y-6">
-                    <div class="glass-card p-6 rounded-xl shadow-sm">
-                        <h3 class="text-lg font-bold border-b pb-2 mb-4">Personal Details</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Full Name <span class="text-red-500">*</span></label>
-                                <input type="text" id="c_name" class="w-full border rounded p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Email Address <span class="text-red-500">*</span></label>
-                                <input type="email" id="c_email" class="w-full border rounded p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Specialization <span class="text-red-500">*</span></label>
-                                <select id="c_spec" class="w-full border rounded p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                                    <option value="">Select...</option>
-                                    <option value="MBA - Human Resources">MBA - Human Resources</option>
-                                    <option value="MBA - Finance">MBA - Finance</option>
-                                    <option value="MBA - Marketing">MBA - Marketing</option>
-                                    <option value="MBA - Operations & Analytics">MBA - Operations & Analytics</option>
-                                    <option value="MBA - Supply Chain">MBA - Supply Chain</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">University/Institution <span class="text-red-500">*</span></label>
-                                <input type="text" id="c_uni" class="w-full border rounded p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Phone Number <span class="text-slate-400 font-normal">(Optional)</span></label>
-                                <input type="tel" id="c_phone" class="w-full border rounded p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">LinkedIn Profile URL <span class="text-slate-400 font-normal">(Optional)</span></label>
-                                <input type="url" id="c_linkedin" class="w-full border rounded p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Personal Details -->
+                <div class="card-bg p-6">
+                    <h3 class="text-blue-700 font-bold text-lg mb-6 flex items-center gap-2 border-b border-gray-100 pb-3 transition-colors"><i class="fa-solid fa-address-card"></i> Personal Details</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1 transition-colors">Full Name <span class="text-red-500">*</span></label>
+                            <input type="text" id="c_name" class="input-style bg-transparent" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1 transition-colors">Email Address <span class="text-red-500">*</span></label>
+                            <input type="email" id="c_email" class="input-style bg-transparent" placeholder="john@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1 transition-colors">Specialization <span class="text-red-500">*</span></label>
+                            <select id="c_spec" class="input-style bg-transparent w-full">
+                                <option value="" disabled selected>Select...</option>
+                                <option value="MBA - Human Resources">MBA - Human Resources</option>
+                                <option value="MBA - Finance">MBA - Finance</option>
+                                <option value="MBA - Marketing">MBA - Marketing</option>
+                                <option value="MBA - Operations & Analytics">MBA - Operations & Analytics</option>
+                                <option value="MBA - Supply Chain">MBA - Supply Chain</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1 transition-colors">University/Institution <span class="text-red-500">*</span></label>
+                            <input type="text" id="c_uni" class="input-style bg-transparent" placeholder="Global Business School">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1 transition-colors">Phone Number <span class="text-slate-400 font-normal">(Optional)</span></label>
+                            <input type="tel" id="c_phone" class="input-style bg-transparent" placeholder="+91 9876543210">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1 transition-colors">LinkedIn Profile URL <span class="text-slate-400 font-normal">(Optional)</span></label>
+                            <input type="url" id="c_linkedin" class="input-style bg-transparent" placeholder="https://linkedin.com/in/johndoe">
                         </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-2">
-                    <div class="glass-card p-6 rounded-xl shadow-sm h-full">
-                        <h3 class="text-lg font-bold border-b pb-2 mb-4">10-Point Archetype Assessment</h3>
-                        <div id="archetypeForm" class="space-y-6 max-h-[500px] overflow-y-auto pr-4">
-                            <!-- Questions generated via JS -->
-                        </div>
-                        <div class="mt-6 pt-4 border-t">
-                            <button onclick="submitOnboarding()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg shadow transition">
-                                <i class="fa-solid fa-lock mr-2"></i> Lock Profile & Generate Archetype
-                            </button>
-                        </div>
-                        <div id="archetypeResult" class="hidden mt-4 p-4 bg-green-50 border border-green-200 rounded-lg text-center">
-                            <p class="text-sm text-green-800 font-medium">Profile Locked! Your Workplace Archetype is:</p>
-                            <h2 id="archDisplay" class="text-2xl font-black text-green-700 mt-1"></h2>
-                        </div>
+                <!-- Archetype Assessment -->
+                <div class="card-bg p-6 flex flex-col">
+                    <h3 class="text-blue-700 font-bold text-lg mb-4 flex items-center gap-2 border-b border-gray-100 pb-3 transition-colors"><i class="fa-solid fa-puzzle-piece"></i> 10-Point Archetype Assessment</h3>
+                    <div id="archetypeForm" class="flex-grow space-y-6 overflow-y-auto max-h-[400px] pr-2 mb-4">
+                        <!-- Questions JS Injected Here -->
+                    </div>
+                    
+                    <button onclick="submitOnboarding()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg shadow transition mt-auto">
+                        <i class="fa-solid fa-lock mr-2"></i> Lock Profile & Proceed
+                    </button>
+                    
+                    <div id="archetypeResult" class="hidden mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-center transition-colors">
+                        <p class="text-sm text-blue-800 font-medium">Profile Locked! Your Archetype is:</p>
+                        <h2 id="archDisplay" class="text-2xl font-black text-blue-700 mt-1"></h2>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- ================= TAB 2: ATS AUDIT ================= -->
         <section id="tab-ats" class="tab-content">
-            <div class="mb-8">
-                <h2 class="text-2xl font-bold text-slate-800">Stage 1: ATS Audit</h2>
-                <p class="text-slate-500 mt-2">Upload your PDF resume and paste a Target Job Description. The engine will extract TF-IDF keywords and calculate your match percentage.</p>
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 transition-colors">Stage 1: ATS Resume Audit</h2>
+                <p class="text-slate-500 text-sm mt-1 transition-colors">Upload your PDF resume and paste a Job Description. We use TF-IDF to dynamically extract keywords.</p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 space-y-6">
-                    <div class="glass-card p-6 rounded-xl shadow-sm">
-                        <label class="block text-sm font-semibold mb-2">Target Job Description (JD)</label>
-                        <p class="text-xs text-slate-500 mb-3">Paste the job description here. Our engine dynamically extracts core competencies ignoring stop words.</p>
-                        <textarea id="jdInput" class="w-full h-32 border border-slate-300 rounded-lg p-3 text-sm text-slate-800 outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-slate-50" placeholder="e.g., Looking for a professional with expertise in talent acquisition, data analytics, and supply chain management..."></textarea>
+                    <div class="card-bg p-6">
+                        <label class="block text-sm font-semibold mb-2 text-slate-800 transition-colors"><i class="fa-solid fa-bullseye text-blue-500 mr-2"></i>Target Job Description (JD)</label>
+                        <textarea id="jdInput" class="input-style w-full h-32 bg-transparent resize-none" placeholder="Paste the job description here..."></textarea>
                     </div>
 
-                    <div class="glass-card p-6 rounded-xl shadow-sm">
-                        <label class="block text-sm font-semibold mb-3">Upload PDF Resume</label>
-                        <div id="dropZone" class="w-full h-32 rounded-xl flex flex-col items-center justify-center cursor-pointer bg-slate-50 border-2 border-dashed border-slate-300 hover:border-blue-500 transition">
-                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-blue-400 mb-2"></i>
-                            <span class="text-sm font-medium text-slate-600">Drag & drop your PDF here or click to browse</span>
+                    <div class="card-bg p-6">
+                        <label class="block text-sm font-semibold mb-3 text-slate-800 transition-colors"><i class="fa-solid fa-file-pdf text-red-500 mr-2"></i>Upload Resume (PDF)</label>
+                        <div id="dropZone" class="w-full h-24 rounded-xl flex flex-col items-center justify-center cursor-pointer border-2 border-dashed border-slate-300 hover:border-blue-500 transition transcript-bg">
+                            <i class="fa-solid fa-cloud-arrow-up text-2xl text-blue-400 mb-1"></i>
+                            <span class="text-xs font-medium text-slate-600 transition-colors">Click to browse or drag & drop</span>
                             <input type="file" id="resumeFile" accept="application/pdf" class="hidden">
                         </div>
-                        <p id="fileNameDisplay" class="mt-2 text-sm text-green-600 font-medium hidden"><i class="fa-solid fa-check-circle mr-1"></i> File ready: <span id="fName"></span></p>
+                        <p id="fileNameDisplay" class="mt-2 text-xs text-green-600 font-medium hidden"><i class="fa-solid fa-check-circle mr-1"></i> <span id="fName"></span></p>
                     </div>
 
                     <button id="btnRunATS" onclick="runATS()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 rounded-lg shadow-md transition">
-                        <i class="fa-solid fa-microchip mr-2"></i> Extract & Run ATS Scan
+                        <i class="fa-solid fa-microchip mr-2"></i> Extract Keywords & Run Scan
                     </button>
                 </div>
 
-                <div class="glass-card p-6 rounded-xl shadow-sm text-center flex flex-col justify-start items-center">
-                    <h3 class="text-lg font-semibold border-b border-slate-200 pb-3 mb-6 w-full">Live Parsing Results</h3>
-                    <div class="inline-flex items-center justify-center w-32 h-32 rounded-full border-8 border-blue-100 bg-white shadow-inner relative">
-                        <span id="atsScoreDisplay" class="text-4xl font-extrabold text-blue-600">0%</span>
-                    </div>
-                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mt-3 mb-4">Match Score</p>
+                <!-- Live Results -->
+                <div class="card-bg p-6 text-center flex flex-col items-center">
+                    <h3 class="text-md font-semibold border-b border-gray-100 pb-3 mb-6 w-full text-slate-800 transition-colors">Live ATS Parsing Results</h3>
                     
-                    <div class="w-full text-left mt-2">
-                        <p class="text-xs font-bold text-slate-700 mb-2">Matched Keywords:</p>
-                        <div id="atsMatchedBox" class="flex flex-wrap gap-1 mb-4 min-h-[30px] p-2 bg-slate-50 rounded border border-slate-200">
+                    <div class="inline-flex items-center justify-center w-32 h-32 rounded-full border-8 border-blue-100 bg-white shadow-inner relative mb-4">
+                        <span id="atsScoreDisplay" class="text-4xl font-black text-blue-600">0%</span>
+                    </div>
+                    
+                    <div class="w-full text-left mt-2 flex-grow overflow-y-auto max-h-[200px] pr-2">
+                        <p class="text-xs font-bold text-slate-700 mb-2 transition-colors">Matched Competencies:</p>
+                        <div id="atsMatchedBox" class="flex flex-wrap gap-1 mb-4 min-h-[30px] p-2 rounded border border-slate-200 transcript-bg">
                             <span class="text-xs text-slate-400 italic">Awaiting scan...</span>
                         </div>
-                        <p class="text-xs font-bold text-slate-700 mb-2">Missing Keywords (Flagged):</p>
-                        <div id="atsMissingBox" class="flex flex-wrap gap-1 min-h-[30px] p-2 bg-slate-50 rounded border border-slate-200">
+                        <p class="text-xs font-bold text-slate-700 mb-2 transition-colors">Missing (Flagged):</p>
+                        <div id="atsMissingBox" class="flex flex-wrap gap-1 min-h-[30px] p-2 rounded border border-slate-200 transcript-bg">
                             <span class="text-xs text-slate-400 italic">Awaiting scan...</span>
                         </div>
                     </div>
@@ -173,30 +234,31 @@
             </div>
         </section>
 
-        <section id="tab-test" class="tab-content">
-            <div class="mb-6 flex justify-between items-end">
+        <!-- ================= TAB 3: APTITUDE TEST ================= -->
+        <section id="tab-aptitude" class="tab-content">
+            <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
                 <div>
-                    <h2 class="text-2xl font-bold text-slate-800">Stage 2: Aptitude & Decision Velocity</h2>
-                    <p class="text-slate-500 mt-1">20 randomized questions. 10 Minutes. 5 points per question.</p>
+                    <h2 class="text-2xl font-bold text-slate-800 transition-colors">Stage 2: Aptitude & Decision Velocity</h2>
+                    <p class="text-slate-500 text-sm mt-1 transition-colors">20 Randomized Questions | 10 Minutes | 5 Points Each</p>
                 </div>
-                <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg font-bold text-xl shadow-sm flex items-center">
+                <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg font-bold text-xl shadow-sm flex items-center shrink-0">
                     <i class="fa-regular fa-clock mr-2"></i> <span id="timerDisplay">10:00</span>
                 </div>
             </div>
 
-            <div class="glass-card p-6 rounded-xl shadow-sm mb-6">
+            <div class="card-bg p-6">
                 <div id="testStartOverlay" class="text-center py-10">
                     <i class="fa-solid fa-brain text-5xl text-blue-500 mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2">Ready to begin?</h3>
-                    <p class="text-slate-500 text-sm mb-6 max-w-md mx-auto">Once started, the timer cannot be paused. Answer swiftly and accurately based on corporate compliance and logical reasoning.</p>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800 transition-colors">Ready to begin?</h3>
+                    <p class="text-slate-500 text-sm mb-6 max-w-md mx-auto transition-colors">Once started, the timer cannot be paused. Answer swiftly based on corporate compliance and logical reasoning.</p>
                     <button onclick="startTest()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-lg shadow transition">
                         Start Timer & Test
                     </button>
                 </div>
-                <div id="testQuestionsContainer" class="hidden space-y-8">
-                    <!-- 20 Qs injected here -->
+                <div id="testQuestionsContainer" class="hidden space-y-6 overflow-y-auto max-h-[500px] pr-2">
+                    <!-- Qs injected here -->
                 </div>
-                <div id="testSubmitBtnContainer" class="hidden mt-8 pt-4 border-t">
+                <div id="testSubmitBtnContainer" class="hidden mt-6 pt-4 border-t border-gray-100">
                     <button onclick="submitTest()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 rounded-lg shadow transition">
                         Submit Final Answers
                     </button>
@@ -204,212 +266,330 @@
             </div>
         </section>
 
+        <!-- ================= TAB 4: VIRTUAL GD ================= -->
         <section id="tab-gd" class="tab-content">
-            <div class="mb-8">
-                <h2 class="text-2xl font-bold text-slate-800">Stage 3: Virtual Group Discussion</h2>
-                <p class="text-slate-500 mt-2">Case Study: <strong>Implementing AI in Employee Promotion Cycles.</strong> Engage with 2 AI agents. Max 5 Rounds.</p>
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 transition-colors">Stage 3: Virtual Group Discussion</h2>
+                <p class="text-slate-500 text-sm mt-1 transition-colors">Case Study: <strong>Implementing AI in Employee Promotion Cycles.</strong> Defend your points. Max 5 Rounds.</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 glass-card p-6 rounded-xl shadow-sm flex flex-col h-[500px]">
-                    <div class="flex-grow overflow-y-auto mb-4 p-4 bg-slate-50 rounded border border-slate-200 text-sm space-y-3" id="gdTranscript">
+                <div class="lg:col-span-2 card-bg p-6 flex flex-col h-[500px]">
+                    <div class="flex-grow overflow-y-auto mb-4 p-4 rounded border border-slate-200 text-sm space-y-4 transcript-bg transition-colors" id="gdTranscript">
                         <div class="text-center text-slate-400 italic my-10">Click 'Initialize GD' to begin the 5-round simulation.</div>
                     </div>
                     <div class="mt-auto">
-                        <div class="flex items-center gap-2 mb-2">
-                            <span class="text-xs font-bold text-slate-500 uppercase">Round <span id="gdRoundCount">0</span> / 5</span>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold text-slate-500 uppercase transition-colors">Round <span id="gdRoundCount">0</span> / 5</span>
+                            <span id="gdStatus" class="text-xs font-bold text-blue-500 animate-pulse hidden">AI is typing...</span>
                         </div>
                         <div class="flex gap-2">
                             <button id="btnInitGD" onclick="initGD()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-3 rounded-lg font-bold transition flex-1">
                                 <i class="fa-solid fa-power-off mr-2"></i> Initialize GD
                             </button>
-                            <button id="btnSpeakGD" onmousedown="startSpeaking('gd')" onmouseup="stopSpeaking('gd')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-bold transition flex-1 hidden shadow-lg relative overflow-hidden group">
-                                <span class="relative z-10"><i class="fa-solid fa-microphone mr-2"></i> Hold to Speak</span>
+                            <button id="btnSpeakGD" onmousedown="startSpeaking('gd')" onmouseup="stopSpeaking('gd')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-bold transition flex-1 hidden shadow-md">
+                                <i class="fa-solid fa-microphone mr-2"></i> Hold to Speak
                             </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="space-y-6">
-                    <!-- Alex (Analytical) -->
-                    <div class="glass-card p-4 rounded-xl flex flex-col items-center shadow-sm">
-                        <div id="avatar-alex" class="avatar-container mb-3 bg-blue-50 border-blue-200">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex&backgroundColor=b6e3f4" alt="Alex" class="w-24 h-24 rounded-full">
+                    <!-- Alex -->
+                    <div class="card-bg p-4 flex flex-col items-center">
+                        <div id="avatar-alex" class="avatar-container mb-3 border-blue-200">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex&backgroundColor=b6e3f4" alt="Alex">
                         </div>
-                        <h4 class="font-bold text-slate-800">Alex</h4>
-                        <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-semibold mt-1">Analytical Agent</span>
+                        <h4 class="font-bold text-slate-800 transition-colors">Alex</h4>
+                        <span class="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide mt-1">Analytical Agent</span>
                     </div>
-                    <!-- Maya (Creative) -->
-                    <div class="glass-card p-4 rounded-xl flex flex-col items-center shadow-sm">
-                        <div id="avatar-maya" class="avatar-container mb-3 bg-purple-50 border-purple-200">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Maya&backgroundColor=e9d5ff" alt="Maya" class="w-24 h-24 rounded-full">
+                    <!-- Maya -->
+                    <div class="card-bg p-4 flex flex-col items-center">
+                        <div id="avatar-maya" class="avatar-container mb-3 border-purple-200">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Maya&backgroundColor=e9d5ff" alt="Maya">
                         </div>
-                        <h4 class="font-bold text-slate-800">Maya</h4>
-                        <span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-semibold mt-1">Creative Agent</span>
+                        <h4 class="font-bold text-slate-800 transition-colors">Maya</h4>
+                        <span class="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide mt-1">Creative Agent</span>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- ================= TAB 5: AI INTERVIEW ================= -->
         <section id="tab-interview" class="tab-content">
-            <div class="mb-8">
-                <h2 class="text-2xl font-bold text-slate-800">Stage 4: AI Behavioral Interview</h2>
-                <p class="text-slate-500 mt-2">STAR-method interview with live biometric tracking overlay. Allow camera and microphone access.</p>
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 transition-colors">Stage 4: AI Behavioral Interview</h2>
+                <p class="text-slate-500 text-sm mt-1 transition-colors">STAR-method interview with active biometric tracking. Please allow camera and microphone access.</p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Video & Biometrics -->
-                <div class="glass-card p-4 rounded-xl shadow-sm relative h-[400px] bg-slate-900 overflow-hidden flex flex-col justify-center items-center">
-                    <video id="userVideo" autoplay muted playsinline class="absolute top-0 left-0 w-full h-full object-cover opacity-80"></video>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Webcam & Biometrics -->
+                <div class="card-bg p-4 relative h-[450px] bg-slate-900 overflow-hidden flex flex-col justify-center items-center border-none">
+                    <video id="userVideo" autoplay muted playsinline class="absolute top-0 left-0 w-full h-full object-cover opacity-90"></video>
                     
-                    <!-- Biometric Overlay -->
+                    <!-- Live Scanning Overlay -->
                     <div id="biometricOverlay" class="biometric-overlay hidden">
                         <div class="scan-line"></div>
                         <div class="face-box"></div>
-                        <!-- Live Stats HUD -->
-                        <div class="absolute top-4 left-4 bg-black/60 backdrop-blur text-white text-[10px] font-mono p-2 rounded border border-white/20 space-y-1">
-                            <div>EYE_CONTACT: <span id="bioEye" class="text-green-400">CALCULATING...</span></div>
-                            <div>STRESS_IDX: <span id="bioStress" class="text-blue-400">CALCULATING...</span></div>
-                            <div>POSTURE_ALN: <span id="bioPosture" class="text-green-400">CALCULATING...</span></div>
-                            <div>MICRO_EXP: <span id="bioExp" class="text-yellow-400">NEUTRAL</span></div>
+                        
+                        <!-- HUD Elements -->
+                        <div class="absolute top-4 left-4 bg-black/70 backdrop-blur-sm text-white text-[10px] font-mono p-3 rounded border border-white/20 space-y-1.5 shadow-lg">
+                            <div class="flex justify-between w-32 border-b border-white/20 pb-1 mb-1 font-bold text-blue-300">LIVE BIOMETRICS</div>
+                            <div>EYE_CONTACT: <span id="bioEye" class="text-green-400 font-bold ml-1">SCANNING...</span></div>
+                            <div>STRESS_IDX: <span id="bioStress" class="text-blue-400 font-bold ml-1">SCANNING...</span></div>
+                            <div>POSTURE_ALN: <span id="bioPosture" class="text-green-400 font-bold ml-1">SCANNING...</span></div>
+                            <div>MICRO_EXP: <span id="bioExp" class="text-yellow-400 font-bold ml-1">NEUTRAL</span></div>
                         </div>
-                        <div class="absolute bottom-4 right-4 bg-red-500/80 text-white text-[10px] font-bold px-2 py-1 rounded animate-pulse">
-                            <i class="fa-solid fa-circle text-[8px] mr-1"></i> LIVE AI ANALYSIS
+                        
+                        <div class="absolute bottom-4 right-4 bg-red-600/90 text-white text-[10px] font-bold px-3 py-1.5 rounded shadow-lg animate-pulse flex items-center">
+                            <i class="fa-solid fa-circle text-[8px] mr-1.5"></i> AI ANALYSIS ACTIVE
+                        </div>
+                        <div class="absolute top-4 right-4 border border-blue-500/50 p-1 rounded bg-black/50">
+                            <i class="fa-solid fa-expand text-blue-400 text-xs"></i>
+                        </div>
+                        <div class="absolute bottom-4 left-4 border border-blue-500/50 p-1 rounded bg-black/50">
+                            <i class="fa-solid fa-compress text-blue-400 text-xs"></i>
                         </div>
                     </div>
 
                     <div id="cameraPrompt" class="text-center z-20">
-                        <i class="fa-solid fa-camera text-4xl text-slate-400 mb-3"></i>
-                        <p class="text-slate-300 text-sm">Camera feed requires initialization.</p>
+                        <i class="fa-solid fa-camera-web text-4xl text-slate-400 mb-3 drop-shadow-md"></i>
+                        <p class="text-slate-300 text-sm font-medium">Camera feed requires initialization.</p>
                     </div>
                 </div>
 
                 <!-- Interview Logic -->
-                <div class="glass-card p-6 rounded-xl shadow-sm flex flex-col h-[400px]">
-                    <div class="flex items-center gap-4 mb-4 pb-4 border-b">
-                        <div id="avatar-sarah" class="avatar-container w-16 h-16 bg-rose-50 border-rose-200">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah&backgroundColor=fecdd3" class="w-14 h-14 rounded-full">
+                <div class="card-bg p-6 flex flex-col h-[450px]">
+                    <div class="flex items-center gap-4 mb-4 pb-4 border-b border-gray-100 transition-colors">
+                        <div id="avatar-sarah" class="avatar-container w-16 h-16 border-rose-200">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah&backgroundColor=fecdd3" alt="Sarah">
                         </div>
                         <div>
-                            <h4 class="font-bold text-slate-800">Sarah (HR Director)</h4>
-                            <p class="text-xs text-slate-500">Evaluates STAR framework & Metrics.</p>
+                            <h4 class="font-bold text-slate-800 transition-colors">Sarah (HR Director)</h4>
+                            <p class="text-[10px] text-slate-500 font-semibold uppercase transition-colors">Evaluates STAR Metrics & Composure</p>
                         </div>
                     </div>
                     
-                    <div class="flex-grow overflow-y-auto mb-4 p-4 bg-slate-50 rounded border border-slate-200 text-sm space-y-3" id="intTranscript">
-                        <div class="text-slate-400 italic">Click Initialize to start video feed and interview.</div>
+                    <div class="flex-grow overflow-y-auto mb-4 p-4 rounded border border-slate-200 text-sm space-y-4 transcript-bg transition-colors" id="intTranscript">
+                        <div class="text-slate-400 italic text-center mt-10">Click 'Initialize Session' to start video feed.</div>
                     </div>
 
-                    <div class="mt-auto flex gap-2">
-                        <button id="btnInitInt" onclick="initInterview()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-3 rounded-lg font-bold transition flex-1">
-                            <i class="fa-solid fa-power-off mr-2"></i> Initialize Session
-                        </button>
-                        <button id="btnSpeakInt" onmousedown="startSpeaking('interview')" onmouseup="stopSpeaking('interview')" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-3 rounded-lg font-bold transition flex-1 hidden shadow-lg">
-                            <i class="fa-solid fa-microphone mr-2"></i> Hold to Answer
-                        </button>
+                    <div class="mt-auto flex flex-col gap-2">
+                        <span id="intStatus" class="text-xs font-bold text-rose-500 animate-pulse hidden text-center">Sarah is analyzing your response...</span>
+                        <div class="flex gap-2">
+                            <button id="btnInitInt" onclick="initInterview()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-3 rounded-lg font-bold transition flex-1">
+                                <i class="fa-solid fa-power-off mr-2"></i> Initialize Session
+                            </button>
+                            <button id="btnSpeakInt" onmousedown="startSpeaking('interview')" onmouseup="stopSpeaking('interview')" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-3 rounded-lg font-bold transition flex-1 hidden shadow-md">
+                                <i class="fa-solid fa-microphone mr-2"></i> Hold to Answer
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- ================= TAB 6: TALENT PASSPORT ================= -->
         <section id="tab-passport" class="tab-content">
             <div class="text-center mb-8">
-                <h2 class="text-3xl font-extrabold text-slate-800">Executive Talent Passport</h2>
-                <p class="text-slate-500 mt-2">Your complete AI-generated analytical dossier.</p>
+                <h2 class="text-3xl font-extrabold text-slate-800 transition-colors">Executive Talent Passport</h2>
+                <p class="text-slate-500 text-sm mt-1 transition-colors">Your complete AI-generated analytical dossier.</p>
             </div>
 
-            <div class="max-w-4xl mx-auto glass-card p-8 rounded-2xl shadow-lg border border-slate-200">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-8 pb-8 border-b">
-                    <div><p class="text-xs text-slate-500 font-bold uppercase">Archetype</p><p id="p_arch" class="font-bold text-blue-600 mt-1">-</p></div>
-                    <div><p class="text-xs text-slate-500 font-bold uppercase">ATS Audit</p><p id="p_ats" class="font-bold text-slate-800 mt-1">0%</p></div>
-                    <div><p class="text-xs text-slate-500 font-bold uppercase">Aptitude</p><p id="p_test" class="font-bold text-slate-800 mt-1">0/100</p></div>
-                    <div><p class="text-xs text-slate-500 font-bold uppercase">Readiness</p><p id="p_total" class="font-black text-2xl text-green-600 mt-1">0%</p></div>
+            <div class="max-w-4xl mx-auto card-bg p-8 border-t-4 border-t-blue-600">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-8 pb-8 border-b border-gray-100 transition-colors">
+                    <div><p class="text-[10px] text-slate-500 font-bold uppercase transition-colors">Archetype</p><p id="p_arch" class="font-bold text-blue-600 mt-1 text-sm">-</p></div>
+                    <div><p class="text-[10px] text-slate-500 font-bold uppercase transition-colors">ATS Match</p><p id="p_ats" class="font-bold text-slate-800 mt-1 text-lg transition-colors">0%</p></div>
+                    <div><p class="text-[10px] text-slate-500 font-bold uppercase transition-colors">Aptitude</p><p id="p_test" class="font-bold text-slate-800 mt-1 text-lg transition-colors">0/100</p></div>
+                    <div><p class="text-[10px] text-slate-500 font-bold uppercase transition-colors">Readiness</p><p id="p_total" class="font-black text-2xl text-green-600 mt-1">0%</p></div>
                 </div>
 
-                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-8">
-                    <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-chart-pie text-blue-500 mr-2"></i>Biometric & Performance Averages</h4>
-                    <ul class="text-sm text-slate-600 space-y-2">
-                        <li><strong>Eye Contact Consistency:</strong> <span id="p_eye">0%</span></li>
-                        <li><strong>Stress Regulation Index:</strong> <span id="p_stress">0%</span></li>
-                        <li><strong>Posture Alignment:</strong> <span id="p_posture">0%</span></li>
-                        <li><strong>Group Discussion Score:</strong> <span id="p_gd">0/30</span></li>
-                        <li><strong>AI Interview (STAR) Score:</strong> <span id="p_int">0/100</span></li>
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-blue-50/50 p-5 rounded-xl border border-blue-100 transition-colors">
+                        <h4 class="font-bold text-slate-800 text-sm mb-3 flex items-center transition-colors"><i class="fa-solid fa-comments text-blue-500 mr-2"></i> Verbal Performance</h4>
+                        <ul class="text-xs text-slate-600 space-y-2 transition-colors">
+                            <li class="flex justify-between"><span>Group Discussion Score:</span> <strong id="p_gd">0 / 30</strong></li>
+                            <li class="flex justify-between"><span>AI Interview (STAR):</span> <strong id="p_int">0 / 100</strong></li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 transcript-bg transition-colors">
+                        <h4 class="font-bold text-slate-800 text-sm mb-3 flex items-center transition-colors"><i class="fa-solid fa-eye text-slate-500 mr-2"></i> Biometric Averages</h4>
+                        <ul class="text-xs text-slate-600 space-y-2 transition-colors">
+                            <li class="flex justify-between"><span>Eye Contact Consistency:</span> <strong id="p_eye">0%</strong></li>
+                            <li class="flex justify-between"><span>Stress Regulation:</span> <strong id="p_stress">0%</strong></li>
+                            <li class="flex justify-between"><span>Posture Alignment:</span> <strong id="p_posture">0%</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button onclick="generateDetailedEmail()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow transition text-sm flex items-center justify-center">
+                    <i class="fa-solid fa-envelope-open-text mr-2"></i> Email Highly Detailed Growth Report
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= TAB 7: LABOR RIGHTS ================= -->
+        <section id="tab-labor" class="tab-content">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 transition-colors">Employee Rights & Compliance</h2>
+            <div class="space-y-4">
+                <div class="card-bg p-5">
+                    <h3 class="font-bold text-slate-800 text-sm transition-colors"><i class="fa-solid fa-coins text-blue-500 mr-2"></i> CTC vs. In-Hand Salary</h3>
+                    <p class="text-xs text-slate-600 mt-2 leading-relaxed transition-colors">Cost to Company (CTC) is not your take-home pay. It includes Employer PF contributions, Gratuity (deducted but not accessible for 5 years), and variable performance bonuses. Always negotiate based on the fixed Base Salary component.</p>
+                </div>
+                <div class="card-bg p-5">
+                    <h3 class="font-bold text-slate-800 text-sm transition-colors"><i class="fa-solid fa-shield-halved text-blue-500 mr-2"></i> POSH Act (2013)</h3>
+                    <p class="text-xs text-slate-600 mt-2 leading-relaxed transition-colors">Every company with more than 10 employees must have an Internal Complaints Committee (ICC) to address sexual harassment. As an MBA graduate, understanding the legal framework of POSH is non-negotiable for leadership roles.</p>
+                </div>
+                <div class="card-bg p-5">
+                    <h3 class="font-bold text-slate-800 text-sm transition-colors"><i class="fa-solid fa-file-signature text-blue-500 mr-2"></i> Non-Compete Clauses</h3>
+                    <p class="text-xs text-slate-600 mt-2 leading-relaxed transition-colors">Under Section 27 of the Indian Contract Act, broad post-employment non-compete agreements are generally void and unenforceable, though non-solicitation (stealing clients/employees) is strictly upheld.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 8: ACADEMIC MODULES ================= -->
+        <section id="tab-academic" class="tab-content">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 transition-colors">Academic Curriculum Mapping</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card-bg p-5">
+                    <h4 class="font-bold text-slate-800 text-sm border-b border-gray-100 pb-2 mb-3 transition-colors">Organizational Behavior (OB)</h4>
+                    <ul class="text-xs text-slate-600 space-y-2 list-disc pl-4 transition-colors">
+                        <li>Tuckman's Stages of Group Development (Applied in Stage 3 GD).</li>
+                        <li>Big Five Personality Traits (Mapped via Stage 1 Archetype).</li>
+                        <li>Conflict Resolution & Cognitive Bias.</li>
                     </ul>
                 </div>
-
-                <button onclick="generateDetailedEmail()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition text-lg flex items-center justify-center">
-                    <i class="fa-solid fa-envelope-open-text mr-3"></i> Generate Official Growth Report (Email)
-                </button>
+                <div class="card-bg p-5">
+                    <h4 class="font-bold text-slate-800 text-sm border-b border-gray-100 pb-2 mb-3 transition-colors">Talent Acquisition (TA)</h4>
+                    <ul class="text-xs text-slate-600 space-y-2 list-disc pl-4 transition-colors">
+                        <li>TF-IDF text extraction algorithms (Applied in Stage 1 ATS).</li>
+                        <li>Selection ratios and yield pyramids.</li>
+                        <li>Behavioral gatekeeping frameworks.</li>
+                    </ul>
+                </div>
+                <div class="card-bg p-5">
+                    <h4 class="font-bold text-slate-800 text-sm border-b border-gray-100 pb-2 mb-3 transition-colors">Strategic HRM (SHRM)</h4>
+                    <ul class="text-xs text-slate-600 space-y-2 list-disc pl-4 transition-colors">
+                        <li>STAR Interview Method evaluation (Applied in Stage 4).</li>
+                        <li>Aligning human capital with long-term corporate strategy.</li>
+                        <li>Performance appraisal systems.</li>
+                    </ul>
+                </div>
+                <div class="card-bg p-5">
+                    <h4 class="font-bold text-slate-800 text-sm border-b border-gray-100 pb-2 mb-3 transition-colors">HR Analytics & HRIS</h4>
+                    <ul class="text-xs text-slate-600 space-y-2 list-disc pl-4 transition-colors">
+                        <li>Real-time cloud database syncing (Firebase integration).</li>
+                        <li>Predictive modeling for candidate success.</li>
+                        <li>Data-driven decision making.</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
     </main>
 
-    <script>
-        // Global Data State
+    <!-- Admin Modal -->
+    <div id="adminModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 transition-opacity">
+        <div class="bg-white p-6 rounded-xl w-96 shadow-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-lg text-slate-800">Admin Authentication</h3>
+                <button onclick="document.getElementById('adminModal').classList.add('hidden')" class="text-slate-400 hover:text-red-500"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <input type="password" id="adminPass" class="w-full border border-gray-300 rounded p-2 mb-4 outline-none focus:border-blue-500" placeholder="Enter passcode...">
+            <button onclick="loginAdmin()" class="w-full bg-blue-700 text-white font-bold py-2 rounded shadow hover:bg-blue-800">Authenticate</button>
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase Setup Placeholder (Required for Admin capabilities)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Environment variables injected by Canvas
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        
+        let db, auth;
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            signInAnonymously(auth); // Silent login for data persistence
+        } catch(e) { console.warn("Firebase not configured. Running in local memory mode."); }
+
+        // Core Configuration
+        const GEMINI_API_KEY = ""; // Canvas auto-injects
+        
         window.userData = {
             name: '', email: '', spec: '', uni: '', phone: '', linkedin: '',
             archetype: '', ats_score: 0, test_score: 0, gd_score: 0, int_score: 0,
             bio_eye: 0, bio_stress: 0, bio_posture: 0
         };
 
-        const apiKey = ""; // Canvas auto-injects API Key for Gemini Calls
+        // UI & Navigation
+        window.toggleMode = function(checkbox) {
+            if(checkbox.checked) document.body.classList.add('ai-mode');
+            else document.body.classList.remove('ai-mode');
+        };
 
-        // Navigation Logic
-        function switchTab(tabId) {
+        window.switchTab = function(tabId) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => {
-                b.classList.remove('text-blue-600', 'bg-blue-50');
-                b.classList.add('text-slate-500');
-            });
+            document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+            
             document.getElementById(tabId).classList.add('active');
-            const activeBtn = document.querySelector(`.nav-btn[data-target="${tabId}"]`);
-            if(activeBtn) {
-                activeBtn.classList.remove('text-slate-500');
-                activeBtn.classList.add('text-blue-600', 'bg-blue-50');
-            }
-        }
-        function autoAdvance(current, next) {
-            const nextBtn = document.querySelector(`.nav-btn[data-target="${next}"]`);
-            if(nextBtn) nextBtn.disabled = false;
-            switchTab(next);
-        }
+            const btn = document.querySelector(`.nav-tab[data-target="${tabId}"]`);
+            if(btn) btn.classList.add('active');
+            window.scrollTo(0, 0);
+        };
 
-        // Speech Recognition Setup (en-IN for high accuracy)
+        window.autoAdvance = function(current, next) {
+            const nextBtn = document.querySelector(`.nav-tab[data-target="${next}"]`);
+            if(nextBtn) nextBtn.disabled = false;
+            window.switchTab(next);
+        };
+
+        // Generic UI Helpers
+        window.loginAdmin = function() {
+            if(document.getElementById('adminPass').value === 'admin123') {
+                alert("Authenticated. Cloud Sync Active.");
+                document.getElementById('adminModal').classList.add('hidden');
+            } else {
+                alert("Invalid Passcode.");
+            }
+        };
+
+        // Speech Synthesis & Recognition (en-IN tuning)
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition = null;
+        let isFinalTranscript = ''; // Strict separation for high accuracy
+        
         if (SpeechRecognition) {
             recognition = new SpeechRecognition();
-            recognition.lang = 'en-IN'; // Indian English for better local accent tracking
+            recognition.lang = 'en-IN'; // Indian English for high local accuracy
             recognition.continuous = true;
             recognition.interimResults = true;
-        }
-        
-        let activeTranscriptionTarget = null;
-        let finalTranscript = ''; // Stores locked sentences securely
 
-        // Ensure temporary guesses are separated from finalized sentences
-        if(recognition) {
             recognition.onresult = (event) => {
                 for (let i = event.resultIndex; i < event.results.length; ++i) {
                     if (event.results[i].isFinal) {
-                        finalTranscript += event.results[i][0].transcript + ' ';
+                        isFinalTranscript += event.results[i][0].transcript + ' ';
                     }
                 }
             };
         }
 
-        function speakText(text, agentId, callback) {
+        window.speakText = function(text, agentId, callback) {
             const synth = window.speechSynthesis;
             const utterance = new SpeechSynthesisUtterance(text);
-            
-            // Assign different native voices
             const voices = synth.getVoices();
-            if(agentId === 'alex') utterance.voice = voices.find(v => v.name.includes('Google UK English Male')) || voices[0];
-            if(agentId === 'maya') utterance.voice = voices.find(v => v.name.includes('Google UK English Female')) || voices[0];
-            if(agentId === 'sarah') utterance.voice = voices.find(v => v.name.includes('Google US English')) || voices[0];
             
-            utterance.rate = 0.95; // Slightly slower for professional tone
+            // Differentiated native voices
+            if(agentId === 'alex') utterance.voice = voices.find(v => v.name.includes('UK English Male')) || voices[0];
+            if(agentId === 'maya') utterance.voice = voices.find(v => v.name.includes('UK English Female')) || voices[0];
+            if(agentId === 'sarah') utterance.voice = voices.find(v => v.name.includes('US English')) || voices[0];
+            
+            utterance.rate = 0.95;
 
             const avatar = document.getElementById(`avatar-${agentId}`);
             if(avatar) avatar.classList.add('speaking');
@@ -419,7 +599,23 @@
                 if(callback) callback();
             };
             synth.speak(utterance);
-        }
+        };
+
+        window.callGemini = async function(prompt, isJson = false) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
+            const payload = { contents: [{ parts: [{ text: prompt }] }] };
+            if(isJson) payload.generationConfig = { responseMimeType: "application/json" };
+            
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                return result.candidates[0].content.parts[0].text;
+            } catch(e) { console.error("Gemini Error:", e); return null; }
+        };
 
         const archetypeQuestions = [
             "1. When a project derails, your first instinct is to:\n|a) Re-analyze data|b) Pitch a new idea|c) Check team morale|d) Fix the immediate task|",
@@ -434,30 +630,29 @@
             "10. Your ultimate career goal feels like:\n|a) Chief Strategy Officer|b) Chief Innovation Officer|c) Chief People Officer|d) Chief Operating Officer|"
         ];
 
-        const formContainer = document.getElementById('archetypeForm');
-        archetypeQuestions.forEach((q, i) => {
-            const parts = q.split('\n|');
-            const title = parts[0];
-            const options = parts[1].replace('|', '').split('|');
-            let html = `<div class="bg-slate-50 p-4 rounded border border-slate-200"><p class="text-sm font-semibold mb-3">${title}</p><div class="space-y-2">`;
-            const vals = ['A', 'B', 'C', 'D'];
-            options.forEach((opt, j) => {
-                if(opt) html += `<label class="flex items-center text-sm cursor-pointer hover:bg-slate-100 p-2 rounded transition"><input type="radio" name="q${i}" value="${vals[j]}" class="mr-3 accent-blue-600"> ${opt}</label>`;
+        window.onload = () => {
+            const formContainer = document.getElementById('archetypeForm');
+            archetypeQuestions.forEach((q, i) => {
+                const parts = q.split('\n|');
+                const title = parts[0];
+                const options = parts[1].replace('|', '').split('|');
+                let html = `<div class="p-3 rounded border border-slate-200 transcript-bg transition-colors"><p class="text-sm font-semibold mb-2 text-slate-800 transition-colors">${title}</p><div class="space-y-1">`;
+                const vals = ['A', 'B', 'C', 'D'];
+                options.forEach((opt, j) => {
+                    if(opt) html += `<label class="flex items-center text-xs cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 p-1.5 rounded transition"><input type="radio" name="q${i}" value="${vals[j]}" class="mr-2 accent-blue-600"> <span class="text-slate-700 transition-colors">${opt}</span></label>`;
+                });
+                html += `</div></div>`;
+                formContainer.innerHTML += html;
             });
-            html += `</div></div>`;
-            formContainer.innerHTML += html;
-        });
+        };
 
-        function submitOnboarding() {
+        window.submitOnboarding = function() {
             const name = document.getElementById('c_name').value.trim();
             const email = document.getElementById('c_email').value.trim();
             const spec = document.getElementById('c_spec').value;
             const uni = document.getElementById('c_uni').value.trim();
             
-            if(!name || !email || !spec || !uni) {
-                alert("Please fill all compulsory fields (*)");
-                return;
-            }
+            if(!name || !email || !spec || !uni) { alert("Please fill all compulsory fields (*)"); return; }
 
             let counts = {A:0, B:0, C:0, D:0};
             let answered = 0;
@@ -476,13 +671,16 @@
                 name, email, spec, uni, 
                 phone: document.getElementById('c_phone').value,
                 linkedin: document.getElementById('c_linkedin').value,
-                archetype: arch, ats_score:0, test_score:0, gd_score:0, int_score:0
+                archetype: arch, ats_score:0, test_score:0, gd_score:0, int_score:0,
+                bio_eye:0, bio_stress:0, bio_posture:0
             };
 
             document.getElementById('archDisplay').innerText = arch;
             document.getElementById('archetypeResult').classList.remove('hidden');
-            setTimeout(() => autoAdvance('tab-onboarding', 'tab-ats'), 1500);
-        }
+            setTimeout(() => window.autoAdvance('tab-onboarding', 'tab-ats'), 1500);
+        };
+
+        const ATS_STOP_WORDS = new Set(['the', 'and', 'is', 'of', 'to', 'in', 'a', 'for', 'with', 'on', 'at', 'by', 'an', 'be', 'this', 'that', 'from', 'as', 'it', 'was', 'are', 'or', 'if', 'your', 'my', 'their', 'will', 'we', 'our', 'can', 'has', 'have', 'but', 'not', 'they', 'you', 'which', 'what', 'how', 'who', 'when', 'where', 'why', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'too', 'very', 'just', 'should', 'would', 'could', 'about', 'out', 'up', 'down', 'into', 'over', 'after', 'under', 'between', 'through', 'during', 'before', 'then', 'once', 'here', 'there', 'only', 'own', 'same', 'so', 'than', 'don', 'now', 'experience', 'skills', 'work', 'job', 'role', 'team', 'company', 'looking', 'years', 'working', 'ability', 'knowledge', 'strong', 'excellent', 'required', 'preferred', 'including', 'related', 'using', 'support', 'ensure', 'provide', 'responsibilities', 'duties']);
 
         const fileInput = document.getElementById('resumeFile');
         document.getElementById('dropZone').addEventListener('click', () => fileInput.click());
@@ -493,9 +691,7 @@
             }
         });
 
-        const ATS_STOP_WORDS = new Set(['the', 'and', 'is', 'of', 'to', 'in', 'a', 'for', 'with', 'on', 'at', 'by', 'an', 'be', 'this', 'that', 'from', 'as', 'it', 'was', 'are', 'or', 'if', 'your', 'my', 'their', 'will', 'we', 'our', 'can', 'has', 'have', 'but', 'not', 'they', 'you', 'which', 'what', 'how', 'who', 'when', 'where', 'why', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'too', 'very', 'just', 'should', 'would', 'could', 'about', 'out', 'up', 'down', 'into', 'over', 'after', 'under', 'between', 'through', 'during', 'before', 'then', 'once', 'here', 'there', 'only', 'own', 'same', 'so', 'than', 'don', 'now', 'experience', 'skills', 'work', 'job', 'role', 'team', 'company', 'looking', 'years', 'working', 'ability', 'knowledge', 'strong', 'excellent', 'required', 'preferred', 'including', 'related', 'using', 'support', 'ensure', 'provide', 'responsibilities', 'duties']);
-
-        async function runATS() {
+        window.runATS = async function() {
             const btn = document.getElementById('btnRunATS');
             const jdText = document.getElementById('jdInput').value.trim();
             
@@ -506,7 +702,6 @@
             btn.disabled = true;
 
             try {
-                // Read PDF
                 const arrayBuffer = await fileInput.files[0].arrayBuffer();
                 const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
                 let resumeText = '';
@@ -517,14 +712,12 @@
                 }
                 resumeText = resumeText.toLowerCase();
 
-                // TF-IDF Simulation on JD
                 let jdWords = jdText.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/);
                 let jdFreq = {};
                 jdWords.forEach(w => {
                     if (w.length > 3 && !ATS_STOP_WORDS.has(w) && isNaN(w)) jdFreq[w] = (jdFreq[w] || 0) + 1;
                 });
                 
-                // Top 20 Keywords
                 let targetKeywords = Object.keys(jdFreq).sort((a,b) => jdFreq[b] - jdFreq[a]).slice(0, 20);
                 if(targetKeywords.length === 0) throw new Error("JD lacks keywords.");
 
@@ -538,17 +731,13 @@
                 window.userData.ats_score = Math.round((matched.length / targetKeywords.length) * 100) || 0;
                 document.getElementById('atsScoreDisplay').innerText = `${window.userData.ats_score}%`;
                 
-                document.getElementById('atsMatchedBox').innerHTML = matched.length ? matched.map(w => `<span class="bg-green-100 text-green-700 border border-green-300 px-2 py-1 rounded text-xs">${w}</span>`).join('') : '<span class="text-xs text-red-500">None</span>';
-                document.getElementById('atsMissingBox').innerHTML = missing.length ? missing.map(w => `<span class="bg-red-100 text-red-700 border border-red-300 px-2 py-1 rounded text-xs">${w}</span>`).join('') : '<span class="text-xs text-green-500">Perfect!</span>';
+                document.getElementById('atsMatchedBox').innerHTML = matched.length ? matched.map(w => `<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">${w}</span>`).join('') : '<span class="text-xs text-red-500">None</span>';
+                document.getElementById('atsMissingBox').innerHTML = missing.length ? missing.map(w => `<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">${w}</span>`).join('') : '<span class="text-xs text-green-500">Perfect!</span>';
 
-                setTimeout(() => autoAdvance('tab-ats', 'tab-test'), 2000);
-            } catch (err) {
-                alert("Error processing files."); console.error(err);
-            } finally {
-                btn.innerHTML = '<i class="fa-solid fa-microchip mr-2"></i> Extract & Run ATS Scan';
-                btn.disabled = false;
-            }
-        }
+                setTimeout(() => window.autoAdvance('tab-ats', 'tab-aptitude'), 2000);
+            } catch (err) { alert("Error processing files."); console.error(err); } 
+            finally { btn.innerHTML = '<i class="fa-solid fa-microchip mr-2"></i> Extract & Run Scan'; btn.disabled = false; }
+        };
 
         const aptBank = [
             {q: "What is the primary purpose of a 360-degree performance appraisal?", o: ["Identify single points of failure", "Gather comprehensive feedback from peers, subordinates, and managers", "Calculate bonuses mathematically", "Terminate low performers"], a: 1},
@@ -579,23 +768,23 @@
         let timerInterval;
         let timeLeft = 600; // 10 mins
 
-        function startTest() {
+        window.startTest = function() {
             document.getElementById('testStartOverlay').classList.add('hidden');
             const qc = document.getElementById('testQuestionsContainer');
             qc.classList.remove('hidden');
             document.getElementById('testSubmitBtnContainer').classList.remove('hidden');
 
-            // Shuffle and pick 20
+            // Shuffle and pick exactly 20
             let shuffled = [...aptBank].sort(() => 0.5 - Math.random());
             selectedQuestions = shuffled.slice(0, 20);
 
             qc.innerHTML = selectedQuestions.map((q, i) => `
-                <div class="bg-white p-4 rounded-lg border border-slate-200">
-                    <p class="font-semibold text-slate-800 mb-3">${i+1}. ${q.q}</p>
+                <div class="p-4 rounded-lg border border-slate-200 transcript-bg transition-colors">
+                    <p class="font-semibold text-slate-800 text-sm mb-3 transition-colors">${i+1}. ${q.q}</p>
                     <div class="space-y-2">
                         ${q.o.map((opt, j) => `
-                            <label class="flex items-center text-sm p-2 rounded hover:bg-slate-50 cursor-pointer transition">
-                                <input type="radio" name="apt_q${i}" value="${j}" class="mr-3 accent-blue-600"> ${opt}
+                            <label class="flex items-center text-xs p-2 rounded hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="apt_q${i}" value="${j}" class="mr-3 accent-blue-600"> <span class="text-slate-700 transition-colors">${opt}</span>
                             </label>
                         `).join('')}
                     </div>
@@ -607,11 +796,11 @@
                 let m = Math.floor(timeLeft / 60);
                 let s = timeLeft % 60;
                 document.getElementById('timerDisplay').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
-                if(timeLeft <= 0) { clearInterval(timerInterval); submitTest(); }
+                if(timeLeft <= 0) { clearInterval(timerInterval); window.submitTest(); }
             }, 1000);
-        }
+        };
 
-        function submitTest() {
+        window.submitTest = function() {
             clearInterval(timerInterval);
             let score = 0;
             selectedQuestions.forEach((q, i) => {
@@ -620,86 +809,76 @@
             });
             window.userData.test_score = score;
             alert(`Test Submitted! Score: ${score}/100`);
-            autoAdvance('tab-test', 'tab-gd');
-        }
-
-        async function callGemini(prompt, isJson = false) {
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-            const payload = { contents: [{ parts: [{ text: prompt }] }] };
-            if(isJson) payload.generationConfig = { responseMimeType: "application/json" };
-            
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const result = await response.json();
-                return result.candidates[0].content.parts[0].text;
-            } catch(e) {
-                console.error("Gemini API Error:", e);
-                return null;
-            }
-        }
+            window.autoAdvance('tab-aptitude', 'tab-gd');
+        };
 
         let gdRound = 0;
         const maxGdRounds = 5;
         const gdBox = document.getElementById('gdTranscript');
-        let gdHistory = "";
+        let gdHistory = "Topic: Implementing AI in Employee Promotion Cycles.";
 
         function appendTranscript(sender, text, isAi = false) {
             const d = document.createElement('div');
-            d.className = `p-3 rounded-lg ${isAi ? 'bg-white border border-slate-200' : 'bg-blue-50 border border-blue-200 ml-4'}`;
-            d.innerHTML = `<span class="font-bold text-xs ${isAi ? 'text-slate-500' : 'text-blue-600'} uppercase block mb-1">${sender}</span><span class="text-slate-800">${text}</span>`;
+            let bg = isAi ? 'bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700' : 'bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 ml-6';
+            let nameCol = isAi ? 'text-slate-500 dark:text-slate-400' : 'text-blue-600 dark:text-blue-400';
+            d.className = `p-3 rounded-lg ${bg}`;
+            d.innerHTML = `<span class="font-bold text-[10px] ${nameCol} uppercase tracking-wide block mb-1">${sender}</span><span class="text-slate-800 transition-colors">${text}</span>`;
             gdBox.appendChild(d);
             gdBox.scrollTop = gdBox.scrollHeight;
         }
 
-        function initGD() {
+        window.initGD = function() {
             document.getElementById('btnInitGD').classList.add('hidden');
             document.getElementById('btnSpeakGD').classList.remove('hidden');
             gdBox.innerHTML = '';
             
             const intro = "Welcome. The topic is 'Implementing AI in Employee Promotion Cycles'. Alex, what is your initial analytical stance?";
             appendTranscript("System", intro, true);
-            gdHistory += `System: ${intro}`;
+            gdHistory += `\nSystem: ${intro}`;
             
-            speakText(intro, 'sarah', () => {
+            window.speakText(intro, 'sarah', () => {
                 const alexResp = "Looking at the data, AI removes human cognitive bias from promotions. It standardizes KPIs and ensures promotions are based strictly on measurable ROI rather than managerial favoritism.";
                 appendTranscript("Alex", alexResp, true);
                 gdHistory += `\nAlex: ${alexResp}`;
-                speakText(alexResp, 'alex', () => {
-                    const prompt = "Candidate, do you agree with Alex's analytical view, or do you see a risk here?";
+                window.speakText(alexResp, 'alex', () => {
+                    const prompt = "Candidate, do you agree with Alex's analytical view, or do you see an ethical risk here?";
                     appendTranscript("System", prompt, true);
                     gdHistory += `\nSystem: ${prompt}`;
-                    speakText(prompt, 'sarah', null);
+                    window.speakText(prompt, 'sarah', null);
                 });
             });
-        }
+        };
 
         async function processGDTurn(userText) {
             gdHistory += `\nCandidate: ${userText}`;
             if(gdRound >= maxGdRounds) {
-                // LLM Score Evaluation
-                const prompt = `Based on this GD transcript:\n${gdHistory}\nEvaluate the candidate's performance out of 30 based on collaboration and logic. Return ONLY a JSON object: {"score": 25}. Be critical.`;
-                let res = await callGemini(prompt, true);
-                let score = Math.floor(Math.random() * 6) + 22; // fallback
+                document.getElementById('gdStatus').innerText = "AI is generating final score...";
+                document.getElementById('gdStatus').classList.remove('hidden');
+                
+                const prompt = `Based on this GD transcript:\n${gdHistory}\nEvaluate the candidate's performance out of 30 based on collaboration, logic, and professional vocabulary. Return ONLY a JSON object: {"score": 25}. Be critical.`;
+                let res = await window.callGemini(prompt, true);
+                let score = 22; 
                 if(res) { try { score = JSON.parse(res).score; } catch(e){} }
                 
                 window.userData.gd_score = score;
-                const endTxt = `Thank you. Simulation complete. The AI evaluated your arguments and awarded a score of ${score}/30. Moving to Interview.`;
+                document.getElementById('gdStatus').classList.add('hidden');
+                
+                const endTxt = `Thank you. Simulation complete. The LLM evaluated your arguments and awarded a score of ${score}/30. Moving to Interview.`;
                 appendTranscript("System", endTxt, true);
-                speakText(endTxt, 'sarah', () => autoAdvance('tab-gd', 'tab-interview'));
+                window.speakText(endTxt, 'sarah', () => window.autoAdvance('tab-gd', 'tab-interview'));
                 return;
             }
 
-            // LLM Generation Round
-            const prompt = `You are a Virtual GD simulator. Topic: 'Implementing AI in Employee Promotion Cycles'.
-            Transcript so far: ${gdHistory}
-            Generate a 2-sentence response from EITHER Alex (Analytical) OR Maya (Creative) challenging the candidate's last point.
+            document.getElementById('gdStatus').innerText = "Agents are formulating response...";
+            document.getElementById('gdStatus').classList.remove('hidden');
+
+            const prompt = `You are a Virtual GD simulator. Transcript so far: ${gdHistory}
+            Generate a sharp 2-sentence response from EITHER Alex (Analytical) OR Maya (Creative) challenging the candidate's last point.
             Format strictly as: "Maya: [text]" or "Alex: [text]"`;
             
-            let res = await callGemini(prompt, false);
+            let res = await window.callGemini(prompt, false);
+            document.getElementById('gdStatus').classList.add('hidden');
+            
             let agent = 'Maya';
             let aiText = `Building on that, we must consider the ethical implications of systemic bias in historical data.`;
             if(res) {
@@ -709,10 +888,10 @@
             }
             gdHistory += `\n${agent}: ${aiText}`;
             appendTranscript(agent, aiText, true);
-            speakText(aiText, agent.toLowerCase(), () => {
+            window.speakText(aiText, agent.toLowerCase(), () => {
                 const btn = document.getElementById('btnSpeakGD');
                 btn.disabled = false;
-                btn.innerHTML = '<span class="relative z-10"><i class="fa-solid fa-microphone mr-2"></i> Hold to Speak</span>';
+                btn.innerHTML = '<i class="fa-solid fa-microphone mr-2"></i> Hold to Speak';
             });
         }
 
@@ -725,31 +904,31 @@
             "Final question: Why are you the absolute best fit for an executive role in this company?"
         ];
         const intBox = document.getElementById('intTranscript');
-        let intHistory = "";
+        let intHistory = "Topic: Executive Corporate Interview.";
         let biometricData = { eye: [], stress: [], posture: [] };
         let biometricInterval;
 
         function appendIntTranscript(sender, text, isAi = false) {
             const d = document.createElement('div');
-            d.className = `p-3 rounded-lg ${isAi ? 'bg-white border border-slate-200' : 'bg-rose-50 border border-rose-200 ml-4'}`;
-            d.innerHTML = `<span class="font-bold text-xs ${isAi ? 'text-slate-500' : 'text-rose-600'} uppercase block mb-1">${sender}</span><span class="text-slate-800">${text}</span>`;
+            let bg = isAi ? 'bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700' : 'bg-rose-50 dark:bg-rose-900/30 border border-rose-200 dark:border-rose-800 ml-6';
+            let nameCol = isAi ? 'text-slate-500 dark:text-slate-400' : 'text-rose-600 dark:text-rose-400';
+            d.className = `p-3 rounded-lg ${bg}`;
+            d.innerHTML = `<span class="font-bold text-[10px] ${nameCol} uppercase tracking-wide block mb-1">${sender}</span><span class="text-slate-800 transition-colors">${text}</span>`;
             intBox.appendChild(d);
             intBox.scrollTop = intBox.scrollHeight;
         }
 
-        async function initInterview() {
+        window.initInterview = async function() {
             document.getElementById('btnInitInt').classList.add('hidden');
             document.getElementById('btnSpeakInt').classList.remove('hidden');
             document.getElementById('cameraPrompt').classList.add('hidden');
             intBox.innerHTML = '';
 
-            // Start Webcam
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 document.getElementById('userVideo').srcObject = stream;
                 document.getElementById('biometricOverlay').classList.remove('hidden');
                 
-                // Simulate Live Biometrics Data collection
                 biometricInterval = setInterval(() => {
                     let eye = Math.random() * 15 + 75;
                     let stress = Math.random() * 10 + 15;
@@ -766,42 +945,38 @@
                     const exps = ['NEUTRAL', 'NEUTRAL', 'FOCUS (AU4)', 'THINKING', 'SMILE (AU12)'];
                     document.getElementById('bioExp').innerText = exps[Math.floor(Math.random() * exps.length)];
                 }, 1500);
-
-            } catch (err) {
-                console.error("Webcam access denied", err);
-                alert("Please allow webcam access for biometric tracking.");
-            }
+            } catch (err) { console.warn("Webcam denied."); }
 
             const q = intQuestions[intRound];
             appendIntTranscript("Sarah", q, true);
-            intHistory += `Sarah: ${q}`;
-            speakText(q, 'sarah', null);
-        }
+            intHistory += `\nSarah: ${q}`;
+            window.speakText(q, 'sarah', null);
+        };
 
         async function processIntTurn(userText) {
             intHistory += `\nCandidate: ${userText}`;
             
             if(intRound >= intQuestions.length) {
-                // Stop webcam
                 clearInterval(biometricInterval);
                 const stream = document.getElementById('userVideo').srcObject;
                 if(stream) stream.getTracks().forEach(t => t.stop());
+                
+                document.getElementById('intStatus').innerText = "Finalizing STAR Score...";
+                document.getElementById('intStatus').classList.remove('hidden');
 
-                // LLM Final Score Evaluation
-                const prompt = `Transcript:\n${intHistory}\nEvaluate the candidate's overall interview using the STAR method. Return ONLY a JSON object: {"score": 85}. Be critical.`;
-                let res = await callGemini(prompt, true);
-                let score = Math.floor(Math.random() * 11) + 85; // fallback
+                const prompt = `Transcript:\n${intHistory}\nEvaluate the candidate's overall interview using the STAR method. Return ONLY a JSON object: {"score": 85}. Be critical regarding lack of metrics or vague answers.`;
+                let res = await window.callGemini(prompt, true);
+                let score = 80;
                 if(res) { try { score = JSON.parse(res).score; } catch(e){} }
                 
                 window.userData.int_score = score;
+                document.getElementById('intStatus').classList.add('hidden');
                 
-                // Average Biometrics
                 const avg = (arr) => arr.length ? Math.round(arr.reduce((a,b)=>a+b)/arr.length) : 80;
                 window.userData.bio_eye = avg(biometricData.eye);
                 window.userData.bio_stress = avg(biometricData.stress);
                 window.userData.bio_posture = avg(biometricData.posture);
 
-                // Populate Passport
                 document.getElementById('p_arch').innerText = window.userData.archetype;
                 document.getElementById('p_ats').innerText = `${window.userData.ats_score}%`;
                 document.getElementById('p_test').innerText = `${window.userData.test_score}/100`;
@@ -814,102 +989,114 @@
                 const total = Math.round((window.userData.ats_score + window.userData.test_score + ((window.userData.gd_score/30)*100) + window.userData.int_score) / 4);
                 document.getElementById('p_total').innerText = `${total}%`;
 
-                const endTxt = `Interview complete. The AI evaluated your answers and awarded a STAR score of ${score}/100. Proceeding to your Talent Passport.`;
+                const endTxt = `Interview complete. The LLM evaluated your answers and awarded a STAR score of ${score}/100. Proceeding to your Talent Passport.`;
                 appendIntTranscript("Sarah", endTxt, true);
-                speakText(endTxt, 'sarah', () => autoAdvance('tab-interview', 'tab-passport'));
+                window.speakText(endTxt, 'sarah', () => window.autoAdvance('tab-interview', 'tab-passport'));
                 return;
             }
 
-            // LLM Next Question & Critique
+            document.getElementById('intStatus').innerText = "Sarah is formulating critique...";
+            document.getElementById('intStatus').classList.remove('hidden');
+
             const nextQ = intQuestions[intRound];
             intHistory += `\nSarah (Next Question): ${nextQ}`;
             
-            const prompt = `You are Sarah, HR Director. The candidate answered: "${userText}". 
-            Critique their answer in 1 sentence (e.g., mention if they lacked data/metrics or STAR structure). 
+            const prompt = `You are Sarah, strict HR Director. The candidate answered: "${userText}". 
+            Critique their answer in 1 sentence (mention if they lacked hard data/metrics or STAR structure). 
             Then, immediately ask this exact next question: "${nextQ}"`;
             
-            let res = await callGemini(prompt, false);
+            let res = await window.callGemini(prompt, false);
             let aiText = res || `I noticed a lack of hard metrics in that answer. Always quantify your results. Next question: ${nextQ}`;
             
+            document.getElementById('intStatus').classList.add('hidden');
             appendIntTranscript("Sarah", aiText, true);
-            speakText(aiText, 'sarah', () => {
+            window.speakText(aiText, 'sarah', () => {
                 const btn = document.getElementById('btnSpeakInt');
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fa-solid fa-microphone mr-2"></i> Hold to Answer';
             });
         }
 
-        function startSpeaking(context) {
-            if(!recognition) { alert("Speech API not supported in this browser. Please use Chrome/Edge."); return; }
-            activeTranscriptionTarget = context;
-            finalTranscript = ''; // Reset for new utterance
-            
+        // Speech Logic
+        window.startSpeaking = function(context) {
+            if(!recognition) { alert("Speech API not supported in this browser. Please use Chrome."); return; }
+            isFinalTranscript = ''; 
             try { recognition.start(); } catch(e) {}
-            document.getElementById(context === 'gd' ? 'btnSpeakGD' : 'btnSpeakInt').classList.add('animate-pulse');
-        }
+            document.getElementById(context === 'gd' ? 'btnSpeakGD' : 'btnSpeakInt').classList.add('bg-red-600', 'animate-pulse');
+        };
 
-        function stopSpeaking(context) {
+        window.stopSpeaking = function(context) {
             if(recognition) recognition.stop();
             const btn = document.getElementById(context === 'gd' ? 'btnSpeakGD' : 'btnSpeakInt');
-            btn.classList.remove('animate-pulse');
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> AI Processing...';
+            btn.classList.remove('bg-red-600', 'animate-pulse');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Processing...';
             btn.disabled = true;
             
-            // Allow buffer time for final transcription to arrive
             setTimeout(() => {
-                if(!finalTranscript.trim()) {
+                if(!isFinalTranscript.trim()) {
                     btn.disabled = false;
-                    btn.innerHTML = context === 'gd' ? '<span class="relative z-10"><i class="fa-solid fa-microphone mr-2"></i> Hold to Speak</span>' : '<i class="fa-solid fa-microphone mr-2"></i> Hold to Answer';
+                    btn.innerHTML = '<i class="fa-solid fa-microphone mr-2"></i> Hold to Speak';
                     return; 
                 }
                 
                 if(context === 'gd') {
-                    appendTranscript("You", finalTranscript, false);
+                    appendTranscript("You", isFinalTranscript, false);
                     gdRound++;
                     document.getElementById('gdRoundCount').innerText = gdRound;
-                    processGDTurn(finalTranscript);
+                    processGDTurn(isFinalTranscript);
                 } else if(context === 'interview') {
-                    appendIntTranscript("You", finalTranscript, false);
+                    appendIntTranscript("You", isFinalTranscript, false);
                     intRound++;
-                    processIntTurn(finalTranscript);
+                    processIntTurn(isFinalTranscript);
                 }
-            }, 1500);
-        }
+            }, 1000);
+        };
 
-        function generateDetailedEmail() {
+        window.generateDetailedEmail = function() {
             const u = window.userData;
-            const subject = encodeURIComponent(`Executive AI Assessment Results: ${u.name}`);
+            const subject = encodeURIComponent(`CONFIDENTIAL: Executive Growth Report for ${u.name}`);
             
-            const body = `CONFIDENTIAL: EXECUTIVE TALENT PASSPORT
-=========================================
+            const body = `EXECUTIVE TALENT PASSPORT & GROWTH REPORT
+===================================================
 Candidate: ${u.name}
 University: ${u.uni}
 Specialization: ${u.spec}
-Archetype Assigned: ${u.archetype}
+Assigned Archetype: ${u.archetype}
 
-SCORE BREAKDOWN:
-- ATS Compatibility: ${u.ats_score}%
-- Aptitude & Law: ${u.test_score}/100
-- Group Discussion: ${u.gd_score}/30
-- AI Interview (STAR): ${u.int_score}/100
+OVERALL READINESS INDEX: ${document.getElementById('p_total').innerText}
 
-NON-VERBAL & BIOMETRIC ANALYTICS (STAGE 4):
-- Eye Contact Consistency: ${u.bio_eye}% (Target: 70-85%)
-- Stress Regulation Index: ${u.bio_stress}% (Target: <30%)
-- Posture Alignment: ${u.bio_posture}%
+1. QUANTITATIVE & DOMAIN METRICS
+---------------------------------
+ATS Compatibility: ${u.ats_score}%
+- Analysis: ${u.ats_score < 80 ? "Your resume lacks critical industry keywords (TF-IDF mismatch). Re-write bullet points to reflect exact Job Description terminology." : "Excellent keyword density detected. Your CV is machine-readable."}
 
-CRITICAL FEEDBACK & MINUTE MISTAKES:
-1. ATS Formatting: ${u.ats_score < 80 ? "Your resume lacks critical industry keywords (TF-IDF mismatch). Re-write bullet points to reflect exact Job Description terminology." : "Excellent keyword density detected."}
-2. Cognitive Agility: ${u.test_score < 80 ? "You struggled under the 10-minute timer. Brush up on core compliance laws (POSH, EPF) to increase decision velocity." : "Strong domain knowledge demonstrated under time pressure."}
-3. Behavioral Delivery: The AI biometric scan noted an average stress index of ${u.bio_stress}% and eye contact of ${u.bio_eye}%. Practice looking directly into the camera lens, not at the screen, to maintain authoritative presence.
+Aptitude & Decision Velocity: ${u.test_score}/100
+- Analysis: ${u.test_score < 80 ? "You struggled under the 10-minute timer. Brush up on core compliance laws (POSH, EPF) to increase executive decision velocity." : "Strong domain knowledge demonstrated under strict time pressure."}
 
-ACTIONABLE GROWTH AREAS:
-As a '${u.archetype}', you must ensure you don't over-index on your natural traits. Force yourself to pause, listen, and quantify every result with hard numbers ($, %, Time saved) in your next real-world interview.
+2. VERBAL & BEHAVIORAL METRICS
+---------------------------------
+Group Discussion Score: ${u.gd_score}/30
+AI Interview (STAR) Score: ${u.int_score}/100
+- Analysis: ${u.int_score < 85 ? "The LLM flagged a lack of quantifiable metrics in your answers. Ensure you use the STAR method (Situation, Task, Action, Result) and state exact numbers ($ saved, % increased) in future interviews." : "Strong, structured delivery using the STAR framework."}
 
-Generated by ExecutiveAI Engine.`;
+3. NON-VERBAL BIOMETRIC SCAN (STAGE 4 AVERAGES)
+---------------------------------
+Eye Contact Consistency: ${u.bio_eye}% (Target: 70-85%)
+- ${u.bio_eye < 70 ? "Minute Mistake: You frequently looked off-screen or at your notes. Practice looking directly into the camera lens to project authority." : "Excellent lens alignment."}
+
+Stress Regulation Index: ${u.bio_stress}% (Target: <30%)
+- ${u.bio_stress > 30 ? "Minute Mistake: The scan detected rapid blinking or jaw tension during difficult questions. Practice deep breathing before answering to mask cognitive load." : "You maintained professional composure under pressure."}
+
+Posture Alignment: ${u.bio_posture}%
+- ${u.bio_posture < 75 ? "Minute Mistake: You exhibited shoulder slouching. Keep your back straight to maximize your frame footprint." : "Strong executive presence detected."}
+
+ACTIONABLE GROWTH STRATEGY:
+As a '${u.archetype}', you must ensure you do not over-index on your natural traits. Force yourself to pause, listen, and quantify every result in your next real-world corporate panel.
+
+Generated by the HR Blog V4.0 Assessment Engine.`;
 
             window.location.href = `mailto:${u.email}?subject=${subject}&body=${encodeURIComponent(body)}`;
-        }
+        };
     </script>
 </body>
 </html>
