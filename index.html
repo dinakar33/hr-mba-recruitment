@@ -55,15 +55,11 @@ body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode 
 .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
 
 @keyframes talk-bounce { 0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); } 100% { box-shadow: 0 0 35px rgba(59, 130, 246, 1); border-color: #60a5fa; } }
-@keyframes listen-pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
-
 .is-talking { animation: talk-bounce 0.4s ease-in-out infinite alternate !important; border: 4px solid #60a5fa !important; }
 
 @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
-
 .gd-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; }
 body.ai-mode .gd-avatar { background: #334155; }
-
 .avatar-breathing { animation: breathe 4s infinite ease-in-out; }
 .avatar-talking { border-color: #60a5fa; }
 
@@ -141,7 +137,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 <button onclick="document.getElementById('msgBox').classList.add('hidden')" class="text-white hover:text-gray-200"><i class="fa-solid fa-times"></i></button>
 </div>
 
-<!-- ADMIN MODAL -->
 <div id="adminModal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-70 backdrop-blur-sm z-50 flex items-center justify-center">
 <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4">
 <div class="flex justify-between items-center mb-6">
@@ -308,7 +303,7 @@ Submit Final Answers
 > System Ready. Awaiting initialization...
 </div>
 
-<!-- INDUSTRY STANDARD DICTATION UI (No Android Bugs) -->
+<!-- FAILSAFE DICTATION UI (NO MORE TOUCH BUGS) -->
 <div id="gd-mic-zone" class="w-full flex-col items-center hidden">
 <textarea id="gdTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-3 mb-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
 <div class="flex items-center justify-center space-x-4 w-full">
@@ -326,9 +321,9 @@ Submit Response <i class="fa-solid fa-paper-plane ml-2"></i>
 </div>
 
 <div class="flex flex-col gap-6 h-fit">
-<!-- REAL CV WEBCAM OVERLAY -->
+<!-- WEBCAM IN GD (NO METRICS YET) -->
 <div class="glass-card p-6 rounded-xl shadow-sm flex flex-col items-center justify-center border border-gray-200/50">
-<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3"><i class="fa-solid fa-video text-red-500 mr-2"></i>Live Stream</h3>
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3"><i class="fa-solid fa-video text-blue-500 mr-2"></i>Conference Stream</h3>
 <div class="w-full h-48 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
 <video id="gdWebcam" class="w-full h-full object-cover transform -scale-x-100" autoplay playsinline muted></video>
 </div>
@@ -406,9 +401,9 @@ Posture: <strong id="postureVal">Pending</strong>
 <i class="fa-solid fa-play mr-2"></i> Initialize Protocol
 </button>
 
-<!-- INDUSTRY STANDARD DICTATION UI -->
+<!-- FAILSAFE DICTATION UI -->
 <div id="interview-mic-zone" class="w-full flex-col items-center hidden">
-<textarea id="interviewTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-3 mb-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your STAR response here, or tap the mic to dictate..."></textarea>
+<textarea id="interviewTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-3 mb-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
 <div class="flex items-center justify-center space-x-4 w-full">
 <button id="interviewMicBtn" onclick="window.toggleInterviewRecording(event)" class="bg-slate-700 hover:bg-slate-600 text-white rounded-full w-14 h-14 shadow-lg transition flex items-center justify-center border border-slate-500">
 <i class="fa-solid fa-microphone text-xl pointer-events-none" id="interviewMicIcon"></i>
@@ -494,7 +489,8 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 <div class="grid grid-cols-1 gap-10">
 <div class="glass-card p-8 rounded-xl shadow-lg border-t-4 border-t-blue-500">
 <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-coins mr-2 text-blue-500"></i>1. Compensation & CTC Breakdowns</h3>
-<p class="text-sm mb-6 text-slate-600">Understand Base vs. Variable Pay, Provident Funds, and Gratuity. Do not let hidden components lower your in-hand salary expectations.</p>
+<p class="text-sm mb-4 text-slate-600"><strong>Base vs. Variable Pay:</strong> Never evaluate a job offer purely on "CTC" (Cost to Company). Base pay is fixed and guaranteed. Variable pay is contingent on company profits and individual performance. Always calculate your monthly "in-hand" take-home salary based on the Base Pay minus taxes and statutory deductions.</p>
+<p class="text-sm mb-6 text-slate-600"><strong>Provident Fund & Gratuity:</strong> In India, PF (12% of Basic) is deducted from your salary but matched by the employer. Gratuity is a statutory benefit paid after 5 years of continuous service. Both are often inflated inside the CTC figure to make the offer look bigger.</p>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/Qz1VhbNjboE?si=WqFq057njlqp0ocb" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
 <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/UqjZEC2Ykb4?si=5Yf-fGJ-eAXGg-Ou" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
@@ -503,11 +499,18 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 
 <div class="glass-card p-8 rounded-xl shadow-lg border-t-4 border-t-pink-500">
 <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-shield-halved mr-2 text-pink-500"></i>2. Prevention of Sexual Harassment (POSH)</h3>
-<p class="text-sm mb-6 text-slate-600">Learn about the 2013 Act, Vishakha Guidelines, mandatory Internal Complaints Committees (ICC), and your rights to a safe workplace environment.</p>
+<p class="text-sm mb-4 text-slate-600"><strong>The 2013 Act & Vishakha Guidelines:</strong> Every organization with 10 or more employees is legally mandated to constitute an Internal Complaints Committee (ICC). As an HR professional or an employee, you must know that complaints must be filed within 3 months of the incident.</p>
+<p class="text-sm mb-6 text-slate-600"><strong>Zero Tolerance Policies:</strong> Harassment is not just physical. It includes implied requests for favors, sexually colored remarks, and creating a hostile work environment. Employers are liable if they fail to provide a safe working environment.</p>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/M8C2B949BqA?si=DXddUt1YXOrBTig0" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
 <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/tEulz5dqQL4?si=LH05s_AwAX2m2P2M" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
 </div>
+</div>
+
+<div class="glass-card p-8 rounded-xl shadow-lg border-t-4 border-t-emerald-500">
+<h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-file-contract mr-2 text-emerald-500"></i>3. Employment Contracts & Notice Periods</h3>
+<p class="text-sm mb-4 text-slate-600"><strong>Non-Compete Clauses:</strong> In many jurisdictions (including India under Section 27 of the Contract Act), post-employment non-compete clauses are generally void and unenforceable. An employer cannot legally stop you from joining a competitor after you resign, regardless of what the contract says.</p>
+<p class="text-sm mb-6 text-slate-600"><strong>Notice Period Buyouts:</strong> Notice periods are contractual. If a new employer wants you to join immediately, they can "buy out" your notice period by paying your current employer your basic salary for the unserved duration.</p>
 </div>
 </div>
 </section>
@@ -517,7 +520,6 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & Curriculum Mapping</h2>
 <p class="text-slate-500 mt-2 text-lg">Detailed analysis of how this platform bridges postgraduate classroom theory with real-world HR technology execution.</p>
 </div>
-
 <div class="grid grid-cols-1 gap-8">
 <div class="glass-card p-8 rounded-xl shadow-md border-l-8 border-l-brand-500">
 <h3 class="text-2xl font-bold text-slate-800 mb-4"><i class="fa-solid fa-users-gear text-brand-500 mr-3"></i>1. Talent Acquisition & ATS Analytics</h3>
@@ -538,7 +540,7 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/1
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // === PASTE YOUR GEMINI API KEY HERE FOR THE EVENT ===
-const GEMINI_API_KEY = "PASTE_YOUR_API_KEY_HERE"; 
+const GEMINI_API_KEY = "AQ.Ab8RN6I38Jnl-zdwdw2N6GzyBoGyHJ39fQUrEtzD64eYMEVZ_Q"; 
 
 const firebaseConfig = {
 apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
@@ -571,10 +573,12 @@ window.bioMetrics = { eyeContact: [], stress: [] };
 async function callGemini(prompt, systemInstruction = null) {
     try {
         if (!GEMINI_API_KEY || GEMINI_API_KEY === "PASTE_YOUR_API_KEY_HERE") {
-            console.warn("API key missing. Using offline fallback.");
-            return "That is an interesting point. Let's explore that further or move to the next topic.";
+            console.error("API Key missing.");
+            return "[SYSTEM ERROR: Google Gemini API Key is missing. Please edit the HTML file and paste your key on line 368.]";
         }
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
+        
+        // Using 1.5-flash for stable public API key compatibility
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
         
         const payload = { contents: [{ parts: [{ text: prompt }] }] };
         if (systemInstruction) {
@@ -584,13 +588,18 @@ async function callGemini(prompt, systemInstruction = null) {
         const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
         const result = await response.json();
         
+        if (!response.ok) {
+            console.error("API Call Failed:", result);
+            return `[API ERROR: ${result.error?.message || 'Invalid Request'}. Check your API Key configuration.]`;
+        }
+        
         if (result.candidates && result.candidates[0].content.parts[0].text) {
             return result.candidates[0].content.parts[0].text.replace(/\*/g, '').trim();
         }
-        return "Noted. Let's proceed.";
+        return "[ERROR: Empty response from AI.]";
     } catch (e) {
-        console.error("API Error:", e);
-        return "I understand. Let's move on to the next phase.";
+        console.error("Network/API Error:", e);
+        return `[NETWORK ERROR: ${e.message}]`;
     }
 }
 
@@ -1184,16 +1193,6 @@ if (interviewStep < 5) {
     window.userData.interview_score = score; await syncToCloud(); window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral Interview');
 }
 }
-
-window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); }
-window.closeAdminModal = function() { document.getElementById('adminModal').classList.add('hidden'); }
-window.verifyAdmin = function() { if (document.getElementById('adminPass').value === 'admin123') { window.isAdmin = true; document.body.classList.add('admin-mode'); window.closeAdminModal(); loadAdminDropdown(); window.showMessage("Command Center Connected!"); } }
-
-function loadAdminDropdown() { unsubscribeAdmin = onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'), (s) => { const sel = document.getElementById('adminCandidateSelect'); const cv = sel.value; sel.innerHTML = '<option value="" class="text-slate-800">-- Select Candidate --</option>'; s.forEach(d => { sel.innerHTML += `<option value="${d.id}" class="text-slate-800" ${d.id === cv ? "selected" : ""}>${d.data().name || 'Unnamed'}</option>`; }); }); }
-window.onAdminSelectCandidate = async function(id) { window.adminSelectedId = id; if(id) { const s = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', id)); if (s.exists()) { window.userData = s.data(); window.updatePassportUI(); document.getElementById('gdScoreInput').value = window.userData.gd_score || 0; document.getElementById('gdScoreVal').innerText = window.userData.gd_score || 0; document.getElementById('hrScoreInput').value = window.userData.interview_score || 0; document.getElementById('hrScoreVal').innerText = window.userData.interview_score || 0; } } }
-window.saveGDScore = async function() { if(!window.isAdmin || !window.adminSelectedId) return; const s = parseInt(document.getElementById('gdScoreInput').value); await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.adminSelectedId), { gd_score: s }); window.userData.gd_score = s; window.updatePassportUI(); }
-window.saveAdminScore = async function(type) { if(!window.isAdmin || !window.adminSelectedId) return; const s = parseInt(document.getElementById(type==='gd'?'gdScoreInput':'hrScoreInput').value); await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.adminSelectedId), { [type==='gd'?'gd_score':'interview_score']: s }); window.userData[type==='gd'?'gd_score':'interview_score'] = s; window.updatePassportUI(); }
-window.publishResults = async function() { if(!window.isAdmin || !window.adminSelectedId) return; await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.adminSelectedId), { published: true }); window.userData.published = true; window.updatePassportUI(); }
 
 window.updatePassportUI = function() {
 document.getElementById('passName').innerText = window.userData.name || "Candidate Name"; document.getElementById('passArchetype').innerHTML = `<i class="fa-solid fa-dna mr-2"></i>Archetype: ${window.userData.archetype}`; document.getElementById('passATS').innerText = `${window.userData.ats_score}/100`; document.getElementById('passTest').innerText = `${window.userData.test_score}/100`; document.getElementById('passGD').innerText = `${window.userData.gd_score}/30`; document.getElementById('passInterview').innerText = `${window.userData.interview_score}/100`;
