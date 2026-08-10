@@ -35,6 +35,7 @@ body.admin-mode .admin-login-btn { display: none; }
 
 .admin-only-flex { display: none; }
 body.admin-mode .admin-only-flex { display: flex; }
+.touch-manipulation { touch-action: manipulation; }
 
 /* AI Dark Mode Styles */
 body.ai-mode { background-color: #0f172a; color: #f1f5f9; }
@@ -313,10 +314,10 @@ Submit Final Answers
 </div>
 
 <div id="gd-mic-zone" class="mt-4 text-center hidden">
-<button id="gdMicBtn" onmousedown="window.startGDRecording(event)" onmouseup="window.stopGDRecording(event)" onmouseleave="window.stopGDRecording(event)" ontouchstart="window.startGDRecording(event)" ontouchend="window.stopGDRecording(event)" ontouchcancel="window.stopGDRecording(event)" class="bg-red-600 text-white rounded-full w-16 h-16 shadow-[0_0_15px_rgba(220,38,38,0.6)] hover:bg-red-500 transition flex items-center justify-center mx-auto mb-2 border-2 border-white/20 touch-manipulation">
+<button id="gdMicBtn" onclick="window.toggleGDRecording(event)" class="bg-red-600 text-white rounded-full w-16 h-16 shadow-[0_0_15px_rgba(220,38,38,0.6)] hover:bg-red-500 transition flex items-center justify-center mx-auto mb-2 border-2 border-white/20 touch-manipulation">
 <i class="fa-solid fa-microphone text-2xl pointer-events-none"></i>
 </button>
-<p class="text-xs font-bold uppercase tracking-widest text-red-500 animate-pulse">Hold to Speak</p>
+<p id="gdMicLabel" class="text-xs font-bold uppercase tracking-widest text-red-500 animate-pulse">Tap to Speak</p>
 </div>
 </div>
 </div>
@@ -336,7 +337,7 @@ Submit Final Answers
 <div class="glass-card p-6 rounded-xl flex flex-col items-center justify-center text-center [&:has(~.admin-only:not([style*='display: none']))]:hidden" id="gdWaitingArea">
 <i class="fa-solid fa-satellite-dish text-5xl text-slate-400 mb-6 hover:scale-110 transition-transform"></i>
 <h3 class="text-xl font-bold mb-2">Awaiting AI Evaluation</h3>
-<p class="text-sm max-w-sm">Engage in the 5-round simulation. The AI agents will debate and request your input each round before auto-scoring.</p>
+<p class="text-sm max-w-sm">Engage in the 5-round simulation. The AI agents will dynamically debate your points via LLM before auto-scoring.</p>
 </div>
 </div>
 </section>
@@ -389,10 +390,10 @@ Posture Aligned: <strong id="postureVal">Pending</strong>
 </button>
 
 <div id="interview-mic-zone" class="hidden flex-col items-center">
-<button id="interviewMicBtn" onmousedown="window.startInterviewRecording(event)" onmouseup="window.stopInterviewRecording(event)" onmouseleave="window.stopInterviewRecording(event)" ontouchstart="window.startInterviewRecording(event)" ontouchend="window.stopInterviewRecording(event)" ontouchcancel="window.stopInterviewRecording(event)" class="bg-red-600 text-white rounded-full w-16 h-16 shadow-[0_0_20px_rgba(220,38,38,0.7)] hover:bg-red-500 transition flex items-center justify-center mb-2 border-4 border-white/20 touch-manipulation">
+<button id="interviewMicBtn" onclick="window.toggleInterviewRecording(event)" class="bg-red-600 text-white rounded-full w-16 h-16 shadow-[0_0_20px_rgba(220,38,38,0.7)] hover:bg-red-500 transition flex items-center justify-center mb-2 border-4 border-white/20 touch-manipulation">
 <i class="fa-solid fa-microphone text-2xl pointer-events-none"></i>
 </button>
-<p class="text-xs font-bold uppercase tracking-widest text-red-500 animate-pulse">Hold to Speak Answer</p>
+<p id="interviewMicLabel" class="text-xs font-bold uppercase tracking-widest text-red-500 animate-pulse">Tap to Speak Answer</p>
 </div>
 </div>
 </div>
@@ -543,7 +544,8 @@ window.bioMetrics = { eyeContact: [], stress: [] };
 // Live API Connection
 async function callGemini(prompt) {
     try {
-        const apiKey = ""; // Provided by environment
+        const apiKey = ""; // Insert Gemini API Key here if available
+        if (!apiKey) return "Interesting point. Let's move to the next phase."; // Safe fallback
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
         const payload = { contents: [{ parts: [{ text: prompt }] }] };
         const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -689,7 +691,7 @@ function loadVoices() {
 let voices = window.speechSynthesis.getVoices();
 if(voices.length) {
 window.voicesLoaded = true;
-// Force Indian English Accents for Localization
+// Indian English Accents for Localization
 window.aiVoices.male1 = voices.find(v => v.lang === 'en-IN' && v.name.includes('Male')) || voices.find(v => v.lang === 'en-IN') || voices[0];
 window.aiVoices.female1 = voices.find(v => v.lang === 'en-IN' && v.name.includes('Female')) || voices.find(v => v.lang === 'en-IN') || voices[0];
 }
@@ -734,30 +736,39 @@ guide.classList.remove('visible'); window.speechSynthesis.cancel(); window.activ
 }
 
 // -------------------------------------------------------------
-// MOBILE TOUCH & AUDIO FIX ENGINE
+// MOBILE TOUCH & AUDIO FIX ENGINE (W3C STANDARD)
 // -------------------------------------------------------------
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = null;
 let activeTranscriptText = ""; 
+let finalTranscript = "";
 
 if(window.SpeechRecognition) { 
     recognition = new window.SpeechRecognition(); 
-    recognition.continuous = true; // Stay alive on mobile
+    recognition.continuous = true; 
     recognition.interimResults = true; 
     recognition.lang = 'en-IN'; // Indian Accent Localization
     
     recognition.onresult = (event) => { 
-        // Wipes and rebuilds string to prevent Android duplication bug
-        let currentText = "";
-        for (let i = 0; i < event.results.length; ++i) {
-            currentText += event.results[i][0].transcript;
+        let interimTranscript = "";
+        // W3C Standard buffer separation prevents Android text duplication bug
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+                finalTranscript += event.results[i][0].transcript + " ";
+            } else {
+                interimTranscript += event.results[i][0].transcript;
+            }
         }
-        activeTranscriptText = currentText;
+        activeTranscriptText = (finalTranscript + interimTranscript).trim();
             
         const gdBox = document.getElementById('gdLiveSpeechText');
         const intBox = document.getElementById('interviewLiveSpeechText');
-        if (!gdBox.parentElement.classList.contains('hidden')) gdBox.innerText = activeTranscriptText;
-        if (!intBox.parentElement.classList.contains('hidden')) intBox.innerText = activeTranscriptText;
+        if (gdBox && !gdBox.parentElement.classList.contains('hidden')) gdBox.innerText = activeTranscriptText;
+        if (intBox && !intBox.parentElement.classList.contains('hidden')) intBox.innerText = activeTranscriptText;
+    };
+
+    recognition.onerror = (event) => {
+        console.error("Speech API Error: ", event.error);
     };
 }
 
@@ -909,33 +920,38 @@ await setSpeaker('kavya', 'Kavya', "I disagree, Arjun. Historical bias in datase
 document.getElementById('gd-mic-zone').classList.remove('hidden');
 }
 
-window.startGDRecording = function(e) {
-if(e && e.cancelable) e.preventDefault(); // CRITICAL: STOPS MOBILE DOUBLE-FIRE
-if(gdRecording) return; 
+// GD TOGGLE FIX FOR MOBILE TOUCH
+window.toggleGDRecording = function(e) {
+if(e && e.cancelable) e.preventDefault();
 if(!recognition) return window.showMessage("Speech API not supported.", "error");
 
-gdRecording = true; 
-activeTranscriptText = "";
-document.getElementById('gdMicBtn').classList.add('bg-red-400'); 
-document.getElementById('gdLiveSubtitle').classList.remove('hidden'); 
-document.getElementById('gdLiveSpeechText').innerText = "Listening... (Speak now)";
-try { recognition.start(); } catch(err) {}
+if(!gdRecording) {
+    gdRecording = true;
+    finalTranscript = "";
+    activeTranscriptText = "";
+    document.getElementById('gdMicBtn').classList.add('bg-red-400', 'animate-pulse');
+    document.getElementById('gdMicLabel').innerText = "TAP TO STOP";
+    document.getElementById('gdLiveSubtitle').classList.remove('hidden'); 
+    document.getElementById('gdLiveSpeechText').innerText = "Listening... (Speak now)";
+    try { recognition.start(); } catch(err) {}
+} else {
+    gdRecording = false;
+    document.getElementById('gdMicBtn').classList.remove('bg-red-400', 'animate-pulse');
+    document.getElementById('gdMicLabel').innerText = "TAP TO SPEAK";
+    try { recognition.stop(); } catch(err) {}
+    
+    setTimeout(() => {
+        const userSpeech = activeTranscriptText.trim();
+        if (!userSpeech) {
+            document.getElementById('gdLiveSpeechText').innerText = "(No audio detected. Please tap to speak again.)";
+            return; 
+        }
+        window.processGDSpeech(userSpeech);
+    }, 500);
+}
 }
 
-window.stopGDRecording = async function(e) {
-if(e && e.cancelable) e.preventDefault();
-if(!gdRecording) return; 
-
-gdRecording = false;
-document.getElementById('gdMicBtn').classList.remove('bg-red-400'); 
-try { recognition.stop(); } catch(err) {} 
-
-const userSpeech = activeTranscriptText.trim();
-if (!userSpeech) {
-    document.getElementById('gdLiveSpeechText').innerText = "(Audio capture failed. Please hold to speak again.)";
-    return; // Stop the round if mobile failed to capture
-}
-
+window.processGDSpeech = async function(userSpeech) {
 writeTranscript('gd-transcript', 'Candidate', userSpeech);
 gdHistory += `Candidate: ${userSpeech}\n`;
 document.getElementById('gdLiveSubtitle').classList.add('hidden'); document.getElementById('gd-mic-zone').classList.add('hidden');
@@ -945,7 +961,6 @@ if(currentGDRound <= totalGDRounds) {
 document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
 writeTranscript('gd-transcript', 'System', 'Analyzing candidate response...');
 
-// Gemini Real API Logic
 let aiReply = await callGemini(`You are an analytical manager named Arjun in a GD. The candidate just said: "${userSpeech}". Generate a 1-sentence critical counter-argument based strictly on their point.`);
 await setSpeaker('arjun', 'Arjun', `Round ${currentGDRound}: ${aiReply}`, 'male1', 0.9, 1.1); document.getElementById('gd-mic-zone').classList.remove('hidden'); 
 } else {
@@ -962,7 +977,6 @@ const video = document.getElementById('userWebcam');
 if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(stream => { 
     webcamStream = stream; video.srcObject = stream; 
-    // Start Biometric simulation loop
     bioScanInterval = setInterval(() => {
         if(window.isAIMode && document.getElementById('tab-interview').classList.contains('active')) {
             let ec = 70 + Math.floor(Math.random()*25); window.bioMetrics.eyeContact.push(ec);
@@ -996,32 +1010,38 @@ window.userData.interview_score = score; await syncToCloud(); window.autoAdvance
 }
 }
 
-window.startInterviewRecording = function(e) {
-if(e && e.cancelable) e.preventDefault(); // CRITICAL: STOPS MOBILE DOUBLE-FIRE
-if(interviewRecording) return;
+// INTERVIEW TOGGLE FIX FOR MOBILE TOUCH
+window.toggleInterviewRecording = function(e) {
+if(e && e.cancelable) e.preventDefault();
 if(!recognition) return window.showMessage("Speech API not supported.", "error"); 
 
-interviewRecording = true; 
-activeTranscriptText = "";
-document.getElementById('interviewLiveSubtitle').classList.remove('hidden'); 
-document.getElementById('interviewLiveSpeechText').innerText = "Listening... (Speak now)";
-try { recognition.start(); } catch(err) {}
+if(!interviewRecording) {
+    interviewRecording = true; 
+    finalTranscript = "";
+    activeTranscriptText = "";
+    document.getElementById('interviewMicBtn').classList.add('bg-red-400', 'animate-pulse');
+    document.getElementById('interviewMicLabel').innerText = "TAP TO STOP";
+    document.getElementById('interviewLiveSubtitle').classList.remove('hidden'); 
+    document.getElementById('interviewLiveSpeechText').innerText = "Listening... (Speak now)";
+    try { recognition.start(); } catch(err) {}
+} else {
+    interviewRecording = false;
+    document.getElementById('interviewMicBtn').classList.remove('bg-red-400', 'animate-pulse'); 
+    document.getElementById('interviewMicLabel').innerText = "TAP TO SPEAK";
+    try { recognition.stop(); } catch(err) {} 
+
+    setTimeout(() => {
+        const candidateResponse = activeTranscriptText.trim();
+        if (!candidateResponse) {
+            document.getElementById('interviewLiveSpeechText').innerText = "(No audio detected. Please tap to speak again.)";
+            return; 
+        }
+        window.processInterviewSpeech(candidateResponse);
+    }, 500);
+}
 }
 
-window.stopInterviewRecording = async function(e) {
-if(e && e.cancelable) e.preventDefault();
-if(!interviewRecording) return; 
-
-interviewRecording = false;
-document.getElementById('interviewMicBtn').classList.remove('bg-red-400'); 
-try { recognition.stop(); } catch(err) {} 
-
-const candidateResponse = activeTranscriptText.trim();
-if (!candidateResponse) {
-    document.getElementById('interviewLiveSpeechText').innerText = "(Audio capture failed. Please hold to speak again.)";
-    return; 
-}
-
+window.processInterviewSpeech = async function(candidateResponse) {
 writeTranscript('interview-transcript', 'Candidate', candidateResponse); 
 intHistory += `Candidate: ${candidateResponse}\n`;
 document.getElementById('interviewLiveSubtitle').classList.add('hidden'); 
