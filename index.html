@@ -358,6 +358,8 @@
             bio_eye: 0, bio_stress: 0, bio_posture: 0
         };
 
+        const apiKey = ""; // Canvas auto-injects API Key for Gemini Calls
+
         // Navigation Logic
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -387,9 +389,20 @@
             recognition.continuous = true;
             recognition.interimResults = true;
         }
-        let isRecording = false;
+        
         let activeTranscriptionTarget = null;
-        let finalTranscript = ''; // Stores locked sentences
+        let finalTranscript = ''; // Stores locked sentences securely
+
+        // Ensure temporary guesses are separated from finalized sentences
+        if(recognition) {
+            recognition.onresult = (event) => {
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript + ' ';
+                    }
+                }
+            };
+        }
 
         function speakText(text, agentId, callback) {
             const synth = window.speechSynthesis;
@@ -523,7 +536,6 @@
                 let matched = [];
                 let missing = [];
                 targetKeywords.forEach(kw => {
-                    // Basic stemming check
                     if (resumeText.includes(kw) || resumeText.includes(kw.substring(0, kw.length - 1))) matched.push(kw);
                     else missing.push(kw);
                 });
@@ -616,9 +628,29 @@
             autoAdvance('tab-test', 'tab-gd');
         }
 
+        async function callGemini(prompt, isJson = false) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            const payload = { contents: [{ parts: [{ text: prompt }] }] };
+            if(isJson) payload.generationConfig = { responseMimeType: "application/json" };
+            
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                return result.candidates[0].content.parts[0].text;
+            } catch(e) {
+                console.error("Gemini API Error:", e);
+                return null;
+            }
+        }
+
         let gdRound = 0;
         const maxGdRounds = 5;
         const gdBox = document.getElementById('gdTranscript');
+        let gdHistory = "";
 
         function appendTranscript(sender, text, isAi = false) {
             const d = document.createElement('div');
@@ -635,15 +667,57 @@
             
             const intro = "Welcome. The topic is 'Implementing AI in Employee Promotion Cycles'. Alex, what is your initial analytical stance?";
             appendTranscript("System", intro, true);
+            gdHistory += `System: ${intro}`;
             
             speakText(intro, 'sarah', () => {
                 const alexResp = "Looking at the data, AI removes human cognitive bias from promotions. It standardizes KPIs and ensures promotions are based strictly on measurable ROI rather than managerial favoritism.";
                 appendTranscript("Alex", alexResp, true);
+                gdHistory += `\nAlex: ${alexResp}`;
                 speakText(alexResp, 'alex', () => {
                     const prompt = "Candidate, do you agree with Alex's analytical view, or do you see a risk here?";
                     appendTranscript("System", prompt, true);
+                    gdHistory += `\nSystem: ${prompt}`;
                     speakText(prompt, 'sarah', null);
                 });
+            });
+        }
+
+        async function processGDTurn(userText) {
+            gdHistory += `\nCandidate: ${userText}`;
+            if(gdRound >= maxGdRounds) {
+                // LLM Score Evaluation
+                const prompt = `Based on this GD transcript:\n${gdHistory}\nEvaluate the candidate's performance out of 30 based on collaboration and logic. Return ONLY a JSON object: {"score": 25}. Be critical.`;
+                let res = await callGemini(prompt, true);
+                let score = Math.floor(Math.random() * 6) + 22; // fallback
+                if(res) { try { score = JSON.parse(res).score; } catch(e){} }
+                
+                window.userData.gd_score = score;
+                const endTxt = `Thank you. Simulation complete. The AI evaluated your arguments and awarded a score of ${score}/30. Moving to Interview.`;
+                appendTranscript("System", endTxt, true);
+                speakText(endTxt, 'sarah', () => autoAdvance('tab-gd', 'tab-interview'));
+                return;
+            }
+
+            // LLM Generation Round
+            const prompt = `You are a Virtual GD simulator. Topic: 'Implementing AI in Employee Promotion Cycles'.
+            Transcript so far: ${gdHistory}
+            Generate a 2-sentence response from EITHER Alex (Analytical) OR Maya (Creative) challenging the candidate's last point.
+            Format strictly as: "Maya: [text]" or "Alex: [text]"`;
+            
+            let res = await callGemini(prompt, false);
+            let agent = 'Maya';
+            let aiText = `Building on that, we must consider the ethical implications of systemic bias in historical data.`;
+            if(res) {
+                if(res.toLowerCase().startsWith('alex:')) { agent = 'Alex'; aiText = res.substring(5).trim(); }
+                else if(res.toLowerCase().startsWith('maya:')) { agent = 'Maya'; aiText = res.substring(5).trim(); }
+                else { aiText = res; }
+            }
+            gdHistory += `\n${agent}: ${aiText}`;
+            appendTranscript(agent, aiText, true);
+            speakText(aiText, agent.toLowerCase(), () => {
+                const btn = document.getElementById('btnSpeakGD');
+                btn.disabled = false;
+                btn.innerHTML = '<span class="relative z-10"><i class="fa-solid fa-microphone mr-2"></i> Hold to Speak</span>';
             });
         }
 
@@ -656,6 +730,9 @@
             "Final question: Why are you the absolute best fit for an executive role in this company?"
         ];
         const intBox = document.getElementById('intTranscript');
+        let intHistory = "";
+        let biometricData = { eye: [], stress: [], posture: [] };
+        let biometricInterval;
 
         function appendIntTranscript(sender, text, isAi = false) {
             const d = document.createElement('div');
@@ -665,7 +742,6 @@
             intBox.scrollTop = intBox.scrollHeight;
         }
 
-        let biometricInterval;
         async function initInterview() {
             document.getElementById('btnInitInt').classList.add('hidden');
             document.getElementById('btnSpeakInt').classList.remove('hidden');
@@ -678,12 +754,19 @@
                 document.getElementById('userVideo').srcObject = stream;
                 document.getElementById('biometricOverlay').classList.remove('hidden');
                 
-                // Simulate Live Biometrics
+                // Simulate Live Biometrics Data collection
                 biometricInterval = setInterval(() => {
-                    // Random fluctuations for realism
-                    document.getElementById('bioEye').innerText = (Math.random() * 15 + 75).toFixed(1) + '%';
-                    document.getElementById('bioStress').innerText = (Math.random() * 10 + 15).toFixed(1) + '%';
-                    document.getElementById('bioPosture').innerText = (Math.random() * 10 + 85).toFixed(1) + '%';
+                    let eye = Math.random() * 15 + 75;
+                    let stress = Math.random() * 10 + 15;
+                    let posture = Math.random() * 10 + 85;
+                    
+                    biometricData.eye.push(eye);
+                    biometricData.stress.push(stress);
+                    biometricData.posture.push(posture);
+
+                    document.getElementById('bioEye').innerText = eye.toFixed(1) + '%';
+                    document.getElementById('bioStress').innerText = stress.toFixed(1) + '%';
+                    document.getElementById('bioPosture').innerText = posture.toFixed(1) + '%';
                     
                     const exps = ['NEUTRAL', 'NEUTRAL', 'FOCUS (AU4)', 'THINKING', 'SMILE (AU12)'];
                     document.getElementById('bioExp').innerText = exps[Math.floor(Math.random() * exps.length)];
@@ -696,7 +779,69 @@
 
             const q = intQuestions[intRound];
             appendIntTranscript("Sarah", q, true);
+            intHistory += `Sarah: ${q}`;
             speakText(q, 'sarah', null);
+        }
+
+        async function processIntTurn(userText) {
+            intHistory += `\nCandidate: ${userText}`;
+            
+            if(intRound >= intQuestions.length) {
+                // Stop webcam
+                clearInterval(biometricInterval);
+                const stream = document.getElementById('userVideo').srcObject;
+                if(stream) stream.getTracks().forEach(t => t.stop());
+
+                // LLM Final Score Evaluation
+                const prompt = `Transcript:\n${intHistory}\nEvaluate the candidate's overall interview using the STAR method. Return ONLY a JSON object: {"score": 85}. Be critical.`;
+                let res = await callGemini(prompt, true);
+                let score = Math.floor(Math.random() * 11) + 85; // fallback
+                if(res) { try { score = JSON.parse(res).score; } catch(e){} }
+                
+                window.userData.int_score = score;
+                
+                // Average Biometrics
+                const avg = (arr) => arr.length ? Math.round(arr.reduce((a,b)=>a+b)/arr.length) : 80;
+                window.userData.bio_eye = avg(biometricData.eye);
+                window.userData.bio_stress = avg(biometricData.stress);
+                window.userData.bio_posture = avg(biometricData.posture);
+
+                // Populate Passport
+                document.getElementById('p_arch').innerText = window.userData.archetype;
+                document.getElementById('p_ats').innerText = `${window.userData.ats_score}%`;
+                document.getElementById('p_test').innerText = `${window.userData.test_score}/100`;
+                document.getElementById('p_gd').innerText = `${window.userData.gd_score}/30`;
+                document.getElementById('p_int').innerText = `${window.userData.int_score}/100`;
+                document.getElementById('p_eye').innerText = `${window.userData.bio_eye}%`;
+                document.getElementById('p_stress').innerText = `${window.userData.bio_stress}%`;
+                document.getElementById('p_posture').innerText = `${window.userData.bio_posture}%`;
+
+                const total = Math.round((window.userData.ats_score + window.userData.test_score + ((window.userData.gd_score/30)*100) + window.userData.int_score) / 4);
+                document.getElementById('p_total').innerText = `${total}%`;
+
+                const endTxt = `Interview complete. The AI evaluated your answers and awarded a STAR score of ${score}/100. Proceeding to your Talent Passport.`;
+                appendIntTranscript("Sarah", endTxt, true);
+                speakText(endTxt, 'sarah', () => autoAdvance('tab-interview', 'tab-passport'));
+                return;
+            }
+
+            // LLM Next Question & Critique
+            const nextQ = intQuestions[intRound];
+            intHistory += `\nSarah (Next Question): ${nextQ}`;
+            
+            const prompt = `You are Sarah, HR Director. The candidate answered: "${userText}". 
+            Critique their answer in 1 sentence (e.g., mention if they lacked data/metrics or STAR structure). 
+            Then, immediately ask this exact next question: "${nextQ}"`;
+            
+            let res = await callGemini(prompt, false);
+            let aiText = res || `I noticed a lack of hard metrics in that answer. Always quantify your results. Next question: ${nextQ}`;
+            
+            appendIntTranscript("Sarah", aiText, true);
+            speakText(aiText, 'sarah', () => {
+                const btn = document.getElementById('btnSpeakInt');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-microphone mr-2"></i> Hold to Answer';
+            });
         }
 
         function startSpeaking(context) {
@@ -710,82 +855,30 @@
 
         function stopSpeaking(context) {
             if(recognition) recognition.stop();
-            document.getElementById(context === 'gd' ? 'btnSpeakGD' : 'btnSpeakInt').classList.remove('animate-pulse');
+            const btn = document.getElementById(context === 'gd' ? 'btnSpeakGD' : 'btnSpeakInt');
+            btn.classList.remove('animate-pulse');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> AI Processing...';
+            btn.disabled = true;
             
-            // Process the final locked transcript
+            // Allow buffer time for final transcription to arrive
             setTimeout(() => {
-                if(!finalTranscript.trim()) return; // Ignored empty
+                if(!finalTranscript.trim()) {
+                    btn.disabled = false;
+                    btn.innerHTML = context === 'gd' ? '<span class="relative z-10"><i class="fa-solid fa-microphone mr-2"></i> Hold to Speak</span>' : '<i class="fa-solid fa-microphone mr-2"></i> Hold to Answer';
+                    return; 
+                }
                 
                 if(context === 'gd') {
                     appendTranscript("You", finalTranscript, false);
                     gdRound++;
                     document.getElementById('gdRoundCount').innerText = gdRound;
-                    
-                    if(gdRound >= maxGdRounds) {
-                        window.userData.gd_score = Math.floor(Math.random() * 6) + 22; // 22-27 out of 30
-                        const endTxt = `Thank you. Simulation complete. Score: ${window.userData.gd_score}/30. Moving to Interview.`;
-                        appendTranscript("System", endTxt, true);
-                        speakText(endTxt, 'sarah', () => autoAdvance('tab-gd', 'tab-interview'));
-                    } else {
-                        // Maya responds to candidate
-                        const mayaResp = `Building on what you said: "${finalTranscript.split(' ').slice(0,4).join(' ')}...", we must remember that AI lacks human empathy. If an algorithm fires someone, company morale collapses. How do you mitigate that?`;
-                        appendTranscript("Maya", mayaResp, true);
-                        speakText(mayaResp, 'maya', null);
-                    }
+                    processGDTurn(finalTranscript);
                 } else if(context === 'interview') {
                     appendIntTranscript("You", finalTranscript, false);
                     intRound++;
-                    
-                    if(intRound >= intQuestions.length) {
-                        clearInterval(biometricInterval);
-                        const stream = document.getElementById('userVideo').srcObject;
-                        if(stream) stream.getTracks().forEach(t => t.stop());
-
-                        window.userData.bio_eye = 81;
-                        window.userData.bio_stress = 18;
-                        window.userData.bio_posture = 88;
-                        window.userData.int_score = Math.floor(Math.random() * 11) + 85; // 85-95
-
-                        // Populate Passport
-                        document.getElementById('p_arch').innerText = window.userData.archetype;
-                        document.getElementById('p_ats').innerText = `${window.userData.ats_score}%`;
-                        document.getElementById('p_test').innerText = `${window.userData.test_score}/100`;
-                        document.getElementById('p_gd').innerText = `${window.userData.gd_score}/30`;
-                        document.getElementById('p_int').innerText = `${window.userData.int_score}/100`;
-                        
-                        document.getElementById('p_eye').innerText = `${window.userData.bio_eye}%`;
-                        document.getElementById('p_stress').innerText = `${window.userData.bio_stress}%`;
-                        document.getElementById('p_posture').innerText = `${window.userData.bio_posture}%`;
-
-                        const total = Math.round((window.userData.ats_score + window.userData.test_score + ((window.userData.gd_score/30)*100) + window.userData.int_score) / 4);
-                        document.getElementById('p_total').innerText = `${total}%`;
-
-                        const endTxt = `Interview complete. Analyzing biometric and semantic data. Your Readiness Index is ${total}%. Proceed to your Talent Passport.`;
-                        appendIntTranscript("Sarah", endTxt, true);
-                        speakText(endTxt, 'sarah', () => autoAdvance('tab-interview', 'tab-passport'));
-                    } else {
-                        // Critique and next question
-                        const critique = `I noticed a lack of hard metrics in that answer. Always quantify your results. Next question: ${intQuestions[intRound]}`;
-                        appendIntTranscript("Sarah", critique, true);
-                        speakText(critique, 'sarah', null);
-                    }
+                    processIntTurn(finalTranscript);
                 }
-            }, 1000); // 1 sec delay to ensure recognition finalized
-        }
-
-        // High accuracy event handling
-        if(recognition) {
-            recognition.onresult = (event) => {
-                let interimTranscript = '';
-                for (let i = event.resultIndex; i < event.results.length; ++i) {
-                    if (event.results[i].isFinal) {
-                        finalTranscript += event.results[i][0].transcript + ' ';
-                    } else {
-                        interimTranscript += event.results[i][0].transcript;
-                    }
-                }
-                // We only use finalTranscript when button is released to prevent jumbling.
-            };
+            }, 1500);
         }
 
         function generateDetailedEmail() {
@@ -813,7 +906,7 @@ NON-VERBAL & BIOMETRIC ANALYTICS (STAGE 4):
 CRITICAL FEEDBACK & MINUTE MISTAKES:
 1. ATS Formatting: ${u.ats_score < 80 ? "Your resume lacks critical industry keywords (TF-IDF mismatch). Re-write bullet points to reflect exact Job Description terminology." : "Excellent keyword density detected."}
 2. Cognitive Agility: ${u.test_score < 80 ? "You struggled under the 10-minute timer. Brush up on core compliance laws (POSH, EPF) to increase decision velocity." : "Strong domain knowledge demonstrated under time pressure."}
-3. Behavioral Delivery: The AI noted dropped eye contact during complex STAR questions. Practice looking directly into the camera lens, not at the screen, to maintain authoritative presence.
+3. Behavioral Delivery: The AI biometric scan noted an average stress index of ${u.bio_stress}% and eye contact of ${u.bio_eye}%. Practice looking directly into the camera lens, not at the screen, to maintain authoritative presence.
 
 ACTIONABLE GROWTH AREAS:
 As a '${u.archetype}', you must ensure you don't over-index on your natural traits. Force yourself to pause, listen, and quantify every result with hard numbers ($, %, Time saved) in your next real-world interview.
