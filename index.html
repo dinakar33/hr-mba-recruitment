@@ -78,7 +78,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
 <div>
 <h1 class="text-3xl font-extrabold tracking-tight">HR Blog</h1>
-<p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth. <span class="bg-brand-600 px-2 py-0.5 rounded text-xs ml-2">V4.0</span></p>
+<p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth.</p>
 </div>
 
 <div class="flex items-center space-x-6">
@@ -152,8 +152,8 @@ body.ai-mode .gd-avatar { background: #334155; }
 <section id="tab-onboarding" class="tab-content active">
 <div class="mb-8 flex justify-between items-center flex-wrap gap-4">
 <div>
-<h2 class="text-2xl font-bold text-slate-800">Candidate Registration</h2>
-<p class="text-slate-500 mt-1">Enter your credentials and complete the psychological survey.</p>
+<h2 class="text-2xl font-bold text-slate-800">Candidate Registration & Login</h2>
+<p class="text-slate-500 mt-1">Enter your credentials to save progress or restore a previous session.</p>
 </div>
 <div class="flex gap-2">
 <input type="email" id="loginEmailLookup" class="border border-gray-300 rounded-lg px-3 py-2 text-sm text-slate-800 outline-none" placeholder="Enter existing email...">
@@ -208,7 +208,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 <div class="lg:col-span-2 space-y-6">
 <div class="glass-card p-6 rounded-xl shadow-sm">
 <label class="block text-sm font-semibold mb-2">1. Paste Target Job Description</label>
-<textarea id="jdInput" rows="4" class="w-full border border-gray-300 rounded-lg p-3 text-sm outline-none bg-transparent mb-4" placeholder="Paste the job description here... (e.g. Seeking a data-driven HR professional with experience in compliance, talent acquisition, and analytics...)"></textarea>
+<textarea id="jdInput" rows="4" class="w-full border border-gray-300 rounded-lg p-3 text-sm outline-none bg-transparent mb-4 text-slate-800" placeholder="Paste the job description here... (e.g. Seeking a data-driven HR professional with experience in compliance, talent acquisition, and analytics...)"></textarea>
 
 <label class="block text-sm font-semibold mb-3">2. Upload PDF Resume</label>
 <div id="dropZone" class="drop-zone w-full h-32 rounded-xl flex flex-col items-center justify-center cursor-pointer bg-slate-500/5 hover:bg-slate-500/10 transition">
@@ -230,7 +230,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 <span id="atsScoreDisplay" class="text-3xl font-extrabold text-brand-600">0%</span>
 </div>
 <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-4">Match Score</p>
-<p class="text-sm text-green-700 bg-green-500/20 p-2 rounded hidden w-full text-center mb-4" id="atsSuccessMsg"><i class="fa-solid fa-check"></i> Score synced to cloud!</p>
+<p class="text-sm text-green-700 bg-green-500/20 p-2 rounded hidden w-full text-center mb-4" id="atsSuccessMsg"><i class="fa-solid fa-check"></i> Score synced!</p>
 
 <div class="w-full flex-grow overflow-y-auto pr-2 custom-scrollbar text-left text-sm">
 <h4 class="font-bold text-slate-700 mb-2">JD Extracted Keywords:</h4>
@@ -372,7 +372,7 @@ Posture Aligned: <strong id="postureVal">Pending</strong>
 <div class="lg:col-span-2 glass-card p-8 rounded-xl shadow-sm flex flex-col items-center border border-gray-200/50 relative">
 <div id="ai-hr-meera" class="gd-avatar avatar-breathing shadow-2xl transition-all duration-300 mb-4 border-4 border-brand-400 relative z-10" style="width: 120px; height: 120px;"></div>
 
-<h3 class="text-xl font-bold mb-1">HR Director Meera</h3>
+<h3 class="text-xl font-bold mb-1">Virtual HR Director Meera</h3>
 <p id="interview-status" class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-4">Offline - Switch to AI Mode</p>
 
 <div class="w-full bg-slate-900 rounded-lg p-4 font-mono text-sm text-green-400 h-48 overflow-y-auto mb-4 border border-slate-700 shadow-inner" id="interview-transcript">
@@ -671,7 +671,7 @@ function loadVoices() {
 let voices = window.speechSynthesis.getVoices();
 if(voices.length) {
 window.voicesLoaded = true;
-// Prioritize Indian English Accents for Localization
+// Force Indian English Accents for Localization
 window.aiVoices.male1 = voices.find(v => v.lang === 'en-IN' && v.name.includes('Male')) || voices.find(v => v.lang === 'en-IN') || voices[0];
 window.aiVoices.female1 = voices.find(v => v.lang === 'en-IN' && v.name.includes('Female')) || voices.find(v => v.lang === 'en-IN') || voices[0];
 }
@@ -715,14 +715,14 @@ guide.classList.remove('visible'); window.speechSynthesis.cancel(); window.activ
 }
 }
 
-// BUG FIX: Set recognition to en-IN for Indian Accent Accuracy
+// Ensure high accuracy Indian accent transcription
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = null;
 if(window.SpeechRecognition) { 
 recognition = new window.SpeechRecognition(); 
 recognition.continuous = true; 
 recognition.interimResults = true; 
-recognition.lang = 'en-IN'; // Changed to Indian English for High Accuracy
+recognition.lang = 'en-IN'; 
 }
 
 function writeTranscript(targetId, speaker, text) {
@@ -756,7 +756,7 @@ try {
 // 1. Clean and extract JD keywords (simulate TF-IDF)
 const words = jdText.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 3 && !STOP_WORDS.has(w));
 const freq = {}; words.forEach(w => freq[w] = (freq[w] || 0) + 1);
-const sortedKeywords = Object.keys(freq).sort((a,b) => freq[b] - freq[a]).slice(0, 15); // Top 15 keywords
+const sortedKeywords = Object.keys(freq).sort((a,b) => freq[b] - freq[a]).slice(0, 15);
 
 // 2. Read PDF
 const arrayBuffer = await fileInput.files[0].arrayBuffer(); 
@@ -886,25 +886,36 @@ document.getElementById('gd-mic-zone').classList.remove('hidden');
 
 window.startGDRecording = function() {
 if(!recognition) return window.showMessage("Speech API not supported.", "error");
-document.getElementById('gdMicBtn').classList.add('bg-red-400'); document.getElementById('gdLiveSubtitle').classList.remove('hidden'); gdRecording = true; gdFinalText = "";
+document.getElementById('gdMicBtn').classList.add('bg-red-400'); 
+document.getElementById('gdLiveSubtitle').classList.remove('hidden'); 
+gdRecording = true; 
+gdFinalText = "";
 document.getElementById('gdLiveSpeechText').innerText = "Listening...";
 
-// ANDROID BUG FIX: Completely rebuild the string every millisecond so duplicates are impossible
 recognition.onresult = (event) => { 
-    let currentText = ""; 
+    let finalStr = ""; 
+    let interimStr = ""; 
     for (let i = 0; i < event.results.length; ++i) { 
-        currentText += event.results[i][0].transcript; 
+        if (event.results[i].isFinal) { 
+            finalStr += event.results[i][0].transcript + " "; 
+        } else if (i === event.results.length - 1) { 
+            // NUCLEAR ANDROID BUG FIX: Completely ignore previous interim stacking.
+            interimStr = event.results[i][0].transcript; 
+        } 
     } 
-    gdFinalText = currentText; 
-    document.getElementById('gdLiveSpeechText').innerText = currentText || "Listening..."; 
+    gdFinalText = (finalStr + interimStr).trim(); 
+    document.getElementById('gdLiveSpeechText').innerText = gdFinalText || "Listening..."; 
 };
-recognition.start();
+try { recognition.start(); } catch(e) {}
 }
 
 window.stopGDRecording = async function() {
-if(!gdRecording) return; document.getElementById('gdMicBtn').classList.remove('bg-red-400'); recognition.stop(); gdRecording = false;
-// ANDROID BUG FIX: Pull clean from the variable
-const userSpeech = gdFinalText.trim() || "A hybrid model ensures both efficiency and fairness."; 
+if(!gdRecording) return; 
+document.getElementById('gdMicBtn').classList.remove('bg-red-400'); 
+try { recognition.stop(); } catch(e) {} 
+gdRecording = false;
+
+const userSpeech = gdFinalText || "A hybrid model ensures both efficiency and fairness."; 
 writeTranscript('gd-transcript', 'Candidate', userSpeech);
 document.getElementById('gdLiveSubtitle').classList.add('hidden'); document.getElementById('gd-mic-zone').classList.add('hidden');
 currentGDRound++;
@@ -955,25 +966,36 @@ let score = 82 + Math.floor(Math.random() * 15); window.userData.interview_score
 }
 
 window.startInterviewRecording = function() {
-if(!recognition) return window.showMessage("Speech API not supported.", "error"); interviewRecording = true; document.getElementById('interviewLiveSubtitle').classList.remove('hidden'); interviewFinalText = "";
+if(!recognition) return window.showMessage("Speech API not supported.", "error"); 
+interviewRecording = true; 
+document.getElementById('interviewLiveSubtitle').classList.remove('hidden'); 
+interviewFinalText = "";
 document.getElementById('interviewLiveSpeechText').innerText = "Listening...";
 
-// ANDROID BUG FIX: Completely rebuild the string every millisecond so duplicates are impossible
 recognition.onresult = (event) => { 
-    let currentText = ""; 
+    let finalStr = ""; 
+    let interimStr = ""; 
     for (let i = 0; i < event.results.length; ++i) { 
-        currentText += event.results[i][0].transcript; 
+        if (event.results[i].isFinal) { 
+            finalStr += event.results[i][0].transcript + " "; 
+        } else if (i === event.results.length - 1) { 
+            // NUCLEAR ANDROID BUG FIX: Completely ignore previous interim stacking.
+            interimStr = event.results[i][0].transcript; 
+        } 
     } 
-    interviewFinalText = currentText;
-    document.getElementById('interviewLiveSpeechText').innerText = currentText || "Listening..."; 
+    interviewFinalText = (finalStr + interimStr).trim();
+    document.getElementById('interviewLiveSpeechText').innerText = interviewFinalText || "Listening..."; 
 };
-recognition.start();
+try { recognition.start(); } catch(e) {}
 }
 
 window.stopInterviewRecording = function() {
-if(!interviewRecording) return; document.getElementById('interview-mic-zone').classList.add('hidden'); document.getElementById('interview-mic-zone').classList.remove('flex'); recognition.stop(); interviewRecording = false;
-// ANDROID BUG FIX: Pull clean from the variable
-const candidateResponse = interviewFinalText.trim() || "I structured a clear framework prioritizing direct communication."; 
+if(!interviewRecording) return; 
+document.getElementById('interview-mic-zone').classList.add('hidden'); document.getElementById('interview-mic-zone').classList.remove('flex'); 
+try { recognition.stop(); } catch(e) {} 
+interviewRecording = false;
+
+const candidateResponse = interviewFinalText || "I structured a clear framework prioritizing direct communication."; 
 writeTranscript('interview-transcript', 'Candidate', candidateResponse); document.getElementById('interviewLiveSubtitle').classList.add('hidden'); interviewStep++; setTimeout(askNextInterviewQuestion, 1000);
 }
 
