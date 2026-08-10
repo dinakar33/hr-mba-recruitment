@@ -303,12 +303,12 @@ Submit Final Answers
 <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
 <div class="flex space-x-12 justify-center mb-6">
 <div class="text-center">
-<div id="avatar-alex" class="gd-avatar border-blue-400"></div>
-<span class="text-xs font-bold mt-2 block text-blue-400">Alex (Analytical)</span>
+<div id="avatar-arjun" class="gd-avatar border-blue-400"></div>
+<span class="text-xs font-bold mt-2 block text-blue-400">Arjun (Analytical)</span>
 </div>
 <div class="text-center">
-<div id="avatar-maya" class="gd-avatar border-pink-400"></div>
-<span class="text-xs font-bold mt-2 block text-pink-400">Maya (Creative)</span>
+<div id="avatar-kavya" class="gd-avatar border-pink-400"></div>
+<span class="text-xs font-bold mt-2 block text-pink-400">Kavya (Creative)</span>
 </div>
 </div>
 
@@ -380,7 +380,7 @@ Submit Final Answers
 <div class="lg:col-span-2 glass-card p-8 rounded-xl shadow-sm flex flex-col items-center border border-gray-200/50 relative">
 <div id="ai-hr-orb" class="gd-avatar shadow-2xl transition-all duration-300 mb-4 border-4 border-brand-400 relative z-10" style="width: 120px; height: 120px;"></div>
 
-<h3 class="text-xl font-bold mb-1">Virtual HR Director Sarah</h3>
+<h3 class="text-xl font-bold mb-1">Virtual HR Director Meera</h3>
 <p id="interview-status" class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-4">Offline - Switch to AI Mode</p>
 
 <div class="w-full bg-slate-900 rounded-lg p-4 font-mono text-sm text-green-400 h-48 overflow-y-auto mb-4 border border-slate-700 shadow-inner" id="interview-transcript">
@@ -699,9 +699,10 @@ function loadVoices() {
 let voices = window.speechSynthesis.getVoices();
 if(voices.length) {
 window.voicesLoaded = true;
-window.aiVoices.male1 = voices.find(v => v.name.includes('Google UK English Male') || v.name.includes('Male')) || voices[0];
-window.aiVoices.female1 = voices.find(v => v.name.includes('Google UK English Female') || v.name.includes('Female')) || voices[0];
-window.aiVoices.male2 = voices.find(v => v.name.includes('Google US English Male') || v.name.includes('Male')) || voices[0];
+const inVoices = voices.filter(v => v.lang.includes('en-IN') || v.name.includes('India') || v.name.includes('Indian'));
+window.aiVoices.male1 = inVoices.find(v => v.name.includes('Male') || v.name.includes('Ravi')) || inVoices[0] || voices.find(v => v.name.includes('Male')) || voices[0];
+window.aiVoices.female1 = inVoices.find(v => v.name.includes('Female') || v.name.includes('Heera')) || inVoices.find(v => v !== window.aiVoices.male1) || voices.find(v => v.name.includes('Female')) || voices[0];
+window.aiVoices.male2 = window.aiVoices.male1;
 }
 }
 window.speechSynthesis.onvoiceschanged = loadVoices; loadVoices();
@@ -880,11 +881,11 @@ window.activeSpeaker = id; writeTranscript('gd-transcript', name, text); await w
 window.startAIGD = async function() {
 document.getElementById('aiVoiceBtn4').disabled = true; currentGDRound = 1; document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`; document.getElementById('gd-transcript').innerHTML = "";
 const intro = "Round 1: Implementing AI in performance reviews is essential. It standardizes metrics across departments.";
-gdHistory += `Alex: ${intro}\n`;
-await setSpeaker('alex', 'Alex', intro, 'male1', 0.9, 1.1);
-const response = "I disagree, Alex. Historical bias in datasets risks automating systemic discrimination. Candidate, your thoughts?";
-gdHistory += `Maya: ${response}\n`;
-await setSpeaker('maya', 'Maya', response, 'female', 1.1, 1.05);
+gdHistory += `Arjun: ${intro}\n`;
+await setSpeaker('arjun', 'Arjun', intro, 'male1', 0.9, 1.1);
+const response = "I disagree, Arjun. Historical bias in datasets risks automating systemic discrimination. Candidate, your thoughts?";
+gdHistory += `Kavya: ${response}\n`;
+await setSpeaker('kavya', 'Kavya', response, 'female', 1.1, 1.05);
 document.getElementById('gd-mic-zone').classList.remove('hidden');
 }
 
@@ -914,13 +915,13 @@ currentGDRound++;
 if(currentGDRound <= totalGDRounds) {
 document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
 document.getElementById('gdLiveSubtitle').classList.remove('hidden'); document.getElementById('gdLiveSpeechText').innerText = "AI is thinking...";
-const prompt = `You are a Virtual GD simulator. Transcript so far: ${gdHistory}. Generate a sharp 1-2 sentence response from EITHER Alex (Analytical) OR Maya (Creative) challenging the candidate's last point. Format strictly as: "Maya: [text]" or "Alex: [text]"`;
-let res = await window.callGemini(prompt, false) || `Alex: Building on that, how do you enforce transparency in that framework?`;
+const prompt = `You are a Virtual GD simulator. Transcript so far: ${gdHistory}. Generate a sharp 1-2 sentence response from EITHER Arjun (Analytical) OR Kavya (Creative) challenging the candidate's last point. Format strictly as: "Kavya: [text]" or "Arjun: [text]"`;
+let res = await window.callGemini(prompt, false) || `Arjun: Building on that, how do you enforce transparency in that framework?`;
 document.getElementById('gdLiveSubtitle').classList.add('hidden');
-let agent = 'Maya'; let aiText = res;
-if(res.toLowerCase().startsWith('alex:')) { agent = 'Alex'; aiText = res.substring(5).trim(); } else if(res.toLowerCase().startsWith('maya:')) { agent = 'Maya'; aiText = res.substring(5).trim(); }
+let agent = 'Kavya'; let aiText = res;
+if(res.toLowerCase().startsWith('arjun:')) { agent = 'Arjun'; aiText = res.substring(6).trim(); } else if(res.toLowerCase().startsWith('kavya:')) { agent = 'Kavya'; aiText = res.substring(6).trim(); }
 gdHistory += `${agent}: ${aiText}\n`;
-await setSpeaker(agent.toLowerCase(), agent, aiText, agent==='Alex'?'male1':'female', agent==='Alex'?0.9:1.1, agent==='Alex'?1.1:1.05);
+await setSpeaker(agent.toLowerCase(), agent, aiText, agent==='Arjun'?'male1':'female', agent==='Arjun'?0.9:1.1, agent==='Arjun'?1.1:1.05);
 document.getElementById('gd-mic-zone').classList.remove('hidden');
 } else {
 document.getElementById('gdLiveSubtitle').classList.remove('hidden'); document.getElementById('gdLiveSpeechText').innerText = "AI is generating final score...";
@@ -964,10 +965,10 @@ document.getElementById('startInterviewBtn').classList.add('hidden'); document.g
 
 async function askNextInterviewQuestion() {
 if (interviewStep < masterInterviewQuestions.length) {
-let q = masterInterviewQuestions[interviewStep]; intHistory += `Sarah: ${q}\n`;
-window.activeSpeaker = 'sarah'; writeTranscript('interview-transcript', 'HR Director Sarah', `[Q${interviewStep+1}/5] ${q}`); await window.speakAIPromise(q, 'female', 1.05, 0.95); window.activeSpeaker = null; document.getElementById('interview-mic-zone').classList.remove('hidden'); document.getElementById('interview-mic-zone').classList.add('flex');
+let q = masterInterviewQuestions[interviewStep]; intHistory += `Meera: ${q}\n`;
+window.activeSpeaker = 'meera'; writeTranscript('interview-transcript', 'HR Director Meera', `[Q${interviewStep+1}/5] ${q}`); await window.speakAIPromise(q, 'female', 1.05, 0.95); window.activeSpeaker = null; document.getElementById('interview-mic-zone').classList.remove('hidden'); document.getElementById('interview-mic-zone').classList.add('flex');
 } else {
-window.activeSpeaker = 'sarah'; writeTranscript('interview-transcript', 'HR Director Sarah', 'Interview complete. Evaluating.'); await window.speakAIPromise("Interview complete. Evaluating.", 'female', 1.05, 0.95); window.activeSpeaker = null;
+window.activeSpeaker = 'meera'; writeTranscript('interview-transcript', 'HR Director Meera', 'Interview complete. Evaluating.'); await window.speakAIPromise("Interview complete. Evaluating.", 'female', 1.05, 0.95); window.activeSpeaker = null;
 if(bioInterval) clearInterval(bioInterval);
 const avg = (arr) => arr.length ? Math.round(arr.reduce((a,b)=>a+b)/arr.length) : 80;
 window.userData.bio_eye = avg(window.biometricData.eye); window.userData.bio_stress = avg(window.biometricData.stress); window.userData.bio_posture = avg(window.biometricData.posture);
@@ -1001,13 +1002,13 @@ const candidateResponse = document.getElementById('interviewLiveSpeechText').inn
 writeTranscript('interview-transcript', 'Candidate', candidateResponse); intHistory += `Candidate: ${candidateResponse}\n`; interviewStep++;
 
 if (interviewStep < masterInterviewQuestions.length) {
-    document.getElementById('interviewLiveSpeechText').innerText = "Sarah is formulating critique...";
+    document.getElementById('interviewLiveSpeechText').innerText = "Meera is formulating critique...";
     const nextQ = masterInterviewQuestions[interviewStep];
-    const prompt = `You are Sarah, strict HR Director. The candidate answered: "${candidateResponse}". Critique their answer in 1 sentence (mention if they lacked hard data/metrics or STAR structure). Then, immediately ask this exact next question: "${nextQ}"`;
+    const prompt = `You are Meera, strict HR Director. The candidate answered: "${candidateResponse}". Critique their answer in 1 sentence (mention if they lacked hard data/metrics or STAR structure). Then, immediately ask this exact next question: "${nextQ}"`;
     let aiText = await window.callGemini(prompt, false) || `I noticed a lack of hard metrics in that answer. Always quantify your results. Next question: ${nextQ}`;
-    intHistory += `Sarah (Next Question): ${nextQ}\n`;
+    intHistory += `Meera (Next Question): ${nextQ}\n`;
     document.getElementById('interviewLiveSubtitle').classList.add('hidden');
-    window.activeSpeaker = 'sarah'; writeTranscript('interview-transcript', 'HR Director Sarah', aiText); await window.speakAIPromise(aiText, 'female', 1.05, 0.95); window.activeSpeaker = null;
+    window.activeSpeaker = 'meera'; writeTranscript('interview-transcript', 'HR Director Meera', aiText); await window.speakAIPromise(aiText, 'female', 1.05, 0.95); window.activeSpeaker = null;
     document.getElementById('interview-mic-zone').classList.remove('hidden'); document.getElementById('interview-mic-zone').classList.add('flex');
 } else {
     document.getElementById('interviewLiveSubtitle').classList.add('hidden'); askNextInterviewQuestion();
@@ -1063,9 +1064,9 @@ initRealisticAvatars();
 // STATIC AVATAR SVG GENERATION (NO PARALLAX)
 const avatarConfigs = {
 'guide-avatar': { bg: '#e2e8f0', skin: '#fcd34d', skinDark: '#d97706', hair: '#1e293b', shirt: '#3b82f6', hairPath: '<path d="M 15 45 C 15 10, 85 10, 85 45 L 85 30 C 85 5, 15 5, 15 30 Z" fill="#1e293b"/>' },
-'avatar-alex': { bg: '#bfdbfe', skin: '#fed7aa', skinDark: '#ea580c', hair: '#451a03', shirt: '#ffffff', glasses: true, hairPath: '<path d="M 22 45 C 22 10, 78 10, 78 45 L 78 30 C 78 5, 22 5, 22 30 Z" fill="#451a03"/>' },
-'avatar-maya': { bg: '#fbcfe8', skin: '#d97706', skinDark: '#92400e', hair: '#111827', shirt: '#fef08a', hairPath: '<circle cx="50" cy="15" r="18" fill="#111827"/><circle cx="35" cy="25" r="14" fill="#111827"/><circle cx="65" cy="25" r="14" fill="#111827"/><path d="M 22 45 C 22 15, 78 15, 78 45 C 78 30, 50 25, 22 45 Z" fill="#111827"/>' },
-'ai-hr-orb': { bg: '#e9d5ff', skin: '#ffedd5', skinDark: '#f97316', hair: '#9ca3af', shirt: '#4c1d95', glasses: true, hairPath: '<circle cx="50" cy="10" r="15" fill="#9ca3af"/><path d="M 22 45 C 22 15, 78 15, 78 45 L 78 35 C 78 5, 22 5, 22 35 Z" fill="#9ca3af"/>' }
+'avatar-arjun': { bg: '#bfdbfe', skin: '#d97706', skinDark: '#92400e', hair: '#111827', shirt: '#ffffff', glasses: true, hairPath: '<path d="M 22 45 C 22 10, 78 10, 78 45 L 78 30 C 78 5, 22 5, 22 30 Z" fill="#111827"/>' },
+'avatar-kavya': { bg: '#fbcfe8', skin: '#f5b041', skinDark: '#b87333', hair: '#111827', shirt: '#fef08a', hairPath: '<circle cx="50" cy="15" r="18" fill="#111827"/><circle cx="35" cy="25" r="14" fill="#111827"/><circle cx="65" cy="25" r="14" fill="#111827"/><path d="M 22 45 C 22 15, 78 15, 78 45 C 78 30, 50 25, 22 45 Z" fill="#111827"/>' },
+'ai-hr-orb': { bg: '#e9d5ff', skin: '#cd853f', skinDark: '#8b4513', hair: '#111827', shirt: '#4c1d95', glasses: true, hairPath: '<circle cx="50" cy="10" r="15" fill="#111827"/><path d="M 22 45 C 22 15, 78 15, 78 45 L 78 35 C 78 5, 22 5, 22 35 Z" fill="#111827"/>' }
 };
 
 function generateSVG(config, id) {
@@ -1078,7 +1079,7 @@ setInterval(() => {
 Object.keys(avatarConfigs).forEach(id => {
 const container = document.getElementById(id); if(!container) return;
 const mouth = container.querySelector('.avatar-mouth-path'); const teeth = container.querySelector('.avatar-teeth-path'); if(!mouth) return;
-let speakerMap = { 'guide-avatar': 'guide', 'avatar-alex': 'alex', 'avatar-maya': 'maya', 'ai-hr-orb': 'sarah' };
+let speakerMap = { 'guide-avatar': 'guide', 'avatar-arjun': 'arjun', 'avatar-kavya': 'kavya', 'ai-hr-orb': 'meera' };
 if(window.activeSpeaker === speakerMap[id]) {
 const visemes = ["M 35 65 Q 50 55 65 65 Q 50 85 35 65", "M 40 65 Q 50 50 60 65 Q 50 80 40 65", "M 32 65 Q 50 60 68 65 Q 50 75 32 65"];
 const teethPaths = ["M 38 62 Q 50 58 62 62 Q 50 65 38 62", "M 42 55 Q 50 52 58 55 Q 50 60 42 55", "M 35 62 Q 50 58 65 62 Q 50 66 35 62"];
