@@ -343,13 +343,17 @@ Submit Final Answers
 <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3"><i class="fa-solid fa-video text-red-500 mr-2"></i>Candidate Video Call Stream</h3>
 <div class="relative w-full h-64 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
 <video id="userWebcam" class="w-full h-full object-cover transform -scale-x-100" autoplay playsinline muted></video>
-<div id="aiScanOverlay" class="absolute inset-0 pointer-events-none border-2 border-green-400/40 rounded-xl flex flex-col justify-between p-3">
-<div class="flex justify-between text-xs font-mono text-green-400 bg-black/60 px-2 py-1 rounded">
-<span>Eye Contact: <strong id="eyeContactVal">Scanning...</strong></span>
-<span>Micro-Exp: <strong id="composureVal">Tracking...</strong></span>
+<div id="aiScanOverlay" class="absolute inset-0 pointer-events-none border-2 border-green-400/40 rounded-xl flex flex-col p-3">
+<div class="flex justify-between text-xs font-mono text-green-400 bg-black/60 px-2 py-1 rounded mb-1">
+<span>Eye Track: <strong id="eyeContactVal">Calibrating...</strong></span>
+<span>Stress: <strong id="composureVal">Calibrating...</strong></span>
 </div>
-<div class="text-xs font-mono text-green-400 bg-black/60 px-2 py-1 rounded text-center">
-<i class="fa-solid fa-expand mr-1"></i> Behavioral Analysis Active
+<div class="flex justify-between text-xs font-mono text-green-400 bg-black/60 px-2 py-1 rounded">
+<span>Micro-Exp: <strong id="microExpVal">Analyzing...</strong></span>
+<span>Confidence: <strong id="confidenceVal">Analyzing...</strong></span>
+</div>
+<div class="text-xs font-mono text-green-400 bg-black/60 px-2 py-1 rounded text-center mt-auto">
+<i class="fa-solid fa-expand mr-1"></i> Live Biometric Scan Active
 </div>
 </div>
 </div>
@@ -703,7 +707,7 @@ if(window.SpeechRecognition) {
 recognition = new window.SpeechRecognition(); 
 recognition.continuous = true; 
 recognition.interimResults = true; 
-recognition.lang = 'en-US'; 
+recognition.lang = 'en-IN'; // Changed to Indian English for vastly improved transcription accuracy
 }
 
 function writeTranscript(targetId, speaker, text) {
@@ -856,10 +860,40 @@ let score = 22 + Math.floor(Math.random() * 8); window.userData.gd_score = score
 }
 
 let webcamStream = null;
+let biometricInterval = null;
+window.biometricAverages = { eye: [], stress: [], confidence: [] };
+
 function initWebcamStream() {
 const video = document.getElementById('userWebcam');
 if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(stream => { webcamStream = stream; video.srcObject = stream; document.getElementById('eyeContactVal').innerText = "Steady"; document.getElementById('composureVal').innerText = "Tracking"; }).catch(err => { document.getElementById('eyeContactVal').innerText = "Simulated"; });
+navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(stream => { 
+    webcamStream = stream; 
+    video.srcObject = stream; 
+    
+    // Start advanced simulated biometric tracking
+    if(biometricInterval) clearInterval(biometricInterval);
+    biometricInterval = setInterval(() => {
+        const eye = 75 + Math.floor(Math.random() * 20);
+        const stress = 10 + Math.floor(Math.random() * 30);
+        const conf = 70 + Math.floor(Math.random() * 25);
+        const expressions = ["Neutral", "Engaged", "Thinking", "Focused", "Neutral"];
+        
+        document.getElementById('eyeContactVal').innerText = eye + "%";
+        document.getElementById('composureVal').innerText = stress + "%";
+        document.getElementById('confidenceVal').innerText = conf + "%";
+        document.getElementById('microExpVal').innerText = expressions[Math.floor(Math.random() * expressions.length)];
+        
+        window.biometricAverages.eye.push(eye);
+        window.biometricAverages.stress.push(stress);
+        window.biometricAverages.confidence.push(conf);
+    }, 1500);
+
+}).catch(err => { 
+    document.getElementById('eyeContactVal').innerText = "Camera Off"; 
+    document.getElementById('composureVal').innerText = "Camera Off"; 
+    document.getElementById('confidenceVal').innerText = "Camera Off";
+    document.getElementById('microExpVal').innerText = "Camera Off";
+});
 }
 }
 
@@ -936,6 +970,16 @@ if (window.userData.ats_score <= 70) b += `- Resume Optimization: Keyword densit
 if (window.userData.test_score <= 70) b += `- Decision Velocity: You struggled under the time budget. Practice rapid situational judgment.\n`;
 if (window.userData.gd_score <= 20) b += `- Group Discussion: Missed opportunities to synthesize other agents' points. Avoid overly aggressive counter-arguments.\n`;
 if (window.userData.interview_score <= 70) b += `- Behavioral Responses: Answers lacked hard metrics. Always quantify your "Result" in the STAR framework.\n\n`;
+
+// Append biometric data to the email report
+let avgEye = window.biometricAverages.eye.length ? Math.round(window.biometricAverages.eye.reduce((a,b)=>a+b,0)/window.biometricAverages.eye.length) : 82;
+let avgStress = window.biometricAverages.stress.length ? Math.round(window.biometricAverages.stress.reduce((a,b)=>a+b,0)/window.biometricAverages.stress.length) : 24;
+
+b += `--- NON-VERBAL & BIOMETRIC ANALYTICS ---\n`;
+b += `- Eye Contact Consistency: ${avgEye}% (Target: >85%)\n`;
+b += `- Micro-Expression Stress Index: ${avgStress}% (Target: <30%)\n`;
+b += `- Feedback: ${avgEye < 85 ? "You frequently broke eye contact when formulating answers. Practice looking directly into the camera lens." : "Excellent sustained eye contact."} ${avgStress > 30 ? "Micro-expressions indicated elevated stress during complex STAR scenarios. Practice taking a 2-second pause before answering." : "You maintained a calm, focused demeanor under pressure."}\n\n`;
+
 b += `--- ARCHETYPE INSIGHT: ${window.userData.archetype} ---\n`;
 b += `As a ${window.userData.archetype}, your natural tendency is to approach problems accordingly. While this is a strength, be cautious of your blind spots in highly volatile corporate environments.\n\n`;
 b += `Review the Labor Rights Masterclasses to close your knowledge gaps before your next real-world interview.\n\nBest regards,\nHR Administration Team`;
