@@ -47,9 +47,21 @@ body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgb
 body.ai-mode h2, body.ai-mode h3, body.ai-mode p, body.ai-mode span, body.ai-mode label { color: #f8fafc !important; }
 body.ai-mode .text-slate-500, body.ai-mode .text-slate-600 { color: #cbd5e1 !important; }
 body.ai-mode .bg-white { background-color: #1e293b !important; }
-body.ai-mode .bg-slate-50 { background-color: rgba(255, 255, 255, 0.05) !important; }
 body.ai-mode .border-gray-300, body.ai-mode .border { border-color: #475569 !important; }
 body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode input[type="tel"], body.ai-mode input[type="url"], body.ai-mode input[type="password"], body.ai-mode select, body.ai-mode textarea { background-color: #334155; color: #f8fafc; border-color: #475569; }
+
+/* AI Mode Visual Fixes for Academic Modules & Colored Backgrounds */
+body.ai-mode .bg-slate-50, body.ai-mode .bg-blue-50, body.ai-mode .bg-brand-50, 
+body.ai-mode .bg-amber-50, body.ai-mode .bg-red-50, body.ai-mode .bg-purple-50, 
+body.ai-mode .bg-emerald-50 { 
+    background-color: rgba(255, 255, 255, 0.05) !important; 
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+body.ai-mode .text-slate-700, body.ai-mode .text-blue-900, body.ai-mode .text-brand-900, 
+body.ai-mode .text-amber-900, body.ai-mode .text-red-900, body.ai-mode .text-purple-900, 
+body.ai-mode .text-emerald-900 {
+    color: #f1f5f9 !important;
+}
 
 .toggle-checkbox:checked { right: 0; border-color: #68D391; }
 .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
@@ -321,7 +333,7 @@ Submit Final Answers
 > System Ready. Awaiting initialization...
 </div>
 
-<!-- FAILSAFE DICTATION UI (NO MORE TOUCH BUGS) -->
+<!-- FAILSAFE DICTATION UI -->
 <div id="gd-mic-zone" class="w-full flex-col items-center hidden">
 <textarea id="gdTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-3 mb-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
 <div class="flex items-center justify-center space-x-4 w-full">
@@ -665,7 +677,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-// === PASTE YOUR GEMINI API KEY HERE FOR THE EVENT ===
+// === YOUR SECURE GOOGLE GEMINI API KEY ===
 const GEMINI_API_KEY = "AQ.Ab8RN6ISnP6XqfnQExC9_pVH1S5PIribDiYVk6CBQYNv9zclfA"; 
 
 const firebaseConfig = {
@@ -698,15 +710,19 @@ window.bioMetrics = { eyeContact: [], stress: [] };
 // --- GEMINI LIVE CONVERSATIONAL ENGINE & FALLBACK SYSTEM ---
 async function callGemini(prompt, systemInstruction = null) {
     try {
-        // FULL-PROOF GUARANTEE: If the key is missing or default, use the local engine immediately.
         if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("PASTE_YOUR_API_KEY_HERE")) {
             return generateLocalFallback(prompt, systemInstruction);
         }
         
-        // FIX: NEVER use 'Bearer' or 'x-goog-api-key' for simple browser fetches. 
-        // Standard ?key= parameter works for BOTH 'AIza' and 'AQ.' keys perfectly.
-        let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
         let headers = { 'Content-Type': 'application/json' };
+
+        // SECURE HEADER METHOD FOR AQ. KEYS
+        if (GEMINI_API_KEY.startsWith('AQ.')) {
+             headers['x-goog-api-key'] = GEMINI_API_KEY;
+        } else {
+             apiUrl += `?key=${GEMINI_API_KEY}`;
+        }
 
         const payload = { contents: [{ parts: [{ text: prompt }] }] };
         if (systemInstruction) {
@@ -717,8 +733,7 @@ async function callGemini(prompt, systemInstruction = null) {
         const result = await response.json();
         
         if (!response.ok) {
-            console.warn("Google API Error detected. Seamlessly switching to Local Simulation Engine.");
-            // FULL-PROOF GUARANTEE: If Google rejects the key (OAuth error, Quota limits), do not crash.
+            console.warn("Google API Error detected. Seamlessly switching to Local Simulation Engine.", result);
             return generateLocalFallback(prompt, systemInstruction);
         }
         
@@ -727,19 +742,16 @@ async function callGemini(prompt, systemInstruction = null) {
         }
         return generateLocalFallback(prompt, systemInstruction);
     } catch (e) {
-        console.warn("Network Error. Seamlessly switching to Local Simulation Engine.");
+        console.warn("Network Error. Seamlessly switching to Local Simulation Engine.", e);
         return generateLocalFallback(prompt, systemInstruction);
     }
 }
 
 // --- EMERGENCY LOCAL SIMULATION ENGINE ---
-// This guarantees the event works for 100+ students even if the API goes down.
 function generateLocalFallback(prompt, systemInstruction) {
-    // 1. Handle Final Scoring Commands
     if (prompt.includes("Return only a number out of 100")) return "85";
     if (prompt.includes("Return only a number out of 30")) return "25";
     
-    // 2. Handle Virtual GD Responses
     if (systemInstruction && systemInstruction.includes("Group Discussion")) {
         const isKavya = systemInstruction.includes("Kavya");
         if (isKavya) {
@@ -759,7 +771,6 @@ function generateLocalFallback(prompt, systemInstruction) {
         }
     }
     
-    // 3. Handle AI Interview Responses
     if (systemInstruction && systemInstruction.includes("HR Director")) {
         const interviewResponses = [
             "That's a great example. Can you elaborate on the specific metrics you used to measure the success of that action?",
@@ -772,6 +783,102 @@ function generateLocalFallback(prompt, systemInstruction) {
     
     return "That is a very insightful point. Let's explore that further in the context of our corporate strategy.";
 }
+
+// --- ADMIN DASHBOARD FUNCTIONS ---
+window.openAdminModal = function() {
+    document.getElementById('adminModal').classList.remove('hidden');
+};
+
+window.closeAdminModal = function() {
+    document.getElementById('adminModal').classList.add('hidden');
+};
+
+window.verifyAdmin = function() {
+    const pass = document.getElementById('adminPass').value;
+    if (pass === 'admin123') {
+        window.isAdmin = true;
+        document.body.classList.add('admin-mode');
+        window.closeAdminModal();
+        window.showMessage("Admin Command Center Connected. Fetching live candidate data...");
+        listenToAllCandidates();
+    } else {
+        window.showMessage("Invalid Passcode.", "error");
+    }
+};
+
+function listenToAllCandidates() {
+    if (unsubscribeAdmin) unsubscribeAdmin();
+    unsubscribeAdmin = onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'), (snapshot) => {
+        const select = document.getElementById('adminCandidateSelect');
+        const currentSelection = select.value;
+        select.innerHTML = '<option value="" class="text-slate-800">-- Select Candidate --</option>';
+        
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            const option = document.createElement('option');
+            option.value = doc.id;
+            option.className = "text-slate-800";
+            option.text = `${data.name || 'Unknown'} (${data.email || 'No Email'})`;
+            select.appendChild(option);
+            
+            if (window.adminSelectedId === doc.id) {
+                window.userData = data;
+                window.updatePassportUI();
+            }
+        });
+        select.value = currentSelection;
+    });
+}
+
+window.onAdminSelectCandidate = async function(id) {
+    window.adminSelectedId = id;
+    if (!id) return;
+    const docRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        window.userData = docSnap.data();
+        window.updatePassportUI();
+        
+        document.getElementById('adminGdScoreInput').value = window.userData.gd_score || 0;
+        document.getElementById('adminGdScoreVal').innerText = window.userData.gd_score || 0;
+        document.getElementById('hrScoreInput').value = window.userData.interview_score || 0;
+        document.getElementById('hrScoreVal').innerText = window.userData.interview_score || 0;
+        
+        window.showMessage(`Loaded data for ${window.userData.name}`);
+    }
+};
+
+window.saveAdminScore = async function(type) {
+    if (!window.adminSelectedId) {
+        window.showMessage("Select a candidate first.", "error");
+        return;
+    }
+    const updateData = {};
+    if (type === 'gd') {
+        const val = parseInt(document.getElementById('adminGdScoreInput').value);
+        updateData.gd_score = val;
+        window.userData.gd_score = val;
+    } else if (type === 'hr') {
+        const val = parseInt(document.getElementById('hrScoreInput').value);
+        updateData.interview_score = val;
+        window.userData.interview_score = val;
+    }
+    
+    await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.adminSelectedId), updateData);
+    window.updatePassportUI();
+    window.showMessage("Score updated in Cloud.");
+};
+
+window.publishResults = async function() {
+    if (!window.adminSelectedId) {
+        window.showMessage("Select a candidate first.", "error");
+        return;
+    }
+    await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.adminSelectedId), { published: true });
+    window.userData.published = true;
+    window.updatePassportUI();
+    window.showMessage("Results Published to Candidate's Phone!");
+};
 
 // ARCHETYPE QUESTIONS
 const archQ = [
