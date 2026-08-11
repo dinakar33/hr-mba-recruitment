@@ -288,22 +288,40 @@ Submit Final Answers
 <p class="text-sm mb-6 pb-4 border-b border-gray-200/50">Discuss the ethical implications of replacing human managers with AI scoring systems.</p>
 
 <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
-<div class="flex space-x-12 justify-center mb-6">
-<div class="text-center">
-<div id="avatar-arjun" class="gd-avatar avatar-breathing border-blue-400"></div>
-<span class="text-xs font-bold mt-2 block text-blue-400">Arjun (Analytical)</span>
+<!-- IMMERSIVE ROUND TABLE UI -->
+<div class="relative w-full h-56 mb-12 mt-2">
+<!-- The Conference Table -->
+<div class="absolute inset-0 m-auto w-5/6 h-32 bg-slate-800 rounded-[100%] border-4 border-slate-700 shadow-[0_15px_25px_rgba(0,0,0,0.4)] flex flex-col items-center justify-center">
+<div class="w-16 h-8 rounded-full border border-slate-600/50 opacity-50"></div> <!-- Subtle table centerpiece -->
 </div>
-<div class="text-center">
-<div id="avatar-kavya" class="gd-avatar avatar-breathing border-pink-400"></div>
-<span class="text-xs font-bold mt-2 block text-pink-400">Kavya (Creative)</span>
+
+<!-- Agent 1: Kavya (Left) -->
+<div class="absolute top-0 left-[2%] sm:left-[10%] text-center z-10 transform -translate-y-2">
+<div id="avatar-kavya" class="gd-avatar avatar-breathing border-pink-400 shadow-2xl bg-slate-900 relative"></div>
+<span class="text-[10px] font-bold mt-2 inline-block text-pink-400 bg-slate-900 px-3 py-1 rounded-full border border-pink-500/50 shadow-lg relative z-20">Kavya (Creative)</span>
+</div>
+
+<!-- Agent 2: Arjun (Right) -->
+<div class="absolute top-0 right-[2%] sm:right-[10%] text-center z-10 transform -translate-y-2">
+<div id="avatar-arjun" class="gd-avatar avatar-breathing border-blue-400 shadow-2xl bg-slate-900 relative"></div>
+<span class="text-[10px] font-bold mt-2 inline-block text-blue-400 bg-slate-900 px-3 py-1 rounded-full border border-blue-500/50 shadow-lg relative z-20">Arjun (Analytical)</span>
+</div>
+
+<!-- Candidate (Bottom Center) -->
+<div class="absolute bottom-0 left-1/2 text-center z-20 transform -translate-x-1/2 translate-y-10">
+<div class="gd-avatar avatar-breathing border-brand-400 shadow-[0_15px_25px_rgba(0,0,0,0.5)] bg-slate-800 flex items-center justify-center mx-auto relative overflow-hidden">
+<i class="fa-solid fa-user-tie text-5xl text-brand-400/60 transform translate-y-3"></i>
+</div>
+<span class="text-[10px] font-bold mt-2 inline-block text-brand-300 bg-slate-900 px-3 py-1 rounded-full border border-brand-500/50 shadow-lg relative z-20">You (Candidate)</span>
 </div>
 </div>
+<!-- END ROUND TABLE UI -->
 
 <div id="gd-transcript" class="bg-slate-900 text-green-400 p-4 rounded-lg font-mono text-sm flex-grow overflow-y-auto h-48 border border-slate-700 shadow-inner mb-4">
 > System Ready. Awaiting initialization...
 </div>
 
-<!-- FAILSAFE DICTATION UI -->
+<!-- FAILSAFE DICTATION UI (NO MORE TOUCH BUGS) -->
 <div id="gd-mic-zone" class="w-full flex-col items-center hidden">
 <textarea id="gdTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-3 mb-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
 <div class="flex items-center justify-center space-x-4 w-full">
@@ -573,7 +591,7 @@ window.bioMetrics = { eyeContact: [], stress: [] };
 async function callGemini(prompt, systemInstruction = null) {
     try {
         // FULL-PROOF GUARANTEE: If the key is missing or default, use the local engine immediately.
-        if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("AQ.Ab8RN6L5V2OlPzbNh39w3UyKAKuDIffV-OXoiiabG-8olgkoWQ")) {
+        if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("PASTE_YOUR_API_KEY_HERE")) {
             return generateLocalFallback(prompt, systemInstruction);
         }
         
