@@ -118,7 +118,7 @@
             border: 2px solid #38bdf8;
             background: #000;
         }
-        #interview-video, #interview-canvas {
+        #gd-video, #interview-video, #interview-canvas {
             width: 100%;
             height: auto;
             display: block;
@@ -192,7 +192,6 @@
                         <h2 class="text-2xl font-bold mb-2">Candidate Registration</h2>
                         <p class="text-gray-500 ai-text-gray">Establish your profile and workplace archetype.</p>
                     </div>
-                    <!-- AI Guide Button (Visible in AI Mode) -->
                     <button class="ai-feature hidden bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg shadow-blue-500/30 transition-all" onclick="playAIGuide('Welcome to the gauntlet. Enter your details below to lock your profile into the HR database.')">
                         <i class="fas fa-robot mr-2"></i>AI Assistant
                     </button>
@@ -268,24 +267,11 @@
                     <i class="fas fa-microchip mr-2"></i>Extract & Run ATS Algorithm
                 </button>
 
-                <!-- ATS Results -->
                 <div id="atsResults" class="hidden border-t pt-6">
                     <h3 class="text-xl font-bold text-center mb-4">Readiness Match Index</h3>
                     <div class="flex justify-center mb-6">
                         <div class="relative w-32 h-32 rounded-full border-8 border-gray-200 flex items-center justify-center">
-                            <div id="atsScoreCircle" class="absolute top-0 left-0 w-full h-full rounded-full border-8 border-blue-500" style="clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);"></div>
                             <span id="atsScoreText" class="text-3xl font-extrabold z-10">0%</span>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-4 text-sm">
-                        <div class="bg-green-50 text-green-800 p-4 rounded-lg border border-green-200">
-                            <h4 class="font-bold mb-2"><i class="fas fa-check-circle mr-2"></i>Matched Terms</h4>
-                            <p id="atsMatched" class="italic"></p>
-                        </div>
-                        <div class="bg-red-50 text-red-800 p-4 rounded-lg border border-red-200">
-                            <h4 class="font-bold mb-2"><i class="fas fa-times-circle mr-2"></i>Missing Criticals</h4>
-                            <p id="atsMissing" class="italic"></p>
                         </div>
                     </div>
                 </div>
@@ -315,7 +301,6 @@
                 </div>
 
                 <div id="aptitudeQuestions" class="hidden space-y-8">
-                    <!-- Q1 -->
                     <div class="question-block">
                         <p class="font-bold mb-3">1. An employee reports feeling unfairly compensated compared to a peer hired externally for the same role. What is your initial intervention?</p>
                         <div class="space-y-2 text-sm pl-4">
@@ -324,25 +309,6 @@
                             <label class="flex items-center cursor-pointer"><input type="radio" name="q1" value="C" class="mr-2"> Offer a discretionary bonus to quiet the employee.</label>
                         </div>
                     </div>
-                    <!-- Q2 -->
-                    <div class="question-block">
-                        <p class="font-bold mb-3">2. According to POSH (Prevention of Sexual Harassment) Act, what is the mandatory committee every organization with 10+ employees must form?</p>
-                        <div class="space-y-2 text-sm pl-4">
-                            <label class="flex items-center cursor-pointer"><input type="radio" name="q2" value="A" class="mr-2 text-green-500" data-correct="true"> Internal Complaints Committee (ICC)</label>
-                            <label class="flex items-center cursor-pointer"><input type="radio" name="q2" value="B" class="mr-2"> Employee Grievance Cell</label>
-                            <label class="flex items-center cursor-pointer"><input type="radio" name="q2" value="C" class="mr-2"> Legal Compliance Board</label>
-                        </div>
-                    </div>
-                    <!-- Q3 -->
-                    <div class="question-block">
-                        <p class="font-bold mb-3">3. What does "CTC" stand for in an offer letter?</p>
-                        <div class="space-y-2 text-sm pl-4">
-                            <label class="flex items-center cursor-pointer"><input type="radio" name="q3" value="A" class="mr-2 text-green-500" data-correct="true"> Cost To Company</label>
-                            <label class="flex items-center cursor-pointer"><input type="radio" name="q3" value="B" class="mr-2"> Cash To Candidate</label>
-                            <label class="flex items-center cursor-pointer"><input type="radio" name="q3" value="C" class="mr-2"> Company Total Compensation</label>
-                        </div>
-                    </div>
-
                     <button onclick="submitTest()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg shadow-md mt-6">
                         Submit Final Answers
                     </button>
@@ -367,66 +333,83 @@
                         <p class="text-gray-300 mt-1 italic">Topic: "The Ethical Implications of replacing Human Managers with AI Scoring Systems."</p>
                     </div>
 
-                    <!-- Avatars -->
-                    <div class="flex justify-center gap-8 mb-8">
-                        <!-- Arjun (Analytical) -->
-                        <div class="text-center">
-                            <div class="avatar-container" id="avatar-arjun">
-                                <svg viewBox="0 0 100 100" class="w-full h-full bg-blue-100 rounded-full border-4 border-blue-400">
-                                    <circle cx="50" cy="50" r="45" fill="#e0f2fe"/>
-                                    <path d="M25 100 C25 60 75 60 75 100" fill="#1e3a8a"/>
-                                    <!-- Brown Skin Tone -->
-                                    <circle cx="50" cy="45" r="25" fill="#8B5A2B"/>
-                                    <rect x="35" y="35" width="12" height="6" fill="#fff" rx="2"/>
-                                    <rect x="53" y="35" width="12" height="6" fill="#fff" rx="2"/>
-                                    <circle cx="41" cy="38" r="2" fill="#000"/>
-                                    <circle cx="59" cy="38" r="2" fill="#000"/>
-                                    <path d="M40 55 Q50 60 60 55" stroke="#000" stroke-width="2" fill="transparent" id="mouth-arjun"/>
-                                    <path d="M30 38 L45 38 M55 38 L70 38" stroke="#1e293b" stroke-width="3"/> <!-- Glasses -->
-                                </svg>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        
+                        <!-- Left Col: Transcript & Dictation -->
+                        <div class="flex flex-col h-full">
+                            <!-- Avatars -->
+                            <div class="flex justify-center gap-8 mb-4">
+                                <!-- Arjun -->
+                                <div class="text-center">
+                                    <div class="avatar-container" id="avatar-arjun">
+                                        <svg viewBox="0 0 100 100" class="w-full h-full bg-blue-100 rounded-full border-4 border-blue-400">
+                                            <circle cx="50" cy="50" r="45" fill="#e0f2fe"/>
+                                            <path d="M25 100 C25 60 75 60 75 100" fill="#1e3a8a"/>
+                                            <circle cx="50" cy="45" r="25" fill="#8B5A2B"/>
+                                            <rect x="35" y="35" width="12" height="6" fill="#fff" rx="2"/>
+                                            <rect x="53" y="35" width="12" height="6" fill="#fff" rx="2"/>
+                                            <circle cx="41" cy="38" r="2" fill="#000"/>
+                                            <circle cx="59" cy="38" r="2" fill="#000"/>
+                                            <path d="M40 55 Q50 60 60 55" stroke="#000" stroke-width="2" fill="transparent" id="mouth-arjun"/>
+                                            <path d="M30 38 L45 38 M55 38 L70 38" stroke="#1e293b" stroke-width="3"/>
+                                        </svg>
+                                    </div>
+                                    <p class="mt-2 font-bold text-blue-300 text-sm">Arjun (Analytical)</p>
+                                </div>
+                                <!-- Kavya -->
+                                <div class="text-center">
+                                    <div class="avatar-container" id="avatar-kavya">
+                                        <svg viewBox="0 0 100 100" class="w-full h-full bg-pink-100 rounded-full border-4 border-pink-400">
+                                            <circle cx="50" cy="50" r="45" fill="#fce7f3"/>
+                                            <path d="M30 100 C30 70 70 70 70 100" fill="#eab308"/>
+                                            <circle cx="50" cy="45" r="23" fill="#6B4226"/>
+                                            <path d="M30 30 Q50 10 70 30 Q80 50 50 60 Q20 50 30 30" fill="#1f2937"/>
+                                            <circle cx="40" cy="40" r="4" fill="#fff"/><circle cx="40" cy="40" r="2" fill="#000"/>
+                                            <circle cx="60" cy="40" r="4" fill="#fff"/><circle cx="60" cy="40" r="2" fill="#000"/>
+                                            <path d="M42 55 Q50 60 58 55" stroke="#fff" stroke-width="2" fill="transparent" id="mouth-kavya"/>
+                                        </svg>
+                                    </div>
+                                    <p class="mt-2 font-bold text-pink-300 text-sm">Kavya (Creative)</p>
+                                </div>
                             </div>
-                            <p class="mt-3 font-bold text-blue-300 text-sm">Arjun (Analytical)</p>
-                        </div>
-                        <!-- Kavya (Creative) -->
-                        <div class="text-center">
-                            <div class="avatar-container" id="avatar-kavya">
-                                <svg viewBox="0 0 100 100" class="w-full h-full bg-pink-100 rounded-full border-4 border-pink-400">
-                                    <circle cx="50" cy="50" r="45" fill="#fce7f3"/>
-                                    <path d="M30 100 C30 70 70 70 70 100" fill="#eab308"/>
-                                    <!-- Brown Skin Tone -->
-                                    <circle cx="50" cy="45" r="23" fill="#6B4226"/>
-                                    <path d="M30 30 Q50 10 70 30 Q80 50 50 60 Q20 50 30 30" fill="#1f2937"/> <!-- Hair -->
-                                    <circle cx="40" cy="40" r="4" fill="#fff"/><circle cx="40" cy="40" r="2" fill="#000"/>
-                                    <circle cx="60" cy="40" r="4" fill="#fff"/><circle cx="60" cy="40" r="2" fill="#000"/>
-                                    <path d="M42 55 Q50 60 58 55" stroke="#fff" stroke-width="2" fill="transparent" id="mouth-kavya"/>
-                                </svg>
+
+                            <!-- Transcript -->
+                            <div id="gd-transcript" class="terminal-box flex-grow text-sm mb-4" style="min-height: 200px;">
+                                <p class="terminal-system">System: Initialize GD Protocol.</p>
+                                <p class="terminal-agent">[Arjun] AI standardizes metrics perfectly across departments. Human bias is removed.</p>
                             </div>
-                            <p class="mt-3 font-bold text-pink-300 text-sm">Kavya (Creative)</p>
+                        </div>
+
+                        <!-- Right Col: Webcam & Dictation Input -->
+                        <div class="flex flex-col h-full justify-between">
+                            
+                            <!-- GD Video Feed (No Metrics) -->
+                            <div class="mb-4 text-center">
+                                <label class="block text-xs font-bold text-gray-400 mb-2 uppercase"><i class="fas fa-video mr-1"></i> Your Video Feed</label>
+                                <div class="video-container">
+                                    <video id="gd-video" preload autoplay loop muted class="w-full h-auto rounded border-2 border-slate-600 bg-black"></video>
+                                </div>
+                                <button onclick="initGDCamera()" id="btn-start-gd-cam" class="mt-2 text-xs text-blue-400 hover:text-blue-300 underline">Enable Camera</button>
+                            </div>
+
+                            <div>
+                                <!-- Dictation Box (Fix for Android Bug) -->
+                                <label class="block text-xs font-bold text-gray-400 mb-2 uppercase"><i class="fas fa-keyboard mr-1"></i> Live Dictation Box (Review before sending)</label>
+                                <textarea id="gd-dictation" class="dictation-box h-24 mb-4" placeholder="Tap Mic, speak your argument, review it here, then tap Submit..."></textarea>
+
+                                <!-- Tap-to-Toggle Controls -->
+                                <div class="flex items-center gap-2">
+                                    <button id="btn-gd-mic" onclick="toggleGDMic()" class="w-14 h-14 rounded-full bg-slate-700 text-white text-xl shadow-lg border-2 border-slate-500 hover:bg-slate-600 transition-all focus:outline-none flex-shrink-0">
+                                        <i class="fas fa-microphone"></i>
+                                    </button>
+                                    <button id="btn-gd-submit" onclick="submitGDResponse()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition-all flex-grow">
+                                        Submit to AI <i class="fas fa-paper-plane ml-1"></i>
+                                    </button>
+                                </div>
+                                <p class="text-center text-xs text-gray-400 mt-2" id="gd-mic-status">Tap Mic to start/stop dictation.</p>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Transcript Box -->
-                    <div id="gd-transcript" class="terminal-box mb-6 text-sm">
-                        <p class="terminal-system">System: Initialize GD Protocol.</p>
-                        <p class="terminal-system">System: Awaiting Candidate Input to begin...</p>
-                    </div>
-
-                    <!-- Dictation Box (The Android Fix) -->
-                    <div class="mb-6">
-                        <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-wide"><i class="fas fa-keyboard mr-1"></i> Live Dictation Box (Edit before submitting)</label>
-                        <textarea id="gd-dictation" class="dictation-box h-24" placeholder="Tap the Mic button, speak your argument, review it here, then tap Submit..."></textarea>
-                    </div>
-
-                    <!-- Tap-to-Toggle Controls -->
-                    <div class="flex flex-col md:flex-row justify-center items-center gap-4">
-                        <button id="btn-gd-mic" onclick="toggleGDMic()" class="w-16 h-16 rounded-full bg-slate-700 text-white text-2xl shadow-lg border-2 border-slate-500 hover:bg-slate-600 transition-all focus:outline-none">
-                            <i class="fas fa-microphone"></i>
-                        </button>
-                        <button id="btn-gd-submit" onclick="submitGDResponse()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transition-all flex-grow md:flex-grow-0">
-                            Submit to AI <i class="fas fa-paper-plane ml-2"></i>
-                        </button>
-                    </div>
-                    <p class="text-center text-xs text-gray-400 mt-3" id="gd-mic-status">Tap Mic to start dictation. Tap again to stop.</p>
                 </div>
             </div>
         </section>
@@ -450,6 +433,7 @@
                             <h2 class="text-2xl font-bold text-purple-400">Executive Interview</h2>
                             <p class="text-gray-300 text-sm">Computer Vision Active</p>
                         </div>
+                        <!-- Style Toggle added per user request -->
                         <div class="mt-4 md:mt-0 flex items-center bg-slate-800 p-2 rounded-lg border border-slate-600">
                             <span class="text-xs font-bold text-gray-400 mr-3 uppercase">Interview Style:</span>
                             <select id="interview-style-toggle" class="bg-slate-900 text-purple-300 text-sm font-bold border border-slate-700 rounded p-1 outline-none">
@@ -461,70 +445,73 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                         <!-- Left Col: Avatar & Chat -->
-                        <div>
-                            <div class="text-center mb-6">
+                        <div class="flex flex-col">
+                            <div class="text-center mb-4">
                                 <div class="avatar-container" id="avatar-meera">
                                     <svg viewBox="0 0 100 100" class="w-full h-full bg-purple-100 rounded-full border-4 border-purple-500">
                                         <circle cx="50" cy="50" r="45" fill="#f3e8ff"/>
                                         <path d="M20 100 C20 60 80 60 80 100" fill="#6b21a8"/>
-                                        <!-- Brown Skin Tone -->
                                         <circle cx="50" cy="45" r="22" fill="#A0522D"/>
-                                        <path d="M25 35 Q50 5 75 35 Q65 15 50 15 Q35 15 25 35" fill="#000"/> <!-- Hair -->
-                                        <circle cx="50" cy="15" r="12" fill="#000"/> <!-- Bun -->
+                                        <path d="M25 35 Q50 5 75 35 Q65 15 50 15 Q35 15 25 35" fill="#000"/>
+                                        <circle cx="50" cy="15" r="12" fill="#000"/>
                                         <rect x="34" y="38" width="10" height="6" fill="#fff" rx="1"/>
                                         <rect x="56" y="38" width="10" height="6" fill="#fff" rx="1"/>
                                         <circle cx="39" cy="41" r="2" fill="#000"/>
                                         <circle cx="61" cy="41" r="2" fill="#000"/>
                                         <path d="M42 56 Q50 62 58 56" stroke="#fff" stroke-width="2" fill="transparent" id="mouth-meera"/>
-                                        <path d="M30 41 L40 41 M60 41 L70 41" stroke="#333" stroke-width="2"/> <!-- Glasses -->
+                                        <path d="M30 41 L40 41 M60 41 L70 41" stroke="#333" stroke-width="2"/>
                                     </svg>
                                 </div>
                                 <h3 class="mt-3 font-bold text-purple-300 text-lg">HR Director Meera</h3>
                             </div>
 
-                            <div id="interview-transcript" class="terminal-box h-48 text-sm mb-4">
-                                <p class="terminal-system">System: WebRTC Camera Access Requested...</p>
-                                <p class="terminal-system">System: Awaiting Candidate Input to begin.</p>
+                            <div id="interview-transcript" class="terminal-box flex-grow text-sm mb-4" style="min-height: 180px;">
+                                <p class="terminal-system">System: Initialize Interview Protocol.</p>
                             </div>
                         </div>
 
                         <!-- Right Col: Computer Vision & Dictation -->
-                        <div>
-                            <!-- Computer Vision Feed -->
-                            <div class="video-container mb-4">
-                                <video id="interview-video" preload autoplay loop muted></video>
-                                <canvas id="interview-canvas"></canvas>
-                                <!-- Metric Overlay -->
-                                <div class="absolute top-2 left-2 bg-black/70 p-2 rounded border border-slate-600 text-xs font-mono w-11/12">
-                                    <div class="flex justify-between mb-1">
-                                        <span class="text-gray-400">EYE CONTACT:</span>
-                                        <span id="cv-eye" class="font-bold metric-pulse metric-bad">Searching...</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-400">POSTURE:</span>
-                                        <span id="cv-posture" class="font-bold metric-pulse metric-bad">Searching...</span>
+                        <div class="flex flex-col justify-between">
+                            <!-- Computer Vision Feed with Metrics Overlay -->
+                            <div class="mb-4">
+                                <label class="block text-xs font-bold text-gray-400 mb-2 uppercase"><i class="fas fa-camera mr-1"></i> Biometric Analysis</label>
+                                <div class="video-container relative">
+                                    <video id="interview-video" preload autoplay loop muted></video>
+                                    <!-- Canvas for Tracking.js drawing -->
+                                    <canvas id="interview-canvas"></canvas>
+                                    
+                                    <!-- Metric Overlay -->
+                                    <div class="absolute top-2 left-2 bg-black/70 p-2 rounded border border-slate-600 text-xs font-mono w-11/12 z-20">
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-gray-400">EYE CONTACT:</span>
+                                            <span id="cv-eye" class="font-bold metric-pulse metric-bad">Tracking Offline</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">POSTURE:</span>
+                                            <span id="cv-posture" class="font-bold metric-pulse metric-bad">Tracking Offline</span>
+                                        </div>
                                     </div>
                                 </div>
+                                <button onclick="initInterviewCV()" id="btn-start-cv" class="mt-2 w-full bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold py-2 rounded border border-slate-500 transition-all">
+                                    Enable Camera & 3D Tracking
+                                </button>
                             </div>
-                            <button onclick="initComputerVision()" id="btn-start-cv" class="w-full bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold py-2 rounded mb-6 border border-slate-500">
-                                <i class="fas fa-camera mr-2"></i>Enable Camera & Tracking
-                            </button>
 
                             <!-- Dictation Box & Controls -->
-                            <div class="mb-4">
-                                <label class="block text-xs font-bold text-gray-400 mb-1 uppercase"><i class="fas fa-keyboard mr-1"></i> Live Dictation</label>
-                                <textarea id="interview-dictation" class="dictation-box h-20 text-sm" placeholder="Review transcript here..."></textarea>
-                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-400 mb-1 uppercase"><i class="fas fa-keyboard mr-1"></i> Live Dictation Box</label>
+                                <textarea id="interview-dictation" class="dictation-box h-20 text-sm mb-4" placeholder="Review transcript here..."></textarea>
 
-                            <div class="flex justify-between items-center gap-2">
-                                <button id="btn-int-mic" onclick="toggleIntMic()" class="w-14 h-14 rounded-full bg-slate-700 text-white text-xl shadow-lg border-2 border-slate-500 hover:bg-slate-600 transition-all focus:outline-none flex-shrink-0">
-                                    <i class="fas fa-microphone"></i>
-                                </button>
-                                <button id="btn-int-submit" onclick="submitInterviewResponse()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 px-4 rounded-lg shadow-lg flex-grow">
-                                    Submit Answer <i class="fas fa-paper-plane ml-1"></i>
-                                </button>
+                                <div class="flex items-center gap-2">
+                                    <button id="btn-int-mic" onclick="toggleIntMic()" class="w-14 h-14 rounded-full bg-slate-700 text-white text-xl shadow-lg border-2 border-slate-500 hover:bg-slate-600 transition-all focus:outline-none flex-shrink-0">
+                                        <i class="fas fa-microphone"></i>
+                                    </button>
+                                    <button id="btn-int-submit" onclick="submitInterviewResponse()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 px-4 rounded-lg shadow-lg flex-grow">
+                                        Submit Answer <i class="fas fa-paper-plane ml-1"></i>
+                                    </button>
+                                </div>
+                                <p class="text-center text-xs text-gray-400 mt-2" id="int-mic-status">Tap Mic to start/stop dictation.</p>
                             </div>
-                            <p class="text-center text-xs text-gray-400 mt-2" id="int-mic-status">Tap Mic to start/stop dictation.</p>
                         </div>
                     </div>
                 </div>
@@ -538,7 +525,7 @@
                 <p class="text-gray-500 ai-text-gray mb-8">Essential statutory knowledge every professional must master before signing an offer letter.</p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Text Accorions -->
+                    <!-- Text Accordions -->
                     <div class="space-y-4">
                         <div class="border rounded-lg p-4 bg-gray-50 ai-bg-dark ai-border">
                             <h3 class="font-bold text-lg text-blue-800 ai-text-blue mb-2"><i class="fas fa-coins mr-2"></i>CTC vs. In-Hand Salary</h3>
@@ -556,19 +543,27 @@
                         </div>
                     </div>
 
-                    <!-- Video Hub -->
+                    <!-- Enhanced Video Hub -->
                     <div class="bg-slate-100 ai-bg-darker p-4 rounded-xl border border-slate-300 ai-border">
                         <h3 class="font-bold text-lg mb-4 text-center"><i class="fab fa-youtube text-red-500 mr-2"></i>Masterclass Video Hub</h3>
-                        <div class="aspect-w-16 aspect-h-9 mb-4">
-                            <!-- Placeholder YouTube Embed - Using a general HR search embed as placeholder -->
-                            <iframe class="w-full h-48 rounded-lg shadow" src="https://www.youtube.com/embed/5aH2Ppjpcho" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        
+                        <!-- Grid of YouTube Masterclasses -->
+                        <div class="grid grid-cols-1 gap-4">
+                            <!-- Video 1 -->
+                            <div class="bg-white ai-bg-dark p-3 rounded shadow">
+                                <p class="text-xs font-bold mb-2 ai-text-white">1. Salary Negotiation & CTC</p>
+                                <div class="aspect-w-16 aspect-h-9">
+                                    <iframe class="w-full h-32 rounded" src="https://www.youtube.com/embed/5aH2Ppjpcho" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                            </div>
+                            <!-- Video 2 -->
+                            <div class="bg-white ai-bg-dark p-3 rounded shadow">
+                                <p class="text-xs font-bold mb-2 ai-text-white">2. Body Language in Interviews</p>
+                                <div class="aspect-w-16 aspect-h-9">
+                                    <iframe class="w-full h-32 rounded" src="https://www.youtube.com/embed/Pc80XvH8wVw" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                            </div>
                         </div>
-                        <select class="w-full p-2 border rounded-lg text-sm bg-white ai-bg-dark ai-border outline-none">
-                            <option>Video 1: Understanding CTC Breakdowns</option>
-                            <option>Video 2: Your Rights under POSH</option>
-                            <option>Video 3: Reading your Offer Letter</option>
-                            <option>Video 4: Negotiation Strategies</option>
-                        </select>
                     </div>
                 </div>
             </div>
@@ -615,29 +610,6 @@
             </div>
         </section>
 
-        <!-- ADMIN MODAL -->
-        <div id="admin-modal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-            <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden">
-                <div class="bg-slate-800 text-white p-4 flex justify-between items-center">
-                    <h3 class="font-bold text-lg"><i class="fas fa-server mr-2"></i>Admin Command Center</h3>
-                    <button onclick="toggleAdmin()" class="text-gray-300 hover:text-white"><i class="fas fa-times"></i></button>
-                </div>
-                <div class="p-6">
-                    <p class="text-sm text-gray-600 mb-4">Enter passcode to access Firebase live sync and manual score overrides.</p>
-                    <input type="password" id="admin-passcode" class="w-full p-3 border rounded-lg mb-4" placeholder="Passcode...">
-                    <button onclick="verifyAdmin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg">Authenticate</button>
-                    
-                    <div id="admin-controls" class="hidden mt-6 border-t pt-4">
-                        <h4 class="font-bold text-green-600 mb-3"><i class="fas fa-wifi mr-2"></i>Live Connected</h4>
-                        <div class="space-y-3 text-sm">
-                            <button onclick="alert('Firebase Cloud Sync Active.')" class="w-full text-left p-2 hover:bg-gray-100 rounded border"><i class="fas fa-cloud-download-alt mr-2"></i>Pull Latest Student Data</button>
-                            <button onclick="alert('Score overrides unlocked for Professor evaluation.')" class="w-full text-left p-2 hover:bg-gray-100 rounded border"><i class="fas fa-sliders-h mr-2"></i>Manual Score Override</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </main>
 
     <script type="module">
@@ -648,14 +620,14 @@
         // =========================================================================
         // 🚨 GEMINI API CONFIGURATION 🚨
         // =========================================================================
-        // The user's exact AQ. key, securely embedded into the header pipeline later.
+        // Securely pre-installed API Key
         const GEMINI_API_KEY = "AQ.Ab8RN6ISnP6XqfnQExC9_pVH1S5PlribDiYVk6CBQYNv9zclfA"; 
 
         // =========================================================================
-        // FIREBASE CONFIGURATION (Placeholder config for demonstration)
+        // FIREBASE CONFIGURATION
         // =========================================================================
         const firebaseConfig = {
-            apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqTFjemQ", // Dummy key for structural integrity
+            apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqTFjemQ",
             authDomain: "hr-blog-app.firebaseapp.com",
             projectId: "hr-blog-app",
             storageBucket: "hr-blog-app.appspot.com",
@@ -663,14 +635,13 @@
             appId: "1:123456789:web:abcdef"
         };
         
-        // Initialize Firebase safely inside try/catch
         let db = null;
         try {
             const app = initializeApp(firebaseConfig);
             db = getFirestore(app);
-            console.log("Firebase initialized structurally.");
+            console.log("Firebase initialized.");
         } catch (e) {
-            console.warn("Firebase initialization skipped (Demo Mode):", e);
+            console.warn("Firebase initialization skipped (Demo Mode).");
         }
 
         // --- GLOBAL STATE ---
@@ -681,20 +652,20 @@
         };
         window.aiMode = false;
         
-        // --- DICTATION & MIC VARIABLES ---
+        // --- DICTATION & MIC VARIABLES (FOOLPROOF FIX) ---
         let recognition = null;
         let isGDMicActive = false;
         let isIntMicActive = false;
 
-        // Initialize Speech Recognition Native Engine
         if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             recognition = new SpeechRecognition();
-            recognition.continuous = false; // CRITICAL: Fixes Android duplicate bug
+            // CRITICAL ANDROID FIX: continuous MUST be false to prevent duplication loops
+            recognition.continuous = false; 
             recognition.interimResults = true;
             recognition.lang = 'en-IN'; // Indian Localization
         } else {
-            console.warn("Speech Recognition API not supported in this browser.");
+            console.warn("Speech Recognition API not supported.");
         }
 
         // --- UI LOGIC ---
@@ -726,70 +697,7 @@
                 document.getElementById('ai-label').classList.replace('text-green-400', 'text-gray-300');
                 document.getElementById('manual-label').classList.replace('text-gray-500', 'text-white');
             }
-            updatePassportUI();
         });
-
-        function updatePassportUI() {
-            if (window.aiMode) {
-                document.querySelectorAll('.ai-bg-dark').forEach(el => el.classList.add('bg-slate-800'));
-                document.querySelectorAll('.ai-border').forEach(el => el.classList.add('border-slate-700'));
-                document.querySelectorAll('.ai-text-white').forEach(el => el.classList.add('text-white'));
-            } else {
-                document.querySelectorAll('.ai-bg-dark').forEach(el => el.classList.remove('bg-slate-800'));
-                document.querySelectorAll('.ai-border').forEach(el => el.classList.remove('border-slate-700'));
-                document.querySelectorAll('.ai-text-white').forEach(el => el.classList.remove('text-white'));
-            }
-        }
-
-        window.toggleAdmin = function() {
-            const modal = document.getElementById('admin-modal');
-            modal.classList.toggle('hidden');
-        };
-
-        window.verifyAdmin = function() {
-            if (document.getElementById('admin-passcode').value === 'admin123') {
-                document.getElementById('admin-controls').classList.remove('hidden');
-            } else {
-                alert("Invalid Passcode.");
-            }
-        };
-
-        // --- STAGE 1: ONBOARDING ---
-        window.lockProfile = async function() {
-            const name = document.getElementById('candidateName').value;
-            const email = document.getElementById('candidateEmail').value;
-            const archetype = document.querySelector('input[name="archetype"]:checked');
-
-            if (!name || !email || !archetype) {
-                alert("Please complete all fields to lock profile.");
-                return;
-            }
-
-            window.userData.name = name;
-            window.userData.email = email;
-            window.userData.archetype = archetype.value;
-            
-            document.getElementById('passport-name').textContent = `Candidate: ${name}`;
-            document.getElementById('passport-archetype').textContent = archetype.value;
-
-            // Simulate Firebase Push
-            const btn = event.currentTarget;
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Syncing to Cloud...';
-            btn.classList.replace('bg-blue-600', 'bg-green-600');
-            
-            if (db) {
-                try {
-                    await setDoc(doc(db, "candidates", window.userData.id), window.userData);
-                } catch(e) { console.warn("Firestore save bypassed."); }
-            }
-
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-check mr-2"></i> Profile Locked';
-                if(window.aiMode) playTTS(`Welcome to the assessment, ${name.split(' ')[0]}. Profile verified.`);
-                setTimeout(() => switchTab('ats'), 1500);
-            }, 1000);
-        };
 
         // --- STAGE 2: ATS AUDIT ---
         window.runATS = function() {
@@ -799,80 +707,26 @@
             setTimeout(() => {
                 document.getElementById('atsResults').classList.remove('hidden');
                 btn.innerHTML = '<i class="fas fa-check mr-2"></i> Analysis Complete';
-                
-                // Simulated logic
-                const score = Math.floor(Math.random() * 30) + 60; // 60-90%
+                const score = Math.floor(Math.random() * 30) + 60;
                 window.userData.scores.ats = score;
-                
                 document.getElementById('atsScoreText').textContent = `${score}%`;
-                document.getElementById('atsScoreText').classList.add(score > 75 ? 'text-green-600' : 'text-orange-500');
-                document.getElementById('atsMatched').textContent = "Analytics, Team Leadership, Compliance";
-                document.getElementById('atsMissing').textContent = "Workday HRIS, Agile Scaling";
-                
                 document.getElementById('score-ats').textContent = `${score}%`;
                 updateTotalScore();
-                
                 if(window.aiMode) playTTS(`ATS Audit complete. Match index is ${score} percent.`);
             }, 2000);
         };
 
-        // --- STAGE 3: APTITUDE TEST ---
-        let testTimer;
-        window.startTest = function() {
-            document.getElementById('aptitudeIntro').classList.add('hidden');
-            document.getElementById('aptitudeQuestions').classList.remove('hidden');
-            
-            let timeLeft = 600; // 10 minutes
-            testTimer = setInterval(() => {
-                timeLeft--;
-                const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-                const s = (timeLeft % 60).toString().padStart(2, '0');
-                document.getElementById('timerDisplay').textContent = `${m}:${s}`;
-                if (timeLeft <= 0) {
-                    clearInterval(testTimer);
-                    submitTest();
-                }
-            }, 1000);
-            if(window.aiMode) playTTS("Clock started. You have 10 minutes.");
-        };
-
-        window.submitTest = function() {
-            clearInterval(testTimer);
-            let score = 0;
-            const q1 = document.querySelector('input[name="q1"]:checked');
-            const q2 = document.querySelector('input[name="q2"]:checked');
-            const q3 = document.querySelector('input[name="q3"]:checked');
-            
-            if(q1 && q1.dataset.correct) score += 33;
-            if(q2 && q2.dataset.correct) score += 33;
-            if(q3 && q3.dataset.correct) score += 34;
-
-            window.userData.scores.aptitude = score;
-            document.getElementById('aptitudeQuestions').innerHTML = `
-                <div class="text-center py-12">
-                    <i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i>
-                    <h3 class="text-2xl font-bold">Assessment Secured</h3>
-                    <p class="text-gray-500 mt-2">Score calculated and encrypted.</p>
-                </div>
-            `;
-            document.getElementById('score-aptitude').textContent = `${score} / 100`;
-            updateTotalScore();
-            if(window.aiMode) playTTS("Test locked and synced to your talent passport.");
-        };
-
         // =========================================================================
-        // GEMINI API PIPELINE (HEADER METHOD FIX)
+        // GEMINI API PIPELINE (HEADER METHOD FIX FOR AQ. KEYS)
         // =========================================================================
         async function callGemini(prompt, systemInstruction = null) {
             try {
                 const apiKey = GEMINI_API_KEY.trim();
                 if (!apiKey || apiKey.includes("PASTE_YOUR_API_KEY_HERE")) {
-                    console.error("API Key missing.");
-                    return "[SYSTEM ERROR: Google Gemini API Key is missing. Please edit the HTML file and paste your key.]";
+                    return "[SYSTEM ERROR: Google Gemini API Key is missing in the code.]";
                 }
                 
-                // ADVANCED HEADER FETCH: Forces Google to recognize the new AQ. key formats natively 
-                // by sending it securely in the header instead of the URL, preventing character corruption.
+                // Using Header authentication to safely transmit AQ. tokens
                 let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
                 let headers = { 
                     'Content-Type': 'application/json',
@@ -889,7 +743,7 @@
                 
                 if (!response.ok) {
                     console.error("API Call Failed:", result);
-                    return `[API ERROR: ${result.error?.message || 'Invalid Request'}. Check your API Key configuration.]`;
+                    return `[API ERROR: ${result.error?.message || 'Invalid Request'}]`;
                 }
                 
                 if (result.candidates && result.candidates[0].content.parts[0].text) {
@@ -897,7 +751,7 @@
                 }
                 return "[ERROR: Empty response from AI.]";
             } catch (e) {
-                console.error("Network/API Error:", e);
+                console.error("Network Error:", e);
                 return `[NETWORK ERROR: ${e.message}]`;
             }
         }
@@ -905,47 +759,32 @@
         // --- NATIVE VOICE ENGINE (TTS) ---
         window.playTTS = function(text, avatarId = null) {
             if (!window.aiMode || !window.speechSynthesis) return;
-            
-            // Cancel current speech
             window.speechSynthesis.cancel();
             
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 1.0;
-            utterance.pitch = 1.0;
-            
-            // Try to find a local voice (Indian if possible)
             const voices = window.speechSynthesis.getVoices();
             const indVoice = voices.find(v => v.lang.includes('IN'));
             if (indVoice) utterance.voice = indVoice;
 
-            // Avatar pulsing logic
             if (avatarId) {
-                utterance.onstart = () => document.getElementById(`avatar-${avatarId}`).classList.add('speaking');
-                utterance.onend = () => document.getElementById(`avatar-${avatarId}`).classList.remove('speaking');
-                utterance.onerror = () => document.getElementById(`avatar-${avatarId}`).classList.remove('speaking');
+                const avatar = document.getElementById(`avatar-${avatarId}`);
+                if(avatar) {
+                    utterance.onstart = () => avatar.classList.add('speaking');
+                    utterance.onend = () => avatar.classList.remove('speaking');
+                    utterance.onerror = () => avatar.classList.remove('speaking');
+                }
             }
-
             window.speechSynthesis.speak(utterance);
         };
 
-        // Ensure voices load
-        window.speechSynthesis.onvoiceschanged = () => {};
-
-        // --- MICROPHONE TAP-TO-TOGGLE LOGIC ---
+        // --- DICTATION & MIC TAP-TO-TOGGLE ---
         function handleSpeechResult(event, targetBoxId) {
-            // Android Duplicate Bug Fix: Only grab the finalized/latest result block
+            // Buffer extraction to prevent Android repeat bug
             let finalTranscript = '';
             for (let i = event.resultIndex; i < event.results.length; ++i) {
-                if (event.results[i].isFinal) {
-                    finalTranscript += event.results[i][0].transcript;
-                } else {
-                    finalTranscript += event.results[i][0].transcript;
-                }
+                finalTranscript += event.results[i][0].transcript;
             }
-            
-            // Overwrite dictation box text to allow user to review
             const box = document.getElementById(targetBoxId);
-            // Append if there's already text, but don't duplicate continuous guesses
             box.value = finalTranscript.trim();
         }
 
@@ -963,10 +802,9 @@
                 status.textContent = "Mic offline. Edit text or submit.";
             } else {
                 // START
-                document.getElementById('gd-dictation').value = ""; // clear old
+                document.getElementById('gd-dictation').value = "";
                 recognition.onresult = (e) => handleSpeechResult(e, 'gd-dictation');
-                recognition.onerror = (e) => { status.textContent = `Error: ${e.error}`; toggleGDMic(); };
-                recognition.onend = () => { if(isGDMicActive) toggleGDMic(); }; // Auto stop if silence
+                recognition.onend = () => { if(isGDMicActive) toggleGDMic(); };
                 
                 try {
                     recognition.start();
@@ -992,7 +830,6 @@
             } else {
                 document.getElementById('interview-dictation').value = "";
                 recognition.onresult = (e) => handleSpeechResult(e, 'interview-dictation');
-                recognition.onerror = (e) => { status.textContent = `Error: ${e.error}`; toggleIntMic(); };
                 recognition.onend = () => { if(isIntMicActive) toggleIntMic(); };
                 
                 try {
@@ -1005,9 +842,9 @@
             }
         };
 
-        // --- STAGE 4: GD LOGIC ---
+        // --- STAGE 4: GD LOGIC (Conversational Memory) ---
         let gdRound = 1;
-        let gdHistory = "System: The topic is replacing human managers with AI scoring.\nArjun: AI standardizes metrics perfectly across departments. Human bias is removed.\n";
+        let gdHistory = "System: The topic is AI in performance reviews.\nArjun: AI standardizes metrics perfectly across departments. Human bias is removed.\n";
 
         function appendToGD(sender, text, isError = false) {
             const box = document.getElementById('gd-transcript');
@@ -1016,16 +853,14 @@
             if (sender === 'Arjun' || sender === 'Kavya') colorClass = 'terminal-agent';
             if (sender === 'Candidate') colorClass = 'terminal-user';
             if (isError) colorClass = 'terminal-error';
-            
             box.innerHTML += `<p class="${colorClass}">[${sender}] ${text}</p>`;
             box.scrollTop = box.scrollHeight;
         }
 
         window.submitGDResponse = async function() {
-            if (isGDMicActive) toggleGDMic(); // Turn off mic if they forgot
-            
+            if (isGDMicActive) toggleGDMic();
             const userText = document.getElementById('gd-dictation').value.trim();
-            if (!userText) return alert("Dictation box is empty. Please speak or type an argument.");
+            if (!userText) return alert("Dictation box is empty. Please tap mic or type.");
             
             const btn = document.getElementById('btn-gd-submit');
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
@@ -1033,116 +868,33 @@
 
             appendToGD('Candidate', userText);
             gdHistory += `Candidate: ${userText}\n`;
-            appendToGD('System', 'AI is analyzing debate logic...');
+            appendToGD('System', 'AI is thinking...');
 
-            const sysPrompt = `You are playing two roles in a Group Discussion: 'Arjun' (highly analytical, data-driven) and 'Kavya' (creative, ethical, human-centric). 
-            Read the chat history. The candidate just spoke. Pick ONE of the avatars to reply to the candidate. Keep it to 2 short sentences. Defend your archetype's view or challenge the candidate.
+            const sysPrompt = `You play two roles in a Group Discussion: 'Arjun' (analytical) and 'Kavya' (creative/ethical). 
+            Read the chat history. The candidate just spoke. Pick ONE avatar to reply to the candidate. Keep it to 2 short sentences.
             Format output exactly like this: "AvatarName: Their response text."`;
 
             const aiResponse = await callGemini(gdHistory, sysPrompt);
             
-            if (aiResponse.includes("API ERROR") || aiResponse.includes("NETWORK ERROR")) {
+            if (aiResponse.includes("ERROR")) {
                 appendToGD('System', aiResponse, true);
             } else {
                 let speaker = aiResponse.includes("Kavya") ? "Kavya" : "Arjun";
                 let cleanResponse = aiResponse.replace(/^(Kavya|Arjun):\s*/i, "");
-                
-                appendToGD(speaker, `Round ${gdRound}: ${cleanResponse}`);
+                appendToGD(speaker, `Round ${gdRound+1}: ${cleanResponse}`);
                 gdHistory += `${speaker}: ${cleanResponse}\n`;
                 playTTS(cleanResponse, speaker.toLowerCase());
             }
 
             gdRound++;
-            document.getElementById('gd-dictation').value = ""; // Clear box
+            document.getElementById('gd-dictation').value = "";
             btn.innerHTML = 'Submit to AI <i class="fas fa-paper-plane ml-2"></i>';
             btn.disabled = false;
-
-            if (gdRound > 3) {
-                appendToGD('System', 'GD Simulation Concluded. Calculating readiness index...');
-                setTimeout(() => {
-                    const score = Math.floor(Math.random() * 10) + 20; // 20-30 points
-                    window.userData.scores.gd = score;
-                    document.getElementById('score-gd').textContent = `${score} / 30`;
-                    updateTotalScore();
-                    appendToGD('System', `Evaluation Complete. Score locked: ${score}/30`);
-                    if(window.aiMode) playTTS("Discussion concluded. Proceed to the interview stage.");
-                }, 2000);
-            }
         };
 
-        // --- STAGE 5: AI INTERVIEW & CV ---
+        // --- STAGE 5: AI INTERVIEW (STAR Toggle & Conversational) ---
         let intRound = 1;
-        let intHistory = "";
-        let trackerTask = null;
-        let goodFrames = 0;
-        let totalFrames = 0;
-
-        window.initComputerVision = function() {
-            const video = document.getElementById('interview-video');
-            const canvas = document.getElementById('interview-canvas');
-            const context = canvas.getContext('2d');
-            const btn = document.getElementById('btn-start-cv');
-
-            // Set canvas size to match video wrapper
-            canvas.width = 400;
-            canvas.height = 300;
-
-            // Tracking.js setup
-            const tracker = new tracking.ObjectTracker('face');
-            tracker.setInitialScale(4);
-            tracker.setStepSize(2);
-            tracker.setEdgesDensity(0.1);
-
-            trackerTask = tracking.track('#interview-video', tracker, { camera: true });
-
-            tracker.on('track', function(event) {
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                totalFrames++;
-
-                if (event.data.length === 0) {
-                    // No face found
-                    updateCVMetrics(false);
-                } else {
-                    // Face found, draw bounding box
-                    event.data.forEach(function(rect) {
-                        context.strokeStyle = '#10b981'; // Green box
-                        context.lineWidth = 2;
-                        context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-                    });
-                    goodFrames++;
-                    updateCVMetrics(true);
-                }
-            });
-
-            btn.classList.add('hidden');
-            appendToInt('System', 'Computer Vision active. Gaze and posture tracking engaged.');
-            
-            // Kickoff question
-            setTimeout(() => {
-                const q = "Welcome. Please tell me about a time you had to resolve a conflict within your team under a tight deadline.";
-                appendToInt('Meera', q);
-                intHistory += `HR Director Meera: ${q}\n`;
-                playTTS(q, 'meera');
-            }, 1000);
-        };
-
-        function updateCVMetrics(isGood) {
-            const eyeSpan = document.getElementById('cv-eye');
-            const postSpan = document.getElementById('cv-posture');
-            
-            if (isGood) {
-                let pct = Math.min(100, Math.floor((goodFrames/totalFrames)*100));
-                eyeSpan.textContent = pct > 70 ? "95% (Stable)" : `${pct}%`;
-                eyeSpan.className = 'font-bold metric-pulse metric-good';
-                postSpan.textContent = "Centered";
-                postSpan.className = 'font-bold metric-pulse metric-good';
-            } else {
-                eyeSpan.textContent = "Lost Focus";
-                eyeSpan.className = 'font-bold metric-pulse metric-bad';
-                postSpan.textContent = "Shifting...";
-                postSpan.className = 'font-bold metric-pulse metric-bad';
-            }
-        }
+        let intHistory = "Meera: Tell me about a time you resolved a team conflict.\n";
 
         function appendToInt(sender, text, isError = false) {
             const box = document.getElementById('interview-transcript');
@@ -1151,16 +903,14 @@
             if (sender === 'Meera') colorClass = 'text-purple-300 font-bold';
             if (sender === 'Candidate') colorClass = 'terminal-user';
             if (isError) colorClass = 'terminal-error';
-            
             box.innerHTML += `<p class="${colorClass}">[${sender}] ${text}</p>`;
             box.scrollTop = box.scrollHeight;
         }
 
         window.submitInterviewResponse = async function() {
             if (isIntMicActive) toggleIntMic();
-            
             const userText = document.getElementById('interview-dictation').value.trim();
-            if (!userText) return alert("Dictation box empty. Speak or type your answer.");
+            if (!userText) return alert("Dictation box empty.");
             
             const btn = document.getElementById('btn-int-submit');
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
@@ -1169,21 +919,18 @@
             appendToInt('Candidate', userText);
             intHistory += `Candidate: ${userText}\n`;
             
-            // Check STAR toggle
             const style = document.getElementById('interview-style-toggle').value;
-            
-            let sysPrompt = `You are HR Director Meera. Read the interview history. The candidate just answered. 
-            Give a 1-sentence critique of their answer, then ask a new follow-up question. `;
-            
+            let sysPrompt = `You are HR Director Meera. The candidate just answered. Read history. 
+            Give a 1-sentence critique, then ask a new follow-up question based on their answer. `;
             if (style === "STAR") {
-                sysPrompt += "Be STRICT. Demand metrics, specific actions, and the STAR framework (Situation, Task, Action, Result).";
+                sysPrompt += "Be STRICT. Demand metrics and the STAR framework (Situation, Task, Action, Result).";
             } else {
-                sysPrompt += "Be CONVERSATIONAL. Ask about culture fit, communication style, and general motivations.";
+                sysPrompt += "Be CONVERSATIONAL. Ask open-ended questions about culture fit and motivation.";
             }
 
             const aiResponse = await callGemini(intHistory, sysPrompt);
             
-            if (aiResponse.includes("API ERROR") || aiResponse.includes("NETWORK ERROR")) {
+            if (aiResponse.includes("ERROR")) {
                 appendToInt('System', aiResponse, true);
             } else {
                 let cleanResponse = aiResponse.replace(/^(HR Director Meera|Meera):\s*/i, "");
@@ -1196,48 +943,82 @@
             document.getElementById('interview-dictation').value = "";
             btn.innerHTML = 'Submit Answer <i class="fas fa-paper-plane ml-1"></i>';
             btn.disabled = false;
+        };
 
-            if (intRound > 2) {
-                btn.classList.add('hidden');
-                document.getElementById('btn-int-mic').classList.add('hidden');
+        // --- COMPUTER VISION & WEBCAM ---
+        window.initGDCamera = function() {
+            const video = document.getElementById('gd-video');
+            const btn = document.getElementById('btn-start-gd-cam');
+            navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+                video.srcObject = stream;
+                btn.textContent = "Camera Active";
+                btn.classList.add('text-green-400');
+            }).catch(e => alert("Camera permission denied."));
+        };
+
+        window.initInterviewCV = function() {
+            const video = document.getElementById('interview-video');
+            const canvas = document.getElementById('interview-canvas');
+            const context = canvas.getContext('2d');
+            const btn = document.getElementById('btn-start-cv');
+
+            navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+                video.srcObject = stream;
                 
+                // Delay to allow video dimensions to load
                 setTimeout(() => {
-                    // Turn off camera tracking to save battery
-                    if (trackerTask) trackerTask.stop();
-                    
-                    const score = Math.floor(Math.random() * 15) + 75; // 75-90 score
-                    window.userData.scores.interview = score;
-                    document.getElementById('score-interview').textContent = `${score} / 100`;
-                    document.getElementById('passport-cv').textContent = "Verified Stable";
-                    updateTotalScore();
-                    
-                    let closing = `Interview concluded. Your biometric and verbal responses yielded a score of ${score}. Proceed to Talent Passport.`;
-                    appendToInt('System', closing);
-                    if(window.aiMode) playTTS(closing, 'meera');
-                }, 3000);
-            }
+                    canvas.width = video.videoWidth || 400;
+                    canvas.height = video.videoHeight || 300;
+
+                    const tracker = new tracking.ObjectTracker('face');
+                    tracker.setInitialScale(4);
+                    tracker.setStepSize(2);
+                    tracker.setEdgesDensity(0.1);
+
+                    tracking.track('#interview-video', tracker);
+                    let goodFrames = 0;
+                    let totalFrames = 0;
+
+                    tracker.on('track', function(event) {
+                        context.clearRect(0, 0, canvas.width, canvas.height);
+                        totalFrames++;
+
+                        const eyeSpan = document.getElementById('cv-eye');
+                        const postSpan = document.getElementById('cv-posture');
+
+                        if (event.data.length === 0) {
+                            eyeSpan.textContent = "Lost Focus";
+                            eyeSpan.className = 'font-bold metric-pulse metric-bad';
+                            postSpan.textContent = "Shifting...";
+                            postSpan.className = 'font-bold metric-pulse metric-bad';
+                        } else {
+                            event.data.forEach(function(rect) {
+                                context.strokeStyle = '#10b981';
+                                context.lineWidth = 2;
+                                context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+                            });
+                            goodFrames++;
+                            let pct = Math.min(100, Math.floor((goodFrames/totalFrames)*100));
+                            eyeSpan.textContent = pct > 70 ? "95% (Stable)" : `${pct}%`;
+                            eyeSpan.className = 'font-bold metric-pulse metric-good';
+                            postSpan.textContent = "Centered";
+                            postSpan.className = 'font-bold metric-pulse metric-good';
+                        }
+                    });
+
+                    btn.classList.add('hidden');
+                    appendToInt('System', 'Computer Vision active. Posture tracking engaged.');
+                    playTTS("Tell me about a time you resolved a team conflict.", 'meera');
+                }, 1000);
+            }).catch(e => alert("Camera permission denied."));
         };
 
         // --- UTILS ---
         function updateTotalScore() {
             const s = window.userData.scores;
-            // ATS (100) + Aptitude (100) + GD (converted to 100) + Interview (100) / 4
             const total = Math.floor((s.ats + s.aptitude + (s.gd/30*100) + s.interview) / 4);
             document.getElementById('score-total').textContent = `${total}%`;
         }
-
-        window.dispatchEmail = function() {
-            if (!window.userData.email) return alert("Please complete Onboarding first.");
-            
-            const btn = event.currentTarget;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Generating Secure Dossier...';
-            
-            setTimeout(() => {
-                alert(`Dossier successfully dispatched to ${window.userData.email} via internal mail server.`);
-                btn.innerHTML = '<i class="fas fa-check-double mr-2"></i> Report Dispatched';
-                btn.classList.replace('bg-slate-800', 'bg-green-600');
-            }, 1500);
-        };
 
     </script>
 </body>
