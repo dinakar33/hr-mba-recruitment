@@ -41,7 +41,6 @@ body.admin-mode .admin-login-btn { display: none; }
 body.admin-mode .admin-only-flex { display: flex; }
 .touch-manipulation { touch-action: manipulation; }
 
-/* AI Dark Mode Styles */
 body.ai-mode { background-color: #0f172a; color: #f1f5f9; }
 body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgba(51, 65, 85, 0.8); color: #f8fafc; }
 body.ai-mode h2, body.ai-mode h3, body.ai-mode p, body.ai-mode span, body.ai-mode label { color: #f8fafc !important; }
@@ -569,19 +568,21 @@ let unsubscribeAdmin = null;
 // Biometric Memory Arrays
 window.bioMetrics = { eyeContact: [], stress: [] };
 
-// --- GEMINI LIVE CONVERSATIONAL ENGINE (FIXED SECURE HEADER) ---
+// --- GEMINI LIVE CONVERSATIONAL ENGINE ---
 async function callGemini(prompt, systemInstruction = null) {
     try {
         if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("PASTE_YOUR_API_KEY_HERE")) {
             console.error("API Key missing.");
-            return "[SYSTEM ERROR: Google Gemini API Key is missing.]";
+            return "[SYSTEM ERROR: Google Gemini API Key is missing. Please edit the HTML file and paste your key on line 369.]";
         }
         
-        // Setup API URL and Headers securely
         let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
+        
+        // THE FIX: Do NOT use Authorization: Bearer. 
+        // Pass the key securely via x-goog-api-key to prevent special character URL corruption.
         let headers = { 
             'Content-Type': 'application/json',
-            'x-goog-api-key': GEMINI_API_KEY // Secure Header Method
+            'x-goog-api-key': GEMINI_API_KEY
         };
 
         const payload = { contents: [{ parts: [{ text: prompt }] }] };
@@ -786,8 +787,6 @@ guide.classList.remove('visible'); window.speechSynthesis.cancel(); window.activ
 }
 
 // -------------------------------------------------------------
-// MOBILE TOUCH & DICTATION ENGINE (FIXED)
-// -------------------------------------------------------------
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = null;
 let activeInputBox = null;
@@ -965,7 +964,6 @@ window.autoAdvanceTab('tab-test', 'tab-gd', 'Cognitive Aptitude Test');
 document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
 }
 
-// --- CONVERSATIONAL GD ENGINE ---
 let currentGDRound = 1; let totalGDRounds = 5; let gdHistory = "";
 async function setSpeaker(id, name, text, voiceType, pitch, rate) {
 window.activeSpeaker = id; document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
@@ -1036,7 +1034,6 @@ if(currentGDRound <= totalGDRounds) {
 }
 }
 
-// --- TRUE CV TRACKING (WEBCAM) ---
 let webcamStream = null; 
 function startRealFaceTracking() {
     try {
@@ -1109,7 +1106,6 @@ function initWebcamStream() {
     }
 }
 
-// --- CONVERSATIONAL INTERVIEW ENGINE ---
 let interviewStep = 0; let intHistory = "";
 
 window.interviewMethod = 'star';
