@@ -154,6 +154,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 <button onclick="window.switchTab('tab-passport', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-id-card mr-2"></i>Talent Passport</button>
 <button onclick="window.switchTab('tab-rights', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-scale-balanced mr-2"></i>Labor Rights</button>
 <button onclick="window.switchTab('tab-about', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-book-open mr-2"></i>Academic Modules</button>
+<button onclick="window.switchTab('tab-quiz', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-dumbbell mr-2"></i>Practice Quizzes</button>
 </nav>
 </div>
 </div>
@@ -636,6 +637,29 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
     </div>
   </div>
 </div>
+</section>
+
+<!-- NEW OPTIONAL PRACTICE QUIZ SECTION -->
+<section id="tab-quiz" class="tab-content">
+  <div class="mb-8">
+    <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Optional Practice Zone</h2>
+    <p class="text-slate-500 mt-2 text-lg">Test your knowledge on each module. These quizzes are strictly for practice, provide instant feedback, and do <strong class="text-red-500">NOT</strong> affect your official Talent Passport.</p>
+  </div>
+  
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
+     <button id="btn-quiz-onboarding" onclick="window.loadPracticeQuiz('onboarding')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-4 rounded-lg transition shadow-sm text-sm"><i class="fa-solid fa-user-plus text-blue-500 mb-1 block text-lg"></i> Onboarding</button>
+     <button id="btn-quiz-ats" onclick="window.loadPracticeQuiz('ats')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-4 rounded-lg transition shadow-sm text-sm"><i class="fa-solid fa-file-pdf text-indigo-500 mb-1 block text-lg"></i> ATS Audit</button>
+     <button id="btn-quiz-aptitude" onclick="window.loadPracticeQuiz('aptitude')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-4 rounded-lg transition shadow-sm text-sm"><i class="fa-solid fa-stopwatch text-purple-500 mb-1 block text-lg"></i> Aptitude</button>
+     <button id="btn-quiz-gd" onclick="window.loadPracticeQuiz('gd')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-4 rounded-lg transition shadow-sm text-sm"><i class="fa-solid fa-users text-amber-500 mb-1 block text-lg"></i> Virtual GD</button>
+     <button id="btn-quiz-interview" onclick="window.loadPracticeQuiz('interview')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-4 rounded-lg transition shadow-sm text-sm"><i class="fa-solid fa-microphone-lines text-brand-500 mb-1 block text-lg"></i> AI Interview</button>
+  </div>
+  
+  <div id="practiceQuizContainer" class="glass-card p-8 rounded-xl shadow-md min-h-[300px] border-t-4 border-t-slate-400">
+     <div class="text-center text-slate-400 mt-10">
+       <i class="fa-solid fa-hand-pointer text-4xl mb-4 block"></i>
+       <p class="font-medium text-lg">Select a module above to load practice questions.</p>
+     </div>
+  </div>
 </section>
 
 </main>
@@ -1348,14 +1372,12 @@ if (interviewStep < 5) {
     let finalScoreStr = await callGemini(evalPrompt);
     let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (82 + Math.floor(Math.random() * 15)); 
     
-    // AUTOMATED PUBLISHING LOGIC
     window.userData.interview_score = score; 
     window.userData.published = true; 
     await syncToCloud(); 
     
     window.updatePassportUI();
     
-    // AUTO EMAIL DISPATCH TRIGGER
     setTimeout(() => {
         window.emailDetailedReport();
     }, 1200);
@@ -1375,7 +1397,6 @@ document.getElementById('passInterview').innerText = `${window.userData.intervie
 let t = Math.round((window.userData.ats_score + window.userData.test_score + ((window.userData.gd_score/30)*100) + window.userData.interview_score) / 4); 
 document.getElementById('passTotal').innerText = `${t || 0}%`;
 
-// AUTO-UNLOCK ON PUBLISHED OR ADMIN
 if (window.userData.published || window.isAdmin) { 
     document.getElementById('passportLock').classList.add('hidden'); 
     document.getElementById('passportContent').classList.remove('hidden'); 
@@ -1414,6 +1435,111 @@ b += `As an assigned ${window.userData.archetype}, focus on leveraging your prim
 b += `Best regards,\nHR Academic & Executive Assessment Team`;
 
 window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=${encodeURIComponent(b)}`, '_blank');
+}
+
+// --- OPTIONAL PRACTICE ZONE LOGIC ---
+const practiceQuizzes = {
+  onboarding: {
+    title: "Onboarding & Psychometrics",
+    icon: "fa-user-plus",
+    color: "blue",
+    questions: [
+      { q: "Which behavioral framework categorizes individuals into Dominance, Influence, Steadiness, and Conscientiousness?", options: ["Big Five", "Myers-Briggs", "DISC", "Johari Window"], ans: 2 },
+      { q: "In archetype profiling, a 'Strategist' relies most heavily on:", options: ["Emotional consensus", "Data and frameworks", "Aggressive timelines", "Disruptive ideation"], ans: 1 },
+      { q: "The 'Halo Effect' in candidate evaluation refers to:", options: ["Focusing only on negative traits", "Allowing one positive trait to overshadow others", "Rating everyone as average", "Comparing candidates to each other"], ans: 1 }
+    ]
+  },
+  ats: {
+    title: "Enterprise ATS Audit",
+    icon: "fa-file-pdf",
+    color: "indigo",
+    questions: [
+      { q: "In ATS parsing, what does TF-IDF stand for?", options: ["Target Frequency-Inverse Document Frequency", "Term Frequency-Inverse Document Frequency", "Text Format-Internal Data File", "Total Fields-Integrated Data Format"], ans: 1 },
+      { q: "Which format is universally considered the safest for ATS algorithms to parse without data loss?", options: ["Standard PDF or DOCX", "JPEG", "Canva Graphic Portfolios", "Encrypted Zip"], ans: 0 },
+      { q: "A 'False Negative' in an ATS audit occurs when:", options: ["An unqualified candidate passes", "A qualified candidate is rejected due to formatting", "The system crashes", "Keywords are highlighted correctly"], ans: 1 }
+    ]
+  },
+  aptitude: {
+    title: "Cognitive Aptitude",
+    icon: "fa-stopwatch",
+    color: "purple",
+    questions: [
+      { q: "If a company has 200 employees and 20 leave over a year, what is the annual turnover rate?", options: ["5%", "10%", "15%", "20%"], ans: 1 },
+      { q: "What does 'Decision Velocity' primarily measure in executive assessments?", options: ["Accuracy of decisions", "Speed of making decisions under pressure", "Popularity of the decision", "Cost of the decision"], ans: 1 },
+      { q: "Which tool is best used to map the hierarchical reporting structure of an organization?", options: ["Gantt Chart", "Venn Diagram", "Organogram", "Scatter Plot"], ans: 2 }
+    ]
+  },
+  gd: {
+    title: "Virtual Group Dynamics",
+    icon: "fa-users",
+    color: "amber",
+    questions: [
+      { q: "According to Tuckman's stages of group development, which stage involves initial conflict and power struggles?", options: ["Forming", "Storming", "Norming", "Performing"], ans: 1 },
+      { q: "In a GD, 'active listening' is best demonstrated by:", options: ["Interrupting to show engagement", "Looking at your notes", "Synthesizing and building upon a peer's previous point", "Speaking the loudest"], ans: 2 },
+      { q: "The Thomas-Kilmann Conflict Mode Instrument identifies 'Collaborating' as:", options: ["High assertiveness, high cooperativeness", "Low assertiveness, low cooperativeness", "High assertiveness, low cooperativeness", "Low assertiveness, high cooperativeness"], ans: 0 }
+    ]
+  },
+  interview: {
+    title: "AI Behavioral Interview",
+    icon: "fa-microphone-lines",
+    color: "brand",
+    questions: [
+      { q: "In the STAR interview method, what does the 'A' stand for?", options: ["Attitude", "Action", "Assessment", "Accountability"], ans: 1 },
+      { q: "When an HR Director asks a behavioral question, they are operating on the premise that:", options: ["Past behavior predicts future behavior", "Technical skills outrank soft skills", "Hypothetical situations are best", "Resumes are usually fabricated"], ans: 0 },
+      { q: "Which metric is a biometric algorithm most likely tracking during a video interview?", options: ["Typing speed", "Visual focus (Eye Contact) & Posture", "Internet bandwidth", "Audio volume"], ans: 1 }
+    ]
+  }
+};
+
+window.loadPracticeQuiz = function(category) {
+  document.querySelectorAll('.quiz-btn').forEach(b => b.classList.remove('ring-4', 'ring-offset-2', 'ring-brand-500'));
+  document.getElementById(`btn-quiz-${category}`).classList.add('ring-4', 'ring-offset-2', 'ring-brand-500');
+  
+  const data = practiceQuizzes[category];
+  const container = document.getElementById('practiceQuizContainer');
+  
+  let html = `<div class="mb-6 border-b border-gray-200 pb-4"><h3 class="text-2xl font-bold text-slate-800"><i class="fa-solid ${data.icon} text-${data.color}-500 mr-2"></i>${data.title} Practice</h3><p class="text-sm text-slate-500">Select the correct answers below. Instant feedback is provided.</p></div><div class="space-y-6">`;
+  
+  data.questions.forEach((item, qIndex) => {
+    html += `<div class="bg-slate-50 p-5 rounded-xl border border-slate-200"><p class="font-bold text-slate-800 mb-3">${qIndex + 1}. ${item.q}</p><div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="quiz-opts-${category}-${qIndex}">`;
+    
+    item.options.forEach((opt, oIndex) => {
+      html += `<button onclick="window.checkPracticeAnswer('${category}', ${qIndex}, ${oIndex}, ${item.ans}, this)" class="text-left px-4 py-3 rounded-lg border border-slate-300 bg-white hover:bg-brand-50 transition text-sm font-medium text-slate-700 w-full">${opt}</button>`;
+    });
+    
+    html += `</div><div id="quiz-feedback-${category}-${qIndex}" class="mt-3 text-sm font-bold hidden"></div></div>`;
+  });
+  
+  html += `</div>`;
+  container.innerHTML = html;
+}
+
+window.checkPracticeAnswer = function(category, qIndex, selectedOpt, correctOpt, btnEl) {
+   const parent = document.getElementById(`quiz-opts-${category}-${qIndex}`);
+   const buttons = parent.querySelectorAll('button');
+   const feedback = document.getElementById(`quiz-feedback-${category}-${qIndex}`);
+   
+   buttons.forEach(b => {
+       b.disabled = true;
+       b.classList.remove('hover:bg-brand-50', 'cursor-pointer');
+       b.classList.add('opacity-70', 'cursor-not-allowed');
+   });
+   
+   if (selectedOpt === correctOpt) {
+       btnEl.classList.remove('bg-white', 'border-slate-300');
+       btnEl.classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'ring-2', 'ring-green-500', 'opacity-100');
+       feedback.innerHTML = `<i class="fa-solid fa-check-circle text-green-600 mr-1"></i> Correct!`;
+       feedback.classList.remove('hidden', 'text-red-600');
+       feedback.classList.add('text-green-600');
+   } else {
+       btnEl.classList.remove('bg-white', 'border-slate-300', 'opacity-70');
+       btnEl.classList.add('bg-red-100', 'border-red-500', 'text-red-800', 'opacity-100');
+       buttons[correctOpt].classList.remove('bg-white', 'border-slate-300', 'opacity-70');
+       buttons[correctOpt].classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'opacity-100');
+       feedback.innerHTML = `<i class="fa-solid fa-times-circle text-red-600 mr-1"></i> Incorrect.`;
+       feedback.classList.remove('hidden', 'text-green-600');
+       feedback.classList.add('text-red-600');
+   }
 }
 
 window.addEventListener('load', () => {
