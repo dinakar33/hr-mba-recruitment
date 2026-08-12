@@ -152,6 +152,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 <button onclick="window.switchTab('tab-gd', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-users mr-2"></i>Virtual GD</button>
 <button onclick="window.switchTab('tab-interview', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-microphone-lines mr-2"></i>AI Interview</button>
 <button onclick="window.switchTab('tab-passport', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-id-card mr-2"></i>Talent Passport</button>
+<button onclick="window.switchTab('tab-overview', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-map-location-dot mr-2"></i>Platform Overview</button>
 <button onclick="window.switchTab('tab-rights', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-scale-balanced mr-2"></i>Labor Rights</button>
 <button onclick="window.switchTab('tab-about', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-book-open mr-2"></i>Academic Modules</button>
 <button onclick="window.switchTab('tab-quiz', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-dumbbell mr-2"></i>Practice Quizzes</button>
@@ -508,6 +509,131 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 <button onclick="window.emailDetailedReport()" class="bg-brand-600 hover:bg-brand-500 text-white px-8 py-4 rounded-xl font-bold transition shadow-lg text-lg"><i class="fa-brands fa-google mr-2"></i> Resend Official Report via Gmail</button>
 </div>
 </div>
+</section>
+
+<!-- NEW PLATFORM OVERVIEW SECTION -->
+<section id="tab-overview" class="tab-content">
+  <div class="mb-10">
+    <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Platform Overview: The 5-Stage Assessment Gauntlet</h2>
+    <p class="text-slate-500 mt-3 text-lg max-w-4xl">A detailed breakdown of the 5 core modules you are about to experience. Understand the specific corporate evaluation criteria and exactly how conquering this gauntlet will accelerate your MBA career trajectory.</p>
+  </div>
+
+  <div class="space-y-8">
+    <!-- Stage 1 -->
+    <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500">
+      <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-file-pdf text-blue-500 mr-3 text-3xl"></i> Stage 1: Enterprise ATS Audit (TF-IDF)</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-gear mr-2"></i>What It Does</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Simulates a Fortune 500 Applicant Tracking System. It uses Term Frequency-Inverse Document Frequency (TF-IDF) algorithms to scan your uploaded PDF resume against a target job description in real-time.</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-magnifying-glass mr-2"></i>What Is Evaluated</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Keyword density, syntax alignment, document format compatibility, and the presence of core industry competencies explicitly demanded by the job description.</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-purple-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-brain mr-2"></i>Why These Criteria</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Over 75% of resumes are rejected by automated bots before a human recruiter ever sees them. Perfecting algorithmic keyword matching is the ultimate, non-negotiable gatekeeper in modern recruitment.</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-green-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-arrow-trend-up mr-2"></i>How It Helps You</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">It demystifies the "black box" of corporate screening. It teaches you to reverse-engineer job postings and tailor your resume dynamically, ensuring you never fail a digital screening again.</p>
+         </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-red-500">
+      <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-stopwatch text-red-500 mr-3 text-3xl"></i> Stage 2: Decision Velocity Assessment</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-gear mr-2"></i>What It Does</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Administers a high-pressure, 10-minute timed gauntlet featuring 20 randomized situational HR and business logic scenarios drawn from a master question bank.</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-magnifying-glass mr-2"></i>What Is Evaluated</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Domain literacy, cognitive load management, situational judgment, and the speed at which you can make accurate decisions under strict deadlines (Decision Velocity).</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-purple-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-brain mr-2"></i>Why These Criteria</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Modern corporate environments are volatile. Leaders must be able to synthesize complex information rapidly and make critical judgment calls without buckling under pressure.</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-green-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-arrow-trend-up mr-2"></i>How It Helps You</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">It builds mental stamina and exposes theoretical knowledge gaps in core business logic, ensuring you remain calm and calculated during high-stakes executive assessments.</p>
+         </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500">
+      <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-users text-amber-500 mr-3 text-3xl"></i> Stage 3: Multi-Agent Virtual GD</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-gear mr-2"></i>What It Does</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Drops you into a dynamic 3D virtual boardroom to debate an ethical business case study ("AI in Performance Reviews") across 5 rounds against two LLM-powered AI personas.</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-magnifying-glass mr-2"></i>What Is Evaluated</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Collaboration, conflict resolution, active listening, diplomacy, and your ability to synthesize, build upon, or politely pivot the arguments of your peers.</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-purple-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-brain mr-2"></i>Why These Criteria</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Teamwork is a non-negotiable MBA trait. Evaluators don't just want the loudest voice; they want to see if you can lead and facilitate a complex discussion without dominating or alienating others.</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-green-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-arrow-trend-up mr-2"></i>How It Helps You</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Provides a risk-free environment to practice negotiation framing and phrasing. You will learn to strike the perfect professional balance between assertiveness and cooperativeness.</p>
+         </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-brand-500">
+      <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-microphone-lines text-brand-500 mr-3 text-3xl"></i> Stage 4: AI Behavioral HR Interview</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-gear mr-2"></i>What It Does</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Conducts a live, face-to-face video interview with Virtual HR Director Meera, utilizing dynamic conversational AI and live webcam computer vision tracking.</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-magnifying-glass mr-2"></i>What Is Evaluated</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Visual focus (Eye Contact via webcam), physical stress indicators (Posture shifting), and the structural integrity of your verbal responses using the STAR method.</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-purple-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-brain mr-2"></i>Why These Criteria</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Executive presence is judged non-verbally as much as verbally. Furthermore, behavioral claims must be backed by structured, quantifiable metrics to pass modern HR rubrics.</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-green-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-arrow-trend-up mr-2"></i>How It Helps You</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">It exposes subconscious physical tells (like breaking eye contact or fidgeting) while simultaneously forcing you to format your past achievements into universally accepted corporate syntax.</p>
+         </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-emerald-500">
+      <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-id-card text-emerald-500 mr-3 text-3xl"></i> Stage 5: Executive Talent Passport</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-gear mr-2"></i>What It Does</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">The culmination of your assessment gauntlet. It automatically decrypts upon interview completion, compiles all quantitative and qualitative data, and emails you a master report.</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-magnifying-glass mr-2"></i>What Is Evaluated</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Your holistic "Readiness Index," a final calculation of your technical knowledge, behavioral competence, structural syntax, and assigned psychometric Archetype.</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-purple-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-brain mr-2"></i>Why These Criteria</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">Top-tier employers evaluate candidates holistically. Technical skills get you the interview, but cognitive agility and cultural fit ultimately secure the offer.</p>
+         </div>
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="text-xs font-bold text-green-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-arrow-trend-up mr-2"></i>How It Helps You</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">It acts as a personalized, data-driven feedback loop. The automated report highlights your exact blind spots, allowing you to course-correct significantly before actual placement season begins.</p>
+         </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="tab-rights" class="tab-content">
