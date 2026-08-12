@@ -181,6 +181,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="bg-brand-800 overflow-x-auto no-scrollbar">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <nav class="flex space-x-1 py-2" id="tabNav">
+<!-- NEW: HOME TAB AT THE FRONT -->
 <button onclick="window.switchTab('tab-home', this)" class="nav-btn active bg-brand-700 text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-house mr-1 md:mr-2"></i>Home</button>
 <button onclick="window.switchTab('tab-onboarding', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-user-plus mr-1 md:mr-2"></i>Onboarding</button>
 <button onclick="window.switchTab('tab-ats', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-file-pdf mr-1 md:mr-2"></i>ATS Audit</button>
@@ -1446,13 +1447,18 @@ function startRealFaceTracking() {
         let lastX = 0; let lastY = 0; let lostCount = 0;
         let currentEye = 82; let currentStress = 18;
         let lastTrackTime = Date.now();
+        let rollingMovements = [];
 
         tracker.on('track', function(event) {
             const now = Date.now();
-            if (now - lastTrackTime < 1000) return;
+            if (now - lastTrackTime < 200) return;
             lastTrackTime = now;
 
             if(!window.isAIMode || !document.getElementById('tab-interview').classList.contains('active')) return;
+
+            const vid = document.getElementById('interviewWebcam');
+            const vidW = vid.videoWidth || 320;
+            const vidH = vid.videoHeight || 240;
 
             if (event.data.length === 0) {
                 lostCount++;
@@ -1461,25 +1467,70 @@ function startRealFaceTracking() {
                     currentStress = Math.min(85, currentStress + 10);
                     document.getElementById('eyeContactVal').innerText = currentEye + '% (Lost)';
                     document.getElementById('postureVal').innerText = "Not Detected";
+                    document.getElementById('postureVal').style.color = "#f87171";
                 }
             } else {
                 lostCount = 0;
                 const rect = event.data[0];
-                const move = Math.abs(rect.x - lastX) + Math.abs(rect.y - lastY);
-                lastX = rect.x; lastY = rect.y;
+                
+                // 1. Calculate Face Center & Deviation (Gaze/Eye Contact Approximation)
+                const faceCenterX = rect.x + (rect.width / 2);
+                const faceCenterY = rect.y + (rect.height / 2);
+                
+                const distFromCenterX = Math.abs(faceCenterX - (vidW / 2)) / (vidW / 2);
+                const distFromCenterY = Math.abs(faceCenterY - (vidH / 2)) / (vidH / 2);
+                const centerDeviation = (distFromCenterX + distFromCenterY) / 2;
 
-                if (move > 15) {
-                    currentStress = Math.min(90, currentStress + 8);
-                    currentEye = Math.max(45, currentEye - 5);
-                    document.getElementById('postureVal').innerText = "Shifting";
-                } else {
-                    currentStress = Math.max(10, currentStress - 3);
+                if (centerDeviation < 0.25) {
                     currentEye = Math.min(98, currentEye + 4);
-                    document.getElementById('postureVal').innerText = "Aligned";
+                } else if (centerDeviation < 0.45) {
+                    currentEye = Math.max(65, currentEye - 3);
+                } else {
+                    currentEye = Math.max(25, currentEye - 10);
                 }
 
-                document.getElementById('eyeContactVal').innerText = currentEye + '%';
-                document.getElementById('stressVal').innerText = currentStress + '%';
+                // 2. Calculate Movement Jitter (Stress Approximation)
+                const moveX = Math.abs(rect.x - lastX);
+                const moveY = Math.abs(rect.y - lastY);
+                const totalMove = moveX + moveY;
+                lastX = rect.x; lastY = rect.y;
+
+                rollingMovements.push(totalMove);
+                if(rollingMovements.length > 4) rollingMovements.shift();
+                const avgMove = rollingMovements.reduce((a,b)=>a+b,0) / rollingMovements.length;
+
+                if (avgMove > (vidW * 0.05)) { 
+                    currentStress = Math.min(95, currentStress + 8);
+                } else {
+                    currentStress = Math.max(12, currentStress - 2);
+                }
+
+                // 3. Calculate Posture (Bounding Box Area Ratio)
+                const faceAreaRatio = (rect.width * rect.height) / (vidW * vidH);
+                let postureStatus = "Aligned";
+                let postureColor = "#4ade80"; 
+                
+                if (faceAreaRatio > 0.35) {
+                    postureStatus = "Leaning In";
+                    postureColor = "#fbbf24"; 
+                    currentStress = Math.min(95, currentStress + 2);
+                } else if (faceAreaRatio < 0.08) {
+                    postureStatus = "Slouching";
+                    postureColor = "#f87171"; 
+                } else if (distFromCenterY > 0.35 && faceCenterY > (vidH/2)) {
+                    postureStatus = "Slumping";
+                    postureColor = "#f87171"; 
+                }
+
+                // Update UI
+                document.getElementById('eyeContactVal').innerText = Math.round(currentEye) + '%';
+                document.getElementById('stressVal').innerText = Math.round(currentStress) + '%';
+                
+                const postureEl = document.getElementById('postureVal');
+                postureEl.innerText = postureStatus;
+                postureEl.style.color = postureColor;
+
+                // Save metrics for final report
                 window.bioMetrics.eyeContact.push(currentEye);
                 window.bioMetrics.stress.push(currentStress);
             }
