@@ -110,12 +110,15 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
 <div>
-<h1 class="text-3xl font-extrabold tracking-tight">HR Capitalize Student Placement Guide</h1>
+<h1 class="text-3xl tracking-tight flex items-baseline flex-wrap">
+  <span class="font-extrabold">HR Capitalize</span>
+  <span class="text-brand-200 font-medium text-xl ml-2">- Student Placement Guide</span>
+</h1>
 <p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth.</p>
 </div>
 
-<div class="flex items-center space-x-6">
-<div class="flex items-center justify-center space-x-2 bg-black/20 px-4 py-2 rounded-full border border-white/10">
+<div class="flex items-center space-x-4 md:space-x-6">
+<div class="flex items-center justify-center space-x-2 bg-black/20 px-4 py-2 rounded-full border border-white/10 hidden sm:flex">
 <span class="text-xs font-bold uppercase tracking-wider text-brand-200">Manual</span>
 <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
 <input type="checkbox" name="toggle" id="aiToggle" onchange="window.toggleAIMode()" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-transform duration-200 ease-in-out top-0 bottom-0 m-auto z-10"/>
@@ -124,12 +127,12 @@ body.ai-mode .gd-avatar { background: #334155; }
 <span class="text-xs font-bold uppercase tracking-wider text-brand-200"><i class="fa-solid fa-sparkles text-yellow-300 mr-1"></i>AI Guided</span>
 </div>
 
-<div class="hidden md:flex items-center space-x-4">
-<button onclick="window.openAdminModal()" class="admin-login-btn text-brand-100 hover:text-white transition text-sm font-medium ml-2">
+<div class="flex items-center space-x-4">
+<button onclick="window.openAdminModal()" class="admin-login-btn text-brand-100 hover:text-white transition text-sm font-medium ml-2 hidden md:block">
 <i class="fa-solid fa-lock mr-1"></i> Admin
 </button>
 
-<div id="adminControls" class="admin-only-flex items-center space-x-3">
+<div id="adminControls" class="admin-only-flex items-center space-x-3 hidden md:flex">
 <div class="flex items-center bg-brand-800 border border-brand-600 text-white rounded-lg px-3 py-2 shadow-inner">
 <i class="fa-solid fa-satellite-dish animate-pulse mr-2 text-green-400"></i>
 <select id="adminCandidateSelect" onchange="window.onAdminSelectCandidate(this.value)" class="bg-transparent text-white font-bold outline-none text-sm cursor-pointer appearance-none w-48">
@@ -138,6 +141,12 @@ body.ai-mode .gd-avatar { background: #334155; }
 <i class="fa-solid fa-chevron-down text-brand-400 text-xs ml-2"></i>
 </div>
 </div>
+
+<!-- ABOUT BUTTON PINNED TO TOP RIGHT -->
+<button onclick="window.switchTab('tab-overview')" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white px-4 py-2 rounded-lg transition text-sm font-bold shadow-md flex items-center ml-2">
+<i class="fa-solid fa-circle-info mr-2 text-brand-200"></i> About
+</button>
+
 </div>
 </div>
 </div>
@@ -152,7 +161,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 <button onclick="window.switchTab('tab-gd', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-users mr-2"></i>Virtual GD</button>
 <button onclick="window.switchTab('tab-interview', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-microphone-lines mr-2"></i>AI Interview</button>
 <button onclick="window.switchTab('tab-passport', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-id-card mr-2"></i>Talent Passport</button>
-<button onclick="window.switchTab('tab-overview', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-map-location-dot mr-2"></i>Platform Overview</button>
 <button onclick="window.switchTab('tab-rights', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-scale-balanced mr-2"></i>Labor Rights</button>
 <button onclick="window.switchTab('tab-about', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-book-open mr-2"></i>Academic Modules</button>
 <button onclick="window.switchTab('tab-quiz', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-dumbbell mr-2"></i>Practice Quizzes</button>
@@ -511,10 +519,10 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 </div>
 </section>
 
-<!-- NEW PLATFORM OVERVIEW SECTION -->
+<!-- PLATFORM OVERVIEW SECTION (ABOUT) -->
 <section id="tab-overview" class="tab-content">
   <div class="mb-10">
-    <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Platform Overview: The 5-Stage Assessment Gauntlet</h2>
+    <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">About: The 5-Stage Assessment Gauntlet</h2>
     <p class="text-slate-500 mt-3 text-lg max-w-4xl">A detailed breakdown of the 5 core modules you are about to experience. Understand the specific corporate evaluation criteria and exactly how conquering this gauntlet will accelerate your MBA career trajectory.</p>
   </div>
 
@@ -765,7 +773,7 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 </div>
 </section>
 
-<!-- NEW OPTIONAL PRACTICE QUIZ SECTION -->
+<!-- OPTIONAL PRACTICE QUIZ SECTION -->
 <section id="tab-quiz" class="tab-content">
   <div class="mb-8">
     <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Optional Practice Zone</h2>
