@@ -142,9 +142,11 @@ body.ai-mode .gd-avatar { background: #334155; }
   </button>
 </div>
 
-<!-- Desktop Controls -->
-<div class="flex flex-wrap items-center gap-3 md:gap-4 w-full lg:w-auto mt-2 lg:mt-0 hidden sm:flex">
-  <div class="flex items-center justify-center space-x-2 bg-black/20 px-3 md:px-4 py-2 rounded-full border border-white/10">
+<!-- Controls (Toggle visible everywhere, Admin/About hidden on mobile) -->
+<div class="flex flex-wrap items-center gap-3 md:gap-4 w-full lg:w-auto mt-2 lg:mt-0">
+  
+  <!-- THE AI TOGGLE SWITCH -->
+  <div class="flex items-center justify-center space-x-2 bg-black/20 px-3 md:px-4 py-2 rounded-full border border-white/10 w-fit">
     <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-200">Manual</span>
     <div class="relative inline-block w-10 md:w-12 mr-1 md:mr-2 align-middle select-none transition duration-200 ease-in">
       <input type="checkbox" name="toggle" id="aiToggle" onchange="window.toggleAIMode()" class="toggle-checkbox absolute block w-5 md:w-6 h-5 md:h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-transform duration-200 ease-in-out top-0 bottom-0 m-auto z-10"/>
@@ -168,7 +170,7 @@ body.ai-mode .gd-avatar { background: #334155; }
   </div>
 
   <!-- ABOUT BUTTON PINNED TO TOP RIGHT (DESKTOP ONLY) -->
-  <button onclick="window.switchTab('tab-overview')" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 md:px-4 py-2 rounded-lg transition text-xs md:text-sm font-bold shadow-md flex items-center ml-2">
+  <button onclick="window.switchTab('tab-overview')" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 md:px-4 py-2 rounded-lg transition text-xs md:text-sm font-bold shadow-md flex items-center ml-2 hidden md:flex">
     <i class="fa-solid fa-circle-info mr-1 md:mr-2 text-brand-200"></i> About
   </button>
 
@@ -179,7 +181,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="bg-brand-800 overflow-x-auto no-scrollbar">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <nav class="flex space-x-1 py-2" id="tabNav">
-<!-- NEW: HOME TAB AT THE FRONT -->
 <button onclick="window.switchTab('tab-home', this)" class="nav-btn active bg-brand-700 text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-house mr-1 md:mr-2"></i>Home</button>
 <button onclick="window.switchTab('tab-onboarding', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-user-plus mr-1 md:mr-2"></i>Onboarding</button>
 <button onclick="window.switchTab('tab-ats', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-file-pdf mr-1 md:mr-2"></i>ATS Audit</button>
@@ -217,10 +218,9 @@ body.ai-mode .gd-avatar { background: #334155; }
 </div>
 </div>
 
-<!-- NEW ENTERPRISE HOMEPAGE -->
+<!-- ENTERPRISE HOMEPAGE -->
 <section id="tab-home" class="tab-content active">
   <div class="relative overflow-hidden rounded-3xl bg-slate-900 text-white shadow-2xl mb-12 border border-slate-700">
-     <!-- Abstract Background Elements -->
      <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
         <div class="hero-glow absolute -top-[50%] -left-[10%] w-[70%] h-[150%] bg-brand-600/30 blur-[100px] rounded-full rotate-12"></div>
         <div class="hero-glow absolute top-[20%] -right-[20%] w-[60%] h-[120%] bg-purple-600/20 blur-[100px] rounded-full -rotate-12" style="animation-delay: 2s;"></div>
@@ -847,7 +847,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
-<!-- OPTIONAL PRACTICE QUIZ SECTION -->
+<!-- EXPANDED PRACTICE QUIZ SECTION -->
 <section id="tab-quiz" class="tab-content">
   <div class="mb-6 md:mb-8 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Optional Practice Zone</h2>
@@ -1651,7 +1651,7 @@ b += `Best regards,\nHR Academic & Executive Assessment Team`;
 window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=${encodeURIComponent(b)}`, '_blank');
 }
 
-// --- OPTIONAL PRACTICE ZONE LOGIC ---
+// --- EXPANDED PRACTICE ZONE LOGIC ---
 const practiceQuizzes = {
   onboarding: {
     title: "Onboarding & Psychometrics",
@@ -1660,7 +1660,10 @@ const practiceQuizzes = {
     questions: [
       { q: "Which behavioral framework categorizes individuals into Dominance, Influence, Steadiness, and Conscientiousness?", options: ["Big Five", "Myers-Briggs", "DISC", "Johari Window"], ans: 2 },
       { q: "In archetype profiling, a 'Strategist' relies most heavily on:", options: ["Emotional consensus", "Data and frameworks", "Aggressive timelines", "Disruptive ideation"], ans: 1 },
-      { q: "The 'Halo Effect' in candidate evaluation refers to:", options: ["Focusing only on negative traits", "Allowing one positive trait to overshadow others", "Rating everyone as average", "Comparing candidates to each other"], ans: 1 }
+      { q: "The 'Halo Effect' in candidate evaluation refers to:", options: ["Focusing only on negative traits", "Allowing one positive trait to overshadow others", "Rating everyone as average", "Comparing candidates to each other"], ans: 1 },
+      { q: "Which cognitive bias describes the tendency to rely too heavily on the first piece of information offered?", options: ["Anchoring Bias", "Confirmation Bias", "Halo Effect", "Availability Heuristic"], ans: 0 },
+      { q: "What does the 'O' in the OCEAN (Big Five) personality model stand for?", options: ["Optimism", "Openness to experience", "Organization", "Objectivity"], ans: 1 },
+      { q: "During onboarding, what is 'socialization' primarily concerned with?", options: ["Completing tax forms", "Learning company culture and norms", "Setting up IT equipment", "Signing NDAs"], ans: 1 }
     ]
   },
   ats: {
@@ -1670,7 +1673,10 @@ const practiceQuizzes = {
     questions: [
       { q: "In ATS parsing, what does TF-IDF stand for?", options: ["Target Frequency-Inverse Document Frequency", "Term Frequency-Inverse Document Frequency", "Text Format-Internal Data File", "Total Fields-Integrated Data Format"], ans: 1 },
       { q: "Which format is universally considered the safest for ATS algorithms to parse without data loss?", options: ["Standard PDF or DOCX", "JPEG", "Canva Graphic Portfolios", "Encrypted Zip"], ans: 0 },
-      { q: "A 'False Negative' in an ATS audit occurs when:", options: ["An unqualified candidate passes", "A qualified candidate is rejected due to formatting", "The system crashes", "Keywords are highlighted correctly"], ans: 1 }
+      { q: "A 'False Negative' in an ATS audit occurs when:", options: ["An unqualified candidate passes", "A qualified candidate is rejected due to formatting", "The system crashes", "Keywords are highlighted correctly"], ans: 1 },
+      { q: "What is 'Keyword Stuffing' in the context of an ATS?", options: ["Putting keywords in white text to trick the system", "Using bullet points", "Highlighting text in bold", "Writing a 5-page resume"], ans: 0 },
+      { q: "Why do modern ATS platforms struggle with multi-column resume layouts?", options: ["They lack aesthetic appreciation", "The parsing algorithms read left-to-right top-to-bottom causing jumbled text", "Columns require too much memory", "PDF format bans columns"], ans: 1 },
+      { q: "Which of these is a 'hard skill' keyword likely targeted by an ATS for an HR Analytics role?", options: ["Team Player", "Hardworking", "Tableau", "Leadership"], ans: 2 }
     ]
   },
   aptitude: {
@@ -1680,7 +1686,10 @@ const practiceQuizzes = {
     questions: [
       { q: "If a company has 200 employees and 20 leave over a year, what is the annual turnover rate?", options: ["5%", "10%", "15%", "20%"], ans: 1 },
       { q: "What does 'Decision Velocity' primarily measure in executive assessments?", options: ["Accuracy of decisions", "Speed of making decisions under pressure", "Popularity of the decision", "Cost of the decision"], ans: 1 },
-      { q: "Which tool is best used to map the hierarchical reporting structure of an organization?", options: ["Gantt Chart", "Venn Diagram", "Organogram", "Scatter Plot"], ans: 2 }
+      { q: "Which tool is best used to map the hierarchical reporting structure of an organization?", options: ["Gantt Chart", "Venn Diagram", "Organogram", "Scatter Plot"], ans: 2 },
+      { q: "If a project is delayed by 20% but the original timeline was 50 days, how many days will it take?", options: ["55", "60", "65", "70"], ans: 1 },
+      { q: "What is the primary purpose of a 'Compa-Ratio' in compensation management?", options: ["Tracking overtime", "Comparing an employee's salary to the market midpoint", "Calculating bonus tax", "Measuring company profit"], ans: 1 },
+      { q: "Which financial metric measures profitability before deductions for interest, taxes, depreciation, and amortization?", options: ["Net Income", "Gross Margin", "EBITDA", "ROI"], ans: 2 }
     ]
   },
   gd: {
@@ -1690,7 +1699,10 @@ const practiceQuizzes = {
     questions: [
       { q: "According to Tuckman's stages of group development, which stage involves initial conflict and power struggles?", options: ["Forming", "Storming", "Norming", "Performing"], ans: 1 },
       { q: "In a GD, 'active listening' is best demonstrated by:", options: ["Interrupting to show engagement", "Looking at your notes", "Synthesizing and building upon a peer's previous point", "Speaking the loudest"], ans: 2 },
-      { q: "The Thomas-Kilmann Conflict Mode Instrument identifies 'Collaborating' as:", options: ["High assertiveness, high cooperativeness", "Low assertiveness, low cooperativeness", "High assertiveness, low cooperativeness", "Low assertiveness, high cooperativeness"], ans: 0 }
+      { q: "The Thomas-Kilmann Conflict Mode Instrument identifies 'Collaborating' as:", options: ["High assertiveness, high cooperativeness", "Low assertiveness, low cooperativeness", "High assertiveness, low cooperativeness", "Low assertiveness, high cooperativeness"], ans: 0 },
+      { q: "In a group discussion, what is the best way to handle a participant who is dominating the conversation?", options: ["Interrupt them loudly", "Politely acknowledge their point and ask another quiet member for their view", "Ignore them completely", "Walk out of the room"], ans: 1 },
+      { q: "What does 'Groupthink' refer to in organizational behavior?", options: ["A brainstorming technique", "The practice of thinking as a cohesive unit to maximize creativity", "The psychological drive for consensus at any cost that suppresses dissenting viewpoints", "Using AI to generate group ideas"], ans: 2 },
+      { q: "When summarizing a GD, a candidate should ideally:", options: ["Introduce new unmentioned points", "State only their own original points", "Concisely capture the main themes and consensus reached by the whole group", "Argue why their point was the best"], ans: 2 }
     ]
   },
   interview: {
@@ -1700,7 +1712,10 @@ const practiceQuizzes = {
     questions: [
       { q: "In the STAR interview method, what does the 'A' stand for?", options: ["Attitude", "Action", "Assessment", "Accountability"], ans: 1 },
       { q: "When an HR Director asks a behavioral question, they are operating on the premise that:", options: ["Past behavior predicts future behavior", "Technical skills outrank soft skills", "Hypothetical situations are best", "Resumes are usually fabricated"], ans: 0 },
-      { q: "Which metric is a biometric algorithm most likely tracking during a video interview?", options: ["Typing speed", "Visual focus (Eye Contact) & Posture", "Internet bandwidth", "Audio volume"], ans: 1 }
+      { q: "Which metric is a biometric algorithm most likely tracking during a video interview?", options: ["Typing speed", "Visual focus (Eye Contact) & Posture", "Internet bandwidth", "Audio volume"], ans: 1 },
+      { q: "When asked about your greatest weakness, the most strategic approach is to:", options: ["Say you work too hard", "Claim you have no weaknesses", "Mention a genuine weakness and the active steps you are taking to improve it", "Deflect the question"], ans: 2 },
+      { q: "What is the recommended duration for a STAR method response?", options: ["10-15 seconds", "1-2 minutes", "5-7 minutes", "Until the interviewer interrupts"], ans: 1 },
+      { q: "In the 'Result' phase of the STAR method, what is the most critical element to include?", options: ["Names of your coworkers", "Your emotional state", "Quantifiable metrics and concrete outcomes", "What you would do differently next time"], ans: 2 }
     ]
   }
 };
