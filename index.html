@@ -58,7 +58,7 @@ body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode 
 .is-talking { animation: talk-bounce 0.4s ease-in-out infinite alternate !important; border: 4px solid #60a5fa !important; }
 
 @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
-.gd-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; }
+.gd-avatar { border-radius: 50%; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; }
 body.ai-mode .gd-avatar { background: #334155; }
 .avatar-breathing { animation: breathe 4s infinite ease-in-out; }
 .avatar-talking { border-color: #60a5fa; }
@@ -69,11 +69,11 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes urgent-glow { 0% { text-shadow: 0 0 5px red; } 50% { text-shadow: 0 0 20px red; color: #ff9999; } 100% { text-shadow: 0 0 5px red; } }
 .timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
 
-/* 3D Round Table GD Layout */
+/* Responsive 3D Round Table GD Layout */
 .gd-boardroom-container {
     position: relative;
     width: 100%;
-    min-height: 280px;
+    min-height: 240px;
     background: radial-gradient(circle, #1e293b 0%, #0f172a 100%);
     border-radius: 1rem;
     border: 1px solid #334155;
@@ -83,9 +83,13 @@ body.ai-mode .gd-avatar { background: #334155; }
     overflow: hidden;
     margin-bottom: 1.5rem;
 }
+@media (min-width: 768px) {
+    .gd-boardroom-container { min-height: 320px; }
+}
+
 .gd-table-oval {
-    width: 80%;
-    height: 140px;
+    width: 85%;
+    height: 100px;
     background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
     border: 3px solid #475569;
     border-radius: 100px;
@@ -94,60 +98,62 @@ body.ai-mode .gd-avatar { background: #334155; }
     align-items: center;
     justify-content: center;
 }
-.gd-seat {
-    position: absolute;
-    text-align: center;
+@media (min-width: 768px) {
+    .gd-table-oval { width: 80%; height: 140px; }
 }
-.gd-seat-top-left { top: 15px; left: 15%; }
-.gd-seat-top-right { top: 15px; right: 15%; }
-.gd-seat-bottom { bottom: 15px; left: 50%; transform: translateX(-50%); }
+
+.gd-seat { position: absolute; text-align: center; }
+.gd-seat-top-left { top: 10px; left: 5%; }
+.gd-seat-top-right { top: 10px; right: 5%; }
+@media (min-width: 768px) {
+    .gd-seat-top-left { top: 15px; left: 15%; }
+    .gd-seat-top-right { top: 15px; right: 15%; }
+}
+.gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 </style>
 </head>
 
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
 <header class="bg-brand-900 text-white shadow-xl sticky top-0 z-40">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-<div class="flex flex-col md:flex-row justify-between items-center gap-4">
-<div>
-<h1 class="text-3xl tracking-tight flex items-baseline flex-wrap">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-6">
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 w-full">
+<div class="w-full lg:w-auto">
+<h1 class="text-2xl md:text-3xl tracking-tight flex flex-col sm:flex-row sm:items-baseline">
   <span class="font-extrabold">HR Capitalize</span>
-  <span class="text-brand-200 font-medium text-xl ml-2">- Student Placement Guide</span>
+  <span class="text-brand-200 font-medium text-lg md:text-xl sm:ml-2 mt-1 sm:mt-0">- Student Placement Guide</span>
 </h1>
-<p class="text-brand-100 text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth.</p>
+<p class="text-brand-100 text-xs md:text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth.</p>
 </div>
 
-<div class="flex items-center space-x-4 md:space-x-6">
-<div class="flex items-center justify-center space-x-2 bg-black/20 px-4 py-2 rounded-full border border-white/10 hidden sm:flex">
-<span class="text-xs font-bold uppercase tracking-wider text-brand-200">Manual</span>
-<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
-<input type="checkbox" name="toggle" id="aiToggle" onchange="window.toggleAIMode()" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-transform duration-200 ease-in-out top-0 bottom-0 m-auto z-10"/>
-<label for="aiToggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-400 cursor-pointer"></label>
+<div class="flex flex-wrap items-center gap-3 md:gap-4 w-full lg:w-auto mt-2 lg:mt-0">
+<div class="flex items-center justify-center space-x-2 bg-black/20 px-3 md:px-4 py-2 rounded-full border border-white/10">
+<span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-200">Manual</span>
+<div class="relative inline-block w-10 md:w-12 mr-1 md:mr-2 align-middle select-none transition duration-200 ease-in">
+<input type="checkbox" name="toggle" id="aiToggle" onchange="window.toggleAIMode()" class="toggle-checkbox absolute block w-5 md:w-6 h-5 md:h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-transform duration-200 ease-in-out top-0 bottom-0 m-auto z-10"/>
+<label for="aiToggle" class="toggle-label block overflow-hidden h-5 md:h-6 rounded-full bg-gray-400 cursor-pointer"></label>
 </div>
-<span class="text-xs font-bold uppercase tracking-wider text-brand-200"><i class="fa-solid fa-sparkles text-yellow-300 mr-1"></i>AI Guided</span>
+<span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-200"><i class="fa-solid fa-sparkles text-yellow-300 mr-1"></i>AI Guided</span>
 </div>
 
-<div class="flex items-center space-x-4">
-<button onclick="window.openAdminModal()" class="admin-login-btn text-brand-100 hover:text-white transition text-sm font-medium ml-2 hidden md:block">
+<button onclick="window.openAdminModal()" class="admin-login-btn text-brand-100 hover:text-white transition text-xs md:text-sm font-medium">
 <i class="fa-solid fa-lock mr-1"></i> Admin
 </button>
 
-<div id="adminControls" class="admin-only-flex items-center space-x-3 hidden md:flex">
-<div class="flex items-center bg-brand-800 border border-brand-600 text-white rounded-lg px-3 py-2 shadow-inner">
-<i class="fa-solid fa-satellite-dish animate-pulse mr-2 text-green-400"></i>
-<select id="adminCandidateSelect" onchange="window.onAdminSelectCandidate(this.value)" class="bg-transparent text-white font-bold outline-none text-sm cursor-pointer appearance-none w-48">
+<div id="adminControls" class="admin-only-flex items-center space-x-3 w-full md:w-auto mt-2 md:mt-0">
+<div class="flex items-center bg-brand-800 border border-brand-600 text-white rounded-lg px-3 py-2 shadow-inner w-full md:w-auto">
+<i class="fa-solid fa-satellite-dish animate-pulse mr-2 text-green-400 text-xs md:text-base"></i>
+<select id="adminCandidateSelect" onchange="window.onAdminSelectCandidate(this.value)" class="bg-transparent text-white font-bold outline-none text-xs md:text-sm cursor-pointer appearance-none w-full md:w-48">
 <option value="" class="text-slate-800">-- Select Candidate --</option>
 </select>
 <i class="fa-solid fa-chevron-down text-brand-400 text-xs ml-2"></i>
 </div>
 </div>
 
-<!-- ABOUT BUTTON PINNED TO TOP RIGHT -->
-<button onclick="window.switchTab('tab-overview')" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white px-4 py-2 rounded-lg transition text-sm font-bold shadow-md flex items-center ml-2">
-<i class="fa-solid fa-circle-info mr-2 text-brand-200"></i> About
+<button onclick="window.switchTab('tab-overview')" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 md:px-4 py-2 rounded-lg transition text-xs md:text-sm font-bold shadow-md flex items-center">
+<i class="fa-solid fa-circle-info mr-1 md:mr-2 text-brand-200"></i> About
 </button>
 
-</div>
 </div>
 </div>
 </div>
@@ -155,35 +161,35 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="bg-brand-800 overflow-x-auto no-scrollbar">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <nav class="flex space-x-1 py-2" id="tabNav">
-<button onclick="window.switchTab('tab-onboarding', this)" class="nav-btn active bg-brand-700 text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-user-plus mr-2"></i>Onboarding</button>
-<button onclick="window.switchTab('tab-ats', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-file-pdf mr-2"></i>ATS Audit</button>
-<button onclick="window.switchTab('tab-test', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-stopwatch mr-2"></i>Aptitude Test</button>
-<button onclick="window.switchTab('tab-gd', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-users mr-2"></i>Virtual GD</button>
-<button onclick="window.switchTab('tab-interview', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-microphone-lines mr-2"></i>AI Interview</button>
-<button onclick="window.switchTab('tab-passport', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-id-card mr-2"></i>Talent Passport</button>
-<button onclick="window.switchTab('tab-rights', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-scale-balanced mr-2"></i>Labor Rights</button>
-<button onclick="window.switchTab('tab-about', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-book-open mr-2"></i>Academic Modules</button>
-<button onclick="window.switchTab('tab-quiz', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-dumbbell mr-2"></i>Practice Quizzes</button>
+<button onclick="window.switchTab('tab-onboarding', this)" class="nav-btn active bg-brand-700 text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-user-plus mr-1 md:mr-2"></i>Onboarding</button>
+<button onclick="window.switchTab('tab-ats', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-file-pdf mr-1 md:mr-2"></i>ATS Audit</button>
+<button onclick="window.switchTab('tab-test', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-stopwatch mr-1 md:mr-2"></i>Aptitude Test</button>
+<button onclick="window.switchTab('tab-gd', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-users mr-1 md:mr-2"></i>Virtual GD</button>
+<button onclick="window.switchTab('tab-interview', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-microphone-lines mr-1 md:mr-2"></i>AI Interview</button>
+<button onclick="window.switchTab('tab-passport', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-id-card mr-1 md:mr-2"></i>Talent Passport</button>
+<button onclick="window.switchTab('tab-rights', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-scale-balanced mr-1 md:mr-2"></i>Labor Rights</button>
+<button onclick="window.switchTab('tab-about', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-book-open mr-1 md:mr-2"></i>Academic Modules</button>
+<button onclick="window.switchTab('tab-quiz', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-dumbbell mr-1 md:mr-2"></i>Practice Quizzes</button>
 </nav>
 </div>
 </div>
 </header>
 
-<div id="global-ai-guide" class="fixed bottom-6 right-6 z-50 flex items-center space-x-4 bg-slate-900 text-white p-4 rounded-full shadow-2xl border-4 border-brand-400">
-<div class="text-sm font-bold w-48 text-right hidden md:block" id="guide-text">Systems initializing...</div>
-<div id="guide-avatar" class="gd-avatar avatar-breathing w-16 h-16 border-2 border-brand-400" style="width: 64px; height: 64px;"></div>
+<div id="global-ai-guide" class="fixed bottom-4 md:bottom-6 right-4 md:right-6 z-50 flex items-center space-x-4 bg-slate-900 text-white p-3 md:p-4 rounded-full shadow-2xl border-2 md:border-4 border-brand-400">
+<div class="text-xs md:text-sm font-bold w-32 md:w-48 text-right hidden sm:block" id="guide-text">Systems initializing...</div>
+<div id="guide-avatar" class="gd-avatar avatar-breathing w-12 h-12 md:w-16 md:h-16"></div>
 </div>
 
-<main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full relative">
-<div id="msgBox" class="hidden mb-6 p-4 rounded-lg shadow-md font-medium text-sm flex items-center justify-between transition-all z-50">
+<main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 w-full relative">
+<div id="msgBox" class="hidden mb-6 p-4 rounded-lg shadow-md font-medium text-xs md:text-sm flex items-center justify-between transition-all z-50">
 <span id="msgText"></span>
 <button onclick="document.getElementById('msgBox').classList.add('hidden')" class="text-white hover:text-gray-200"><i class="fa-solid fa-times"></i></button>
 </div>
 
-<div id="adminModal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-70 backdrop-blur-sm z-50 flex items-center justify-center">
-<div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4">
+<div id="adminModal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="bg-white rounded-xl shadow-2xl p-6 md:p-8 max-w-md w-full">
 <div class="flex justify-between items-center mb-6">
-<h3 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-lock text-brand-600 mr-2"></i> Admin Command Center</h3>
+<h3 class="text-lg md:text-xl font-bold text-slate-800"><i class="fa-solid fa-lock text-brand-600 mr-2"></i> Admin Command Center</h3>
 <button onclick="window.closeAdminModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-times text-xl"></i></button>
 </div>
 <input type="password" id="adminPass" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-500 outline-none mb-4 text-slate-800" placeholder="Enter Passcode (admin123)">
@@ -192,89 +198,89 @@ body.ai-mode .gd-avatar { background: #334155; }
 </div>
 
 <section id="tab-onboarding" class="tab-content active">
-<div class="mb-8 flex justify-between items-center flex-wrap gap-4">
+<div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
-<h2 class="text-2xl font-bold text-slate-800">Candidate Registration & Login</h2>
-<p class="text-slate-500 mt-1">Enter your credentials to save progress or restore a previous session.</p>
+<h2 class="text-xl md:text-2xl font-bold text-slate-800">Candidate Registration & Login</h2>
+<p class="text-sm md:text-base text-slate-500 mt-1">Enter your credentials to save progress or restore a previous session.</p>
 </div>
-<div class="flex gap-2">
-<input type="email" id="loginEmailLookup" class="border border-gray-300 rounded-lg px-3 py-2 text-sm text-slate-800 outline-none" placeholder="Enter existing email...">
+<div class="flex w-full sm:w-auto gap-2">
+<input type="email" id="loginEmailLookup" class="w-full sm:w-auto border border-gray-300 rounded-lg px-3 py-2 text-sm text-slate-800 outline-none" placeholder="Enter existing email...">
 <button onclick="window.restoreUserSession()" class="bg-slate-800 hover:bg-slate-900 text-white text-sm font-semibold px-4 py-2 rounded-lg transition"><i class="fa-solid fa-arrows-rotate mr-1"></i> Restore</button>
 </div>
 </div>
 
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-<div class="glass-card p-6 rounded-xl shadow-sm lg:col-span-1 h-fit">
-<h3 class="text-lg font-semibold border-b border-gray-200/50 pb-3 mb-4"><i class="fa-solid fa-address-card text-brand-500 mr-2"></i>Personal Details</h3>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+<div class="glass-card p-5 md:p-6 rounded-xl shadow-sm lg:col-span-1 h-fit">
+<h3 class="text-base md:text-lg font-semibold border-b border-gray-200/50 pb-3 mb-4"><i class="fa-solid fa-address-card text-brand-500 mr-2"></i>Personal Details</h3>
 <div class="space-y-4">
-<div><label class="block text-sm font-medium mb-1">Full Name *</label><input type="text" id="candName" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="John Doe"></div>
-<div><label class="block text-sm font-medium mb-1">Email Address *</label><input type="email" id="candEmail" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="john@example.com"></div>
-<div><label class="block text-sm font-medium mb-1">Phone Number</label><input type="tel" id="candPhone" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="+1 (555) 000-0000"></div>
-<div><label class="block text-sm font-medium mb-1">Current Institution *</label><input type="text" id="candUni" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent" placeholder="Harvard Business School"></div>
-<div><label class="block text-sm font-medium mb-1">Specialization *</label>
-<select id="candSpec" class="w-full border-gray-300 rounded-lg p-2.5 border bg-transparent">
+<div><label class="block text-xs md:text-sm font-medium mb-1">Full Name *</label><input type="text" id="candName" class="w-full border-gray-300 rounded-lg p-2.5 text-sm border bg-transparent" placeholder="John Doe"></div>
+<div><label class="block text-xs md:text-sm font-medium mb-1">Email Address *</label><input type="email" id="candEmail" class="w-full border-gray-300 rounded-lg p-2.5 text-sm border bg-transparent" placeholder="john@example.com"></div>
+<div><label class="block text-xs md:text-sm font-medium mb-1">Phone Number</label><input type="tel" id="candPhone" class="w-full border-gray-300 rounded-lg p-2.5 text-sm border bg-transparent" placeholder="+1 (555) 000-0000"></div>
+<div><label class="block text-xs md:text-sm font-medium mb-1">Current Institution *</label><input type="text" id="candUni" class="w-full border-gray-300 rounded-lg p-2.5 text-sm border bg-transparent" placeholder="Harvard Business School"></div>
+<div><label class="block text-xs md:text-sm font-medium mb-1">Specialization *</label>
+<select id="candSpec" class="w-full border-gray-300 rounded-lg p-2.5 text-sm border bg-transparent">
 <option class="text-black">MBA - Human Resources</option><option class="text-black">MBA - Finance</option><option class="text-black">MBA - Marketing</option><option class="text-black">MBA - Supply Chain</option>
 </select>
 </div>
 </div>
 </div>
 
-<div class="glass-card p-6 rounded-xl shadow-sm lg:col-span-2">
+<div class="glass-card p-5 md:p-6 rounded-xl shadow-sm lg:col-span-2">
 <div class="flex justify-between items-center border-b border-gray-200/50 pb-3 mb-4">
-<h3 class="text-lg font-semibold"><i class="fa-solid fa-puzzle-piece text-brand-500 mr-2"></i>Archetype Assessment</h3>
-<span class="bg-brand-100 text-brand-700 px-2 py-1 rounded text-xs font-bold">10 Questions</span>
+<h3 class="text-base md:text-lg font-semibold"><i class="fa-solid fa-puzzle-piece text-brand-500 mr-2"></i>Archetype Assessment</h3>
+<span class="bg-brand-100 text-brand-700 px-2 py-1 rounded text-[10px] md:text-xs font-bold">10 Questions</span>
 </div>
-<p class="text-sm mb-4 font-medium">Answer the following scenarios to determine your dominant workplace behavioral archetype:</p>
-<div class="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar" id="archetypeQuestionsContainer">
+<p class="text-xs md:text-sm mb-4 font-medium">Answer the following scenarios to determine your dominant workplace behavioral archetype:</p>
+<div class="space-y-4 max-h-[400px] md:max-h-[500px] overflow-y-auto pr-2 custom-scrollbar" id="archetypeQuestionsContainer">
 </div>
 </div>
 </div>
 
-<div class="mt-8 flex justify-end">
-<button onclick="window.saveProfile()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition">
+<div class="mt-6 md:mt-8 flex justify-end">
+<button onclick="window.saveProfile()" class="w-full md:w-auto bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition text-sm md:text-base">
 Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </button>
 </div>
 </section>
 
 <section id="tab-ats" class="tab-content">
-<div class="mb-8">
-<h2 class="text-2xl font-bold text-slate-800">Stage 1: Enterprise ATS Audit (TF-IDF)</h2>
-<p class="text-slate-500 mt-2">Paste a Job Description and upload your resume. The AI will extract core competencies and score your match.</p>
+<div class="mb-6 md:mb-8">
+<h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 1: Enterprise ATS Audit (TF-IDF)</h2>
+<p class="text-sm md:text-base text-slate-500 mt-1 md:mt-2">Paste a Job Description and upload your resume. The AI will extract core competencies and score your match.</p>
 </div>
 
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-<div class="lg:col-span-2 space-y-6">
-<div class="glass-card p-6 rounded-xl shadow-sm">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+<div class="lg:col-span-2 space-y-4 md:space-y-6">
+<div class="glass-card p-5 md:p-6 rounded-xl shadow-sm">
 <label class="block text-sm font-semibold mb-2">1. Paste Target Job Description</label>
-<textarea id="jdInput" rows="4" class="w-full border border-gray-300 rounded-lg p-3 text-sm outline-none bg-transparent mb-4 text-slate-800" placeholder="Paste the job description here... (e.g. Seeking a data-driven HR professional with experience in compliance, talent acquisition, and analytics...)"></textarea>
+<textarea id="jdInput" rows="4" class="w-full border border-gray-300 rounded-lg p-3 text-xs md:text-sm outline-none bg-transparent mb-4 text-slate-800" placeholder="Paste the job description here... (e.g. Seeking a data-driven HR professional with experience in compliance, talent acquisition, and analytics...)"></textarea>
 
 <label class="block text-sm font-semibold mb-3">2. Upload PDF Resume</label>
-<div id="dropZone" class="drop-zone w-full h-32 rounded-xl flex flex-col items-center justify-center cursor-pointer bg-slate-500/5 hover:bg-slate-500/10 transition">
-<i class="fa-solid fa-cloud-arrow-up text-3xl text-brand-400 mb-2"></i>
-<span class="text-sm font-medium text-slate-600">Drag & drop your PDF here or click to browse</span>
+<div id="dropZone" class="drop-zone w-full h-24 md:h-32 rounded-xl flex flex-col items-center justify-center cursor-pointer bg-slate-500/5 hover:bg-slate-500/10 transition p-4 text-center">
+<i class="fa-solid fa-cloud-arrow-up text-2xl md:text-3xl text-brand-400 mb-2"></i>
+<span class="text-xs md:text-sm font-medium text-slate-600">Drag & drop your PDF here or click to browse</span>
 <input type="file" id="resumeFile" accept="application/pdf" class="hidden">
 </div>
-<p id="fileNameDisplay" class="mt-2 text-sm text-brand-600 font-medium hidden"><i class="fa-solid fa-check-circle mr-1"></i> File ready: <span id="fName"></span></p>
+<p id="fileNameDisplay" class="mt-2 text-xs md:text-sm text-brand-600 font-medium hidden"><i class="fa-solid fa-check-circle mr-1"></i> File ready: <span id="fName"></span></p>
 </div>
 
-<button id="btnRunATS" onclick="window.runATS()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 rounded-lg shadow-md transition border border-slate-600">
+<button id="btnRunATS" onclick="window.runATS()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 rounded-lg shadow-md transition border border-slate-600 text-sm md:text-base">
 <i class="fa-solid fa-microchip mr-2"></i> Extract Keywords & Run Scan
 </button>
 </div>
 
-<div class="glass-card p-6 rounded-xl shadow-sm flex flex-col justify-start items-center h-[450px] overflow-hidden">
-<h3 class="text-lg font-semibold border-b border-gray-200/50 pb-3 mb-4 w-full text-center">Live Parsing Results</h3>
-<div class="inline-flex items-center justify-center w-28 h-28 rounded-full border-8 border-brand-100 bg-white shadow-inner relative mb-2 flex-shrink-0">
-<span id="atsScoreDisplay" class="text-3xl font-extrabold text-brand-600">0%</span>
+<div class="glass-card p-5 md:p-6 rounded-xl shadow-sm flex flex-col justify-start items-center h-[400px] md:h-[450px] overflow-hidden">
+<h3 class="text-base md:text-lg font-semibold border-b border-gray-200/50 pb-3 mb-4 w-full text-center">Live Parsing Results</h3>
+<div class="inline-flex items-center justify-center w-24 h-24 md:w-28 md:h-28 rounded-full border-8 border-brand-100 bg-white shadow-inner relative mb-2 flex-shrink-0">
+<span id="atsScoreDisplay" class="text-2xl md:text-3xl font-extrabold text-brand-600">0%</span>
 </div>
-<p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-4">Match Score</p>
-<p class="text-sm text-green-700 bg-green-500/20 p-2 rounded hidden w-full text-center mb-4" id="atsSuccessMsg"><i class="fa-solid fa-check"></i> Score synced!</p>
+<p class="text-[10px] md:text-xs font-medium text-gray-500 uppercase tracking-wide mb-4">Match Score</p>
+<p class="text-xs md:text-sm text-green-700 bg-green-500/20 p-2 rounded hidden w-full text-center mb-4" id="atsSuccessMsg"><i class="fa-solid fa-check"></i> Score synced!</p>
 
-<div class="w-full flex-grow overflow-y-auto pr-2 custom-scrollbar text-left text-sm">
+<div class="w-full flex-grow overflow-y-auto pr-2 custom-scrollbar text-left text-xs md:text-sm">
 <h4 class="font-bold text-slate-700 mb-2">JD Extracted Keywords:</h4>
 <div id="keywordResults" class="space-y-2">
-<p class="text-slate-500 italic text-xs">Run scan to view matched vs. missing terms.</p>
+<p class="text-slate-500 italic text-[10px] md:text-xs">Run scan to view matched vs. missing terms.</p>
 </div>
 </div>
 </div>
@@ -282,30 +288,30 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </section>
 
 <section id="tab-test" class="tab-content">
-<div class="mb-8 flex justify-between items-center bg-red-500/10 p-4 rounded-lg border border-red-500/30">
-<div>
-<h2 class="text-2xl font-bold text-slate-800">Stage 2: Cognitive Agility & Decision Velocity</h2>
-<p class="text-slate-600 mt-1 font-medium">Warning: 20 Randomized Questions. Auto-submits when timer hits zero.</p>
+<div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-center sm:items-start bg-red-500/10 p-4 rounded-lg border border-red-500/30 gap-4">
+<div class="text-center sm:text-left">
+<h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 2: Cognitive Agility & Decision Velocity</h2>
+<p class="text-xs md:text-sm text-slate-600 mt-1 font-medium">Warning: 20 Randomized Questions. Auto-submits when timer hits zero.</p>
 </div>
 <div class="text-center">
-<span class="block text-xs uppercase font-bold text-red-500 tracking-widest">Time Remaining</span>
-<div id="quizTimer" class="text-4xl font-mono font-black text-red-600 mt-1 drop-shadow-md">10:00</div>
+<span class="block text-[10px] md:text-xs uppercase font-bold text-red-500 tracking-widest">Time Remaining</span>
+<div id="quizTimer" class="text-3xl md:text-4xl font-mono font-black text-red-600 mt-1 drop-shadow-md">10:00</div>
 </div>
 </div>
 
-<div id="quizStartOverlay" class="glass-card p-12 text-center rounded-xl mb-8">
-<i class="fa-solid fa-stopwatch text-6xl text-brand-500 mb-4 hover:scale-110 transition-transform"></i>
-<h3 class="text-2xl font-bold mb-2">Ready to begin?</h3>
-<p class="mb-6 max-w-lg mx-auto">This test shuffles and selects exactly 20 distinct situational judgment questions from our master question bank. Each is worth 5 points.</p>
-<button onclick="window.startAptitudeTest()" class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-10 rounded-full shadow-lg transition text-lg">
+<div id="quizStartOverlay" class="glass-card p-8 md:p-12 text-center rounded-xl mb-8">
+<i class="fa-solid fa-stopwatch text-5xl md:text-6xl text-brand-500 mb-4 hover:scale-110 transition-transform"></i>
+<h3 class="text-xl md:text-2xl font-bold mb-2">Ready to begin?</h3>
+<p class="mb-6 text-sm md:text-base max-w-lg mx-auto">This test shuffles and selects exactly 20 distinct situational judgment questions from our master question bank. Each is worth 5 points.</p>
+<button onclick="window.startAptitudeTest()" class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-8 md:px-10 rounded-full shadow-lg transition text-base md:text-lg w-full sm:w-auto">
 Start 10-Minute Timer
 </button>
 </div>
 
-<div id="quizContainerWrapper" class="hidden glass-card p-8 rounded-xl shadow-sm max-w-4xl mx-auto h-[600px] overflow-y-auto no-scrollbar relative border-t-4 border-t-brand-500">
-<div id="quizContainer" class="space-y-6"></div>
-<div class="mt-10 pt-6 border-t border-gray-200/50 flex justify-center pb-4">
-<button onclick="window.submitTest(false)" class="bg-brand-800 hover:bg-brand-700 text-white font-bold py-4 px-12 rounded-lg shadow-xl transition transform hover:-translate-y-1">
+<div id="quizContainerWrapper" class="hidden glass-card p-4 md:p-8 rounded-xl shadow-sm max-w-4xl mx-auto h-[500px] md:h-[600px] overflow-y-auto no-scrollbar relative border-t-4 border-t-brand-500">
+<div id="quizContainer" class="space-y-4 md:space-y-6"></div>
+<div class="mt-8 md:mt-10 pt-4 md:pt-6 border-t border-gray-200/50 flex justify-center pb-4">
+<button onclick="window.submitTest(false)" class="w-full sm:w-auto bg-brand-800 hover:bg-brand-700 text-white font-bold py-3 md:py-4 px-8 md:px-12 rounded-lg shadow-xl transition transform hover:-translate-y-1 text-sm md:text-base">
 Submit Final Answers
 </button>
 </div>
@@ -313,158 +319,158 @@ Submit Final Answers
 </section>
 
 <section id="tab-gd" class="tab-content">
-<div class="mb-6 flex justify-between items-center">
+<div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
-<h2 class="text-2xl font-bold text-slate-800">Stage 3: Virtual Group Discussion (5 Rounds)</h2>
-<p class="text-sm text-slate-500">Active Cycle: <span id="gdRoundBadge" class="font-bold text-brand-600">Round 1 of 5</span></p>
+<h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 3: Virtual Group Discussion (5 Rounds)</h2>
+<p class="text-xs md:text-sm text-slate-500 mt-1">Active Cycle: <span id="gdRoundBadge" class="font-bold text-brand-600">Round 1 of 5</span></p>
 </div>
-<button id="aiVoiceBtn4" onclick="window.startAIGD()" class="hidden bg-brand-600 hover:bg-brand-500 text-white px-6 py-2 rounded-full shadow-lg transition font-bold border border-brand-400">
+<button id="aiVoiceBtn4" onclick="window.startAIGD()" class="w-full sm:w-auto hidden bg-brand-600 hover:bg-brand-500 text-white px-4 md:px-6 py-2 rounded-full shadow-lg transition text-sm md:text-base font-bold border border-brand-400 flex items-center justify-center">
 <i class="fa-solid fa-users-viewfinder mr-2"></i>Initialize Virtual Agents
 </button>
 </div>
 
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-<div class="glass-card p-6 rounded-xl border-l-4 border-l-amber-500 flex flex-col min-h-[500px]">
-<h3 class="text-xl font-bold mb-2"><i class="fa-solid fa-comments text-amber-500 mr-2"></i>Active Case Study</h3>
-<p class="text-lg font-bold text-brand-600 mb-1">"AI in Performance Reviews"</p>
-<p class="text-sm mb-6 pb-4 border-b border-gray-200/50">Discuss the ethical implications of replacing human managers with AI scoring systems.</p>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+<div class="glass-card p-4 md:p-6 rounded-xl border-l-4 border-l-amber-500 flex flex-col min-h-[450px] md:min-h-[500px]">
+<h3 class="text-lg md:text-xl font-bold mb-2"><i class="fa-solid fa-comments text-amber-500 mr-2"></i>Active Case Study</h3>
+<p class="text-base md:text-lg font-bold text-brand-600 mb-1">"AI in Performance Reviews"</p>
+<p class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Discuss the ethical implications of replacing human managers with AI scoring systems.</p>
 
 <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
 
 <!-- 3D BOARDROOM OVAL TABLE -->
 <div class="gd-boardroom-container">
   <div class="gd-seat gd-seat-top-left">
-    <div id="avatar-kavya" class="gd-avatar avatar-breathing border-pink-400"></div>
-    <span class="text-xs font-bold mt-1 block text-pink-400">Kavya (Creative)</span>
+    <div id="avatar-kavya" class="gd-avatar w-14 h-14 md:w-20 md:h-20 avatar-breathing border-pink-400"></div>
+    <span class="text-[10px] md:text-xs font-bold mt-1 block text-pink-400">Kavya (Creative)</span>
   </div>
 
   <div class="gd-table-oval">
-    <span class="text-slate-400 font-mono text-[11px] font-bold uppercase tracking-widest text-center px-4"><i class="fa-solid fa-shield-halved text-brand-400 mb-1 block"></i>Executive Boardroom</span>
+    <span class="text-slate-400 font-mono text-[8px] md:text-[11px] font-bold uppercase tracking-widest text-center px-2 md:px-4"><i class="fa-solid fa-shield-halved text-brand-400 mb-1 block"></i>Executive Boardroom</span>
   </div>
 
   <div class="gd-seat gd-seat-top-right">
-    <div id="avatar-arjun" class="gd-avatar avatar-breathing border-blue-400"></div>
-    <span class="text-xs font-bold mt-1 block text-blue-400">Arjun (Analytical)</span>
+    <div id="avatar-arjun" class="gd-avatar w-14 h-14 md:w-20 md:h-20 avatar-breathing border-blue-400"></div>
+    <span class="text-[10px] md:text-xs font-bold mt-1 block text-blue-400">Arjun (Analytical)</span>
   </div>
 
   <div class="gd-seat gd-seat-bottom">
-    <div class="gd-avatar avatar-breathing border-green-400 bg-slate-800 flex items-center justify-center">
-      <i class="fa-solid fa-user text-2xl text-green-400"></i>
+    <div class="gd-avatar w-14 h-14 md:w-20 md:h-20 avatar-breathing border-green-400 bg-slate-800 flex items-center justify-center">
+      <i class="fa-solid fa-user text-xl md:text-2xl text-green-400"></i>
     </div>
-    <span class="text-xs font-bold mt-1 block text-green-400">You (Candidate)</span>
+    <span class="text-[10px] md:text-xs font-bold mt-1 block text-green-400">You (Candidate)</span>
   </div>
 </div>
 
-<div id="gd-transcript" class="bg-slate-900 text-green-400 p-4 rounded-lg font-mono text-sm flex-grow overflow-y-auto h-48 border border-slate-700 shadow-inner mb-4">
+<div id="gd-transcript" class="bg-slate-900 text-green-400 p-3 md:p-4 rounded-lg font-mono text-xs md:text-sm flex-grow overflow-y-auto h-32 md:h-48 border border-slate-700 shadow-inner mb-4">
 > System Ready. Awaiting initialization...
 </div>
 
 <div id="gd-mic-zone" class="w-full flex-col items-center hidden">
-<textarea id="gdTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-3 mb-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
-<div class="flex items-center justify-center space-x-4 w-full">
-<button id="gdMicBtn" onclick="window.toggleGDRecording(event)" class="bg-slate-700 hover:bg-slate-600 text-white rounded-full w-14 h-14 shadow-lg transition flex items-center justify-center border border-slate-500">
-<i class="fa-solid fa-microphone text-xl pointer-events-none" id="gdMicIcon"></i>
+<textarea id="gdTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-2.5 md:p-3 mb-2 md:mb-3 text-xs md:text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
+<div class="flex items-center justify-center space-x-3 md:space-x-4 w-full">
+<button id="gdMicBtn" onclick="window.toggleGDRecording(event)" class="bg-slate-700 hover:bg-slate-600 text-white rounded-full w-12 h-12 md:w-14 md:h-14 shadow-lg transition flex items-center justify-center border border-slate-500 flex-shrink-0">
+<i class="fa-solid fa-microphone text-lg md:text-xl pointer-events-none" id="gdMicIcon"></i>
 </button>
-<button onclick="window.submitGDAnswer()" class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-8 rounded-full shadow-lg transition border border-brand-400">
-Submit Response <i class="fa-solid fa-paper-plane ml-2"></i>
+<button onclick="window.submitGDAnswer()" class="flex-grow bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-4 md:px-8 rounded-full shadow-lg transition border border-brand-400 text-xs md:text-sm flex items-center justify-center">
+Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa-paper-plane ml-2"></i>
 </button>
 </div>
-<p id="gdMicLabel" class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-3">Tap Mic to Dictate or Type</p>
+<p id="gdMicLabel" class="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-2 md:mt-3 text-center">Tap Mic to Dictate or Type</p>
 </div>
 
 </div>
 </div>
 
 <div class="flex flex-col gap-6 h-fit">
-<div class="glass-card p-6 rounded-xl shadow-sm flex flex-col items-center justify-center border border-gray-200/50">
-<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3"><i class="fa-solid fa-video text-blue-500 mr-2"></i>Conference Stream</h3>
-<div class="w-full h-48 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
+<div class="glass-card p-4 md:p-6 rounded-xl shadow-sm flex flex-col items-center justify-center border border-gray-200/50">
+<h3 class="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-2 md:mb-3"><i class="fa-solid fa-video text-blue-500 mr-2"></i>Conference Stream</h3>
+<div class="w-full h-40 md:h-48 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
 <video id="gdWebcam" class="w-full h-full object-cover transform -scale-x-100" autoplay playsinline muted></video>
 </div>
 </div>
 
-<div class="glass-card p-6 rounded-xl shadow-sm admin-only border border-brand-500">
-<div class="flex items-center justify-between border-b border-gray-200/50 pb-3 mb-6">
-<h3 class="text-lg font-semibold text-slate-800"><i class="fa-solid fa-clipboard-check mr-2 text-brand-500"></i>Moderator Scoring</h3>
+<div class="glass-card p-5 md:p-6 rounded-xl shadow-sm admin-only border border-brand-500">
+<div class="flex items-center justify-between border-b border-gray-200/50 pb-3 mb-4 md:mb-6">
+<h3 class="text-base md:text-lg font-semibold text-slate-800"><i class="fa-solid fa-clipboard-check mr-2 text-brand-500"></i>Moderator Scoring</h3>
 </div>
-<label class="block text-sm font-medium text-slate-800 mb-2">Score for Selected Candidate (Out of 30)</label>
-<div class="flex items-center space-x-4 mb-8">
+<label class="block text-xs md:text-sm font-medium text-slate-800 mb-2">Score for Selected Candidate (Out of 30)</label>
+<div class="flex items-center space-x-4 mb-6 md:mb-8">
 <input type="range" id="gdScoreInput" min="0" max="30" value="0" class="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('gdScoreVal').innerText = this.value">
-<span id="gdScoreVal" class="text-2xl font-bold text-brand-600 w-12 text-center">0</span>
+<span id="gdScoreVal" class="text-xl md:text-2xl font-bold text-brand-600 w-10 md:w-12 text-center">0</span>
 </div>
-<button onclick="window.saveGDScore()" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-semibold py-3 rounded-lg shadow-md transition">Push Manual Score</button>
+<button onclick="window.saveGDScore()" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-semibold py-2.5 md:py-3 rounded-lg shadow-md transition text-sm md:text-base">Push Manual Score</button>
 </div>
 
-<div class="glass-card p-6 rounded-xl flex flex-col items-center justify-center text-center [&:has(~.admin-only:not([style*='display: none']))]:hidden" id="gdWaitingArea">
-<i class="fa-solid fa-satellite-dish text-5xl text-slate-400 mb-6 hover:scale-110 transition-transform"></i>
-<h3 class="text-xl font-bold mb-2">Awaiting AI Evaluation</h3>
-<p class="text-sm max-w-sm">Engage in the 5-round simulation. The AI agents will dynamically debate your points via LLM before auto-scoring.</p>
+<div class="glass-card p-5 md:p-6 rounded-xl flex flex-col items-center justify-center text-center [&:has(~.admin-only:not([style*='display: none']))]:hidden" id="gdWaitingArea">
+<i class="fa-solid fa-satellite-dish text-4xl md:text-5xl text-slate-400 mb-4 md:mb-6 hover:scale-110 transition-transform"></i>
+<h3 class="text-lg md:text-xl font-bold mb-2">Awaiting AI Evaluation</h3>
+<p class="text-xs md:text-sm max-w-sm">Engage in the 5-round simulation. The AI agents will dynamically debate your points via LLM before auto-scoring.</p>
 </div>
 </div>
 </div>
 </section>
 
 <section id="tab-interview" class="tab-content">
-<div class="mb-8">
-<h2 class="text-2xl font-bold text-slate-800">Stage 4: AI Behavioral HR Interview & Live Video Feed</h2>
-<p class="text-slate-500 mt-1">STAR-method evaluation with 100% accurate Real Computer Vision tracking.</p>
+<div class="mb-6 md:mb-8">
+<h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 4: AI Behavioral HR Interview</h2>
+<p class="text-xs md:text-sm text-slate-500 mt-1 md:mt-2">STAR-method evaluation with 100% accurate Real Computer Vision tracking.</p>
 </div>
 
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-<div class="glass-card p-6 rounded-xl shadow-sm flex flex-col items-center justify-center border border-gray-200/50">
-<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3"><i class="fa-solid fa-video text-red-500 mr-2"></i>Candidate Video Call Stream</h3>
-<div class="relative w-full h-64 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+<div class="glass-card p-4 md:p-6 rounded-xl shadow-sm flex flex-col items-center justify-center border border-gray-200/50">
+<h3 class="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-2 md:mb-3"><i class="fa-solid fa-video text-red-500 mr-2"></i>Candidate Video Stream</h3>
+<div class="relative w-full h-48 md:h-64 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
 <video id="interviewWebcam" class="w-full h-full object-cover transform -scale-x-100" autoplay playsinline muted></video>
-<div id="aiScanOverlay" class="absolute inset-0 pointer-events-none border-2 border-green-400/40 rounded-xl flex flex-col justify-between p-3 transition-opacity duration-300">
-<div class="flex justify-between text-[10px] font-mono text-green-400 bg-black/60 px-2 py-1 rounded">
+<div id="aiScanOverlay" class="absolute inset-0 pointer-events-none border-2 border-green-400/40 rounded-xl flex flex-col justify-between p-2 md:p-3 transition-opacity duration-300">
+<div class="flex justify-between text-[8px] md:text-[10px] font-mono text-green-400 bg-black/60 px-1.5 md:px-2 py-1 rounded">
 <span>Eye Cont: <strong id="eyeContactVal">Scanning...</strong></span>
 <span>Stress: <strong id="stressVal">Tracking...</strong></span>
 </div>
-<div class="text-[10px] font-mono text-green-400 bg-black/60 px-2 py-1 rounded text-center mb-1">
+<div class="text-[8px] md:text-[10px] font-mono text-green-400 bg-black/60 px-1.5 md:px-2 py-1 rounded text-center mb-1">
 Posture: <strong id="postureVal">Pending</strong>
 </div>
-<div class="text-[10px] font-mono text-green-400 bg-black/60 px-2 py-1 rounded text-center">
+<div class="text-[8px] md:text-[10px] font-mono text-green-400 bg-black/60 px-1.5 md:px-2 py-1 rounded text-center">
 <i class="fa-solid fa-expand mr-1"></i> CV Analysis Active
 </div>
 </div>
 </div>
-<p class="text-xs text-slate-500 mt-3 text-center">Live biometric algorithms measure composure and executive presence.</p>
+<p class="text-[10px] md:text-xs text-slate-500 mt-2 md:mt-3 text-center">Live biometric algorithms measure composure and executive presence.</p>
 </div>
 
-<div class="lg:col-span-2 glass-card p-8 rounded-xl shadow-sm flex flex-col items-center border border-gray-200/50 relative">
-<div id="ai-hr-meera" class="gd-avatar avatar-breathing shadow-2xl transition-all duration-300 mb-4 border-4 border-brand-400 relative z-10" style="width: 120px; height: 120px;"></div>
+<div class="lg:col-span-2 glass-card p-5 md:p-8 rounded-xl shadow-sm flex flex-col items-center border border-gray-200/50 relative">
+<div id="ai-hr-meera" class="gd-avatar w-24 h-24 md:w-32 md:h-32 avatar-breathing shadow-2xl transition-all duration-300 mb-3 md:mb-4 border-4 border-brand-400 relative z-10"></div>
 
-<h3 class="text-xl font-bold mb-1">Virtual HR Director Meera</h3>
-<p id="interview-status" class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-4">Offline - Switch to AI Mode</p>
+<h3 class="text-lg md:text-xl font-bold mb-1 text-center">Virtual HR Director Meera</h3>
+<p id="interview-status" class="text-[10px] md:text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 md:mb-4 text-center">Offline - Switch to AI Mode</p>
 
-<div class="w-full bg-slate-900 rounded-lg p-4 font-mono text-sm text-green-400 h-48 overflow-y-auto mb-4 border border-slate-700 shadow-inner" id="interview-transcript">
+<div class="w-full bg-slate-900 rounded-lg p-3 md:p-4 font-mono text-xs md:text-sm text-green-400 h-40 md:h-48 overflow-y-auto mb-4 border border-slate-700 shadow-inner" id="interview-transcript">
 > System initialized. Waiting for AI activation...
 </div>
 
 <div id="interview-controls" class="hidden w-full flex-col items-center">
-<div id="interviewModeToggle" class="flex items-center space-x-4 mb-4 bg-slate-800 p-2 rounded-lg border border-slate-700">
-<span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Style:</span>
-<div class="flex bg-slate-900 rounded-md p-1">
-<button id="btnMethodSTAR" onclick="window.setInterviewMethod('star')" class="px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors">STAR</button>
-<button id="btnMethodGeneral" onclick="window.setInterviewMethod('general')" class="px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent">General</button>
+<div id="interviewModeToggle" class="flex flex-col sm:flex-row items-center gap-2 sm:space-x-4 mb-4 bg-slate-800 p-2 rounded-lg border border-slate-700 w-full sm:w-auto">
+<span class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest text-center">Style:</span>
+<div class="flex bg-slate-900 rounded-md p-1 w-full sm:w-auto justify-center">
+<button id="btnMethodSTAR" onclick="window.setInterviewMethod('star')" class="px-3 md:px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors w-1/2 sm:w-auto">STAR</button>
+<button id="btnMethodGeneral" onclick="window.setInterviewMethod('general')" class="px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto">General</button>
 </div>
 </div>
 
-<button id="startInterviewBtn" onclick="window.startAIInterview()" class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-8 rounded-full shadow-lg transition mb-2 border border-brand-400">
+<button id="startInterviewBtn" onclick="window.startAIInterview()" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-6 md:px-8 rounded-full shadow-lg transition mb-2 border border-brand-400 text-sm md:text-base flex items-center justify-center">
 <i class="fa-solid fa-play mr-2"></i> Initialize Protocol
 </button>
 
 <div id="interview-mic-zone" class="w-full flex-col items-center hidden">
-<textarea id="interviewTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-3 mb-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
-<div class="flex items-center justify-center space-x-4 w-full">
-<button id="interviewMicBtn" onclick="window.toggleInterviewRecording(event)" class="bg-slate-700 hover:bg-slate-600 text-white rounded-full w-14 h-14 shadow-lg transition flex items-center justify-center border border-slate-500">
-<i class="fa-solid fa-microphone text-xl pointer-events-none" id="interviewMicIcon"></i>
+<textarea id="interviewTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-2.5 md:p-3 mb-2 md:mb-3 text-xs md:text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
+<div class="flex items-center justify-center space-x-3 md:space-x-4 w-full">
+<button id="interviewMicBtn" onclick="window.toggleInterviewRecording(event)" class="bg-slate-700 hover:bg-slate-600 text-white rounded-full w-12 h-12 md:w-14 md:h-14 shadow-lg transition flex items-center justify-center border border-slate-500 flex-shrink-0">
+<i class="fa-solid fa-microphone text-lg md:text-xl pointer-events-none" id="interviewMicIcon"></i>
 </button>
-<button onclick="window.submitInterviewAnswer()" class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-8 rounded-full shadow-lg transition border border-brand-400">
-Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
+<button onclick="window.submitInterviewAnswer()" class="flex-grow bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-4 md:px-8 rounded-full shadow-lg transition border border-brand-400 text-xs md:text-sm flex items-center justify-center">
+Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-paper-plane ml-2"></i>
 </button>
 </div>
-<p id="interviewMicLabel" class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-3">Tap Mic to Dictate or Type</p>
+<p id="interviewMicLabel" class="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-2 md:mt-3 text-center">Tap Mic to Dictate or Type</p>
 </div>
 
 </div>
@@ -473,171 +479,171 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 </section>
 
 <section id="tab-passport" class="tab-content">
-<div class="mb-6 flex justify-between items-center flex-wrap gap-4">
+<div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
-<h2 class="text-2xl font-bold text-slate-800">Stage 5: Executive Talent Passport</h2>
-<p class="text-xs text-slate-500">Automated evaluation completed upon Stage 4 interview submission.</p>
+<h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 5: Executive Talent Passport</h2>
+<p class="text-[10px] md:text-xs text-slate-500 mt-1">Automated evaluation completed upon Stage 4 interview submission.</p>
 </div>
-<button id="aiVoiceBtn5" onclick="window.playDebrief()" class="hidden bg-brand-600 hover:bg-brand-500 text-white px-6 py-2 rounded-full shadow-lg transition font-bold border border-brand-400"><i class="fa-solid fa-bullhorn mr-2"></i>Play Audio Debrief</button>
-</div>
-
-<div id="passportLock" class="glass-card p-12 rounded-xl text-center border border-gray-200/50">
-<i class="fa-solid fa-hourglass-half text-6xl text-brand-400 mb-6 animate-pulse"></i>
-<h3 class="text-3xl font-bold mb-2">Assessment In Progress</h3>
-<p class="max-w-md mx-auto text-slate-500">Complete Stage 4 (AI Behavioral Interview). Upon completion, your Talent Passport decrypts automatically and your report is emailed to you.</p>
+<button id="aiVoiceBtn5" onclick="window.playDebrief()" class="w-full sm:w-auto hidden bg-brand-600 hover:bg-brand-500 text-white px-4 md:px-6 py-2 rounded-full shadow-lg transition text-sm md:text-base font-bold border border-brand-400 flex items-center justify-center"><i class="fa-solid fa-bullhorn mr-2"></i>Play Audio Debrief</button>
 </div>
 
-<div id="passportContent" class="hidden mb-8">
-<div class="bg-gradient-to-br from-slate-900 to-brand-900 rounded-2xl p-10 text-white relative overflow-hidden shadow-2xl border border-white/10">
-<div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/20 pb-8 mb-8">
+<div id="passportLock" class="glass-card p-8 md:p-12 rounded-xl text-center border border-gray-200/50">
+<i class="fa-solid fa-hourglass-half text-5xl md:text-6xl text-brand-400 mb-4 md:mb-6 animate-pulse"></i>
+<h3 class="text-2xl md:text-3xl font-bold mb-2">Assessment In Progress</h3>
+<p class="text-sm md:text-base max-w-md mx-auto text-slate-500">Complete Stage 4 (AI Behavioral Interview). Upon completion, your Talent Passport decrypts automatically and your report is emailed to you.</p>
+</div>
+
+<div id="passportContent" class="hidden mb-6 md:mb-8">
+<div class="bg-gradient-to-br from-slate-900 to-brand-900 rounded-2xl p-6 md:p-10 text-white relative overflow-hidden shadow-2xl border border-white/10">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/20 pb-6 md:pb-8 mb-6 md:mb-8 gap-4">
 <div>
-<h2 id="passName" class="text-4xl font-extrabold text-white tracking-tight">Candidate Name</h2>
-<p id="passArchetype" class="text-brand-300 mt-2 font-medium text-lg"><i class="fa-solid fa-dna mr-2"></i>Archetype: Evaluated</p>
-<span class="inline-block mt-3 bg-green-500/20 text-green-300 border border-green-400/40 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"><i class="fa-solid fa-circle-check mr-1"></i> Automated Dispatch Verified</span>
+<h2 id="passName" class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">Candidate Name</h2>
+<p id="passArchetype" class="text-brand-300 mt-1 md:mt-2 font-medium text-base md:text-lg"><i class="fa-solid fa-dna mr-2"></i>Archetype: Evaluated</p>
+<span class="inline-block mt-3 bg-green-500/20 text-green-300 border border-green-400/40 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider"><i class="fa-solid fa-circle-check mr-1"></i> Automated Dispatch Verified</span>
 </div>
-<div class="text-right bg-black/40 p-6 rounded-xl border border-white/10 mt-4 md:mt-0 shadow-inner">
-<span class="block text-sm uppercase text-brand-200 font-bold tracking-widest">Readiness Index</span>
-<span id="passTotal" class="block text-5xl font-black mt-2 text-green-400">0%</span>
+<div class="text-left md:text-right bg-black/40 p-4 md:p-6 rounded-xl border border-white/10 w-full md:w-auto shadow-inner">
+<span class="block text-xs md:text-sm uppercase text-brand-200 font-bold tracking-widest">Readiness Index</span>
+<span id="passTotal" class="block text-4xl md:text-5xl font-black mt-1 md:mt-2 text-green-400">0%</span>
 </div>
 </div>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-<div class="bg-white/5 p-6 rounded-xl text-center border border-white/5 backdrop-blur-sm"><span class="block text-sm text-gray-300 font-medium">ATS Audit</span><span id="passATS" class="block text-3xl font-bold mt-2 text-white">0/100</span></div>
-<div class="bg-white/5 p-6 rounded-xl text-center border border-white/5 backdrop-blur-sm"><span class="block text-sm text-gray-300 font-medium">Aptitude</span><span id="passTest" class="block text-3xl font-bold mt-2 text-white">0/100</span></div>
-<div class="bg-white/5 p-6 rounded-xl text-center border border-white/5 backdrop-blur-sm"><span class="block text-sm text-gray-300 font-medium">Group Disc.</span><span id="passGD" class="block text-3xl font-bold mt-2 text-white">0/30</span></div>
-<div class="bg-white/5 p-6 rounded-xl text-center border border-white/5 backdrop-blur-sm"><span class="block text-sm text-gray-300 font-medium">HR Interview</span><span id="passInterview" class="block text-3xl font-bold mt-2 text-white">0/100</span></div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+<div class="bg-white/5 p-4 md:p-6 rounded-xl text-center border border-white/5 backdrop-blur-sm"><span class="block text-xs md:text-sm text-gray-300 font-medium">ATS Audit</span><span id="passATS" class="block text-2xl md:text-3xl font-bold mt-1 md:mt-2 text-white">0/100</span></div>
+<div class="bg-white/5 p-4 md:p-6 rounded-xl text-center border border-white/5 backdrop-blur-sm"><span class="block text-xs md:text-sm text-gray-300 font-medium">Aptitude</span><span id="passTest" class="block text-2xl md:text-3xl font-bold mt-1 md:mt-2 text-white">0/100</span></div>
+<div class="bg-white/5 p-4 md:p-6 rounded-xl text-center border border-white/5 backdrop-blur-sm"><span class="block text-xs md:text-sm text-gray-300 font-medium">Group Disc.</span><span id="passGD" class="block text-2xl md:text-3xl font-bold mt-1 md:mt-2 text-white">0/30</span></div>
+<div class="bg-white/5 p-4 md:p-6 rounded-xl text-center border border-white/5 backdrop-blur-sm"><span class="block text-xs md:text-sm text-gray-300 font-medium">HR Interview</span><span id="passInterview" class="block text-2xl md:text-3xl font-bold mt-1 md:mt-2 text-white">0/100</span></div>
 </div>
 </div>
 </div>
 
-<div class="glass-card rounded-xl p-8 shadow-sm mt-8 border-l-8 border-l-brand-500">
-<h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fa-solid fa-paper-plane mr-2 text-brand-500"></i>Official Executive Report Dispatch</h3>
-<p class="text-sm text-slate-600 mb-6">Your official evaluation report compiles your quantitative index, visual composure metrics, and developmental feedback.</p>
+<div class="glass-card rounded-xl p-6 md:p-8 shadow-sm mt-6 md:mt-8 border-l-4 md:border-l-8 border-l-brand-500">
+<h3 class="font-bold text-lg md:text-xl mb-2 md:mb-4 text-slate-800"><i class="fa-solid fa-paper-plane mr-2 text-brand-500"></i>Official Executive Report Dispatch</h3>
+<p class="text-xs md:text-sm text-slate-600 mb-4 md:mb-6">Your official evaluation report compiles your quantitative index, visual composure metrics, and developmental feedback.</p>
 
-<div class="flex flex-wrap gap-4">
-<button onclick="window.emailDetailedReport()" class="bg-brand-600 hover:bg-brand-500 text-white px-8 py-4 rounded-xl font-bold transition shadow-lg text-lg"><i class="fa-brands fa-google mr-2"></i> Resend Official Report via Gmail</button>
+<div class="flex flex-col sm:flex-row gap-3 md:gap-4">
+<button onclick="window.emailDetailedReport()" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-500 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-bold transition shadow-lg text-sm md:text-lg flex items-center justify-center"><i class="fa-brands fa-google mr-2"></i> Resend Official Report (Gmail)</button>
 </div>
 </div>
 </section>
 
 <!-- PLATFORM OVERVIEW SECTION (ABOUT) -->
 <section id="tab-overview" class="tab-content">
-  <div class="mb-10">
-    <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">About: The 5-Stage Assessment Gauntlet</h2>
-    <p class="text-slate-500 mt-3 text-lg max-w-4xl">A detailed breakdown of the 5 core modules you are about to experience. Understand the specific corporate evaluation criteria and exactly how conquering this gauntlet will accelerate your MBA career trajectory.</p>
+  <div class="mb-8 md:mb-10 text-center md:text-left">
+    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">About: The 5-Stage Assessment Gauntlet</h2>
+    <p class="text-slate-500 mt-2 md:mt-3 text-base md:text-lg max-w-4xl mx-auto md:mx-0">A detailed breakdown of the 5 core modules you are about to experience. Understand the specific corporate evaluation criteria and exactly how conquering this gauntlet will accelerate your MBA career trajectory.</p>
   </div>
 
-  <div class="space-y-8">
+  <div class="space-y-6 md:space-y-8">
     <!-- Stage 1 -->
-    <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500">
-      <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-file-pdf text-blue-500 mr-3 text-3xl"></i> Stage 1: Enterprise ATS Audit (TF-IDF)</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-gear mr-2"></i>What It Does</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Simulates a Fortune 500 Applicant Tracking System. It uses Term Frequency-Inverse Document Frequency (TF-IDF) algorithms to scan your uploaded PDF resume against a target job description in real-time.</p>
+    <div class="glass-card p-5 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500">
+      <h3 class="text-xl md:text-2xl font-bold text-slate-800 mb-4 md:mb-6 flex items-center"><i class="fa-solid fa-file-pdf text-blue-500 mr-2 md:mr-3 text-2xl md:text-3xl"></i> Stage 1: Enterprise ATS Audit</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-blue-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-gear mr-1.5"></i>What It Does</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Simulates a Fortune 500 Applicant Tracking System. It uses Term Frequency-Inverse Document Frequency (TF-IDF) algorithms to scan your uploaded PDF resume against a target job description in real-time.</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-magnifying-glass mr-2"></i>What Is Evaluated</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Keyword density, syntax alignment, document format compatibility, and the presence of core industry competencies explicitly demanded by the job description.</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-indigo-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-magnifying-glass mr-1.5"></i>What Is Evaluated</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Keyword density, syntax alignment, document format compatibility, and the presence of core industry competencies explicitly demanded by the job description.</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-purple-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-brain mr-2"></i>Why These Criteria</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Over 75% of resumes are rejected by automated bots before a human recruiter ever sees them. Perfecting algorithmic keyword matching is the ultimate, non-negotiable gatekeeper in modern recruitment.</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-purple-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-brain mr-1.5"></i>Why These Criteria</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Over 75% of resumes are rejected by automated bots before a human recruiter ever sees them. Perfecting algorithmic keyword matching is the ultimate, non-negotiable gatekeeper in modern recruitment.</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-green-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-arrow-trend-up mr-2"></i>How It Helps You</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">It demystifies the "black box" of corporate screening. It teaches you to reverse-engineer job postings and tailor your resume dynamically, ensuring you never fail a digital screening again.</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-arrow-trend-up mr-1.5"></i>How It Helps You</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">It demystifies the "black box" of corporate screening. It teaches you to reverse-engineer job postings and tailor your resume dynamically, ensuring you never fail a digital screening again.</p>
          </div>
       </div>
     </div>
 
     <!-- Stage 2 -->
-    <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-red-500">
-      <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-stopwatch text-red-500 mr-3 text-3xl"></i> Stage 2: Decision Velocity Assessment</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-gear mr-2"></i>What It Does</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Administers a high-pressure, 10-minute timed gauntlet featuring 20 randomized situational HR and business logic scenarios drawn from a master question bank.</p>
+    <div class="glass-card p-5 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-red-500">
+      <h3 class="text-xl md:text-2xl font-bold text-slate-800 mb-4 md:mb-6 flex items-center"><i class="fa-solid fa-stopwatch text-red-500 mr-2 md:mr-3 text-2xl md:text-3xl"></i> Stage 2: Decision Velocity</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-blue-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-gear mr-1.5"></i>What It Does</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Administers a high-pressure, 10-minute timed gauntlet featuring 20 randomized situational HR and business logic scenarios drawn from a master question bank.</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-magnifying-glass mr-2"></i>What Is Evaluated</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Domain literacy, cognitive load management, situational judgment, and the speed at which you can make accurate decisions under strict deadlines (Decision Velocity).</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-indigo-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-magnifying-glass mr-1.5"></i>What Is Evaluated</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Domain literacy, cognitive load management, situational judgment, and the speed at which you can make accurate decisions under strict deadlines (Decision Velocity).</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-purple-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-brain mr-2"></i>Why These Criteria</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Modern corporate environments are volatile. Leaders must be able to synthesize complex information rapidly and make critical judgment calls without buckling under pressure.</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-purple-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-brain mr-1.5"></i>Why These Criteria</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Modern corporate environments are volatile. Leaders must be able to synthesize complex information rapidly and make critical judgment calls without buckling under pressure.</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-green-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-arrow-trend-up mr-2"></i>How It Helps You</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">It builds mental stamina and exposes theoretical knowledge gaps in core business logic, ensuring you remain calm and calculated during high-stakes executive assessments.</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-arrow-trend-up mr-1.5"></i>How It Helps You</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">It builds mental stamina and exposes theoretical knowledge gaps in core business logic, ensuring you remain calm and calculated during high-stakes executive assessments.</p>
          </div>
       </div>
     </div>
 
     <!-- Stage 3 -->
-    <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500">
-      <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-users text-amber-500 mr-3 text-3xl"></i> Stage 3: Multi-Agent Virtual GD</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-gear mr-2"></i>What It Does</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Drops you into a dynamic 3D virtual boardroom to debate an ethical business case study ("AI in Performance Reviews") across 5 rounds against two LLM-powered AI personas.</p>
+    <div class="glass-card p-5 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500">
+      <h3 class="text-xl md:text-2xl font-bold text-slate-800 mb-4 md:mb-6 flex items-center"><i class="fa-solid fa-users text-amber-500 mr-2 md:mr-3 text-2xl md:text-3xl"></i> Stage 3: Virtual Group Discussion</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-blue-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-gear mr-1.5"></i>What It Does</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Drops you into a dynamic 3D virtual boardroom to debate an ethical business case study ("AI in Performance Reviews") across 5 rounds against two LLM-powered AI personas.</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-magnifying-glass mr-2"></i>What Is Evaluated</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Collaboration, conflict resolution, active listening, diplomacy, and your ability to synthesize, build upon, or politely pivot the arguments of your peers.</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-indigo-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-magnifying-glass mr-1.5"></i>What Is Evaluated</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Collaboration, conflict resolution, active listening, diplomacy, and your ability to synthesize, build upon, or politely pivot the arguments of your peers.</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-purple-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-brain mr-2"></i>Why These Criteria</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Teamwork is a non-negotiable MBA trait. Evaluators don't just want the loudest voice; they want to see if you can lead and facilitate a complex discussion without dominating or alienating others.</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-purple-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-brain mr-1.5"></i>Why These Criteria</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Teamwork is a non-negotiable MBA trait. Evaluators don't just want the loudest voice; they want to see if you can lead and facilitate a complex discussion without dominating or alienating others.</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-green-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-arrow-trend-up mr-2"></i>How It Helps You</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Provides a risk-free environment to practice negotiation framing and phrasing. You will learn to strike the perfect professional balance between assertiveness and cooperativeness.</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-arrow-trend-up mr-1.5"></i>How It Helps You</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Provides a risk-free environment to practice negotiation framing and phrasing. You will learn to strike the perfect professional balance between assertiveness and cooperativeness.</p>
          </div>
       </div>
     </div>
 
     <!-- Stage 4 -->
-    <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-brand-500">
-      <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-microphone-lines text-brand-500 mr-3 text-3xl"></i> Stage 4: AI Behavioral HR Interview</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-gear mr-2"></i>What It Does</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Conducts a live, face-to-face video interview with Virtual HR Director Meera, utilizing dynamic conversational AI and live webcam computer vision tracking.</p>
+    <div class="glass-card p-5 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-brand-500">
+      <h3 class="text-xl md:text-2xl font-bold text-slate-800 mb-4 md:mb-6 flex items-center"><i class="fa-solid fa-microphone-lines text-brand-500 mr-2 md:mr-3 text-2xl md:text-3xl"></i> Stage 4: AI Behavioral Interview</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-blue-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-gear mr-1.5"></i>What It Does</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Conducts a live, face-to-face video interview with Virtual HR Director Meera, utilizing dynamic conversational AI and live webcam computer vision tracking.</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-magnifying-glass mr-2"></i>What Is Evaluated</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Visual focus (Eye Contact via webcam), physical stress indicators (Posture shifting), and the structural integrity of your verbal responses using the STAR method.</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-indigo-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-magnifying-glass mr-1.5"></i>What Is Evaluated</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Visual focus (Eye Contact via webcam), physical stress indicators (Posture shifting), and the structural integrity of your verbal responses using the STAR method.</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-purple-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-brain mr-2"></i>Why These Criteria</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Executive presence is judged non-verbally as much as verbally. Furthermore, behavioral claims must be backed by structured, quantifiable metrics to pass modern HR rubrics.</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-purple-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-brain mr-1.5"></i>Why These Criteria</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Executive presence is judged non-verbally as much as verbally. Furthermore, behavioral claims must be backed by structured, quantifiable metrics to pass modern HR rubrics.</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-green-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-arrow-trend-up mr-2"></i>How It Helps You</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">It exposes subconscious physical tells (like breaking eye contact or fidgeting) while simultaneously forcing you to format your past achievements into universally accepted corporate syntax.</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-arrow-trend-up mr-1.5"></i>How It Helps You</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">It exposes subconscious physical tells (like breaking eye contact or fidgeting) while simultaneously forcing you to format your past achievements into universally accepted corporate syntax.</p>
          </div>
       </div>
     </div>
 
     <!-- Stage 5 -->
-    <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-emerald-500">
-      <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-id-card text-emerald-500 mr-3 text-3xl"></i> Stage 5: Executive Talent Passport</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-gear mr-2"></i>What It Does</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">The culmination of your assessment gauntlet. It automatically decrypts upon interview completion, compiles all quantitative and qualitative data, and emails you a master report.</p>
+    <div class="glass-card p-5 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-emerald-500">
+      <h3 class="text-xl md:text-2xl font-bold text-slate-800 mb-4 md:mb-6 flex items-center"><i class="fa-solid fa-id-card text-emerald-500 mr-2 md:mr-3 text-2xl md:text-3xl"></i> Stage 5: Executive Talent Passport</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-blue-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-gear mr-1.5"></i>What It Does</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">The culmination of your assessment gauntlet. It automatically decrypts upon interview completion, compiles all quantitative and qualitative data, and emails you a master report.</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-magnifying-glass mr-2"></i>What Is Evaluated</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Your holistic "Readiness Index," a final calculation of your technical knowledge, behavioral competence, structural syntax, and assigned psychometric Archetype.</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-indigo-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-magnifying-glass mr-1.5"></i>What Is Evaluated</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Your holistic "Readiness Index," a final calculation of your technical knowledge, behavioral competence, structural syntax, and assigned psychometric Archetype.</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-purple-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-brain mr-2"></i>Why These Criteria</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">Top-tier employers evaluate candidates holistically. Technical skills get you the interview, but cognitive agility and cultural fit ultimately secure the offer.</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-purple-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-brain mr-1.5"></i>Why These Criteria</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">Top-tier employers evaluate candidates holistically. Technical skills get you the interview, but cognitive agility and cultural fit ultimately secure the offer.</p>
          </div>
-         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h4 class="text-xs font-bold text-green-600 uppercase tracking-widest mb-3"><i class="fa-solid fa-arrow-trend-up mr-2"></i>How It Helps You</h4>
-            <p class="text-sm text-slate-700 leading-relaxed">It acts as a personalized, data-driven feedback loop. The automated report highlights your exact blind spots, allowing you to course-correct significantly before actual placement season begins.</p>
+         <div class="bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
+            <h4 class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest mb-2 md:mb-3"><i class="fa-solid fa-arrow-trend-up mr-1.5"></i>How It Helps You</h4>
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed">It acts as a personalized, data-driven feedback loop. The automated report highlights your exact blind spots, allowing you to course-correct significantly before actual placement season begins.</p>
          </div>
       </div>
     </div>
@@ -645,127 +651,130 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 </section>
 
 <section id="tab-rights" class="tab-content">
-<div class="mb-8"><h2 class="text-2xl font-bold text-slate-800">Employee Rights Spotlight & Masterclasses</h2><p class="text-slate-500 mt-2">Essential regulatory knowledge every postgraduate professional must master before signing an offer letter.</p></div>
-
-<div class="grid grid-cols-1 gap-10">
-<div class="glass-card p-8 rounded-xl shadow-lg border-t-4 border-t-blue-500">
-<h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-coins mr-2 text-blue-500"></i>1. Compensation & CTC Breakdowns</h3>
-<p class="text-sm mb-4 text-slate-600"><strong>Base vs. Variable Pay:</strong> Never evaluate a job offer purely on "CTC" (Cost to Company). Base pay is fixed and guaranteed. Variable pay is contingent on company profits and individual performance.</p>
-<p class="text-sm mb-6 text-slate-600"><strong>Provident Fund & Gratuity:</strong> In India, PF (12% of Basic) is deducted from your salary but matched by the employer. Gratuity is paid after 5 years of continuous service.</p>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/Qz1VhbNjboE?si=WqFq057njlqp0ocb" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
-<iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/UqjZEC2Ykb4?si=5Yf-fGJ-eAXGg-Ou" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
-</div>
+<div class="mb-6 md:mb-8 text-center md:text-left">
+  <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Employee Rights Spotlight & Masterclasses</h2>
+  <p class="text-sm md:text-base text-slate-500 mt-2">Essential regulatory knowledge every postgraduate professional must master before signing an offer letter.</p>
 </div>
 
-<div class="glass-card p-8 rounded-xl shadow-lg border-t-4 border-t-pink-500">
-<h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-shield-halved mr-2 text-pink-500"></i>2. Prevention of Sexual Harassment (POSH)</h3>
-<p class="text-sm mb-4 text-slate-600"><strong>The 2013 Act & Vishakha Guidelines:</strong> Every organization with 10 or more employees is legally mandated to constitute an Internal Complaints Committee (ICC).</p>
-<p class="text-sm mb-6 text-slate-600"><strong>Zero Tolerance Policies:</strong> Harassment includes implied requests for favors, sexually colored remarks, and creating a hostile work environment.</p>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/M8C2B949BqA?si=DXddUt1YXOrBTig0" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
-<iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/tEulz5dqQL4?si=LH05s_AwAX2m2P2M" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+<div class="grid grid-cols-1 gap-8 md:gap-10">
+<div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-blue-500">
+<h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-coins mr-2 text-blue-500"></i>1. Compensation & CTC Breakdowns</h3>
+<p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>Base vs. Variable Pay:</strong> Never evaluate a job offer purely on "CTC" (Cost to Company). Base pay is fixed and guaranteed. Variable pay is contingent on company profits and individual performance.</p>
+<p class="text-xs md:text-sm mb-4 md:mb-6 text-slate-600"><strong>Provident Fund & Gratuity:</strong> In India, PF (12% of Basic) is deducted from your salary but matched by the employer. Gratuity is paid after 5 years of continuous service.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+<iframe class="w-full h-48 md:h-64 rounded-lg shadow" src="https://www.youtube.com/embed/Qz1VhbNjboE?si=WqFq057njlqp0ocb" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+<iframe class="w-full h-48 md:h-64 rounded-lg shadow" src="https://www.youtube.com/embed/UqjZEC2Ykb4?si=5Yf-fGJ-eAXGg-Ou" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
 </div>
 </div>
 
-<div class="glass-card p-8 rounded-xl shadow-lg border-t-4 border-t-emerald-500">
-<h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-file-contract mr-2 text-emerald-500"></i>3. Employment Contracts & Notice Periods</h3>
-<p class="text-sm mb-4 text-slate-600"><strong>Non-Compete Clauses:</strong> Under Section 27 of the Indian Contract Act, post-employment non-compete clauses are generally void and unenforceable.</p>
-<p class="text-sm mb-6 text-slate-600"><strong>Notice Period Buyouts:</strong> Notice periods are contractual. New employers can "buy out" notice periods by paying the basic salary for unserved days.</p>
+<div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-pink-500">
+<h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-shield-halved mr-2 text-pink-500"></i>2. Prevention of Sexual Harassment (POSH)</h3>
+<p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>The 2013 Act & Vishakha Guidelines:</strong> Every organization with 10 or more employees is legally mandated to constitute an Internal Complaints Committee (ICC).</p>
+<p class="text-xs md:text-sm mb-4 md:mb-6 text-slate-600"><strong>Zero Tolerance Policies:</strong> Harassment includes implied requests for favors, sexually colored remarks, and creating a hostile work environment.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+<iframe class="w-full h-48 md:h-64 rounded-lg shadow" src="https://www.youtube.com/embed/M8C2B949BqA?si=DXddUt1YXOrBTig0" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+<iframe class="w-full h-48 md:h-64 rounded-lg shadow" src="https://www.youtube.com/embed/tEulz5dqQL4?si=LH05s_AwAX2m2P2M" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+</div>
+</div>
+
+<div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-emerald-500">
+<h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-file-contract mr-2 text-emerald-500"></i>3. Employment Contracts & Notice Periods</h3>
+<p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>Non-Compete Clauses:</strong> Under Section 27 of the Indian Contract Act, post-employment non-compete clauses are generally void and unenforceable.</p>
+<p class="text-xs md:text-sm mb-4 md:mb-6 text-slate-600"><strong>Notice Period Buyouts:</strong> Notice periods are contractual. New employers can "buy out" notice periods by paying the basic salary for unserved days.</p>
 </div>
 </div>
 </section>
 
 <section id="tab-about" class="tab-content">
-<div class="mb-8">
-  <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & Curriculum Mapping</h2>
-  <p class="text-slate-500 mt-2 text-lg">Bridging postgraduate classroom theory with real-world HR technology execution.</p>
+<div class="mb-6 md:mb-8 text-center md:text-left">
+  <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & Curriculum Mapping</h2>
+  <p class="text-sm md:text-lg text-slate-500 mt-2">Bridging postgraduate classroom theory with real-world HR technology execution.</p>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-  <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500 flex flex-col justify-between">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+  <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500 flex flex-col justify-between">
     <div>
       <div class="flex items-center space-x-3 mb-4">
-        <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-sitemap"></i></div>
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-sitemap"></i></div>
         <div>
-          <h3 class="text-xl font-bold text-slate-800">1. Organizational Behavior (OB) & Psychometrics</h3>
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Onboarding & Archetype Profiling</span>
+          <h3 class="text-lg md:text-xl font-bold text-slate-800">1. Organizational Behavior & Psychometrics</h3>
+          <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Onboarding & Archetype Profiling</span>
         </div>
       </div>
       <div class="space-y-4 mb-6">
         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-          <span class="text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-          <p class="text-sm text-slate-700">Big Five Personality Traits, DISC assessments, cognitive biases, and predictive workplace behavior models.</p>
+          <span class="text-[10px] md:text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+          <p class="text-xs md:text-sm text-slate-700">Big Five Personality Traits, DISC assessments, cognitive biases, and predictive workplace behavior models.</p>
         </div>
         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-          <span class="text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-          <p class="text-sm text-slate-700">Forces candidates through a forced-choice situational matrix to mathematically determine their operational archetype (Strategist, Innovator, Connector, Executor).</p>
+          <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+          <p class="text-xs md:text-sm text-slate-700">Forces candidates through a forced-choice situational matrix to mathematically determine their operational archetype.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500 flex flex-col justify-between">
+  <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500 flex flex-col justify-between">
     <div>
       <div class="flex items-center space-x-3 mb-4">
-        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-file-contract"></i></div>
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-file-contract"></i></div>
         <div>
-          <h3 class="text-xl font-bold text-slate-800">2. Strategic Talent Acquisition (TA)</h3>
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 1: Enterprise ATS Audit</span>
+          <h3 class="text-lg md:text-xl font-bold text-slate-800">2. Strategic Talent Acquisition (TA)</h3>
+          <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 1: Enterprise ATS Audit</span>
         </div>
       </div>
       <div class="space-y-4 mb-6">
         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-          <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-          <p class="text-sm text-slate-700">Recruitment funnels, algorithmic screening, Term Frequency-Inverse Document Frequency (TF-IDF), and predictive validity in hiring.</p>
+          <span class="text-[10px] md:text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+          <p class="text-xs md:text-sm text-slate-700">Recruitment funnels, algorithmic screening, Term Frequency-Inverse Document Frequency (TF-IDF), and predictive validity.</p>
         </div>
         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-          <span class="text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-          <p class="text-sm text-slate-700">Demystifies the "black box" of Fortune 500 resume screening. Candidates witness real-time PDF parsing and keyword density matching.</p>
+          <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+          <p class="text-xs md:text-sm text-slate-700">Demystifies the "black box" of Fortune 500 resume screening via real-time PDF parsing and keyword density matching.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500 flex flex-col justify-between">
+  <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500 flex flex-col justify-between">
     <div>
       <div class="flex items-center space-x-3 mb-4">
-        <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-brain"></i></div>
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-brain"></i></div>
         <div>
-          <h3 class="text-xl font-bold text-slate-800">3. Learning & Development (L&D)</h3>
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 2: Decision Velocity Assessment</span>
+          <h3 class="text-lg md:text-xl font-bold text-slate-800">3. Learning & Development (L&D)</h3>
+          <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 2: Decision Velocity Assessment</span>
         </div>
       </div>
       <div class="space-y-4 mb-6">
         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-          <span class="text-xs font-bold text-purple-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-          <p class="text-sm text-slate-700">Cognitive load theory, situational judgment testing (SJT), and decision-making under high stress/strict deadlines.</p>
+          <span class="text-[10px] md:text-xs font-bold text-purple-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+          <p class="text-xs md:text-sm text-slate-700">Cognitive load theory, situational judgment testing (SJT), and decision-making under high stress/strict deadlines.</p>
         </div>
         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-          <span class="text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-          <p class="text-sm text-slate-700">Simulates real-world management pressure with a randomized 20-question, 10-minute countdown assessment.</p>
+          <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+          <p class="text-xs md:text-sm text-slate-700">Simulates real-world management pressure with a randomized 20-question, 10-minute countdown assessment.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500 flex flex-col justify-between">
+  <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500 flex flex-col justify-between">
     <div>
       <div class="flex items-center space-x-3 mb-4">
-        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-comments"></i></div>
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-comments"></i></div>
         <div>
-          <h3 class="text-xl font-bold text-slate-800">4. Group Dynamics & Team Leadership</h3>
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 3: Multi-Agent Virtual GD</span>
+          <h3 class="text-lg md:text-xl font-bold text-slate-800">4. Group Dynamics & Team Leadership</h3>
+          <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 3: Multi-Agent Virtual GD</span>
         </div>
       </div>
       <div class="space-y-4 mb-6">
         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-          <span class="text-xs font-bold text-amber-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-          <p class="text-sm text-slate-700">Tuckman's stages of group development, conflict resolution modes (Thomas-Kilmann model), and consensus building.</p>
+          <span class="text-[10px] md:text-xs font-bold text-amber-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+          <p class="text-xs md:text-sm text-slate-700">Tuckman's stages of group development, conflict resolution modes (Thomas-Kilmann model), and consensus building.</p>
         </div>
         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-          <span class="text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-          <p class="text-sm text-slate-700">Pits the candidate against two opposing AI personas (Analytical Arjun vs. Creative Kavya) in an interactive debate.</p>
+          <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+          <p class="text-xs md:text-sm text-slate-700">Pits the candidate against two opposing AI personas (Analytical Arjun vs. Creative Kavya) in an interactive debate.</p>
         </div>
       </div>
     </div>
@@ -775,23 +784,23 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 
 <!-- OPTIONAL PRACTICE QUIZ SECTION -->
 <section id="tab-quiz" class="tab-content">
-  <div class="mb-8">
-    <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Optional Practice Zone</h2>
-    <p class="text-slate-500 mt-2 text-lg">Test your knowledge on each module. These quizzes are strictly for practice, provide instant feedback, and do <strong class="text-red-500">NOT</strong> affect your official Talent Passport.</p>
+  <div class="mb-6 md:mb-8 text-center md:text-left">
+    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Optional Practice Zone</h2>
+    <p class="text-sm md:text-lg text-slate-500 mt-2">Test your knowledge on each module. These quizzes are strictly for practice, provide instant feedback, and do <strong class="text-red-500">NOT</strong> affect your official Talent Passport.</p>
   </div>
   
-  <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
-     <button id="btn-quiz-onboarding" onclick="window.loadPracticeQuiz('onboarding')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-4 rounded-lg transition shadow-sm text-sm"><i class="fa-solid fa-user-plus text-blue-500 mb-1 block text-lg"></i> Onboarding</button>
-     <button id="btn-quiz-ats" onclick="window.loadPracticeQuiz('ats')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-4 rounded-lg transition shadow-sm text-sm"><i class="fa-solid fa-file-pdf text-indigo-500 mb-1 block text-lg"></i> ATS Audit</button>
-     <button id="btn-quiz-aptitude" onclick="window.loadPracticeQuiz('aptitude')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-4 rounded-lg transition shadow-sm text-sm"><i class="fa-solid fa-stopwatch text-purple-500 mb-1 block text-lg"></i> Aptitude</button>
-     <button id="btn-quiz-gd" onclick="window.loadPracticeQuiz('gd')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-4 rounded-lg transition shadow-sm text-sm"><i class="fa-solid fa-users text-amber-500 mb-1 block text-lg"></i> Virtual GD</button>
-     <button id="btn-quiz-interview" onclick="window.loadPracticeQuiz('interview')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-4 rounded-lg transition shadow-sm text-sm"><i class="fa-solid fa-microphone-lines text-brand-500 mb-1 block text-lg"></i> AI Interview</button>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 mb-6 md:mb-8">
+     <button id="btn-quiz-onboarding" onclick="window.loadPracticeQuiz('onboarding')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-user-plus text-blue-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> Onboarding</button>
+     <button id="btn-quiz-ats" onclick="window.loadPracticeQuiz('ats')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-file-pdf text-indigo-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> ATS Audit</button>
+     <button id="btn-quiz-aptitude" onclick="window.loadPracticeQuiz('aptitude')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-stopwatch text-purple-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> Aptitude</button>
+     <button id="btn-quiz-gd" onclick="window.loadPracticeQuiz('gd')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-users text-amber-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> Virtual GD</button>
+     <button id="btn-quiz-interview" onclick="window.loadPracticeQuiz('interview')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-microphone-lines text-brand-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> AI Interview</button>
   </div>
   
-  <div id="practiceQuizContainer" class="glass-card p-8 rounded-xl shadow-md min-h-[300px] border-t-4 border-t-slate-400">
-     <div class="text-center text-slate-400 mt-10">
-       <i class="fa-solid fa-hand-pointer text-4xl mb-4 block"></i>
-       <p class="font-medium text-lg">Select a module above to load practice questions.</p>
+  <div id="practiceQuizContainer" class="glass-card p-5 md:p-8 rounded-xl shadow-md min-h-[250px] md:min-h-[300px] border-t-4 border-t-slate-400">
+     <div class="text-center text-slate-400 mt-8 md:mt-10">
+       <i class="fa-solid fa-hand-pointer text-3xl md:text-4xl mb-3 md:mb-4 block"></i>
+       <p class="font-medium text-base md:text-lg">Select a module above to load practice questions.</p>
      </div>
   </div>
 </section>
@@ -901,7 +910,7 @@ c.innerHTML = '';
 archQ.forEach((item, idx) => {
 let html = `<div class="mb-4"><p class="text-sm font-bold text-slate-800 mb-2">${item.q}</p><div class="space-y-2">`;
 for(let key in item.o) {
-html += `<label class="flex items-start p-2 border border-gray-200/50 rounded-lg cursor-pointer hover:bg-slate-50 transition"><input type="radio" name="arch${idx}" value="${key}" class="mt-0.5"><span class="ml-3 text-sm text-slate-700">${item.o[key]}</span></label>`;
+html += `<label class="flex items-start p-2 border border-gray-200/50 rounded-lg cursor-pointer hover:bg-slate-50 transition"><input type="radio" name="arch${idx}" value="${key}" class="mt-0.5 flex-shrink-0"><span class="ml-3 text-xs md:text-sm text-slate-700">${item.o[key]}</span></label>`;
 }
 html += `</div></div>`;
 c.innerHTML += html;
@@ -929,7 +938,7 @@ window.switchTab(nextTabId, targetNavBtn);
 
 window.showMessage = function(text, type = 'success') {
 const box = document.getElementById('msgBox');
-box.className = `mb-6 p-4 rounded-lg shadow-md font-bold text-sm flex items-center justify-between z-50 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`;
+box.className = `mb-6 p-3 md:p-4 rounded-lg shadow-md font-bold text-xs md:text-sm flex items-center justify-between z-50 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`;
 document.getElementById('msgText').innerHTML = text;
 box.classList.remove('hidden');
 setTimeout(() => { box.classList.add('hidden'); }, 5000);
@@ -1153,7 +1162,7 @@ function writeTranscript(targetId, speaker, text) {
 const box = document.getElementById(targetId);
 if(!box) return;
 const line = document.createElement('div'); line.className = "mb-3 pb-3 border-b border-slate-700/50";
-line.innerHTML = `<span class="font-bold text-brand-400">[${speaker}]</span> <span class="text-white ml-2">${text}</span>`;
+line.innerHTML = `<span class="font-bold text-brand-400">[${speaker}]</span> <span class="text-white ml-2 md:ml-2 block sm:inline mt-1 sm:mt-0">${text}</span>`;
 box.appendChild(line); box.scrollTop = box.scrollHeight;
 }
 
@@ -1204,8 +1213,8 @@ document.getElementById('atsScoreDisplay').innerText = `${window.userData.ats_sc
 document.getElementById('atsSuccessMsg').classList.remove('hidden');
 
 let resHtml = '';
-matched.forEach(w => resHtml += `<div class="flex justify-between items-center bg-green-50 p-2 rounded text-green-700 border border-green-200"><span class="capitalize">${w}</span><i class="fa-solid fa-check"></i></div>`);
-missing.forEach(w => resHtml += `<div class="flex justify-between items-center bg-red-50 p-2 rounded text-red-700 border border-red-200"><span class="capitalize">${w}</span><i class="fa-solid fa-times"></i></div>`);
+matched.forEach(w => resHtml += `<div class="flex justify-between items-center bg-green-50 p-2 rounded text-green-700 border border-green-200"><span class="capitalize text-xs md:text-sm">${w}</span><i class="fa-solid fa-check text-xs md:text-sm"></i></div>`);
+missing.forEach(w => resHtml += `<div class="flex justify-between items-center bg-red-50 p-2 rounded text-red-700 border border-red-200"><span class="capitalize text-xs md:text-sm">${w}</span><i class="fa-solid fa-times text-xs md:text-sm"></i></div>`);
 document.getElementById('keywordResults').innerHTML = resHtml;
 
 await syncToCloud();
@@ -1251,8 +1260,8 @@ if(!container) return;
 container.innerHTML = '';
 selectedQuizQuestions = masterAptitudeQuestions.sort(() => 0.5 - Math.random()).slice(0, 20);
 selectedQuizQuestions.forEach((item, index) => {
-let html = `<div class="p-5 rounded-lg border border-slate-300 bg-slate-50/10 shadow-sm mb-4 text-slate-800"><p class="font-bold text-sm mb-3">${index + 1}. ${item.q}</p><div class="space-y-2">`;
-item.options.forEach((opt, oIndex) => { html += `<label class="flex items-start text-sm cursor-pointer hover:bg-slate-200/20 p-2 rounded border border-transparent transition"><input type="radio" name="q${index}" value="${oIndex}" class="mt-0.5 mr-3 accent-brand-500"> <span>${opt}</span></label>`; });
+let html = `<div class="p-4 md:p-5 rounded-lg border border-slate-300 bg-slate-50/10 shadow-sm mb-4 text-slate-800"><p class="font-bold text-xs md:text-sm mb-3">${index + 1}. ${item.q}</p><div class="space-y-2">`;
+item.options.forEach((opt, oIndex) => { html += `<label class="flex items-start text-xs md:text-sm cursor-pointer hover:bg-slate-200/20 p-2 rounded border border-transparent transition"><input type="radio" name="q${index}" value="${oIndex}" class="mt-0.5 mr-3 accent-brand-500 flex-shrink-0"> <span>${opt}</span></label>`; });
 html += `</div></div>`; container.innerHTML += html;
 });
 }
@@ -1429,11 +1438,11 @@ window.setInterviewMethod = function(method) {
     const btnStar = document.getElementById('btnMethodSTAR');
     const btnGen = document.getElementById('btnMethodGeneral');
     if(method === 'star') {
-        btnStar.className = "px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors";
-        btnGen.className = "px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent";
+        btnStar.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors w-1/2 sm:w-auto";
+        btnGen.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto";
     } else {
-        btnGen.className = "px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors";
-        btnStar.className = "px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent";
+        btnGen.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors w-1/2 sm:w-auto";
+        btnStar.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto";
     }
 }
 
@@ -1632,16 +1641,16 @@ window.loadPracticeQuiz = function(category) {
   const data = practiceQuizzes[category];
   const container = document.getElementById('practiceQuizContainer');
   
-  let html = `<div class="mb-6 border-b border-gray-200 pb-4"><h3 class="text-2xl font-bold text-slate-800"><i class="fa-solid ${data.icon} text-${data.color}-500 mr-2"></i>${data.title} Practice</h3><p class="text-sm text-slate-500">Select the correct answers below. Instant feedback is provided.</p></div><div class="space-y-6">`;
+  let html = `<div class="mb-6 border-b border-gray-200 pb-4"><h3 class="text-xl md:text-2xl font-bold text-slate-800"><i class="fa-solid ${data.icon} text-${data.color}-500 mr-2"></i>${data.title} Practice</h3><p class="text-xs md:text-sm text-slate-500">Select the correct answers below. Instant feedback is provided.</p></div><div class="space-y-4 md:space-y-6">`;
   
   data.questions.forEach((item, qIndex) => {
-    html += `<div class="bg-slate-50 p-5 rounded-xl border border-slate-200"><p class="font-bold text-slate-800 mb-3">${qIndex + 1}. ${item.q}</p><div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="quiz-opts-${category}-${qIndex}">`;
+    html += `<div class="bg-slate-50 p-4 md:p-5 rounded-xl border border-slate-200"><p class="font-bold text-sm md:text-base text-slate-800 mb-3">${qIndex + 1}. ${item.q}</p><div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3" id="quiz-opts-${category}-${qIndex}">`;
     
     item.options.forEach((opt, oIndex) => {
-      html += `<button onclick="window.checkPracticeAnswer('${category}', ${qIndex}, ${oIndex}, ${item.ans}, this)" class="text-left px-4 py-3 rounded-lg border border-slate-300 bg-white hover:bg-brand-50 transition text-sm font-medium text-slate-700 w-full">${opt}</button>`;
+      html += `<button onclick="window.checkPracticeAnswer('${category}', ${qIndex}, ${oIndex}, ${item.ans}, this)" class="text-left px-3 md:px-4 py-2.5 md:py-3 rounded-lg border border-slate-300 bg-white hover:bg-brand-50 transition text-xs md:text-sm font-medium text-slate-700 w-full">${opt}</button>`;
     });
     
-    html += `</div><div id="quiz-feedback-${category}-${qIndex}" class="mt-3 text-sm font-bold hidden"></div></div>`;
+    html += `</div><div id="quiz-feedback-${category}-${qIndex}" class="mt-3 text-xs md:text-sm font-bold hidden"></div></div>`;
   });
   
   html += `</div>`;
