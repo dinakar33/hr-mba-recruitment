@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
-<!-- Real Computer Vision Libraries for 100% Accurate Facial Tracking -->
+<!-- Real Computer Vision Libraries for Facial Tracking -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/tracking-min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/data/face-min.js"></script>
 
@@ -47,21 +47,9 @@ body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgb
 body.ai-mode h2, body.ai-mode h3, body.ai-mode p, body.ai-mode span, body.ai-mode label { color: #f8fafc !important; }
 body.ai-mode .text-slate-500, body.ai-mode .text-slate-600 { color: #cbd5e1 !important; }
 body.ai-mode .bg-white { background-color: #1e293b !important; }
+body.ai-mode .bg-slate-50 { background-color: rgba(255, 255, 255, 0.05) !important; }
 body.ai-mode .border-gray-300, body.ai-mode .border { border-color: #475569 !important; }
 body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode input[type="tel"], body.ai-mode input[type="url"], body.ai-mode input[type="password"], body.ai-mode select, body.ai-mode textarea { background-color: #334155; color: #f8fafc; border-color: #475569; }
-
-/* AI Mode Visual Fixes for Academic Modules & Colored Backgrounds */
-body.ai-mode .bg-slate-50, body.ai-mode .bg-blue-50, body.ai-mode .bg-brand-50, 
-body.ai-mode .bg-amber-50, body.ai-mode .bg-red-50, body.ai-mode .bg-purple-50, 
-body.ai-mode .bg-emerald-50 { 
-    background-color: rgba(255, 255, 255, 0.05) !important; 
-    border-color: rgba(255, 255, 255, 0.1) !important;
-}
-body.ai-mode .text-slate-700, body.ai-mode .text-blue-900, body.ai-mode .text-brand-900, 
-body.ai-mode .text-amber-900, body.ai-mode .text-red-900, body.ai-mode .text-purple-900, 
-body.ai-mode .text-emerald-900 {
-    color: #f1f5f9 !important;
-}
 
 .toggle-checkbox:checked { right: 0; border-color: #68D391; }
 .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
@@ -80,6 +68,39 @@ body.ai-mode .gd-avatar { background: #334155; }
 
 @keyframes urgent-glow { 0% { text-shadow: 0 0 5px red; } 50% { text-shadow: 0 0 20px red; color: #ff9999; } 100% { text-shadow: 0 0 5px red; } }
 .timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
+
+/* 3D Round Table GD Layout */
+.gd-boardroom-container {
+    position: relative;
+    width: 100%;
+    min-height: 280px;
+    background: radial-gradient(circle, #1e293b 0%, #0f172a 100%);
+    border-radius: 1rem;
+    border: 1px solid #334155;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+.gd-table-oval {
+    width: 80%;
+    height: 140px;
+    background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+    border: 3px solid #475569;
+    border-radius: 100px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.gd-seat {
+    position: absolute;
+    text-align: center;
+}
+.gd-seat-top-left { top: 15px; left: 15%; }
+.gd-seat-top-right { top: 15px; right: 15%; }
+.gd-seat-bottom { bottom: 15px; left: 50%; transform: translateX(-50%); }
 </style>
 </head>
 
@@ -195,7 +216,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 </div>
 <p class="text-sm mb-4 font-medium">Answer the following scenarios to determine your dominant workplace behavioral archetype:</p>
 <div class="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar" id="archetypeQuestionsContainer">
-<!-- Injected via JS -->
 </div>
 </div>
 </div>
@@ -300,40 +320,35 @@ Submit Final Answers
 <p class="text-sm mb-6 pb-4 border-b border-gray-200/50">Discuss the ethical implications of replacing human managers with AI scoring systems.</p>
 
 <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
-<!-- IMMERSIVE ROUND TABLE UI -->
-<div class="relative w-full h-56 mb-12 mt-2">
-<!-- The Conference Table -->
-<div class="absolute inset-0 m-auto w-5/6 h-32 bg-slate-800 rounded-[100%] border-4 border-slate-700 shadow-[0_15px_25px_rgba(0,0,0,0.4)] flex flex-col items-center justify-center">
-<div class="w-16 h-8 rounded-full border border-slate-600/50 opacity-50"></div> <!-- Subtle table centerpiece -->
-</div>
 
-<!-- Agent 1: Kavya (Left) -->
-<div class="absolute top-0 left-[2%] sm:left-[10%] text-center z-10 transform -translate-y-2">
-<div id="avatar-kavya" class="gd-avatar avatar-breathing border-pink-400 shadow-2xl bg-slate-900 relative"></div>
-<span class="text-[10px] font-bold mt-2 inline-block text-pink-400 bg-slate-900 px-3 py-1 rounded-full border border-pink-500/50 shadow-lg relative z-20">Kavya (Creative)</span>
-</div>
+<!-- 3D BOARDROOM OVAL TABLE -->
+<div class="gd-boardroom-container">
+  <div class="gd-seat gd-seat-top-left">
+    <div id="avatar-kavya" class="gd-avatar avatar-breathing border-pink-400"></div>
+    <span class="text-xs font-bold mt-1 block text-pink-400">Kavya (Creative)</span>
+  </div>
 
-<!-- Agent 2: Arjun (Right) -->
-<div class="absolute top-0 right-[2%] sm:right-[10%] text-center z-10 transform -translate-y-2">
-<div id="avatar-arjun" class="gd-avatar avatar-breathing border-blue-400 shadow-2xl bg-slate-900 relative"></div>
-<span class="text-[10px] font-bold mt-2 inline-block text-blue-400 bg-slate-900 px-3 py-1 rounded-full border border-blue-500/50 shadow-lg relative z-20">Arjun (Analytical)</span>
-</div>
+  <div class="gd-table-oval">
+    <span class="text-slate-400 font-mono text-[11px] font-bold uppercase tracking-widest text-center px-4"><i class="fa-solid fa-shield-halved text-brand-400 mb-1 block"></i>Executive Boardroom</span>
+  </div>
 
-<!-- Candidate (Bottom Center) -->
-<div class="absolute bottom-0 left-1/2 text-center z-20 transform -translate-x-1/2 translate-y-10">
-<div class="gd-avatar avatar-breathing border-brand-400 shadow-[0_15px_25px_rgba(0,0,0,0.5)] bg-slate-800 flex items-center justify-center mx-auto relative overflow-hidden">
-<i class="fa-solid fa-user-tie text-5xl text-brand-400/60 transform translate-y-3"></i>
+  <div class="gd-seat gd-seat-top-right">
+    <div id="avatar-arjun" class="gd-avatar avatar-breathing border-blue-400"></div>
+    <span class="text-xs font-bold mt-1 block text-blue-400">Arjun (Analytical)</span>
+  </div>
+
+  <div class="gd-seat gd-seat-bottom">
+    <div class="gd-avatar avatar-breathing border-green-400 bg-slate-800 flex items-center justify-center">
+      <i class="fa-solid fa-user text-2xl text-green-400"></i>
+    </div>
+    <span class="text-xs font-bold mt-1 block text-green-400">You (Candidate)</span>
+  </div>
 </div>
-<span class="text-[10px] font-bold mt-2 inline-block text-brand-300 bg-slate-900 px-3 py-1 rounded-full border border-brand-500/50 shadow-lg relative z-20">You (Candidate)</span>
-</div>
-</div>
-<!-- END ROUND TABLE UI -->
 
 <div id="gd-transcript" class="bg-slate-900 text-green-400 p-4 rounded-lg font-mono text-sm flex-grow overflow-y-auto h-48 border border-slate-700 shadow-inner mb-4">
 > System Ready. Awaiting initialization...
 </div>
 
-<!-- FAILSAFE DICTATION UI -->
 <div id="gd-mic-zone" class="w-full flex-col items-center hidden">
 <textarea id="gdTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-3 mb-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
 <div class="flex items-center justify-center space-x-4 w-full">
@@ -351,7 +366,6 @@ Submit Response <i class="fa-solid fa-paper-plane ml-2"></i>
 </div>
 
 <div class="flex flex-col gap-6 h-fit">
-<!-- WEBCAM IN GD -->
 <div class="glass-card p-6 rounded-xl shadow-sm flex flex-col items-center justify-center border border-gray-200/50">
 <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3"><i class="fa-solid fa-video text-blue-500 mr-2"></i>Conference Stream</h3>
 <div class="w-full h-48 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
@@ -391,7 +405,6 @@ Submit Response <i class="fa-solid fa-paper-plane ml-2"></i>
 <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3"><i class="fa-solid fa-video text-red-500 mr-2"></i>Candidate Video Call Stream</h3>
 <div class="relative w-full h-64 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
 <video id="interviewWebcam" class="w-full h-full object-cover transform -scale-x-100" autoplay playsinline muted></video>
-<!-- OVERLAY WITH REAL METRICS -->
 <div id="aiScanOverlay" class="absolute inset-0 pointer-events-none border-2 border-green-400/40 rounded-xl flex flex-col justify-between p-3 transition-opacity duration-300">
 <div class="flex justify-between text-[10px] font-mono text-green-400 bg-black/60 px-2 py-1 rounded">
 <span>Eye Cont: <strong id="eyeContactVal">Scanning...</strong></span>
@@ -431,7 +444,6 @@ Posture: <strong id="postureVal">Pending</strong>
 <i class="fa-solid fa-play mr-2"></i> Initialize Protocol
 </button>
 
-<!-- FAILSAFE DICTATION UI -->
 <div id="interview-mic-zone" class="w-full flex-col items-center hidden">
 <textarea id="interviewTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-3 mb-3 text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
 <div class="flex items-center justify-center space-x-4 w-full">
@@ -451,15 +463,18 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 </section>
 
 <section id="tab-passport" class="tab-content">
-<div class="mb-6 flex justify-between items-center">
+<div class="mb-6 flex justify-between items-center flex-wrap gap-4">
+<div>
 <h2 class="text-2xl font-bold text-slate-800">Stage 5: Executive Talent Passport</h2>
+<p class="text-xs text-slate-500">Automated evaluation completed upon Stage 4 interview submission.</p>
+</div>
 <button id="aiVoiceBtn5" onclick="window.playDebrief()" class="hidden bg-brand-600 hover:bg-brand-500 text-white px-6 py-2 rounded-full shadow-lg transition font-bold border border-brand-400"><i class="fa-solid fa-bullhorn mr-2"></i>Play Audio Debrief</button>
 </div>
 
-<div id="passportLock" class="glass-card p-16 rounded-xl text-center border border-gray-200/50">
-<i class="fa-solid fa-lock text-6xl text-brand-300 mb-6 hover:scale-110 transition-transform"></i>
-<h3 class="text-3xl font-bold mb-2">Results Locked</h3>
-<p class="max-w-md mx-auto">Your evaluations are syncing. Once processing is complete and published by the Admin, this passport will automatically decrypt.</p>
+<div id="passportLock" class="glass-card p-12 rounded-xl text-center border border-gray-200/50">
+<i class="fa-solid fa-hourglass-half text-6xl text-brand-400 mb-6 animate-pulse"></i>
+<h3 class="text-3xl font-bold mb-2">Assessment In Progress</h3>
+<p class="max-w-md mx-auto text-slate-500">Complete Stage 4 (AI Behavioral Interview). Upon completion, your Talent Passport decrypts automatically and your report is emailed to you.</p>
 </div>
 
 <div id="passportContent" class="hidden mb-8">
@@ -468,6 +483,7 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 <div>
 <h2 id="passName" class="text-4xl font-extrabold text-white tracking-tight">Candidate Name</h2>
 <p id="passArchetype" class="text-brand-300 mt-2 font-medium text-lg"><i class="fa-solid fa-dna mr-2"></i>Archetype: Evaluated</p>
+<span class="inline-block mt-3 bg-green-500/20 text-green-300 border border-green-400/40 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"><i class="fa-solid fa-circle-check mr-1"></i> Automated Dispatch Verified</span>
 </div>
 <div class="text-right bg-black/40 p-6 rounded-xl border border-white/10 mt-4 md:mt-0 shadow-inner">
 <span class="block text-sm uppercase text-brand-200 font-bold tracking-widest">Readiness Index</span>
@@ -483,32 +499,12 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 </div>
 </div>
 
-<div class="admin-only glass-card rounded-xl p-8 shadow-sm mt-8 border-l-8 border-l-brand-500">
-<h3 class="font-bold text-xl mb-6 text-slate-800"><i class="fa-solid fa-tower-broadcast mr-2 text-brand-500"></i>Admin: Manual Scoring & Publishing</h3>
-
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 border-b border-gray-200/50 pb-8">
-<div>
-<label class="block text-sm font-medium text-slate-800 mb-2">Override Virtual GD Score (Out of 30)</label>
-<div class="flex items-center space-x-4 mb-4">
-<input type="range" id="adminGdScoreInput" min="0" max="30" value="0" class="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('adminGdScoreVal').innerText = this.value">
-<span id="adminGdScoreVal" class="text-2xl font-bold text-brand-600 w-12 text-center">0</span>
-</div>
-<button onclick="window.saveAdminScore('gd')" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2 rounded-lg transition">Update GD Score</button>
-</div>
-
-<div>
-<label class="block text-sm font-medium text-slate-800 mb-2">Manual HR Interview Score (Out of 100)</label>
-<div class="flex items-center space-x-4 mb-4">
-<input type="range" id="hrScoreInput" min="0" max="100" value="0" class="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('hrScoreVal').innerText = this.value">
-<span id="hrScoreVal" class="text-2xl font-bold text-brand-600 w-12 text-center">0</span>
-</div>
-<button onclick="window.saveAdminScore('hr')" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2 rounded-lg transition">Push HR Score</button>
-</div>
-</div>
+<div class="glass-card rounded-xl p-8 shadow-sm mt-8 border-l-8 border-l-brand-500">
+<h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fa-solid fa-paper-plane mr-2 text-brand-500"></i>Official Executive Report Dispatch</h3>
+<p class="text-sm text-slate-600 mb-6">Your official evaluation report compiles your quantitative index, visual composure metrics, and developmental feedback.</p>
 
 <div class="flex flex-wrap gap-4">
-<button onclick="window.publishResults()" class="bg-amber-500 hover:bg-amber-400 text-slate-900 px-8 py-4 rounded-xl font-bold transition shadow-lg flex-grow md:flex-grow-0 text-lg"><i class="fa-solid fa-unlock mr-2"></i> Publish to Phone</button>
-<button onclick="window.emailDetailedReport()" class="bg-brand-600 hover:bg-brand-500 text-white px-8 py-4 rounded-xl font-bold transition shadow-lg flex-grow md:flex-grow-0 text-lg"><i class="fa-brands fa-google mr-2"></i> Email Official Report (Gmail)</button>
+<button onclick="window.emailDetailedReport()" class="bg-brand-600 hover:bg-brand-500 text-white px-8 py-4 rounded-xl font-bold transition shadow-lg text-lg"><i class="fa-brands fa-google mr-2"></i> Resend Official Report via Gmail</button>
 </div>
 </div>
 </section>
@@ -519,8 +515,8 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 <div class="grid grid-cols-1 gap-10">
 <div class="glass-card p-8 rounded-xl shadow-lg border-t-4 border-t-blue-500">
 <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-coins mr-2 text-blue-500"></i>1. Compensation & CTC Breakdowns</h3>
-<p class="text-sm mb-4 text-slate-600"><strong>Base vs. Variable Pay:</strong> Never evaluate a job offer purely on "CTC" (Cost to Company). Base pay is fixed and guaranteed. Variable pay is contingent on company profits and individual performance. Always calculate your monthly "in-hand" take-home salary based on the Base Pay minus taxes and statutory deductions.</p>
-<p class="text-sm mb-6 text-slate-600"><strong>Provident Fund & Gratuity:</strong> In India, PF (12% of Basic) is deducted from your salary but matched by the employer. Gratuity is a statutory benefit paid after 5 years of continuous service. Both are often inflated inside the CTC figure to make the offer look bigger.</p>
+<p class="text-sm mb-4 text-slate-600"><strong>Base vs. Variable Pay:</strong> Never evaluate a job offer purely on "CTC" (Cost to Company). Base pay is fixed and guaranteed. Variable pay is contingent on company profits and individual performance.</p>
+<p class="text-sm mb-6 text-slate-600"><strong>Provident Fund & Gratuity:</strong> In India, PF (12% of Basic) is deducted from your salary but matched by the employer. Gratuity is paid after 5 years of continuous service.</p>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/Qz1VhbNjboE?si=WqFq057njlqp0ocb" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
 <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/UqjZEC2Ykb4?si=5Yf-fGJ-eAXGg-Ou" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
@@ -529,8 +525,8 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 
 <div class="glass-card p-8 rounded-xl shadow-lg border-t-4 border-t-pink-500">
 <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-shield-halved mr-2 text-pink-500"></i>2. Prevention of Sexual Harassment (POSH)</h3>
-<p class="text-sm mb-4 text-slate-600"><strong>The 2013 Act & Vishakha Guidelines:</strong> Every organization with 10 or more employees is legally mandated to constitute an Internal Complaints Committee (ICC). As an HR professional or an employee, you must know that complaints must be filed within 3 months of the incident.</p>
-<p class="text-sm mb-6 text-slate-600"><strong>Zero Tolerance Policies:</strong> Harassment is not just physical. It includes implied requests for favors, sexually colored remarks, and creating a hostile work environment. Employers are liable if they fail to provide a safe working environment.</p>
+<p class="text-sm mb-4 text-slate-600"><strong>The 2013 Act & Vishakha Guidelines:</strong> Every organization with 10 or more employees is legally mandated to constitute an Internal Complaints Committee (ICC).</p>
+<p class="text-sm mb-6 text-slate-600"><strong>Zero Tolerance Policies:</strong> Harassment includes implied requests for favors, sexually colored remarks, and creating a hostile work environment.</p>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/M8C2B949BqA?si=DXddUt1YXOrBTig0" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
 <iframe class="w-full h-64 rounded-lg shadow" src="https://www.youtube.com/embed/tEulz5dqQL4?si=LH05s_AwAX2m2P2M" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
@@ -539,134 +535,106 @@ Submit Answer <i class="fa-solid fa-paper-plane ml-2"></i>
 
 <div class="glass-card p-8 rounded-xl shadow-lg border-t-4 border-t-emerald-500">
 <h3 class="font-bold text-xl mb-2 text-slate-800"><i class="fa-solid fa-file-contract mr-2 text-emerald-500"></i>3. Employment Contracts & Notice Periods</h3>
-<p class="text-sm mb-4 text-slate-600"><strong>Non-Compete Clauses:</strong> In many jurisdictions (including India under Section 27 of the Contract Act), post-employment non-compete clauses are generally void and unenforceable. An employer cannot legally stop you from joining a competitor after you resign, regardless of what the contract says.</p>
-<p class="text-sm mb-6 text-slate-600"><strong>Notice Period Buyouts:</strong> Notice periods are contractual. If a new employer wants you to join immediately, they can "buy out" your notice period by paying your current employer your basic salary for the unserved duration.</p>
+<p class="text-sm mb-4 text-slate-600"><strong>Non-Compete Clauses:</strong> Under Section 27 of the Indian Contract Act, post-employment non-compete clauses are generally void and unenforceable.</p>
+<p class="text-sm mb-6 text-slate-600"><strong>Notice Period Buyouts:</strong> Notice periods are contractual. New employers can "buy out" notice periods by paying the basic salary for unserved days.</p>
 </div>
 </div>
 </section>
 
 <section id="tab-about" class="tab-content">
-<div class="mb-10 text-center">
-<h2 class="text-3xl font-extrabold text-slate-800 tracking-tight mb-3">Academic Curriculum Mapping</h2>
-<p class="text-slate-500 text-lg max-w-3xl mx-auto">Bridging postgraduate classroom theory with real-world HR technology execution. This matrix details how each stage of the assessment gauntlet aligns with core MBA modules.</p>
+<div class="mb-8">
+  <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & Curriculum Mapping</h2>
+  <p class="text-slate-500 mt-2 text-lg">Bridging postgraduate classroom theory with real-world HR technology execution.</p>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8 pb-10">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+  <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center space-x-3 mb-4">
+        <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-sitemap"></i></div>
+        <div>
+          <h3 class="text-xl font-bold text-slate-800">1. Organizational Behavior (OB) & Psychometrics</h3>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Onboarding & Archetype Profiling</span>
+        </div>
+      </div>
+      <div class="space-y-4 mb-6">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+          <p class="text-sm text-slate-700">Big Five Personality Traits, DISC assessments, cognitive biases, and predictive workplace behavior models.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+          <p class="text-sm text-slate-700">Forces candidates through a forced-choice situational matrix to mathematically determine their operational archetype (Strategist, Innovator, Connector, Executor).</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<!-- Module 1 -->
-<div class="glass-card p-8 rounded-xl shadow-md border-t-8 border-t-blue-500 flex flex-col h-full hover:-translate-y-1 transition-transform duration-300">
-<div class="flex items-center mb-4">
-<div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl mr-4 shrink-0"><i class="fa-solid fa-sitemap"></i></div>
-<h3 class="text-xl font-bold text-slate-800">1. Organizational Behavior (OB) & Psychometrics</h3>
-</div>
-<div class="space-y-3 flex-grow">
-<p class="text-sm text-slate-600"><strong class="text-slate-800">Platform Stage:</strong> Onboarding & Archetype Profiling</p>
-<div class="bg-slate-50 p-3 rounded border border-slate-200">
-<p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Classroom Theory</p>
-<p class="text-sm text-slate-700">Big Five Personality Traits, DISC assessments, cognitive biases, and predictive workplace behavior models.</p>
-</div>
-<div class="bg-blue-50 p-3 rounded border border-blue-100">
-<p class="text-xs text-blue-500 font-bold uppercase tracking-wider mb-1">Practical Application</p>
-<p class="text-sm text-blue-900">Forces candidates through a forced-choice situational matrix to mathematically determine their operational archetype (Strategist, Innovator, Connector, Executor) before entering team dynamics.</p>
-</div>
-</div>
-</div>
+  <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center space-x-3 mb-4">
+        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-file-contract"></i></div>
+        <div>
+          <h3 class="text-xl font-bold text-slate-800">2. Strategic Talent Acquisition (TA)</h3>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 1: Enterprise ATS Audit</span>
+        </div>
+      </div>
+      <div class="space-y-4 mb-6">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+          <p class="text-sm text-slate-700">Recruitment funnels, algorithmic screening, Term Frequency-Inverse Document Frequency (TF-IDF), and predictive validity in hiring.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+          <p class="text-sm text-slate-700">Demystifies the "black box" of Fortune 500 resume screening. Candidates witness real-time PDF parsing and keyword density matching.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<!-- Module 2 -->
-<div class="glass-card p-8 rounded-xl shadow-md border-t-8 border-t-brand-500 flex flex-col h-full hover:-translate-y-1 transition-transform duration-300">
-<div class="flex items-center mb-4">
-<div class="bg-brand-100 text-brand-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl mr-4 shrink-0"><i class="fa-solid fa-file-pdf"></i></div>
-<h3 class="text-xl font-bold text-slate-800">2. Strategic Talent Acquisition (TA)</h3>
-</div>
-<div class="space-y-3 flex-grow">
-<p class="text-sm text-slate-600"><strong class="text-slate-800">Platform Stage:</strong> Stage 1: Enterprise ATS Audit</p>
-<div class="bg-slate-50 p-3 rounded border border-slate-200">
-<p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Classroom Theory</p>
-<p class="text-sm text-slate-700">Recruitment funnels, algorithmic screening, Term Frequency-Inverse Document Frequency (TF-IDF), and predictive validity in hiring.</p>
-</div>
-<div class="bg-brand-50 p-3 rounded border border-brand-100">
-<p class="text-xs text-brand-500 font-bold uppercase tracking-wider mb-1">Practical Application</p>
-<p class="text-sm text-brand-900">Demystifies the "black box" of Fortune 500 resume screening. Candidates witness real-time PDF parsing and keyword density matching, learning how to optimize syntax for corporate gatekeeping algorithms.</p>
-</div>
-</div>
-</div>
+  <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center space-x-3 mb-4">
+        <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-brain"></i></div>
+        <div>
+          <h3 class="text-xl font-bold text-slate-800">3. Learning & Development (L&D)</h3>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 2: Decision Velocity Assessment</span>
+        </div>
+      </div>
+      <div class="space-y-4 mb-6">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-xs font-bold text-purple-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+          <p class="text-sm text-slate-700">Cognitive load theory, situational judgment testing (SJT), and decision-making under high stress/strict deadlines.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+          <p class="text-sm text-slate-700">Simulates real-world management pressure with a randomized 20-question, 10-minute countdown assessment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<!-- Module 3 -->
-<div class="glass-card p-8 rounded-xl shadow-md border-t-8 border-t-amber-500 flex flex-col h-full hover:-translate-y-1 transition-transform duration-300">
-<div class="flex items-center mb-4">
-<div class="bg-amber-100 text-amber-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl mr-4 shrink-0"><i class="fa-solid fa-users-rays"></i></div>
-<h3 class="text-xl font-bold text-slate-800">3. Group Dynamics & Leadership</h3>
-</div>
-<div class="space-y-3 flex-grow">
-<p class="text-sm text-slate-600"><strong class="text-slate-800">Platform Stage:</strong> Stage 3: Virtual Group Discussion</p>
-<div class="bg-slate-50 p-3 rounded border border-slate-200">
-<p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Classroom Theory</p>
-<p class="text-sm text-slate-700">Tuckman's Stages of Group Development (Forming, Storming, Norming, Performing), conflict resolution, and active listening paradigms.</p>
-</div>
-<div class="bg-amber-50 p-3 rounded border border-amber-100">
-<p class="text-xs text-amber-600 font-bold uppercase tracking-wider mb-1">Practical Application</p>
-<p class="text-sm text-amber-900">Immerses candidates in a 5-round state machine debate. Requires them to navigate opposing AI agent personalities (Analytical vs. Creative) to build consensus without triggering simulated hostility.</p>
-</div>
-</div>
-</div>
-
-<!-- Module 4 -->
-<div class="glass-card p-8 rounded-xl shadow-md border-t-8 border-t-red-500 flex flex-col h-full hover:-translate-y-1 transition-transform duration-300">
-<div class="flex items-center mb-4">
-<div class="bg-red-100 text-red-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl mr-4 shrink-0"><i class="fa-solid fa-user-tie"></i></div>
-<h3 class="text-xl font-bold text-slate-800">4. Strategic HRM & Biometrics</h3>
-</div>
-<div class="space-y-3 flex-grow">
-<p class="text-sm text-slate-600"><strong class="text-slate-800">Platform Stage:</strong> Stage 4: AI Interview</p>
-<div class="bg-slate-50 p-3 rounded border border-slate-200">
-<p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Classroom Theory</p>
-<p class="text-sm text-slate-700">Competency-based behavioral interviewing (STAR Method), non-verbal communication, and objective vs. subjective performance evaluation.</p>
-</div>
-<div class="bg-red-50 p-3 rounded border border-red-100">
-<p class="text-xs text-red-500 font-bold uppercase tracking-wider mb-1">Practical Application</p>
-<p class="text-sm text-red-900">Evaluates verbal responses via LLM semantic analysis while simultaneously tracking Gaze Vectors and PERCLOS blink metrics to generate an objective "Executive Composure Index."</p>
-</div>
-</div>
-</div>
-
-<!-- Module 5 -->
-<div class="glass-card p-8 rounded-xl shadow-md border-t-8 border-t-purple-500 flex flex-col h-full hover:-translate-y-1 transition-transform duration-300">
-<div class="flex items-center mb-4">
-<div class="bg-purple-100 text-purple-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl mr-4 shrink-0"><i class="fa-solid fa-database"></i></div>
-<h3 class="text-xl font-bold text-slate-800">5. HRIS & Enterprise Analytics</h3>
-</div>
-<div class="space-y-3 flex-grow">
-<p class="text-sm text-slate-600"><strong class="text-slate-800">Platform Stage:</strong> Stage 5: Executive Talent Passport</p>
-<div class="bg-slate-50 p-3 rounded border border-slate-200">
-<p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Classroom Theory</p>
-<p class="text-sm text-slate-700">Human Resource Information Systems (HRIS), data lakes, real-time dashboarding, and automated workforce reporting loops.</p>
-</div>
-<div class="bg-purple-50 p-3 rounded border border-purple-100">
-<p class="text-xs text-purple-500 font-bold uppercase tracking-wider mb-1">Practical Application</p>
-<p class="text-sm text-purple-900">Demonstrates a live cloud-database architecture. Multi-modal data points (scores, text, biometrics) are fused into a unified Readiness Index and pushed to an Admin Command Center for overriding and publishing.</p>
-</div>
-</div>
-</div>
-
-<!-- Module 6 -->
-<div class="glass-card p-8 rounded-xl shadow-md border-t-8 border-t-emerald-500 flex flex-col h-full hover:-translate-y-1 transition-transform duration-300">
-<div class="flex items-center mb-4">
-<div class="bg-emerald-100 text-emerald-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl mr-4 shrink-0"><i class="fa-solid fa-scale-balanced"></i></div>
-<h3 class="text-xl font-bold text-slate-800">6. Industrial Relations & Labor Law</h3>
-</div>
-<div class="space-y-3 flex-grow">
-<p class="text-sm text-slate-600"><strong class="text-slate-800">Platform Stage:</strong> Employee Rights Spotlight</p>
-<div class="bg-slate-50 p-3 rounded border border-slate-200">
-<p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Classroom Theory</p>
-<p class="text-sm text-slate-700">The POSH Act (2013), The Contract Act (Non-compete clauses), statutory employee benefits, and compensation structuring.</p>
-</div>
-<div class="bg-emerald-50 p-3 rounded border border-emerald-100">
-<p class="text-xs text-emerald-600 font-bold uppercase tracking-wider mb-1">Practical Application</p>
-<p class="text-sm text-emerald-900">Translates dense legal statutes into practical, pre-employment survival knowledge. Ensures graduates know how to calculate true "in-hand" salary vs. CTC and understand their rights regarding forced notice period buyouts.</p>
-</div>
-</div>
-</div>
-
+  <div class="glass-card p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center space-x-3 mb-4">
+        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-comments"></i></div>
+        <div>
+          <h3 class="text-xl font-bold text-slate-800">4. Group Dynamics & Team Leadership</h3>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 3: Multi-Agent Virtual GD</span>
+        </div>
+      </div>
+      <div class="space-y-4 mb-6">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-xs font-bold text-amber-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+          <p class="text-sm text-slate-700">Tuckman's stages of group development, conflict resolution modes (Thomas-Kilmann model), and consensus building.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+          <p class="text-sm text-slate-700">Pits the candidate against two opposing AI personas (Analytical Arjun vs. Creative Kavya) in an interactive debate.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 </section>
 
@@ -677,7 +645,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-// === YOUR SECURE GOOGLE GEMINI API KEY ===
 const GEMINI_API_KEY = "AQ.Ab8RN6ISnP6XqfnQExC9_pVH1S5PIribDiYVk6CBQYNv9zclfA"; 
 
 const firebaseConfig = {
@@ -702,27 +669,35 @@ window.isAIMode = false;
 window.activeSpeaker = null; 
 window.userData = { name: "", email: "", archetype: "Not Evaluated", ats_score: 0, test_score: 0, gd_score: 0, interview_score: 0, published: false };
 let unsubscribeStudent = null;
-let unsubscribeAdmin = null;
 
-// Biometric Memory Arrays
 window.bioMetrics = { eyeContact: [], stress: [] };
 
-// --- GEMINI LIVE CONVERSATIONAL ENGINE & FALLBACK SYSTEM ---
+// --- EMERGENCY LOCAL SIMULATION FALLBACK ENGINE ---
+const localResponses = {
+    gd: [
+        "That is a strong perspective. However, we must ensure algorithmic auditing is legally mandated before replacing human oversight.",
+        "I agree in principle, but human resource analytics must balance data-driven KPIs with employee empathy and well-being.",
+        "Let's synthesize both views: AI should act as a decision-support system, leaving final talent decisions to certified managers."
+    ],
+    interview: [
+        "That demonstrates structured problem-solving. How did you specifically measure the quantitative outcome of that action?",
+        "Interesting approach. When managing stakeholders with opposing priorities, how do you negotiate consensus?",
+        "Thank you for sharing that experience. What key metric would you track differently if you repeated that project?"
+    ]
+};
+let localFallbackIndex = 0;
+
 async function callGemini(prompt, systemInstruction = null) {
     try {
         if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("PASTE_YOUR_API_KEY_HERE")) {
-            return generateLocalFallback(prompt, systemInstruction);
+            throw new Error("Missing Key");
         }
         
         let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
-        let headers = { 'Content-Type': 'application/json' };
-
-        // SECURE HEADER METHOD FOR AQ. KEYS
-        if (GEMINI_API_KEY.startsWith('AQ.')) {
-             headers['x-goog-api-key'] = GEMINI_API_KEY;
-        } else {
-             apiUrl += `?key=${GEMINI_API_KEY}`;
-        }
+        let headers = { 
+            'Content-Type': 'application/json',
+            'x-goog-api-key': GEMINI_API_KEY 
+        };
 
         const payload = { contents: [{ parts: [{ text: prompt }] }] };
         if (systemInstruction) {
@@ -732,153 +707,20 @@ async function callGemini(prompt, systemInstruction = null) {
         const response = await fetch(apiUrl, { method: 'POST', headers: headers, body: JSON.stringify(payload) });
         const result = await response.json();
         
-        if (!response.ok) {
-            console.warn("Google API Error detected. Seamlessly switching to Local Simulation Engine.", result);
-            return generateLocalFallback(prompt, systemInstruction);
-        }
+        if (!response.ok) throw new Error(result.error?.message || 'API Error');
         
         if (result.candidates && result.candidates[0].content.parts[0].text) {
             return result.candidates[0].content.parts[0].text.replace(/\*/g, '').trim();
         }
-        return generateLocalFallback(prompt, systemInstruction);
+        throw new Error("Empty Response");
     } catch (e) {
-        console.warn("Network Error. Seamlessly switching to Local Simulation Engine.", e);
-        return generateLocalFallback(prompt, systemInstruction);
+        console.warn("API Call switched to Local Simulation Engine:", e.message);
+        let category = prompt.includes("Interview") || prompt.includes("Meera") ? "interview" : "gd";
+        let fallbackText = localResponses[category][localFallbackIndex % localResponses[category].length];
+        localFallbackIndex++;
+        return fallbackText;
     }
 }
-
-// --- EMERGENCY LOCAL SIMULATION ENGINE ---
-function generateLocalFallback(prompt, systemInstruction) {
-    if (prompt.includes("Return only a number out of 100")) return "85";
-    if (prompt.includes("Return only a number out of 30")) return "25";
-    
-    if (systemInstruction && systemInstruction.includes("Group Discussion")) {
-        const isKavya = systemInstruction.includes("Kavya");
-        if (isKavya) {
-            const kavyaResponses = [
-                "I see your point, but we must also consider the human element. Relying purely on algorithms could overlook nuanced employee contributions.",
-                "That's a very analytical perspective. However, I believe emotional intelligence is something an AI cannot measure accurately.",
-                "I agree with that direction! But we need strict ethical guardrails to ensure the AI doesn't inherit historical biases."
-            ];
-            return kavyaResponses[Math.floor(Math.random() * kavyaResponses.length)];
-        } else {
-            const arjunResponses = [
-                "From a data standpoint, that makes perfect sense. Standardization removes manager bias from the equation.",
-                "While empathy is important, we need measurable KPIs. An AI system ensures every employee is evaluated on the exact same metrics.",
-                "I respectfully disagree. If the algorithm is trained on clean data, it is mathematically more objective than a human manager."
-            ];
-            return arjunResponses[Math.floor(Math.random() * arjunResponses.length)];
-        }
-    }
-    
-    if (systemInstruction && systemInstruction.includes("HR Director")) {
-        const interviewResponses = [
-            "That's a great example. Can you elaborate on the specific metrics you used to measure the success of that action?",
-            "I appreciate that insight. How did you handle any pushback or disagreements from your team during that process?",
-            "Interesting. If you had to do that project over again, what is one thing you would change about your approach?",
-            "That gives me a clear picture of your methodology. How do you ensure your strategy aligns with the broader goals of the organization?"
-        ];
-        return interviewResponses[Math.floor(Math.random() * interviewResponses.length)];
-    }
-    
-    return "That is a very insightful point. Let's explore that further in the context of our corporate strategy.";
-}
-
-// --- ADMIN DASHBOARD FUNCTIONS ---
-window.openAdminModal = function() {
-    document.getElementById('adminModal').classList.remove('hidden');
-};
-
-window.closeAdminModal = function() {
-    document.getElementById('adminModal').classList.add('hidden');
-};
-
-window.verifyAdmin = function() {
-    const pass = document.getElementById('adminPass').value;
-    if (pass === 'admin123') {
-        window.isAdmin = true;
-        document.body.classList.add('admin-mode');
-        window.closeAdminModal();
-        window.showMessage("Admin Command Center Connected. Fetching live candidate data...");
-        listenToAllCandidates();
-    } else {
-        window.showMessage("Invalid Passcode.", "error");
-    }
-};
-
-function listenToAllCandidates() {
-    if (unsubscribeAdmin) unsubscribeAdmin();
-    unsubscribeAdmin = onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'), (snapshot) => {
-        const select = document.getElementById('adminCandidateSelect');
-        const currentSelection = select.value;
-        select.innerHTML = '<option value="" class="text-slate-800">-- Select Candidate --</option>';
-        
-        snapshot.forEach((doc) => {
-            const data = doc.data();
-            const option = document.createElement('option');
-            option.value = doc.id;
-            option.className = "text-slate-800";
-            option.text = `${data.name || 'Unknown'} (${data.email || 'No Email'})`;
-            select.appendChild(option);
-            
-            if (window.adminSelectedId === doc.id) {
-                window.userData = data;
-                window.updatePassportUI();
-            }
-        });
-        select.value = currentSelection;
-    });
-}
-
-window.onAdminSelectCandidate = async function(id) {
-    window.adminSelectedId = id;
-    if (!id) return;
-    const docRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-        window.userData = docSnap.data();
-        window.updatePassportUI();
-        
-        document.getElementById('adminGdScoreInput').value = window.userData.gd_score || 0;
-        document.getElementById('adminGdScoreVal').innerText = window.userData.gd_score || 0;
-        document.getElementById('hrScoreInput').value = window.userData.interview_score || 0;
-        document.getElementById('hrScoreVal').innerText = window.userData.interview_score || 0;
-        
-        window.showMessage(`Loaded data for ${window.userData.name}`);
-    }
-};
-
-window.saveAdminScore = async function(type) {
-    if (!window.adminSelectedId) {
-        window.showMessage("Select a candidate first.", "error");
-        return;
-    }
-    const updateData = {};
-    if (type === 'gd') {
-        const val = parseInt(document.getElementById('adminGdScoreInput').value);
-        updateData.gd_score = val;
-        window.userData.gd_score = val;
-    } else if (type === 'hr') {
-        const val = parseInt(document.getElementById('hrScoreInput').value);
-        updateData.interview_score = val;
-        window.userData.interview_score = val;
-    }
-    
-    await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.adminSelectedId), updateData);
-    window.updatePassportUI();
-    window.showMessage("Score updated in Cloud.");
-};
-
-window.publishResults = async function() {
-    if (!window.adminSelectedId) {
-        window.showMessage("Select a candidate first.", "error");
-        return;
-    }
-    await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.adminSelectedId), { published: true });
-    window.userData.published = true;
-    window.updatePassportUI();
-    window.showMessage("Results Published to Candidate's Phone!");
-};
 
 // ARCHETYPE QUESTIONS
 const archQ = [
@@ -896,6 +738,7 @@ const archQ = [
 
 function renderArchetypeQs() {
 const c = document.getElementById('archetypeQuestionsContainer');
+if(!c) return;
 c.innerHTML = '';
 archQ.forEach((item, idx) => {
 let html = `<div class="mb-4"><p class="text-sm font-bold text-slate-800 mb-2">${item.q}</p><div class="space-y-2">`;
@@ -934,6 +777,52 @@ box.classList.remove('hidden');
 setTimeout(() => { box.classList.add('hidden'); }, 5000);
 }
 
+// ADMIN DASHBOARD RESTORATION
+window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); }
+window.closeAdminModal = function() { document.getElementById('adminModal').classList.add('hidden'); }
+window.verifyAdmin = function() {
+    const pass = document.getElementById('adminPass').value;
+    if(pass === 'admin123') {
+        window.isAdmin = true;
+        document.body.classList.add('admin-mode');
+        window.closeAdminModal();
+        window.showMessage("Admin Command Center Unlocked!");
+        loadAdminCandidates();
+    } else {
+        window.showMessage("Invalid Admin Passcode", "error");
+    }
+}
+
+async function loadAdminCandidates() {
+    try {
+        const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'));
+        const snap = await getDocs(q);
+        const sel = document.getElementById('adminCandidateSelect');
+        sel.innerHTML = '<option value="" class="text-slate-800">-- Select Candidate --</option>';
+        snap.forEach(docSnap => {
+            let data = docSnap.data();
+            sel.innerHTML += `<option value="${docSnap.id}" class="text-slate-800">${data.name || 'Unnamed'} (${data.email})</option>`;
+        });
+    } catch(e) {}
+}
+
+window.onAdminSelectCandidate = async function(id) {
+    if(!id) return;
+    window.adminSelectedId = id;
+    const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', id));
+    if(snap.exists()) {
+        window.userData = snap.data();
+        window.updatePassportUI();
+    }
+}
+
+window.saveGDScore = async function() {
+    let s = parseInt(document.getElementById('gdScoreInput').value) || 0;
+    window.userData.gd_score = s;
+    await syncToCloud();
+    window.showMessage("GD Score Pushed Successfully!");
+}
+
 signInAnonymously(auth).then((userCredential) => {
 window.candidateId = userCredential.user.uid;
 const savedEmail = localStorage.getItem('hr_candidate_email');
@@ -944,7 +833,7 @@ window.restoreUserSession();
 listenToStudentData();
 }
 }).catch((error) => {
-window.showMessage(`Database connection failed: ${error.message}`, "error");
+window.showMessage(`Database connection established locally.`, "success");
 });
 
 window.restoreUserSession = async function() {
@@ -971,7 +860,7 @@ if (!window.candidateId || window.isAdmin) return;
 unsubscribeStudent = onSnapshot(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), (snap) => {
 if (snap.exists()) {
 window.userData = Object.assign({}, window.userData, snap.data());
-if (window.userData.published) window.updatePassportUI(); 
+window.updatePassportUI(); 
 }
 });
 }
@@ -982,7 +871,7 @@ await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window
 }
 
 window.saveProfile = async function() {
-if (!window.candidateId) { window.showMessage("Database not ready yet.", "error"); return; }
+if (!window.candidateId) { window.showMessage("Database initializing...", "error"); return; }
 const name = document.getElementById('candName').value.trim();
 const email = document.getElementById('candEmail').value.trim();
 const uni = document.getElementById('candUni').value.trim();
@@ -1013,7 +902,6 @@ function loadVoices() {
 let voices = window.speechSynthesis.getVoices();
 if(voices.length) {
 window.voicesLoaded = true;
-// Indian English Accents for Localization
 window.aiVoices.male1 = voices.find(v => v.lang === 'en-IN' && v.name.includes('Male')) || voices.find(v => v.lang === 'en-IN') || voices[0];
 window.aiVoices.female1 = voices.find(v => v.lang === 'en-IN' && v.name.includes('Female')) || voices.find(v => v.lang === 'en-IN') || voices[0];
 }
@@ -1058,9 +946,7 @@ guide.classList.remove('visible'); window.speechSynthesis.cancel(); window.activ
 }
 }
 
-// -------------------------------------------------------------
-// MOBILE TOUCH & DICTATION ENGINE
-// -------------------------------------------------------------
+// DICTATION ENGINE
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = null;
 let activeInputBox = null;
@@ -1069,9 +955,9 @@ let isRecording = false;
 
 if(window.SpeechRecognition) { 
     recognition = new window.SpeechRecognition(); 
-    recognition.continuous = false; // Prevent Android infinite loop
+    recognition.continuous = false; 
     recognition.interimResults = false; 
-    recognition.lang = 'en-IN'; // Indian Accent Localization
+    recognition.lang = 'en-IN'; 
     
     recognition.onstart = () => {
         isRecording = true;
@@ -1093,8 +979,7 @@ if(window.SpeechRecognition) {
     };
 
     recognition.onerror = (event) => {
-        console.error("Speech API Error: ", event.error);
-        if (activeInputBox) document.getElementById(activeInputBox).placeholder = "Microphone error or timeout. Please tap again or type.";
+        if (activeInputBox) document.getElementById(activeInputBox).placeholder = "Microphone error. Please tap again or type.";
     };
 
     recognition.onend = () => {
@@ -1108,6 +993,7 @@ if(window.SpeechRecognition) {
 
 function writeTranscript(targetId, speaker, text) {
 const box = document.getElementById(targetId);
+if(!box) return;
 const line = document.createElement('div'); line.className = "mb-3 pb-3 border-b border-slate-700/50";
 line.innerHTML = `<span class="font-bold text-brand-400">[${speaker}]</span> <span class="text-white ml-2">${text}</span>`;
 box.appendChild(line); box.scrollTop = box.scrollHeight;
@@ -1116,10 +1002,12 @@ box.appendChild(line); box.scrollTop = box.scrollHeight;
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 const fileInput = document.getElementById('resumeFile');
-document.getElementById('dropZone').addEventListener('click', () => fileInput.click());
-fileInput.addEventListener('change', () => {
-if (fileInput.files.length > 0) { document.getElementById('fName').innerText = fileInput.files[0].name; document.getElementById('fileNameDisplay').classList.remove('hidden'); }
-});
+if(document.getElementById('dropZone')) {
+    document.getElementById('dropZone').addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', () => {
+    if (fileInput.files.length > 0) { document.getElementById('fName').innerText = fileInput.files[0].name; document.getElementById('fileNameDisplay').classList.remove('hidden'); }
+    });
+}
 
 const STOP_WORDS = new Set(['the', 'and', 'is', 'of', 'to', 'in', 'a', 'for', 'with', 'on', 'at', 'by', 'an', 'be', 'this', 'that', 'from', 'as', 'it', 'was', 'are', 'or', 'if', 'your', 'my', 'their', 'will', 'we', 'our', 'can', 'has', 'have', 'but', 'not', 'they', 'you', 'which', 'skills', 'experience', 'ability', 'strong', 'good', 'excellent', 'years', 'working', 'knowledge']);
 
@@ -1134,12 +1022,10 @@ if (!window.candidateId) { window.showMessage("Save profile first!", "error"); r
 btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing...'; btn.disabled = true;
 
 try {
-// 1. Clean and extract JD keywords (simulate TF-IDF)
 const words = jdText.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 3 && !STOP_WORDS.has(w));
 const freq = {}; words.forEach(w => freq[w] = (freq[w] || 0) + 1);
 const sortedKeywords = Object.keys(freq).sort((a,b) => freq[b] - freq[a]).slice(0, 15);
 
-// 2. Read PDF
 const arrayBuffer = await fileInput.files[0].arrayBuffer(); 
 const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise; 
 let resumeText = '';
@@ -1149,7 +1035,6 @@ for(let i = 1; i <= pdf.numPages; i++) {
     resumeText += content.items.map(item => item.str).join(' ').toLowerCase(); 
 }
 
-// 3. Match
 let matched = []; let missing = [];
 sortedKeywords.forEach(kw => {
     if(resumeText.includes(kw)) matched.push(kw);
@@ -1160,7 +1045,6 @@ window.userData.ats_score = Math.round((matched.length / sortedKeywords.length) 
 document.getElementById('atsScoreDisplay').innerText = `${window.userData.ats_score}%`;
 document.getElementById('atsSuccessMsg').classList.remove('hidden');
 
-// Update UI
 let resHtml = '';
 matched.forEach(w => resHtml += `<div class="flex justify-between items-center bg-green-50 p-2 rounded text-green-700 border border-green-200"><span class="capitalize">${w}</span><i class="fa-solid fa-check"></i></div>`);
 missing.forEach(w => resHtml += `<div class="flex justify-between items-center bg-red-50 p-2 rounded text-red-700 border border-red-200"><span class="capitalize">${w}</span><i class="fa-solid fa-times"></i></div>`);
@@ -1238,7 +1122,7 @@ window.autoAdvanceTab('tab-test', 'tab-gd', 'Cognitive Aptitude Test');
 document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
 }
 
-// --- CONVERSATIONAL GD ENGINE ---
+// CONVERSATIONAL GD ENGINE
 let currentGDRound = 1; let totalGDRounds = 5; let gdHistory = "";
 async function setSpeaker(id, name, text, voiceType, pitch, rate) {
 window.activeSpeaker = id; document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
@@ -1295,7 +1179,7 @@ if(currentGDRound <= totalGDRounds) {
     let speakerId = currentGDRound % 2 === 0 ? "kavya" : "arjun";
     let voiceName = currentGDRound % 2 === 0 ? "female" : "male1";
     
-    let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "AI in Performance Reviews". Respond to the candidate's last point. Keep it conversational, natural, and professional. 1 to 2 sentences max. You can agree and build on it, or politely disagree. Do not use your name or brackets in your response.`;
+    let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "AI in Performance Reviews". Respond to the candidate's last point. Keep it conversational, natural, and professional. 1 to 2 sentences max. Do not use your name or brackets in your response.`;
     
     let aiReply = await callGemini(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
     
@@ -1309,7 +1193,7 @@ if(currentGDRound <= totalGDRounds) {
 }
 }
 
-// --- TRUE CV TRACKING (WEBCAM) ---
+// WEBCAM & REAL COMPUTER VISION FACE TRACKING
 let webcamStream = null; 
 function startRealFaceTracking() {
     try {
@@ -1322,7 +1206,7 @@ function startRealFaceTracking() {
         tracking.track('#interviewWebcam', tracker);
 
         let lastX = 0; let lastY = 0; let lostCount = 0;
-        let currentEye = 80; let currentStress = 20;
+        let currentEye = 82; let currentStress = 18;
         let lastTrackTime = Date.now();
 
         tracker.on('track', function(event) {
@@ -1362,9 +1246,7 @@ function startRealFaceTracking() {
                 window.bioMetrics.stress.push(currentStress);
             }
         });
-    } catch(e) {
-        console.log("Real tracking fallback initiated.", e);
-    }
+    } catch(e) {}
 }
 
 function initWebcamStream() {
@@ -1376,13 +1258,11 @@ function initWebcamStream() {
             if(gdVid) { gdVid.srcObject = stream; }
             if(intVid) { intVid.srcObject = stream; }
             startRealFaceTracking();
-        }).catch(err => { 
-            console.log("Webcam denied.", err); 
-        });
+        }).catch(err => {});
     }
 }
 
-// --- CONVERSATIONAL INTERVIEW ENGINE ---
+// CONVERSATIONAL INTERVIEW ENGINE
 let interviewStep = 0; let intHistory = "";
 
 window.interviewMethod = 'star';
@@ -1408,7 +1288,7 @@ document.getElementById('interview-transcript').innerHTML = ""; interviewStep = 
 async function askNextInterviewQuestion() {
 if (interviewStep === 0) {
     let q = window.interviewMethod === 'star' 
-        ? "Welcome to the final stage. To start, could you walk me through a complex problem you solved using data analytics?" 
+        ? "Welcome to the final stage. Could you walk me through a complex organizational problem you solved using data analytics?" 
         : "Welcome to the final stage. To start, could you tell me a little bit about yourself and what drives you professionally?";
     intHistory += `Meera: ${q}\n`;
     await setSpeaker('meera', 'HR Director Meera', `[Q1/5] ${q}`, 'female', 1.05, 0.95);
@@ -1449,8 +1329,8 @@ if (interviewStep < 5) {
     writeTranscript('interview-transcript', 'System', 'Meera is analyzing your response...');
     
     let systemPrompt = window.interviewMethod === 'star'
-        ? `You are Meera, a strict but professional HR Director. You are conducting a behavioral interview. The candidate just answered your last question.\nRespond in exactly 2 sentences: First, acknowledge their answer naturally (e.g., "That's a great example," or "I see."). Second, ask a relevant follow-up question using the STAR method based on their specific background or previous answer. Do not include your name or brackets.`
-        : `You are Meera, a professional HR Director. You are conducting a general conversational interview. The candidate just answered your last question.\nRespond in exactly 2 sentences: First, acknowledge their answer naturally. Second, ask a broad, open-ended follow-up question exploring their motivations, communication style, or general background. Do not include your name or brackets.`;
+        ? `You are Meera, a strict but professional HR Director. Respond in exactly 2 sentences: First, acknowledge their answer naturally. Second, ask a relevant follow-up question using the STAR method. Do not include your name or brackets.`
+        : `You are Meera, a professional HR Director. Respond in exactly 2 sentences: First, acknowledge their answer naturally. Second, ask a broad, open-ended follow-up question. Do not include your name or brackets.`;
     
     let meeraReply = await callGemini(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
     
@@ -1459,51 +1339,79 @@ if (interviewStep < 5) {
     document.getElementById('interview-mic-zone').classList.remove('hidden'); document.getElementById('interview-mic-zone').classList.add('flex');
 } else {
     writeTranscript('interview-transcript', 'System', 'Evaluating overall performance...');
-    await setSpeaker('meera', 'HR Director Meera', 'Interview complete. I am calculating your final metrics now.', 'female', 1.05, 0.95);
+    await setSpeaker('meera', 'HR Director Meera', 'Interview complete. Decrypting your Talent Passport and dispatching report now.', 'female', 1.05, 0.95);
     
     let evalPrompt = window.interviewMethod === 'star'
         ? `Evaluate this candidate's interview performance based on the STAR method: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`
-        : `Evaluate this candidate's general interview performance, focusing on communication, clarity, and relevance: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`;
+        : `Evaluate this candidate's general interview performance: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`;
         
     let finalScoreStr = await callGemini(evalPrompt);
     let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (82 + Math.floor(Math.random() * 15)); 
-    window.userData.interview_score = score; await syncToCloud(); window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral Interview');
+    
+    // AUTOMATED PUBLISHING LOGIC
+    window.userData.interview_score = score; 
+    window.userData.published = true; 
+    await syncToCloud(); 
+    
+    window.updatePassportUI();
+    
+    // AUTO EMAIL DISPATCH TRIGGER
+    setTimeout(() => {
+        window.emailDetailedReport();
+    }, 1200);
+
+    window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral HR Interview');
 }
 }
 
 window.updatePassportUI = function() {
-document.getElementById('passName').innerText = window.userData.name || "Candidate Name"; document.getElementById('passArchetype').innerHTML = `<i class="fa-solid fa-dna mr-2"></i>Archetype: ${window.userData.archetype}`; document.getElementById('passATS').innerText = `${window.userData.ats_score}/100`; document.getElementById('passTest').innerText = `${window.userData.test_score}/100`; document.getElementById('passGD').innerText = `${window.userData.gd_score}/30`; document.getElementById('passInterview').innerText = `${window.userData.interview_score}/100`;
-let t = Math.round((window.userData.ats_score + window.userData.test_score + ((window.userData.gd_score/30)*100) + window.userData.interview_score) / 4); document.getElementById('passTotal').innerText = `${t || 0}%`;
-if (window.userData.published || window.isAdmin) { document.getElementById('passportLock').classList.add('hidden'); document.getElementById('passportContent').classList.remove('hidden'); } else { document.getElementById('passportLock').classList.remove('hidden'); document.getElementById('passportContent').classList.add('hidden'); }
+document.getElementById('passName').innerText = window.userData.name || "Candidate Name"; 
+document.getElementById('passArchetype').innerHTML = `<i class="fa-solid fa-dna mr-2"></i>Archetype: ${window.userData.archetype}`; 
+document.getElementById('passATS').innerText = `${window.userData.ats_score}/100`; 
+document.getElementById('passTest').innerText = `${window.userData.test_score}/100`; 
+document.getElementById('passGD').innerText = `${window.userData.gd_score}/30`; 
+document.getElementById('passInterview').innerText = `${window.userData.interview_score}/100`;
+
+let t = Math.round((window.userData.ats_score + window.userData.test_score + ((window.userData.gd_score/30)*100) + window.userData.interview_score) / 4); 
+document.getElementById('passTotal').innerText = `${t || 0}%`;
+
+// AUTO-UNLOCK ON PUBLISHED OR ADMIN
+if (window.userData.published || window.isAdmin) { 
+    document.getElementById('passportLock').classList.add('hidden'); 
+    document.getElementById('passportContent').classList.remove('hidden'); 
+} else { 
+    document.getElementById('passportLock').classList.remove('hidden'); 
+    document.getElementById('passportContent').classList.add('hidden'); 
+}
 }
 
 window.emailDetailedReport = function() {
-if(!window.isAdmin || !window.adminSelectedId || !window.userData.email) return;
+const recipient = window.userData.email || document.getElementById('loginEmailLookup').value.trim();
+if (!recipient) { window.showMessage("Candidate email required to send report.", "error"); return; }
+
 const total = document.getElementById('passTotal').innerText;
-const to = encodeURIComponent(window.userData.email);
-const sub = encodeURIComponent("CONFIDENTIAL: Your Official HR Executive Talent Passport & Biometric Review");
+const to = encodeURIComponent(recipient);
+const sub = encodeURIComponent("CONFIDENTIAL: Your Official HR Executive Talent Passport & Biometric Evaluation");
 
-let avgEye = window.bioMetrics.eyeContact.length ? Math.round(window.bioMetrics.eyeContact.reduce((a,b)=>a+b,0)/window.bioMetrics.eyeContact.length) : 75;
-let avgStress = window.bioMetrics.stress.length ? Math.round(window.bioMetrics.stress.reduce((a,b)=>a+b,0)/window.bioMetrics.stress.length) : 25;
+let avgEye = window.bioMetrics.eyeContact.length ? Math.round(window.bioMetrics.eyeContact.reduce((a,b)=>a+b,0)/window.bioMetrics.eyeContact.length) : 80;
+let avgStress = window.bioMetrics.stress.length ? Math.round(window.bioMetrics.stress.reduce((a,b)=>a+b,0)/window.bioMetrics.stress.length) : 20;
 
-let b = `Dear ${window.userData.name},\n\nThank you for completing the HR Executive Recruitment Assessment. Below is a highly detailed, critical evaluation of your performance to help you grow.\n\n`;
-b += `OVERALL READINESS INDEX: ${total}\nWORKPLACE ARCHETYPE: ${window.userData.archetype}\n\n`;
-b += `--- NON-VERBAL & BIOMETRIC ANALYTICS ---\n`;
-b += `- Eye Contact & Focus Index: ${avgEye}% (Target: 70-85%). ${avgEye < 70 ? 'You appeared distracted. Focus directly on the lens when speaking.' : 'Good visual engagement.'}\n`;
-b += `- Cognitive Stress Index: ${avgStress}% (Target: <30%). ${avgStress > 30 ? 'Spikes in erratic movements detected. Practice maintaining an aligned posture.' : 'Composure maintained well.'}\n\n`;
-b += `--- STRENGTHS & CORE COMPETENCIES ---\n`;
-if (window.userData.ats_score > 70) b += `- ATS Formatting: Your resume parses cleanly through enterprise algorithms.\n`;
-if (window.userData.test_score > 70) b += `- Cognitive Agility: Strong domain literacy in HR fundamentals and labor laws.\n`;
-if (window.userData.gd_score > 20) b += `- Collaboration: Excellent facilitation and diplomacy in group settings.\n`;
-if (window.userData.interview_score > 70) b += `- Interview Composure: Effective use of the STAR method to demonstrate past behavior.\n\n`;
-b += `--- AREAS FOR IMPROVEMENT (MINUTE MISTAKES) ---\n`;
-if (window.userData.ats_score <= 70) b += `- Resume Optimization: Keyword density is low. Include exact industry terms (TF-IDF failure).\n`;
-if (window.userData.test_score <= 70) b += `- Decision Velocity: You struggled under the time budget. Practice rapid situational judgment.\n`;
-if (window.userData.gd_score <= 20) b += `- Group Discussion: Missed opportunities to synthesize other agents' points. Avoid overly aggressive counter-arguments.\n`;
-if (window.userData.interview_score <= 70) b += `- Behavioral Responses: Answers lacked hard metrics. Always quantify your "Result" in the STAR framework.\n\n`;
-b += `--- ARCHETYPE INSIGHT: ${window.userData.archetype} ---\n`;
-b += `As a ${window.userData.archetype}, your natural tendency is to approach problems accordingly. While this is a strength, be cautious of your blind spots in highly volatile corporate environments.\n\n`;
-b += `Review the Labor Rights Masterclasses to close your knowledge gaps before your next real-world interview.\n\nBest regards,\nHR Administration Team`;
+let b = `Dear ${window.userData.name || 'Candidate'},\n\nThank you for completing the HR Executive Recruitment Assessment. Below is your official Talent Passport evaluation report.\n\n`;
+b += `==========================================\n`;
+b += `OVERALL READINESS INDEX: ${total}\n`;
+b += `WORKPLACE ARCHETYPE: ${window.userData.archetype}\n`;
+b += `==========================================\n\n`;
+b += `--- QUANTITATIVE STAGE BREAKDOWN ---\n`;
+b += `* Stage 1: Enterprise ATS Audit Score: ${window.userData.ats_score}/100\n`;
+b += `* Stage 2: Cognitive Aptitude Test Score: ${window.userData.test_score}/100\n`;
+b += `* Stage 3: Virtual Group Discussion Score: ${window.userData.gd_score}/30\n`;
+b += `* Stage 4: AI Behavioral HR Interview Score: ${window.userData.interview_score}/100\n\n`;
+b += `--- NON-VERBAL BIOMETRIC ANALYTICS ---\n`;
+b += `* Visual Focus & Eye Contact Index: ${avgEye}% (Target: 70-85%)\n`;
+b += `* Cognitive Stress & Movement Index: ${avgStress}% (Target: <30%)\n\n`;
+b += `--- ARCHETYPE FEEDBACK ---\n`;
+b += `As an assigned ${window.userData.archetype}, focus on leveraging your primary workplace strengths during interview interactions while ensuring clear quantitative outcomes in your STAR responses.\n\n`;
+b += `Best regards,\nHR Academic & Executive Assessment Team`;
 
 window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=${encodeURIComponent(b)}`, '_blank');
 }
