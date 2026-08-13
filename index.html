@@ -1176,12 +1176,18 @@ window.voicesLoaded = false;
 window.aiVoices = { male1: null, female1: null };
 
 function loadVoices() {
-let voices = window.speechSynthesis.getVoices();
-if(voices.length) {
-window.voicesLoaded = true;
-window.aiVoices.male1 = voices.find(v => v.lang === 'en-IN' && v.name.includes('Male')) || voices.find(v => v.lang === 'en-IN') || voices[0];
-window.aiVoices.female1 = voices.find(v => v.lang === 'en-IN' && v.name.includes('Female')) || voices.find(v => v.lang === 'en-IN') || voices[0];
-}
+    let voices = window.speechSynthesis.getVoices();
+    if(voices.length) {
+        window.voicesLoaded = true;
+        
+        // Search for premium, human-sounding voices on the user's OS
+        const bestFemale = voices.find(v => v.name.includes('Google UK English Female') || v.name.includes('Microsoft Zira') || v.name.includes('Google US English') || v.name.includes('Samantha') || v.name.includes('Karen') || v.name.includes('Tessa')) || voices.find(v => v.name.includes('Female'));
+        
+        const bestMale = voices.find(v => v.name.includes('Google UK English Male') || v.name.includes('Microsoft Mark') || v.name.includes('Microsoft David') || v.name.includes('Daniel') || v.name.includes('Alex')) || voices.find(v => v.name.includes('Male'));
+
+        window.aiVoices.female1 = bestFemale || voices.find(v => v.lang.includes('en')) || voices[0];
+        window.aiVoices.male1 = bestMale || voices.find(v => v.lang.includes('en')) || voices[0];
+    }
 }
 window.speechSynthesis.onvoiceschanged = loadVoices; loadVoices();
 
