@@ -133,7 +133,6 @@ body.ai-mode .gd-avatar { background: #334155; }
       <span class="font-extrabold">Assetize</span>
       <span class="text-brand-200 font-medium text-lg md:text-xl sm:ml-2 mt-1 sm:mt-0">- Practice-Perform-Place</span>
     </h1>
-    <p class="text-brand-100 text-xs md:text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth.</p>
   </div>
   
   <!-- ABOUT BUTTON PINNED TO TOP RIGHT (MOBILE ONLY) -->
@@ -589,7 +588,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </div>
 
-<div class="glass-card rounded-xl p-6 md:p-8 shadow-sm mt-6 md:mt-8 border-l-4 md:border-l-brand-500">
+<div class="glass-card rounded-xl p-6 md:p-8 shadow-sm mt-6 md:mt-8 border-l-4 md:border-l-8 border-l-brand-500">
 <h3 class="font-bold text-lg md:text-xl mb-2 md:mb-4 text-slate-800"><i class="fa-solid fa-paper-plane mr-2 text-brand-500"></i>Official Executive Report Dispatch</h3>
 <p class="text-xs md:text-sm text-slate-600 mb-4 md:mb-6">Your official evaluation report compiles your quantitative index, visual composure metrics, and developmental feedback.</p>
 
@@ -889,8 +888,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
     <p class="text-sm md:text-lg text-slate-500 mt-2">Test your knowledge on each module. These quizzes are strictly for practice, provide instant feedback, and do <strong class="text-red-500">NOT</strong> affect your official Talent Passport.</p>
   </div>
   
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 mb-6 md:mb-8">
-     <button id="btn-quiz-onboarding" onclick="window.loadPracticeQuiz('onboarding')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-user-plus text-blue-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> Onboarding</button>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-6 md:mb-8">
      <button id="btn-quiz-ats" onclick="window.loadPracticeQuiz('ats')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-file-pdf text-indigo-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> ATS Audit</button>
      <button id="btn-quiz-aptitude" onclick="window.loadPracticeQuiz('aptitude')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-stopwatch text-purple-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> Aptitude</button>
      <button id="btn-quiz-gd" onclick="window.loadPracticeQuiz('gd')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-users text-amber-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> Virtual GD</button>
@@ -1709,19 +1707,6 @@ window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=
 
 // --- EXPANDED PRACTICE ZONE LOGIC ---
 const practiceQuizzes = {
-  onboarding: {
-    title: "Onboarding & Psychometrics",
-    icon: "fa-user-plus",
-    color: "blue",
-    questions: [
-      { q: "Which behavioral framework categorizes individuals into Dominance, Influence, Steadiness, and Conscientiousness?", options: ["Big Five", "Myers-Briggs", "DISC", "Johari Window"], ans: 2 },
-      { q: "In archetype profiling, a 'Strategist' relies most heavily on:", options: ["Emotional consensus", "Data and frameworks", "Aggressive timelines", "Disruptive ideation"], ans: 1 },
-      { q: "The 'Halo Effect' in candidate evaluation refers to:", options: ["Focusing only on negative traits", "Allowing one positive trait to overshadow others", "Rating everyone as average", "Comparing candidates to each other"], ans: 1 },
-      { q: "Which cognitive bias describes the tendency to rely too heavily on the first piece of information offered?", options: ["Anchoring Bias", "Confirmation Bias", "Halo Effect", "Availability Heuristic"], ans: 0 },
-      { q: "What does the 'O' in the OCEAN (Big Five) personality model stand for?", options: ["Optimism", "Openness to experience", "Organization", "Objectivity"], ans: 1 },
-      { q: "During onboarding, what is 'socialization' primarily concerned with?", options: ["Completing tax forms", "Learning company culture and norms", "Setting up IT equipment", "Signing NDAs"], ans: 1 }
-    ]
-  },
   ats: {
     title: "Enterprise ATS Audit",
     icon: "fa-file-pdf",
