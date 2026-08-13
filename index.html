@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HR Capitalize Student Placement Guide</title>
+<title>Assetize - Practice-Perform-Place</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -130,8 +130,8 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div>
     <h1 class="text-2xl md:text-3xl tracking-tight flex flex-col sm:flex-row sm:items-baseline">
-      <span class="font-extrabold">HR Capitalize</span>
-      <span class="text-brand-200 font-medium text-lg md:text-xl sm:ml-2 mt-1 sm:mt-0">- Student Placement Guide</span>
+      <span class="font-extrabold">Assetize</span>
+      <span class="text-brand-200 font-medium text-lg md:text-xl sm:ml-2 mt-1 sm:mt-0">- Practice-Perform-Place</span>
     </h1>
     <p class="text-brand-100 text-xs md:text-sm font-medium mt-1 uppercase tracking-wider">Crack the Code, Know Your Worth.</p>
   </div>
@@ -143,7 +143,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 </div>
 
 <!-- Mobile: AI Toggle directly under title -->
-<div class="flex w-full mt-2 md:hidden">
+<div class="flex w-full mt-3 md:hidden">
   <div class="flex items-center justify-center space-x-2 bg-black/20 px-4 py-2.5 rounded-full border border-white/10 w-full">
     <span class="text-xs font-bold uppercase tracking-wider text-brand-200">Manual</span>
     <div class="relative inline-block w-12 mr-1 align-middle select-none transition duration-200 ease-in">
@@ -308,6 +308,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
+<!-- STAGE 1: ATS AUDIT -->
 <section id="tab-ats" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 1: Enterprise ATS Audit (TF-IDF)</h2>
@@ -384,7 +385,7 @@ Submit Final Answers
 </div>
 </section>
 
-<!-- NEW STAGE 3: ARCHETYPE ASSESSMENT -->
+<!-- STAGE 3: ARCHETYPE ASSESSMENT -->
 <section id="tab-archetype" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 3: Archetype Assessment</h2>
@@ -402,6 +403,7 @@ Submit Archetype Answers
 </div>
 </section>
 
+<!-- STAGE 4: VIRTUAL GD -->
 <section id="tab-gd" class="tab-content">
 <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
@@ -494,6 +496,7 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 </div>
 </section>
 
+<!-- STAGE 5: INTERVIEW -->
 <section id="tab-interview" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 5: AI Behavioral HR Interview</h2>
@@ -532,12 +535,14 @@ Posture: <strong id="postureVal">Pending</strong>
 </div>
 
 <div id="interview-controls" class="hidden w-full flex-col items-center">
-<div id="interviewModeToggle" class="flex flex-col sm:flex-row items-center gap-2 sm:space-x-4 mb-4 bg-slate-800 p-2 rounded-lg border border-slate-700 w-full sm:w-auto">
-<span class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest text-center">Style:</span>
-<div class="flex bg-slate-900 rounded-md p-1 w-full sm:w-auto justify-center">
-<button id="btnMethodSTAR" onclick="window.setInterviewMethod('star')" class="px-3 md:px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors w-1/2 sm:w-auto">STAR</button>
-<button id="btnMethodGeneral" onclick="window.setInterviewMethod('general')" class="px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto">General</button>
-</div>
+
+<!-- UPDATED INTERVIEW STYLE TOGGLE -->
+<div id="interviewModeToggle" class="flex flex-col sm:flex-row items-center gap-3 sm:space-x-4 mb-5 bg-brand-800/80 p-3 rounded-xl border border-brand-500 w-full shadow-lg transition-opacity duration-300">
+    <span class="text-[10px] md:text-xs font-bold text-white uppercase tracking-widest text-center"><i class="fa-solid fa-sliders mr-2"></i>Select Interview Style:</span>
+    <div class="flex bg-slate-900 rounded-lg p-1 w-full justify-center">
+        <button id="btnMethodSTAR" onclick="window.setInterviewMethod('star')" class="px-3 md:px-4 py-2 text-xs md:text-sm font-bold rounded-md bg-brand-600 text-white transition-colors w-1/2 shadow-md">STAR Method</button>
+        <button id="btnMethodGeneral" onclick="window.setInterviewMethod('general')" class="px-3 md:px-4 py-2 text-xs md:text-sm font-bold rounded-md text-slate-400 hover:text-white transition-colors bg-transparent w-1/2">General HR</button>
+    </div>
 </div>
 
 <button id="startInterviewBtn" onclick="window.startAIInterview()" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-6 md:px-8 rounded-full shadow-lg transition mb-2 border border-brand-400 text-sm md:text-base flex items-center justify-center">
@@ -1563,17 +1568,21 @@ window.setInterviewMethod = function(method) {
     const btnStar = document.getElementById('btnMethodSTAR');
     const btnGen = document.getElementById('btnMethodGeneral');
     if(method === 'star') {
-        btnStar.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors w-1/2 sm:w-auto";
-        btnGen.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto";
+        btnStar.className = "px-3 md:px-4 py-2 text-xs md:text-sm font-bold rounded-md bg-brand-600 text-white transition-colors w-1/2 shadow-md";
+        btnGen.className = "px-3 md:px-4 py-2 text-xs md:text-sm font-bold rounded-md text-slate-400 hover:text-white transition-colors bg-transparent w-1/2";
     } else {
-        btnGen.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors w-1/2 sm:w-auto";
-        btnStar.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto";
+        btnGen.className = "px-3 md:px-4 py-2 text-xs md:text-sm font-bold rounded-md bg-brand-600 text-white transition-colors w-1/2 shadow-md";
+        btnStar.className = "px-3 md:px-4 py-2 text-xs md:text-sm font-bold rounded-md text-slate-400 hover:text-white transition-colors bg-transparent w-1/2";
     }
 }
 
 window.startAIInterview = async function() {
 document.getElementById('startInterviewBtn').classList.add('hidden');
-document.getElementById('interviewModeToggle').classList.add('hidden');
+// Disable the toggle instead of hiding it so users can still see their selection
+document.getElementById('interviewModeToggle').classList.add('opacity-50', 'pointer-events-none');
+document.getElementById('btnMethodSTAR').disabled = true;
+document.getElementById('btnMethodGeneral').disabled = true;
+
 document.getElementById('interview-transcript').innerHTML = ""; interviewStep = 0; intHistory = ""; window.bioMetrics = { eyeContact: [], stress: [] }; askNextInterviewQuestion();
 }
 
