@@ -1727,9 +1727,18 @@ window.startAIInterview = async function() {
 async function askNextInterviewQuestion() {
   if (interviewStep === 0) {
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
-    let q = window.interviewMethod === 'star' 
-      ? `Welcome to the final stage, ${firstName}. Could you walk me through a complex organizational problem you solved using data analytics?` 
-      : `Welcome to the final stage, ${firstName}. To start, could you tell me a little bit about yourself and what drives you professionally?`;
+    const archetype = window.userData.archetype && window.userData.archetype !== "Not Evaluated" ? window.userData.archetype : 'Corporate Professional';
+    
+    writeTranscript('interview-transcript', 'System', 'Meera is analyzing your profile and generating a custom question...');
+    
+    let systemPrompt = `You are Meera, a seasoned, strict Fortune 500 HR Director. You are interviewing a candidate named ${firstName}, whose psychometric archetype is evaluated as '${archetype}'.
+    Generate the FIRST question of the interview.
+    If the requested method is STAR: Greet them professionally and ask a complex behavioral question tailored to testing the strengths or blind spots of a ${archetype}. Ask them to walk you through a specific past scenario.
+    If the requested method is GENERAL: Greet them professionally and ask a deep, open-ended question about their leadership philosophy, career trajectory, or how they handle corporate politics.
+    Keep your response strictly under 2 sentences. Make it sound highly authentic and unpredictable. Do not use your own name or brackets. Method to use: ${window.interviewMethod.toUpperCase()}`;
+    
+    let q = await callGemini(`Generate the opening interview question for ${firstName}.`, systemPrompt);
+    
     intHistory += `Meera: ${q}\n`;
     
     await setSpeaker('meera', 'HR Director Meera', q, 'meera');
@@ -1773,12 +1782,20 @@ window.processInterviewSpeech = async function(candidateResponse) {
     writeTranscript('interview-transcript', 'System', 'Meera is analyzing your response...');
     
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
+    const archetype = window.userData.archetype && window.userData.archetype !== "Not Evaluated" ? window.userData.archetype : 'Professional';
     
+    let basePrompt = `You are Meera, a highly objective Fortune 500 HR Director interviewing ${firstName} (Archetype: ${archetype}).
+    CRITICAL INSTRUCTIONS:
+    1. EXAMINE THEIR LAST ANSWER: If they replied with a one-word answer (like "ok", "yes", "no"), a vague statement, or dodged the question, YOU MUST CALL IT OUT directly and professionally (e.g., "A one-word response is insufficient for an executive role. I need you to elaborate on...", or "That is too vague for what I asked.").
+    2. DO NOT validate or praise them. Never say "Good point," "Thank you," "Great," or "I understand." Remain completely neutral and cold.
+    3. FORMULATE YOUR FOLLOW-UP STRICTLY BASED ON THEIR EXACT PREVIOUS ANSWER. Dig deeper into their logic, expose a flaw, or challenge an assumption they just made.
+    4. Keep your response to EXACTLY ONE or TWO sentences. No brackets or names.`;
+
     let systemPrompt = window.interviewMethod === 'star'
-      ? `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: Immediately ask a hard, relevant follow-up question using the STAR method based on their answer. CRITICAL INSTRUCTION: DO NOT acknowledge, evaluate, or appreciate their previous answer in any way. Be completely silent on what they just said. Do not say 'thank you', 'good point', or 'interesting'. Just ask the next question directly. Do not include your name or brackets.`
-      : `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: Immediately ask a broad, open-ended follow-up question. CRITICAL INSTRUCTION: DO NOT acknowledge, evaluate, or appreciate their previous answer in any way. Be completely silent on what they just said. Do not say 'thank you', 'good point', or 'interesting'. Just ask the next question directly. Do not include your name or brackets.`;
+      ? `${basePrompt}\n5. FOCUS ON STAR: Force them into the Situation-Task-Action-Result framework. If they gave a vague action, ask exactly what THEY did. If they gave a vague result, demand specific KPIs, metrics, or financial data.`
+      : `${basePrompt}\n5. FOCUS ON GENERAL LEADERSHIP: Focus your follow-up on organizational dynamics, stakeholder management, scalability, or leadership mindset based on what they just told you. Make them defend their corporate philosophy.`;
     
-    let meeraReply = await callGemini(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
+    let meeraReply = await callGemini(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera challenging the candidate's last point.`, systemPrompt);
     
     intHistory += `Meera: ${meeraReply}\n`;
     
