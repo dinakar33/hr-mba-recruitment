@@ -1408,8 +1408,15 @@ const gdTopics = [
     desc: "Should corporate employees be legally permitted to take up secondary jobs outside working hours?",
     arjunStart: "Moonlighting is a breach of contract. It creates massive IP security risks and drains the energy employees owe to their primary employer.",
     kavyaStart: "I view it differently. If an employee fulfills their 40-hour commitment, what they do on weekends is their fundamental right."
+  },
+  {
+    title: "Universal Basic Income (UBI)",
+    desc: "Evaluate if UBI is a necessary safety net for AI-driven job displacement or an economic burden.",
+    arjunStart: "UBI is mathematically unsustainable and disincentivizes productivity and skill acquisition in the workforce.",
+    kavyaStart: "That's a narrow view. UBI provides a baseline safety net that actually encourages entrepreneurial risk and creative innovation."
   }
 ];
+
 let currentActiveTopic = gdTopics[0];
 let currentGDRound = 1; 
 let totalGDRounds = 5; 
@@ -1432,6 +1439,15 @@ async function setSpeaker(id, name, text, avatarId) {
 }
 
 window.startAIGD = async function() {
+  if (!window.isAIMode) {
+      window.isAIMode = true;
+      const toggle = document.getElementById('aiToggle');
+      if (toggle) toggle.checked = true;
+      document.body.classList.add('ai-mode');
+      document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
+  }
+  initWebcamStream();
+
   document.getElementById('aiVoiceBtn4').disabled = true; 
   currentGDRound = 1; 
   document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`; 
@@ -1506,6 +1522,7 @@ window.processGDSpeech = async function(userSpeech) {
   } else {
     writeTranscript('gd-transcript', 'System', 'Calculating final GD score via LLM rubric...');
     
+    // --- INTEGRATED 3-TIER GD SCORING ENGINE (Out of 30) ---
     let gdScoringPrompt = `You are a strict Executive Assessment Evaluator grading an MBA Group Discussion transcript.
 Evaluate the candidate's performance across 3 parameters (10 marks each, total 30 marks):
 1. Content & Substance (0-10): Relevance, logical arguments, data backing.
@@ -1704,6 +1721,7 @@ window.processInterviewSpeech = async function(candidateResponse) {
     writeTranscript('interview-transcript', 'System', 'Evaluating overall performance across rubric dimensions...');
     await setSpeaker('meera', 'HR Director Meera', 'Interview complete. Decrypting your Talent Passport and dispatching report now.', 'meera');
     
+    // --- INTEGRATED 3-TIER INTERVIEW SCORING ENGINE (Out of 100) ---
     let interviewRubricPrompt = window.interviewMethod === 'star'
       ? `You are a Fortune 500 Executive Recruiter scoring a candidate's 5-question behavioral interview transcript strictly against the STAR framework.
 Evaluate across 4 distinct dimensions (Total 100 Marks):
