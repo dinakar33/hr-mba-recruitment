@@ -913,6 +913,16 @@ async function callGemini(prompt, systemInstruction = null) {
   } catch (e) {
     console.warn("API Call switched to Local Simulation Engine:", e.message);
     let category = prompt.includes("Interview") || prompt.includes("Meera") ? "interview" : "gd";
+    
+    // --- NEW: Smart Offline Fallback for short/lazy answers ---
+    let lastInputMatch = prompt.match(/Candidate:\s*(.*)/g);
+    let lastInput = lastInputMatch ? lastInputMatch[lastInputMatch.length - 1].replace('Candidate:', '').trim() : "";
+    
+    if (lastInput.length < 15 || ['ok', 'yes', 'no', 'nothing', 'i agree', 'sure'].includes(lastInput.toLowerCase())) {
+       if (category === 'gd') return "Saying '" + lastInput + "' contributes absolutely nothing to this boardroom. I expect strategic, data-backed insights, not one-word answers.";
+       if (category === 'interview') return "A response of '" + lastInput + "' is unacceptable for an executive role. Please elaborate with a detailed, structured example.";
+    }
+    
     let fallbackText = localResponses[category][localFallbackIndex % localResponses[category].length];
     localFallbackIndex++;
     return fallbackText;
@@ -1507,20 +1517,16 @@ window.processGDSpeech = async function(userSpeech) {
     document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
     writeTranscript('gd-transcript', 'System', 'AI is thinking...');
 
-    let persona = currentGDRound % 2 === 0 ? "Kavya (Creative, human-centric but highly corporate Executive)" : "Arjun (Analytical, data-driven, risk-averse Executive)";
+    let persona = currentGDRound % 2 === 0 ? "Kavya (Creative and empathetic)" : "Arjun (Analytical and data-driven)";
     let speakerId = currentGDRound % 2 === 0 ? "kavya" : "arjun";
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
     
-    // ULTRA-STRICT, DYNAMIC CORPORATE PROMPT
-    let systemPrompt = `You are a top-tier Fortune 500 corporate executive named ${persona} in a high-stakes Group Discussion about "${currentActiveTopic.title}". The candidate you are evaluating and debating is named ${firstName}. 
-    
-    CRITICAL INSTRUCTIONS:
-    1. Argue like a seasoned corporate professional (e.g., McKinsey partner or VP of Strategy). Use sharp business terminology (ROI, KPIs, scalability, liabilities, operational bandwidth, OPEX, risk mitigation).
-    2. DIRECTLY ATTACK WEAK/LAZY ANSWERS: If ${firstName} gives a vague, one-word, or unsubstantiated answer (like "ok", "no", "yes", "I agree", "good point", "maybe"), aggressively call out their lack of executive presence. Tell them that type of response is unacceptable in a boardroom and demand a data-backed rationale immediately.
-    3. DO NOT REPEAT PREVIOUS POINTS: Read the GD History carefully. Advance the debate into new territory. If previous points were about cost, pivot to legal risk, compliance, PR, or long-term retention. 
-    4. STRICTLY analyze the flaws in ${firstName}'s specific logic. Expose their assumptions and ask hard, specific follow-up questions to put them under pressure.
-    5. NEVER just agree, summarize, or be polite. Drive the business case forward.
-    6. Keep it conversational, sharp, and concise. Maximum 2 sentences. Do not use your own name or brackets.`;
+    let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "${currentActiveTopic.title}". The user you are debating is named ${firstName}. 
+    CRITICAL INSTRUCTION: Analyze ${firstName}'s last point. 
+    1. If their answer is very short (like 'ok', 'nothing', 'yes', 'no') or lacks substance, you MUST harshly call them out for poor contribution and demand a strategic point. Do NOT praise them under any circumstances.
+    2. If their argument is loose or illogical, point out the exact flaws and challenge them directly.
+    3. If it is strong, counter it with a different corporate perspective.
+    Keep it conversational, natural, and highly professional. Strictly 1 to 2 sentences max. Do not use your own name or brackets.`;
     
     let aiReply = await callGemini(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
     
@@ -1724,20 +1730,16 @@ window.processInterviewSpeech = async function(candidateResponse) {
     writeTranscript('interview-transcript', 'System', 'Meera is analyzing your response...');
     
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
-    const archetype = window.userData.archetype && window.userData.archetype !== "Not Evaluated" ? window.userData.archetype : 'Professional';
     
-    let basePrompt = `You are Meera, a highly objective Fortune 500 HR Director interviewing ${firstName} (Archetype: ${archetype}).
-    CRITICAL INSTRUCTIONS:
-    1. EXAMINE THEIR LAST ANSWER: If they replied with a one-word answer (like "ok", "yes", "no"), a vague statement, or dodged the question, YOU MUST CALL IT OUT directly and professionally (e.g., "A one-word response is insufficient for an executive role. I need you to elaborate on...", or "That is too vague for what I asked.").
-    2. DO NOT validate or praise them. Never say "Good point," "Thank you," "Great," or "I understand." Remain completely neutral and cold.
-    3. FORMULATE YOUR FOLLOW-UP STRICTLY BASED ON THEIR EXACT PREVIOUS ANSWER. Dig deeper into their logic, expose a flaw, or challenge an assumption they just made.
-    4. Keep your response to EXACTLY ONE or TWO sentences. No brackets or names.`;
-
     let systemPrompt = window.interviewMethod === 'star'
-      ? `${basePrompt}\n5. FOCUS ON STAR: Force them into the Situation-Task-Action-Result framework. If they gave a vague action, ask exactly what THEY did. If they gave a vague result, demand specific KPIs, metrics, or financial data.`
-      : `${basePrompt}\n5. FOCUS ON GENERAL LEADERSHIP: Focus your follow-up on organizational dynamics, stakeholder management, scalability, or leadership mindset based on what they just told you. Make them defend their corporate philosophy.`;
+      ? `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: 
+      CRITICAL INSTRUCTION: Read their last answer. If their answer is extremely short ('ok', 'nothing', 'yes') or lacks detail, reprimand them for the lack of executive presence and demand a full STAR method response. 
+      If they gave a full answer, immediately ask a hard, relevant follow-up question using the STAR method based on their answer. DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`
+      : `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: 
+      CRITICAL INSTRUCTION: Read their last answer. If their answer is extremely short ('ok', 'nothing', 'yes') or lacks detail, reprimand them for the lack of executive presence and demand a full detailed response. 
+      If they gave a full answer, immediately ask a broad, open-ended follow-up question. DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`;
     
-    let meeraReply = await callGemini(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera challenging the candidate's last point.`, systemPrompt);
+    let meeraReply = await callGemini(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
     
     intHistory += `Meera: ${meeraReply}\n`;
     
