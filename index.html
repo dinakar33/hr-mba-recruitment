@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>f
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1440,28 +1440,53 @@ const gdTopics = [
   {
     title: "AI in Performance Reviews",
     desc: "Discuss the ethical implications of replacing human managers with AI scoring systems.",
-    arjunStart: "Implementing AI in performance reviews is essential. It standardizes metrics across departments and removes human bias.",
-    kavyaStart: "I disagree, Arjun. Historical bias in datasets risks automating systemic discrimination."
+    arjunStart: "Implementing AI in performance reviews is a strategic imperative. It eliminates human bias and provides scalable, quantitative metrics for our talent pipeline.",
+    kavyaStart: "I challenge that, Arjun. Algorithmic bias in HR tech creates massive legal liabilities and fundamentally breaks psychological safety within high-performing teams."
   },
   {
     title: "Mandatory Return to Office (RTO)",
     desc: "Debate the long-term impact of forcing employees back to the office versus maintaining remote flexibility.",
-    arjunStart: "Mandatory RTO is necessary for company culture. Data shows spontaneous collaboration drops significantly in fully remote environments.",
-    kavyaStart: "But Arjun, forced RTO destroys employee morale and increases turnover among top talent who value flexibility."
+    arjunStart: "Mandatory RTO is essential for long-term ROI. Internal data proves that asynchronous remote work diminishes cross-functional innovation and delays product shipping cycles.",
+    kavyaStart: "But Arjun, forced RTO policies are driving a 20% spike in attrition among our top percentile talent. We are sacrificing retention for an outdated real estate sunk cost."
   },
   {
     title: "The 4-Day Workweek",
     desc: "Analyze the financial and operational feasibility of a 4-day workweek without reducing pay.",
-    arjunStart: "A 4-day workweek mathematically reduces overall output. Most industries cannot absorb a 20% drop in hours without losing revenue.",
-    kavyaStart: "Actually, global trials show productivity remains the same or increases due to reduced burnout and higher focus."
+    arjunStart: "Compressing operational hours into a 4-day week creates an unsustainable bottleneck. B2B client SLAs demand 5-day availability, making this a massive competitive disadvantage.",
+    kavyaStart: "Conversely, longitudinal data shows a 4-day week reduces burnout-related healthcare costs and maintains 100% output efficiency due to Parkinson's Law."
   },
   {
     title: "Moonlighting in Corporate IT",
     desc: "Should corporate employees be legally permitted to take up secondary jobs outside working hours?",
-    arjunStart: "Moonlighting is a breach of contract. It creates massive IP security risks and drains the energy employees owe to their primary employer.",
-    kavyaStart: "I view it differently. If an employee fulfills their 40-hour commitment, what they do on weekends is their fundamental right."
+    arjunStart: "Moonlighting is an unacceptable IP and security risk. It creates a blatant conflict of interest and dilutes the operational bandwidth employees owe to our enterprise.",
+    kavyaStart: "If we enforce strict NDAs, what they do off the clock is irrelevant. In fact, side projects often accelerate their upskilling without tapping into our L&D budget."
+  },
+  {
+    title: "Diversity Quotas vs. Pure Meritocracy",
+    desc: "Should executive boards enforce strict diversity quotas, or does it compromise pure merit-based hiring?",
+    arjunStart: "Enforcing quotas artificially restricts our talent pool. We must operate as a strict meritocracy to ensure maximum operational efficiency and shareholder returns.",
+    kavyaStart: "That's a narrow view, Arjun. Homogeneous teams suffer from groupthink. Diversity isn't just a quota; it's a proven driver of innovation and new market penetration."
+  },
+  {
+    title: "Unlimited Paid Time Off (PTO)",
+    desc: "Is unlimited PTO a progressive employee benefit or a psychological trap that leads to less vacation time taken?",
+    arjunStart: "Unlimited PTO is a liability nightmare. Without accrued tracking, project timelines become unpredictable and team dependencies constantly break.",
+    kavyaStart: "Actually, Arjun, unlimited PTO acts as a psychological deterrent. Employees take less time off out of guilt, which saves the company money but accelerates burnout."
+  },
+  {
+    title: "AI Surveillance in Remote Work",
+    desc: "Tracking keystrokes and webcam focus for remote employees - necessary accountability or a toxic privacy violation?",
+    arjunStart: "If we are paying for 40 hours of operational bandwidth, we have a fiduciary duty to monitor keystrokes and active screen time to prevent payroll theft.",
+    kavyaStart: "Micromanaging via surveillance software immediately destroys trust. It incentivizes employees to optimize for 'appearing active' rather than delivering actual business value."
+  },
+  {
+    title: "The Gig Economy & White-Collar Work",
+    desc: "Should corporations shift to a 50% freelance workforce to optimize cost, or does it destroy institutional knowledge?",
+    arjunStart: "Shifting to a 50% contractor model converts fixed payroll liabilities into flexible OPEX. It allows us to scale talent dynamically based on market cycles.",
+    kavyaStart: "But you lose all institutional memory, Arjun. Gig workers have zero loyalty to our enterprise, resulting in inconsistent output and constant retraining costs."
   }
 ];
+
 let currentActiveTopic = gdTopics[0];
 let currentGDRound = 1; 
 let totalGDRounds = 5; 
@@ -1484,27 +1509,23 @@ async function setSpeaker(id, name, text, avatarId) {
 }
 
 window.startAIGD = async function() {
-  if (!window.isAIMode) {
-      window.isAIMode = true;
-      const toggle = document.getElementById('aiToggle');
-      if (toggle) toggle.checked = true;
-      document.body.classList.add('ai-mode');
-      document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
-  }
-  initWebcamStream();
-
   document.getElementById('aiVoiceBtn4').disabled = true; 
   currentGDRound = 1; 
   document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`; 
   document.getElementById('gd-transcript').innerHTML = ""; 
   gdHistory = "";
   
+  // Randomly select a topic
+  currentActiveTopic = gdTopics[Math.floor(Math.random() * gdTopics.length)];
+  document.getElementById('gd-topic-title').innerText = `"${currentActiveTopic.title}"`;
+  document.getElementById('gd-topic-desc').innerText = currentActiveTopic.desc;
+
   writeTranscript('gd-transcript', 'System', `Initiating 5-Round Virtual GD on: ${currentActiveTopic.title}...`);
 
   const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
 
   await setSpeaker('arjun', 'Arjun', currentActiveTopic.arjunStart, 'arjun');
-  await setSpeaker('kavya', 'Kavya', `${currentActiveTopic.kavyaStart} ${firstName}, what are your thoughts?`, 'kavya');
+  await setSpeaker('kavya', 'Kavya', `${currentActiveTopic.kavyaStart} ${firstName}, what are your thoughts on the operational impact?`, 'kavya');
   
   document.getElementById('gd-mic-zone').classList.remove('hidden');
   document.getElementById('gd-mic-zone').classList.add('flex');
@@ -1544,14 +1565,20 @@ window.processGDSpeech = async function(userSpeech) {
     document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
     writeTranscript('gd-transcript', 'System', 'AI is thinking...');
 
-    let persona = currentGDRound % 2 === 0 ? "Kavya (Creative and empathetic)" : "Arjun (Analytical and data-driven)";
+    let persona = currentGDRound % 2 === 0 ? "Kavya (Creative, human-centric but highly corporate Executive)" : "Arjun (Analytical, data-driven, risk-averse Executive)";
     let speakerId = currentGDRound % 2 === 0 ? "kavya" : "arjun";
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
     
-    // STRICT GD PROMPT
-    let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "${currentActiveTopic.title}". The user you are debating is named ${firstName}. 
-    CRITICAL INSTRUCTION: Analyze ${firstName}'s last point. If their argument is loose, weak, illogical, or lacks solid data, you MUST push back, point out the exact flaws in their logic, and challenge them directly. If it is strong, counter it with a different perspective. 
-    Do not just blindly agree or say 'good point'. Keep it conversational, natural, and highly professional. Strictly 1 to 2 sentences max. Do not use your own name or brackets.`;
+    // ULTRA-STRICT, DYNAMIC CORPORATE PROMPT
+    let systemPrompt = `You are a top-tier Fortune 500 corporate executive named ${persona} in a high-stakes Group Discussion about "${currentActiveTopic.title}". The candidate you are evaluating and debating is named ${firstName}. 
+    
+    CRITICAL INSTRUCTIONS:
+    1. Argue like a seasoned corporate professional (e.g., McKinsey partner or VP of Strategy). Use sharp business terminology (ROI, KPIs, scalability, liabilities, operational bandwidth, OPEX, risk mitigation).
+    2. DIRECTLY ATTACK WEAK/LAZY ANSWERS: If ${firstName} gives a vague, one-word, or unsubstantiated answer (like "ok", "no", "yes", "I agree", "good point", "maybe"), aggressively call out their lack of executive presence. Tell them that type of response is unacceptable in a boardroom and demand a data-backed rationale immediately.
+    3. DO NOT REPEAT PREVIOUS POINTS: Read the GD History carefully. Advance the debate into new territory. If previous points were about cost, pivot to legal risk, compliance, PR, or long-term retention. 
+    4. STRICTLY analyze the flaws in ${firstName}'s specific logic. Expose their assumptions and ask hard, specific follow-up questions to put them under pressure.
+    5. NEVER just agree, summarize, or be polite. Drive the business case forward.
+    6. Keep it conversational, sharp, and concise. Maximum 2 sentences. Do not use your own name or brackets.`;
     
     let aiReply = await callGemini(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
     
@@ -1562,7 +1589,6 @@ window.processGDSpeech = async function(userSpeech) {
   } else {
     writeTranscript('gd-transcript', 'System', 'Calculating final GD score via LLM rubric...');
     
-    // INTEGRATED 3-TIER GD SCORING ENGINE
     let gdScoringPrompt = `You are a strict Executive Assessment Evaluator grading an MBA Group Discussion transcript.
 Evaluate the candidate's performance across 3 parameters (10 marks each, total 30 marks):
 1. Content & Substance (0-10): Relevance, logical arguments, data backing.
@@ -1590,7 +1616,7 @@ Return ONLY a single integer score between 1 and 30 representing the exact sum. 
   }
 };
 
-let webcamStream = null; 
+let webcamStream = null;
 function startRealFaceTracking() {
   try {
     if(!window.tracking) return;
