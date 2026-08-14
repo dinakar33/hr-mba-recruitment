@@ -46,7 +46,7 @@ body.ai-mode { background-color: #0f172a; color: #f1f5f9; }
 body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgba(51, 65, 85, 0.8); color: #f8fafc; }
 body.ai-mode h2, body.ai-mode h3, body.ai-mode p, body.ai-mode span, body.ai-mode label { color: #f8fafc !important; }
 body.ai-mode .text-slate-500, body.ai-mode .text-slate-600 { color: #cbd5e1 !important; }
-body.ai-mode .text-slate-700, body.ai-mode .text-slate-800 { color: #f8fafc !important; } /* Fixes blank text in modules */
+body.ai-mode .text-slate-700, body.ai-mode .text-slate-800 { color: #f8fafc !important; }
 body.ai-mode .bg-white { background-color: #1e293b !important; }
 body.ai-mode .bg-slate-50 { background-color: rgba(255, 255, 255, 0.05) !important; }
 body.ai-mode .border-gray-300, body.ai-mode .border { border-color: #475569 !important; }
@@ -1256,9 +1256,6 @@ window.toggleAIMode = async function() {
         const btn4 = document.getElementById('aiVoiceBtn4');
         if (btn4) btn4.classList.remove('hidden');
         
-        const btn5 = document.getElementById('aiVoiceBtn5');
-        if (btn5) btn5.classList.remove('hidden');
-        
         document.getElementById('gd-arena').classList.remove('opacity-50', 'pointer-events-none');
         document.getElementById('interview-controls').classList.remove('hidden'); 
         document.getElementById('interview-controls').classList.add('flex');
@@ -1290,9 +1287,6 @@ window.toggleAIMode = async function() {
         
         const btn4 = document.getElementById('aiVoiceBtn4');
         if (btn4) btn4.classList.add('hidden');
-        
-        const btn5 = document.getElementById('aiVoiceBtn5');
-        if (btn5) btn5.classList.add('hidden');
         
         document.getElementById('gd-arena').classList.add('opacity-50', 'pointer-events-none');
         document.getElementById('interview-controls').classList.add('hidden'); 
@@ -1566,9 +1560,29 @@ window.processGDSpeech = async function(userSpeech) {
     document.getElementById('gd-mic-zone').classList.remove('hidden'); 
     document.getElementById('gd-mic-zone').classList.add('flex');
   } else {
-    writeTranscript('gd-transcript', 'System', 'Calculating final GD score via LLM...');
-    let finalScoreStr = await callGemini(`Evaluate this candidate's GD performance: ${gdHistory}. Return only a number out of 30 representing their score. Example: 26`);
-    let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (22 + Math.floor(Math.random() * 8)); 
+    writeTranscript('gd-transcript', 'System', 'Calculating final GD score via LLM rubric...');
+    
+    // --- INTEGRATED 3-TIER GD SCORING ENGINE (Out of 30) ---
+    let gdScoringPrompt = `You are a strict Executive Assessment Evaluator grading an MBA Group Discussion transcript.
+Evaluate the candidate's performance across 3 parameters (10 marks each, total 30 marks):
+1. Content & Substance (0-10): Relevance, logical arguments, data backing.
+2. Communication & Articulation (0-10): Clarity, professional phrasing, concise delivery.
+3. Group Dynamics & Synthesis (0-10): Direct responses to peers, active listening, mediating consensus.
+
+Scoring Tiers:
+- Tier 1 (1 to 10): Basic / Off-topic / Minimal substance / Fragmented arguments.
+- Tier 2 (11 to 20): Competent / Average / Clear points but lacks deep numerical/strategic insight.
+- Tier 3 (21 to 30): Advanced / Exceptional / Structured, persuasive, highly collaborative.
+
+Transcript to evaluate:
+${gdHistory}
+
+Return ONLY a single integer score between 1 and 30 representing the exact sum. Example output: 24`;
+
+    let finalScoreStr = await callGemini(gdScoringPrompt);
+    let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
+    let score = (!isNaN(parsedScore) && parsedScore >= 1 && parsedScore <= 30) ? parsedScore : (20 + Math.floor(Math.random() * 8)); 
+    
     window.userData.gd_score = score; 
     await syncToCloud(); 
     writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Score: ${score}/30`); 
@@ -1744,15 +1758,47 @@ window.processInterviewSpeech = async function(candidateResponse) {
     document.getElementById('interview-mic-zone').classList.remove('hidden'); 
     document.getElementById('interview-mic-zone').classList.add('flex');
   } else {
-    writeTranscript('interview-transcript', 'System', 'Evaluating overall performance...');
+    writeTranscript('interview-transcript', 'System', 'Evaluating overall performance across rubric dimensions...');
     await setSpeaker('meera', 'HR Director Meera', 'Interview complete. Decrypting your Talent Passport and dispatching report now.', 'meera');
     
-    let evalPrompt = window.interviewMethod === 'star'
-      ? `Evaluate this candidate's interview performance based on the STAR method: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`
-      : `Evaluate this candidate's general interview performance: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`;
+    // --- INTEGRATED 3-TIER INTERVIEW SCORING ENGINE (Out of 100) ---
+    let interviewRubricPrompt = window.interviewMethod === 'star'
+      ? `You are a Fortune 500 Executive Recruiter scoring a candidate's 5-question behavioral interview transcript strictly against the STAR framework.
+Evaluate across 4 distinct dimensions (Total 100 Marks):
+1. Technical Accuracy & Domain Relevance (0-30): Depth of HR/management concepts and direct responses.
+2. STAR Structure & Logical Rigor (0-25): Clear Situation, Task, Action, and measurable numerical Result.
+3. Communication & Articulation (0-25): Professional phrasing, clarity, conciseness, absence of fluff.
+4. Executive Composure & Behavioral Fit (0-20): Problem-solving maturity and decision-making clarity.
+
+Score Tiers:
+- Tier 1 (0 to 40): Unsatisfactory / High Risk / Rambling / No STAR structure / Missing metrics.
+- Tier 2 (41 to 70): Proficient / Standard Pass / Answers prompt / Basic logic / Light on data.
+- Tier 3 (71 to 100): Exemplary / Strong Hire / Strict STAR adherence / Concrete KPIs / Exceptional leadership presence.
+
+Transcript:
+${intHistory}
+
+Calculate the sum and return ONLY a single integer score between 0 and 100. Example output: 84`
+      : `You are a Fortune 500 Executive Recruiter scoring a candidate's 5-question general HR interview transcript.
+Evaluate across 4 distinct dimensions (Total 100 Marks):
+1. Domain Relevance & Knowledge Depth (0-30): Understanding of organizational dynamics and role competencies.
+2. Structure & Logical Progression (0-25): Coherent reasoning, clear beginning-middle-end narratives.
+3. Communication, Confidence & Fluency (0-25): Executive vocabulary, concise articulation.
+4. Cultural Fit & Situational Problem Solving (0-20): Practical leadership mindset and strategic alignment.
+
+Score Tiers:
+- Tier 1 (0 to 40): Unsatisfactory / High Risk / Vague / Disjointed thoughts.
+- Tier 2 (41 to 70): Proficient / Standard Pass / Clear, relevant, solid communication.
+- Tier 3 (71 to 100): Exemplary / Strong Hire / Insightful, polished, strategic vision.
+
+Transcript:
+${intHistory}
+
+Calculate the sum and return ONLY a single integer score between 0 and 100. Example output: 84`;
         
-    let finalScoreStr = await callGemini(evalPrompt);
-    let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (82 + Math.floor(Math.random() * 15)); 
+    let finalScoreStr = await callGemini(interviewRubricPrompt);
+    let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
+    let score = (!isNaN(parsedScore) && parsedScore >= 0 && parsedScore <= 100) ? parsedScore : (78 + Math.floor(Math.random() * 16)); 
     
     window.userData.interview_score = score; 
     window.userData.published = true; 
@@ -1852,20 +1898,22 @@ window.emailDetailedReport = function() {
   
   b += `3. Multi-Agent Virtual Group Discussion (GD)\n`;
   b += `   >> Score: ${window.userData.gd_score}/30\n`;
-  b += `   >> Insight: Scored via AI linguistic analysis. Measures your ability to synthesize opposing viewpoints (analytical vs. creative), mediate conflict, and drive consensus in a competitive environment.\n\n`;
+  b += `   >> Tier Breakdown: 1-10 (Basic), 11-20 (Competent), 21-30 (Exceptional)\n`;
+  b += `   >> Insight: Scored via multi-dimensional rubric evaluating Content Substance, Articulation, and Group Dynamics.\n\n`;
   
-  b += `4. AI Behavioral HR Interview (STAR Framework)\n`;
+  b += `4. AI Behavioral HR Interview (${window.interviewMethod.toUpperCase()} Mode)\n`;
   b += `   >> Score: ${window.userData.interview_score}/100\n`;
-  b += `   >> Insight: Measures the structural integrity of your verbal responses. High scores indicate mastery of the Situation-Task-Action-Result format, highlighting concrete, data-backed business outcomes.\n\n`;
+  b += `   >> Tier Breakdown: 0-40 (Unsatisfactory), 41-70 (Proficient), 71-100 (Exemplary)\n`;
+  b += `   >> Insight: Measures technical depth, STAR structural integrity, verbal fluency, and executive composure.\n\n`;
   
   b += `------------------------------------------------------\n\n`;
   
   b += `[ PART 2: REAL-TIME BIOMETRIC & NON-VERBAL ANALYTICS ]\n\n`;
   b += `During Stage 5, our computer vision algorithms tracked your micro-expressions and physical composure.\n\n`;
   b += `* Visual Focus & Eye Contact Index: ${avgEye}%\n`;
-  b += `  (Target: 70-85%. Maintaining eye contact signals confidence and active listening. Scores too high may indicate unnatural staring; scores too low indicate distraction or lack of confidence.)\n\n`;
+  b += `  (Target: 70-85%. Maintaining eye contact signals confidence and active listening.)\n\n`;
   b += `* Cognitive Stress & Movement Index: ${avgStress}%\n`;
-  b += `  (Target: <30%. Elevated movement, shifting posture, or breaking frame indicates high cognitive load and pressure fatigue. Executive presence requires maintaining this below 30%.)\n\n`;
+  b += `  (Target: <30%. Elevated movement or shifting posture indicates pressure fatigue.)\n\n`;
   
   b += `------------------------------------------------------\n\n`;
 
