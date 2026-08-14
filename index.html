@@ -926,8 +926,8 @@ class AvatarSpeechService {
         const audioSrc = `data:${audioPart.inlineData.mimeType};base64,${audioPart.inlineData.data}`;
         this.currentAudio = new Audio(audioSrc);
         return new Promise(resolve => {
-            this.currentAudio.onended = resolve;
-            this.currentAudio.play();
+          this.currentAudio.onended = resolve;
+          this.currentAudio.play();
         });
       } else {
         return this.fallbackBrowserTTS(text, avatarId);
@@ -949,13 +949,13 @@ class AvatarSpeechService {
 
   fallbackBrowserTTS(text, avatarId) {
     return new Promise(resolve => {
-        const utterance = new SpeechSynthesisUtterance(text);
-        if (avatarId === 'arjun') { utterance.pitch = 0.8; utterance.rate = 0.9; }
-        if (avatarId === 'kavya') { utterance.pitch = 1.2; utterance.rate = 1.1; }
-        if (avatarId === 'meera') { utterance.pitch = 0.9; utterance.rate = 1.0; }
-        if (avatarId === 'guide') { utterance.pitch = 1.0; utterance.rate = 1.0; }
-        utterance.onend = resolve;
-        window.speechSynthesis.speak(utterance);
+      const utterance = new SpeechSynthesisUtterance(text);
+      if (avatarId === 'arjun') { utterance.pitch = 0.8; utterance.rate = 0.9; }
+      if (avatarId === 'kavya') { utterance.pitch = 1.2; utterance.rate = 1.1; }
+      if (avatarId === 'meera') { utterance.pitch = 0.9; utterance.rate = 1.0; }
+      if (avatarId === 'guide') { utterance.pitch = 1.0; utterance.rate = 1.0; }
+      utterance.onend = resolve;
+      window.speechSynthesis.speak(utterance);
     });
   }
 }
@@ -973,74 +973,73 @@ let unsubscribeStudent = null;
 
 window.bioMetrics = { eyeContact: [], stress: [] };
 
-// --- EMERGENCY LOCAL SIMULATION FALLBACK ENGINE ---
 const localResponses = {
-    gd: [
-        "That is a strong perspective. However, we must ensure algorithmic auditing is legally mandated before replacing human oversight.",
-        "I agree in principle, but human resource analytics must balance data-driven KPIs with employee empathy and well-being.",
-        "Let's synthesize both views: AI should act as a decision-support system, leaving final talent decisions to certified managers."
-    ],
-    interview: [
-        "How did you specifically measure the quantitative outcome of that action?",
-        "When managing stakeholders with opposing priorities, how do you negotiate consensus?",
-        "What key metric would you track differently if you repeated that project?"
-    ]
+  gd: [
+    "That is a strong perspective. However, we must ensure algorithmic auditing is legally mandated before replacing human oversight.",
+    "I agree in principle, but human resource analytics must balance data-driven KPIs with employee empathy and well-being.",
+    "Let's synthesize both views: AI should act as a decision-support system, leaving final talent decisions to certified managers."
+  ],
+  interview: [
+    "How did you specifically measure the quantitative outcome of that action?",
+    "When managing stakeholders with opposing priorities, how do you negotiate consensus?",
+    "What key metric would you track differently if you repeated that project?"
+  ]
 };
 let localFallbackIndex = 0;
 
 window.startAssessment = function() {
-    const targetNavBtn = document.querySelector(`button[onclick*="'tab-onboarding'"]`);
-    window.switchTab('tab-onboarding', targetNavBtn);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+  const targetNavBtn = document.querySelector(`button[onclick*="'tab-onboarding'"]`);
+  window.switchTab('tab-onboarding', targetNavBtn);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
 async function callGemini(prompt, systemInstruction = null) {
-    try {
-        if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("PASTE_YOUR_API_KEY_HERE")) {
-            throw new Error("Missing Key");
-        }
-        
-        let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
-        let headers = { 
-            'Content-Type': 'application/json',
-            'x-goog-api-key': GEMINI_API_KEY 
-        };
-
-        const payload = { contents: [{ parts: [{ text: prompt }] }] };
-        if (systemInstruction) {
-            payload.systemInstruction = { parts: [{ text: systemInstruction }] };
-        }
-        
-        const response = await fetch(apiUrl, { method: 'POST', headers: headers, body: JSON.stringify(payload) });
-        const result = await response.json();
-        
-        if (!response.ok) throw new Error(result.error?.message || 'API Error');
-        
-        if (result.candidates && result.candidates[0].content.parts[0].text) {
-            return result.candidates[0].content.parts[0].text.replace(/\*/g, '').trim();
-        }
-        throw new Error("Empty Response");
-    } catch (e) {
-        console.warn("API Call switched to Local Simulation Engine:", e.message);
-        let category = prompt.includes("Interview") || prompt.includes("Meera") ? "interview" : "gd";
-        let fallbackText = localResponses[category][localFallbackIndex % localResponses[category].length];
-        localFallbackIndex++;
-        return fallbackText;
+  try {
+    if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("PASTE_YOUR_API_KEY_HERE")) {
+      throw new Error("Missing Key");
     }
+    
+    let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
+    let headers = { 
+      'Content-Type': 'application/json',
+      'x-goog-api-key': GEMINI_API_KEY 
+    };
+
+    const payload = { contents: [{ parts: [{ text: prompt }] }] };
+    if (systemInstruction) {
+      payload.systemInstruction = { parts: [{ text: systemInstruction }] };
+    }
+    
+    const response = await fetch(apiUrl, { method: 'POST', headers: headers, body: JSON.stringify(payload) });
+    const result = await response.json();
+    
+    if (!response.ok) throw new Error(result.error?.message || 'API Error');
+    
+    if (result.candidates && result.candidates[0].content.parts[0].text) {
+      return result.candidates[0].content.parts[0].text.replace(/\*/g, '').trim();
+    }
+    throw new Error("Empty Response");
+  } catch (e) {
+    console.warn("API Call switched to Local Simulation Engine:", e.message);
+    let category = prompt.includes("Interview") || prompt.includes("Meera") ? "interview" : "gd";
+    let fallbackText = localResponses[category][localFallbackIndex % localResponses[category].length];
+    localFallbackIndex++;
+    return fallbackText;
+  }
 }
 
 // ARCHETYPE QUESTIONS
 const archQ = [
-{q: "1. When starting a complex new project, your first priority is to:", o: {s: "Define clear metrics", i: "Find a unique angle", c: "Ensure the right people are assigned", e: "Set a strict timeline"}},
-{q: "2. In team meetings, you are usually the one who:", o: {s: "Points out logical flaws", i: "Pitches the big ideas", c: "Makes sure everyone speaks", e: "Pushes the meeting to end"}},
-{q: "3. How do you handle sudden changes?", o: {s: "Recalculate projections", i: "Embrace it as a new methodology", c: "Check in with the team", e: "Immediately rewrite the to-do list"}},
-{q: "4. Your preferred communication style is:", o: {s: "Detailed, data-heavy reports", i: "Visual presentations", c: "Face-to-face conversations", e: "Short, bullet-pointed emails"}},
-{q: "5. When resolving a dispute, you:", o: {s: "Look at policy guidelines", i: "Design a completely new workflow", c: "Mediate a compromise", e: "Make a firm executive decision"}},
-{q: "6. Your approach to corporate risk is:", o: {s: "Calculated mathematically", i: "Embraced for massive growth", c: "Shared collectively", e: "Minimized completely"}},
-{q: "7. What motivates you the most?", o: {s: "Solving complex puzzles", i: "Groundbreaking ideas", c: "Building loyal teams", e: "Hitting targets early"}},
-{q: "8. Under tight deadlines, you:", o: {s: "Re-evaluate the critical path", i: "Look for an automated tool", c: "Rally the team with coffee", e: "Work 14-hour days"}},
-{q: "9. How do you track progress?", o: {s: "Complex dashboards", i: "Reviewing creative prototypes", c: "Weekly team stand-ups", e: "Crossing off tasks"}},
-{q: "10. Your biggest pet peeve is:", o: {s: "Decisions without data", i: "Rigid adherence to tradition", c: "Lack of empathy", e: "Endless meetings"}}
+  {q: "1. When starting a complex new project, your first priority is to:", o: {s: "Define clear metrics", i: "Find a unique angle", c: "Ensure the right people are assigned", e: "Set a strict timeline"}},
+  {q: "2. In team meetings, you are usually the one who:", o: {s: "Points out logical flaws", i: "Pitches the big ideas", c: "Makes sure everyone speaks", e: "Pushes the meeting to end"}},
+  {q: "3. How do you handle sudden changes?", o: {s: "Recalculate projections", i: "Embrace it as a new methodology", c: "Check in with the team", e: "Immediately rewrite the to-do list"}},
+  {q: "4. Your preferred communication style is:", o: {s: "Detailed, data-heavy reports", i: "Visual presentations", c: "Face-to-face conversations", e: "Short, bullet-pointed emails"}},
+  {q: "5. When resolving a dispute, you:", o: {s: "Look at policy guidelines", i: "Design a completely new workflow", c: "Mediate a compromise", e: "Make a firm executive decision"}},
+  {q: "6. Your approach to corporate risk is:", o: {s: "Calculated mathematically", i: "Embraced for massive growth", c: "Shared collectively", e: "Minimized completely"}},
+  {q: "7. What motivates you the most?", o: {s: "Solving complex puzzles", i: "Groundbreaking ideas", c: "Building loyal teams", e: "Hitting targets early"}},
+  {q: "8. Under tight deadlines, you:", o: {s: "Re-evaluate the critical path", i: "Look for an automated tool", c: "Rally the team with coffee", e: "Work 14-hour days"}},
+  {q: "9. How do you track progress?", o: {s: "Complex dashboards", i: "Reviewing creative prototypes", c: "Weekly team stand-ups", e: "Crossing off tasks"}},
+  {q: "10. Your biggest pet peeve is:", o: {s: "Decisions without data", i: "Rigid adherence to tradition", c: "Lack of empathy", e: "Endless meetings"}}
 ];
 
 function renderArchetypeQs() {
@@ -1069,145 +1068,143 @@ function renderArchetypeQs() {
 }
 
 window.switchTab = function(tabId, btn) {
-document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('bg-brand-700', 'text-white', 'active'); b.classList.add('text-brand-100'); });
-document.getElementById(tabId).classList.add('active');
-if(btn) { btn.classList.remove('text-brand-100'); btn.classList.add('bg-brand-700', 'text-white', 'active'); }
-if(tabId === 'tab-passport') window.updatePassportUI();
-if(tabId === 'tab-gd' || tabId === 'tab-interview') {
+  document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('bg-brand-700', 'text-white', 'active'); b.classList.add('text-brand-100'); });
+  document.getElementById(tabId).classList.add('active');
+  if(btn) { btn.classList.remove('text-brand-100'); btn.classList.add('bg-brand-700', 'text-white', 'active'); }
+  if(tabId === 'tab-passport') window.updatePassportUI();
+  if(tabId === 'tab-gd' || tabId === 'tab-interview') {
     if(window.isAIMode) initWebcamStream();
-}
-}
+  }
+};
 
 window.autoAdvanceTab = function(currentTabId, nextTabId, stageName) {
-window.showMessage(`<i class="fa-solid fa-circle-check mr-1"></i> ${stageName} Complete! Auto-moving to next stage...`, 'success');
-setTimeout(() => {
-const targetNavBtn = document.querySelector(`button[onclick*="'${nextTabId}'"]`);
-window.switchTab(nextTabId, targetNavBtn);
-}, 2000);
-}
+  window.showMessage(`<i class="fa-solid fa-circle-check mr-1"></i> ${stageName} Complete! Auto-moving to next stage...`, 'success');
+  setTimeout(() => {
+    const targetNavBtn = document.querySelector(`button[onclick*="'${nextTabId}'"]`);
+    window.switchTab(nextTabId, targetNavBtn);
+  }, 2000);
+};
 
 window.showMessage = function(text, type = 'success') {
-const box = document.getElementById('msgBox');
-box.className = `mb-6 p-3 md:p-4 rounded-lg shadow-md font-bold text-xs md:text-sm flex items-center justify-between z-50 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`;
-document.getElementById('msgText').innerHTML = text;
-box.classList.remove('hidden');
-setTimeout(() => { box.classList.add('hidden'); }, 5000);
-}
+  const box = document.getElementById('msgBox');
+  box.className = `mb-6 p-3 md:p-4 rounded-lg shadow-md font-bold text-xs md:text-sm flex items-center justify-between z-50 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`;
+  document.getElementById('msgText').innerHTML = text;
+  box.classList.remove('hidden');
+  setTimeout(() => { box.classList.add('hidden'); }, 5000);
+};
 
-// ADMIN DASHBOARD RESTORATION
-window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); }
-window.closeAdminModal = function() { document.getElementById('adminModal').classList.add('hidden'); }
+window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); };
+window.closeAdminModal = function() { document.getElementById('adminModal').classList.add('hidden'); };
 window.verifyAdmin = function() {
-    const pass = document.getElementById('adminPass').value;
-    if(pass === 'admin123') {
-        window.isAdmin = true;
-        document.body.classList.add('admin-mode');
-        window.closeAdminModal();
-        window.showMessage("Admin Command Center Unlocked!");
-        loadAdminCandidates();
-    } else {
-        window.showMessage("Invalid Admin Passcode", "error");
-    }
-}
+  const pass = document.getElementById('adminPass').value;
+  if(pass === 'admin123') {
+    window.isAdmin = true;
+    document.body.classList.add('admin-mode');
+    window.closeAdminModal();
+    window.showMessage("Admin Command Center Unlocked!");
+    loadAdminCandidates();
+  } else {
+    window.showMessage("Invalid Admin Passcode", "error");
+  }
+};
 
 async function loadAdminCandidates() {
-    try {
-        const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'));
-        const snap = await getDocs(q);
-        const sel = document.getElementById('adminCandidateSelect');
-        sel.innerHTML = '<option value="" class="text-slate-800">-- Select Candidate --</option>';
-        snap.forEach(docSnap => {
-            let data = docSnap.data();
-            sel.innerHTML += `<option value="${docSnap.id}" class="text-slate-800">${data.name || 'Unnamed'} (${data.email})</option>`;
-        });
-    } catch(e) {}
+  try {
+    const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'));
+    const snap = await getDocs(q);
+    const sel = document.getElementById('adminCandidateSelect');
+    sel.innerHTML = '<option value="" class="text-slate-800">-- Select Candidate --</option>';
+    snap.forEach(docSnap => {
+      let data = docSnap.data();
+      sel.innerHTML += `<option value="${docSnap.id}" class="text-slate-800">${data.name || 'Unnamed'} (${data.email})</option>`;
+    });
+  } catch(e) {}
 }
 
 window.onAdminSelectCandidate = async function(id) {
-    if(!id) return;
-    window.adminSelectedId = id;
-    const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', id));
-    if(snap.exists()) {
-        window.userData = snap.data();
-        window.updatePassportUI();
-    }
-}
+  if(!id) return;
+  window.adminSelectedId = id;
+  const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', id));
+  if(snap.exists()) {
+    window.userData = snap.data();
+    window.updatePassportUI();
+  }
+};
 
 window.saveGDScore = async function() {
-    let s = parseInt(document.getElementById('gdScoreInput').value) || 0;
-    window.userData.gd_score = s;
-    await syncToCloud();
-    window.showMessage("GD Score Pushed Successfully!");
-}
+  let s = parseInt(document.getElementById('gdScoreInput').value) || 0;
+  window.userData.gd_score = s;
+  await syncToCloud();
+  window.showMessage("GD Score Pushed Successfully!");
+};
 
 signInAnonymously(auth).then((userCredential) => {
-window.candidateId = userCredential.user.uid;
-const savedEmail = localStorage.getItem('hr_candidate_email');
-if(savedEmail) {
-document.getElementById('loginEmailLookup').value = savedEmail;
-window.restoreUserSession();
-} else {
-listenToStudentData();
-}
-}).catch((error) => {
-window.showMessage(`Database connection established locally.`, "success");
+  window.candidateId = userCredential.user.uid;
+  const savedEmail = localStorage.getItem('hr_candidate_email');
+  if(savedEmail) {
+    document.getElementById('loginEmailLookup').value = savedEmail;
+    window.restoreUserSession();
+  } else {
+    listenToStudentData();
+  }
+}).catch(() => {
+  window.showMessage(`Database connection established locally.`, "success");
 });
 
 window.restoreUserSession = async function() {
-const lookupEmail = document.getElementById('loginEmailLookup').value.trim();
-if (!lookupEmail) { window.showMessage("Enter email to restore session.", "error"); return; }
-try {
-const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'), where("email", "==", lookupEmail));
-const snap = await getDocs(q);
-if (!snap.empty) {
-window.candidateId = snap.docs[0].id;
-window.userData = snap.docs[0].data();
-localStorage.setItem('hr_candidate_email', lookupEmail);
-document.getElementById('candName').value = window.userData.name || "";
-document.getElementById('candEmail').value = window.userData.email || "";
-window.updatePassportUI();
-window.showMessage(`Welcome back, ${window.userData.name}! Session restored.`);
-listenToStudentData();
-} else { window.showMessage("No prior session found.", "error"); }
-} catch(e) { window.showMessage("Failed to lookup session.", "error"); }
-}
+  const lookupEmail = document.getElementById('loginEmailLookup').value.trim();
+  if (!lookupEmail) { window.showMessage("Enter email to restore session.", "error"); return; }
+  try {
+    const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'), where("email", "==", lookupEmail));
+    const snap = await getDocs(q);
+    if (!snap.empty) {
+      window.candidateId = snap.docs[0].id;
+      window.userData = snap.docs[0].data();
+      localStorage.setItem('hr_candidate_email', lookupEmail);
+      document.getElementById('candName').value = window.userData.name || "";
+      document.getElementById('candEmail').value = window.userData.email || "";
+      window.updatePassportUI();
+      window.showMessage(`Welcome back, ${window.userData.name}! Session restored.`);
+      listenToStudentData();
+    } else { window.showMessage("No prior session found.", "error"); }
+  } catch(e) { window.showMessage("Failed to lookup session.", "error"); }
+};
 
 function listenToStudentData() {
-if (!window.candidateId || window.isAdmin) return;
-unsubscribeStudent = onSnapshot(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), (snap) => {
-if (snap.exists()) {
-window.userData = Object.assign({}, window.userData, snap.data());
-window.updatePassportUI(); 
-}
-});
+  if (!window.candidateId || window.isAdmin) return;
+  unsubscribeStudent = onSnapshot(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), (snap) => {
+    if (snap.exists()) {
+      window.userData = Object.assign({}, window.userData, snap.data());
+      window.updatePassportUI(); 
+    }
+  });
 }
 
 async function syncToCloud() {
   if (!window.candidateId || window.isAdmin) return; 
-  
   try {
     await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), window.userData, { merge: true });
   } catch (error) {
-    console.warn("Firebase sync prevented. Advancing the user locally instead.", error);
+    console.warn("Firebase sync prevented. Advancing locally.", error);
   }
 }
 
 window.saveProfile = async function() {
-if (!window.candidateId) { window.showMessage("Database initializing...", "error"); return; }
-const name = document.getElementById('candName').value.trim();
-const email = document.getElementById('candEmail').value.trim();
-const uni = document.getElementById('candUni').value.trim();
-if (!name || !email || !uni) { window.showMessage("Name, Email, and Institution are compulsory.", "error"); return; }
+  if (!window.candidateId) { window.showMessage("Database initializing...", "error"); return; }
+  const name = document.getElementById('candName').value.trim();
+  const email = document.getElementById('candEmail').value.trim();
+  const uni = document.getElementById('candUni').value.trim();
+  if (!name || !email || !uni) { window.showMessage("Name, Email, and Institution are compulsory.", "error"); return; }
 
-window.userData.name = name;
-window.userData.email = email;
-if(!window.userData.archetype) window.userData.archetype = "Not Evaluated";
-localStorage.setItem('hr_candidate_email', email);
+  window.userData.name = name;
+  window.userData.email = email;
+  if(!window.userData.archetype) window.userData.archetype = "Not Evaluated";
+  localStorage.setItem('hr_candidate_email', email);
 
-await syncToCloud();
-window.autoAdvanceTab('tab-onboarding', 'tab-ats', 'Registration');
-}
+  await syncToCloud();
+  window.autoAdvanceTab('tab-onboarding', 'tab-ats', 'Registration');
+};
 
 window.submitArchetype = async function() {
   let counts = { s:0, i:0, c:0, e:0 };
@@ -1225,10 +1222,10 @@ window.submitArchetype = async function() {
   let maxVal = 0;
   let maxKey = 's';
   for (let key in counts) {
-      if (counts[key] > maxVal) {
-          maxVal = counts[key];
-          maxKey = key;
-      }
+    if (counts[key] > maxVal) {
+      maxVal = counts[key];
+      maxKey = key;
+    }
   }
   
   const map = { s:"Strategist", i:"Innovator", c:"Connector", e:"Executor" };
@@ -1236,44 +1233,43 @@ window.submitArchetype = async function() {
   
   await syncToCloud(); 
   window.autoAdvanceTab('tab-archetype', 'tab-gd', 'Archetype Assessment');
-}
+};
 
 window.speakAIPromise = function(text, avatarId) {
-    return new Promise(async resolve => {
-        if (!window.isAIMode) { resolve(); return; }
-        await ttsService.speak(text, avatarId);
-        resolve();
-    });
+  return new Promise(async resolve => {
+    if (!window.isAIMode) { resolve(); return; }
+    await ttsService.speak(text, avatarId);
+    resolve();
+  });
 };
 
 window.toggleAIMode = async function() {
-window.isAIMode = document.getElementById('aiToggle').checked;
-const body = document.body;
-const guide = document.getElementById('global-ai-guide');
+  window.isAIMode = document.getElementById('aiToggle').checked;
+  const body = document.body;
+  const guide = document.getElementById('global-ai-guide');
 
-if (window.isAIMode) {
-body.classList.add('ai-mode');
-document.getElementById('aiVoiceBtn4').classList.remove('hidden'); document.getElementById('aiVoiceBtn5').classList.remove('hidden');
-document.getElementById('gd-arena').classList.remove('opacity-50', 'pointer-events-none');
-document.getElementById('interview-controls').classList.remove('hidden'); document.getElementById('interview-controls').classList.add('flex');
-document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
-guide.classList.add('visible'); document.getElementById('guide-text').innerText = "AI Protocol Activated.";
-window.activeSpeaker = 'guide'; document.getElementById('guide-avatar').classList.add('avatar-talking');
-await window.speakAIPromise("AI Protocol Activated. I will guide you through this assessment.", 'guide');
-window.activeSpeaker = null; document.getElementById('guide-avatar').classList.remove('avatar-talking');
-document.getElementById('guide-text').innerText = "Navigate through your assessment stages.";
-if(document.getElementById('tab-interview').classList.contains('active') || document.getElementById('tab-gd').classList.contains('active')) initWebcamStream();
-} else {
-body.classList.remove('ai-mode');
-document.getElementById('aiVoiceBtn4').classList.add('hidden'); document.getElementById('aiVoiceBtn5').classList.add('hidden');
-document.getElementById('gd-arena').classList.add('opacity-50', 'pointer-events-none');
-document.getElementById('interview-controls').classList.add('hidden'); document.getElementById('interview-controls').classList.remove('flex');
-document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-breathing', 'avatar-talking'));
-guide.classList.remove('visible'); ttsService.stop(); window.activeSpeaker = null;
-}
-}
+  if (window.isAIMode) {
+    body.classList.add('ai-mode');
+    document.getElementById('aiVoiceBtn4').classList.remove('hidden'); document.getElementById('aiVoiceBtn5').classList.remove('hidden');
+    document.getElementById('gd-arena').classList.remove('opacity-50', 'pointer-events-none');
+    document.getElementById('interview-controls').classList.remove('hidden'); document.getElementById('interview-controls').classList.add('flex');
+    document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
+    guide.classList.add('visible'); document.getElementById('guide-text').innerText = "AI Protocol Activated.";
+    window.activeSpeaker = 'guide'; document.getElementById('guide-avatar').classList.add('avatar-talking');
+    await window.speakAIPromise("AI Protocol Activated. I will guide you through this assessment.", 'guide');
+    window.activeSpeaker = null; document.getElementById('guide-avatar').classList.remove('avatar-talking');
+    document.getElementById('guide-text').innerText = "Navigate through your assessment stages.";
+    if(document.getElementById('tab-interview').classList.contains('active') || document.getElementById('tab-gd').classList.contains('active')) initWebcamStream();
+  } else {
+    body.classList.remove('ai-mode');
+    document.getElementById('aiVoiceBtn4').classList.add('hidden'); document.getElementById('aiVoiceBtn5').classList.add('hidden');
+    document.getElementById('gd-arena').classList.add('opacity-50', 'pointer-events-none');
+    document.getElementById('interview-controls').classList.add('hidden'); document.getElementById('interview-controls').classList.remove('flex');
+    document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-breathing', 'avatar-talking'));
+    guide.classList.remove('visible'); ttsService.stop(); window.activeSpeaker = null;
+  }
+};
 
-// DICTATION ENGINE
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = null;
 let activeInputBox = null;
@@ -1281,133 +1277,133 @@ let activeMicBtn = null;
 let isRecording = false;
 
 if(window.SpeechRecognition) { 
-    recognition = new window.SpeechRecognition(); 
-    recognition.continuous = false; 
-    recognition.interimResults = false; 
-    recognition.lang = 'en-IN'; 
-    
-    recognition.onstart = () => {
-        isRecording = true;
-        if (activeMicBtn) {
-            activeMicBtn.classList.remove('bg-slate-700');
-            activeMicBtn.classList.add('bg-red-600', 'animate-pulse');
-        }
-        if (activeInputBox) {
-            document.getElementById(activeInputBox).placeholder = "Listening... speak clearly and pause.";
-        }
-    };
+  recognition = new window.SpeechRecognition(); 
+  recognition.continuous = false; 
+  recognition.interimResults = false; 
+  recognition.lang = 'en-IN'; 
+  
+  recognition.onstart = () => {
+    isRecording = true;
+    if (activeMicBtn) {
+      activeMicBtn.classList.remove('bg-slate-700');
+      activeMicBtn.classList.add('bg-red-600', 'animate-pulse');
+    }
+    if (activeInputBox) {
+      document.getElementById(activeInputBox).placeholder = "Listening... speak clearly and pause.";
+    }
+  };
 
-    recognition.onresult = (event) => { 
-        if (activeInputBox) {
-            const transcript = event.results[0][0].transcript;
-            const box = document.getElementById(activeInputBox);
-            box.value = box.value + (box.value.length > 0 ? " " : "") + transcript;
-        }
-    };
+  recognition.onresult = (event) => { 
+    if (activeInputBox) {
+      const transcript = event.results[0][0].transcript;
+      const box = document.getElementById(activeInputBox);
+      box.value = box.value + (box.value.length > 0 ? " " : "") + transcript;
+    }
+  };
 
-    recognition.onerror = (event) => {
-        if (activeInputBox) document.getElementById(activeInputBox).placeholder = "Microphone error. Please tap again or type.";
-    };
+  recognition.onerror = () => {
+    if (activeInputBox) document.getElementById(activeInputBox).placeholder = "Microphone error. Please tap again or type.";
+  };
 
-    recognition.onend = () => {
-        isRecording = false;
-        if (activeMicBtn) {
-            activeMicBtn.classList.add('bg-slate-700');
-            activeMicBtn.classList.remove('bg-red-600', 'animate-pulse');
-        }
-    };
+  recognition.onend = () => {
+    isRecording = false;
+    if (activeMicBtn) {
+      activeMicBtn.classList.add('bg-slate-700');
+      activeMicBtn.classList.remove('bg-red-600', 'animate-pulse');
+    }
+  };
 }
 
 function writeTranscript(targetId, speaker, text) {
-const box = document.getElementById(targetId);
-if(!box) return;
-const line = document.createElement('div'); line.className = "mb-3 pb-3 border-b border-slate-700/50";
-line.innerHTML = `<span class="font-bold text-brand-400">[${speaker}]</span> <span class="text-white ml-2 md:ml-2 block sm:inline mt-1 sm:mt-0">${text}</span>`;
-box.appendChild(line); box.scrollTop = box.scrollHeight;
+  const box = document.getElementById(targetId);
+  if(!box) return;
+  const line = document.createElement('div'); line.className = "mb-3 pb-3 border-b border-slate-700/50";
+  line.innerHTML = `<span class="font-bold text-brand-400">[${speaker}]</span> <span class="text-white ml-2 md:ml-2 block sm:inline mt-1 sm:mt-0">${text}</span>`;
+  box.appendChild(line); box.scrollTop = box.scrollHeight;
 }
 
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 const fileInput = document.getElementById('resumeFile');
 if(document.getElementById('dropZone')) {
-    document.getElementById('dropZone').addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', () => {
+  document.getElementById('dropZone').addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', () => {
     if (fileInput.files.length > 0) { document.getElementById('fName').innerText = fileInput.files[0].name; document.getElementById('fileNameDisplay').classList.remove('hidden'); }
-    });
+  });
 }
 
 const STOP_WORDS = new Set(['the', 'and', 'is', 'of', 'to', 'in', 'a', 'for', 'with', 'on', 'at', 'by', 'an', 'be', 'this', 'that', 'from', 'as', 'it', 'was', 'are', 'or', 'if', 'your', 'my', 'their', 'will', 'we', 'our', 'can', 'has', 'have', 'but', 'not', 'they', 'you', 'which', 'skills', 'experience', 'ability', 'strong', 'good', 'excellent', 'years', 'working', 'knowledge']);
 
 window.runATS = async function() {
-const btn = document.getElementById('btnRunATS');
-const jdText = document.getElementById('jdInput').value.trim();
+  const btn = document.getElementById('btnRunATS');
+  const jdText = document.getElementById('jdInput').value.trim();
 
-if (!jdText) { window.showMessage("Please paste a Job Description first.", "error"); return; }
-if (!fileInput.files.length) { window.showMessage("Please upload a PDF resume.", "error"); return; }
-if (!window.candidateId) { window.showMessage("Save profile first!", "error"); return; }
+  if (!jdText) { window.showMessage("Please paste a Job Description first.", "error"); return; }
+  if (!fileInput.files.length) { window.showMessage("Please upload a PDF resume.", "error"); return; }
+  if (!window.candidateId) { window.showMessage("Save profile first!", "error"); return; }
 
-btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing...'; btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing...'; btn.disabled = true;
 
-try {
-const words = jdText.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 3 && !STOP_WORDS.has(w));
-const freq = {}; words.forEach(w => freq[w] = (freq[w] || 0) + 1);
-const sortedKeywords = Object.keys(freq).sort((a,b) => freq[b] - freq[a]).slice(0, 15);
+  try {
+    const words = jdText.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 3 && !STOP_WORDS.has(w));
+    const freq = {}; words.forEach(w => freq[w] = (freq[w] || 0) + 1);
+    const sortedKeywords = Object.keys(freq).sort((a,b) => freq[b] - freq[a]).slice(0, 15);
 
-const arrayBuffer = await fileInput.files[0].arrayBuffer(); 
-const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise; 
-let resumeText = '';
-for(let i = 1; i <= pdf.numPages; i++) { 
-    const page = await pdf.getPage(i); 
-    const content = await page.getTextContent(); 
-    resumeText += content.items.map(item => item.str).join(' ').toLowerCase(); 
-}
+    const arrayBuffer = await fileInput.files[0].arrayBuffer(); 
+    const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise; 
+    let resumeText = '';
+    for(let i = 1; i <= pdf.numPages; i++) { 
+      const page = await pdf.getPage(i); 
+      const content = await page.getTextContent(); 
+      resumeText += content.items.map(item => item.str).join(' ').toLowerCase(); 
+    }
 
-let matched = []; let missing = [];
-sortedKeywords.forEach(kw => {
-    if(resumeText.includes(kw)) matched.push(kw);
-    else missing.push(kw);
-});
+    let matched = []; let missing = [];
+    sortedKeywords.forEach(kw => {
+      if(resumeText.includes(kw)) matched.push(kw);
+      else missing.push(kw);
+    });
 
-window.userData.ats_score = Math.round((matched.length / sortedKeywords.length) * 100) || 10;
-document.getElementById('atsScoreDisplay').innerText = `${window.userData.ats_score}%`;
-document.getElementById('atsSuccessMsg').classList.remove('hidden');
+    window.userData.ats_score = Math.round((matched.length / sortedKeywords.length) * 100) || 10;
+    document.getElementById('atsScoreDisplay').innerText = `${window.userData.ats_score}%`;
+    document.getElementById('atsSuccessMsg').classList.remove('hidden');
 
-let resHtml = '';
-matched.forEach(w => resHtml += `<div class="flex justify-between items-center bg-green-50 p-2 rounded text-green-700 border border-green-200"><span class="capitalize text-xs md:text-sm">${w}</span><i class="fa-solid fa-check text-xs md:text-sm"></i></div>`);
-missing.forEach(w => resHtml += `<div class="flex justify-between items-center bg-red-50 p-2 rounded text-red-700 border border-red-200"><span class="capitalize text-xs md:text-sm">${w}</span><i class="fa-solid fa-times text-xs md:text-sm"></i></div>`);
-document.getElementById('keywordResults').innerHTML = resHtml;
+    let resHtml = '';
+    matched.forEach(w => resHtml += `<div class="flex justify-between items-center bg-green-50 p-2 rounded text-green-700 border border-green-200"><span class="capitalize text-xs md:text-sm">${w}</span><i class="fa-solid fa-check text-xs md:text-sm"></i></div>`);
+    missing.forEach(w => resHtml += `<div class="flex justify-between items-center bg-red-50 p-2 rounded text-red-700 border border-red-200"><span class="capitalize text-xs md:text-sm">${w}</span><i class="fa-solid fa-times text-xs md:text-sm"></i></div>`);
+    document.getElementById('keywordResults').innerHTML = resHtml;
 
-await syncToCloud();
-window.autoAdvanceTab('tab-ats', 'tab-test', 'Enterprise ATS Audit');
-} catch (err) { window.showMessage("Failed to parse PDF.", "error"); } finally { btn.innerHTML = '<i class="fa-solid fa-microchip mr-2"></i> Extract Keywords & Run Scan'; btn.disabled = false; }
-}
+    await syncToCloud();
+    window.autoAdvanceTab('tab-ats', 'tab-test', 'Enterprise ATS Audit');
+  } catch (err) { window.showMessage("Failed to parse PDF.", "error"); } finally { btn.innerHTML = '<i class="fa-solid fa-microchip mr-2"></i> Extract Keywords & Run Scan'; btn.disabled = false; }
+};
 
 const masterAptitudeQuestions = [
-{ q: "What is the primary objective of a 360-degree performance appraisal?", options: ["Evaluate 360 employees", "Collect multi-directional feedback", "Replace KPIs", "Direct tactical data"], ans: 1 },
-{ q: "Which metric indicates recruitment efficiency?", options: ["Applicant volume", "Time-to-fill ratio", "Turnover percentage", "Training hours"], ans: 1 },
-{ q: "Employee arrives late but exceeds KPIs. You should:", options: ["Terminate", "Ignore", "Investigate & negotiate flex schedule", "Deduct pay"], ans: 2 },
-{ q: "Herzberg's 'Hygiene Factor':", options: ["Public recognition", "Increased responsibility", "Base Salary", "Career advancement"], ans: 2 },
-{ q: "Predictive HR analytics function:", options: ["Describe past turnover", "Explain current turnover", "Forecast future flight risks", "Mandate actions"], ans: 2 },
-{ q: "Mandated purpose of ICC (POSH Act)?", options: ["Salary disputes", "Redress sexual harassment", "Audit compliance", "Organize events"], ans: 1 },
-{ q: "Two departments have conflicting hiring needs. How to prioritize?", options: ["First come", "Halt both", "Direct impact to revenue", "Flip a coin"], ans: 2 },
-{ q: "Employee turnover rate formula:", options: ["New hires / Total", "Left / Average total", "Total / Left", "None"], ans: 1 },
-{ q: "Compa-Ratio measures:", options: ["Company to Revenue", "Salary relative to market midpoint", "Base vs bonus", "HR staff ratio"], ans: 1 },
-{ q: "Normal bell curve percentage within one standard deviation?", options: ["50%", "68%", "95%", "99.7%"], ans: 1 },
-{ q: "Purpose of salary benchmarking?", options: ["Equal pay", "Comparing internal vs external market", "Severance", "Notice periods"], ans: 1 },
-{ q: "High 90-day turnover indicates:", options: ["Retirement plans", "Flawed onboarding", "Leadership presence", "Leave policy"], ans: 1 },
-{ q: "STAR behavioral interview stands for:", options: ["Start Think Act Respond", "Situation Task Action Result", "System Target Assess Report", "Standardized Test"], ans: 1 },
-{ q: "Favoring a candidate with a similar background is:", options: ["Halo Effect", "Contrast Bias", "Similar-to-me Bias", "Confirmation Bias"], ans: 2 },
-{ q: "Response to neurodivergent accommodation request:", options: ["Ignore if targets met", "Engage in interactive dialogue", "Move to lower role", "Require full disclosure"], ans: 1 },
-{ q: "Succession Planning is:", options: ["Holiday calendar", "Developing internal talent for leadership", "Mass layoffs", "Automating payroll"], ans: 1 },
-{ q: "Correlation method for engagement vs sales:", options: ["Chi-square test", "T-test", "Pearson correlation", "ANOVA"], ans: 2 },
-{ q: "Statutory benefit in Indian corporate sector:", options: ["Dependent Health Insurance", "Provident Fund (EPF)", "Sabbatical", "ESOPs"], ans: 1 },
-{ q: "Candidate asks about work-life balance. Response:", options: ["Refuse to answer", "60 hours minimum", "Provide transparent examples like flex hours", "It's fantastic"], ans: 2 },
-{ q: "Primary function of an exit interview:", options: ["Guilt to stay", "Gather data on organizational deficiencies", "Negotiate final paycheck", "Assign tasks"], ans: 1 },
-{ q: "Two senior managers engaged in toxic conflict. Intervention:", options: ["Terminate both", "Structured mediation session", "Tell teams to ignore", "Transfer randomly"], ans: 1 },
-{ q: "Difference between Base Pay and Variable Pay:", options: ["Base is fixed; Variable is tied to performance", "Base for executives; Variable for entry", "Base is taxed; Variable tax-free", "No difference"], ans: 0 },
-{ q: "Tool to represent hierarchical structure:", options: ["Scatter Plot", "Gantt Chart", "Organogram", "Pareto Chart"], ans: 2 },
-{ q: "In compensation, a 'Buyout' refers to:", options: ["Purchasing competitor", "New employer paying to waive notice period", "Buying shares", "Purchasing software"], ans: 1 },
-{ q: "Indicator of successful onboarding:", options: ["Signed forms on day one", "Reduced time-to-productivity", "Attended lunch", "Laptop on time"], ans: 1 }
+  { q: "What is the primary objective of a 360-degree performance appraisal?", options: ["Evaluate 360 employees", "Collect multi-directional feedback", "Replace KPIs", "Direct tactical data"], ans: 1 },
+  { q: "Which metric indicates recruitment efficiency?", options: ["Applicant volume", "Time-to-fill ratio", "Turnover percentage", "Training hours"], ans: 1 },
+  { q: "Employee arrives late but exceeds KPIs. You should:", options: ["Terminate", "Ignore", "Investigate & negotiate flex schedule", "Deduct pay"], ans: 2 },
+  { q: "Herzberg's 'Hygiene Factor':", options: ["Public recognition", "Increased responsibility", "Base Salary", "Career advancement"], ans: 2 },
+  { q: "Predictive HR analytics function:", options: ["Describe past turnover", "Explain current turnover", "Forecast future flight risks", "Mandate actions"], ans: 2 },
+  { q: "Mandated purpose of ICC (POSH Act)?", options: ["Salary disputes", "Redress sexual harassment", "Audit compliance", "Organize events"], ans: 1 },
+  { q: "Two departments have conflicting hiring needs. How to prioritize?", options: ["First come", "Halt both", "Direct impact to revenue", "Flip a coin"], ans: 2 },
+  { q: "Employee turnover rate formula:", options: ["New hires / Total", "Left / Average total", "Total / Left", "None"], ans: 1 },
+  { q: "Compa-Ratio measures:", options: ["Company to Revenue", "Salary relative to market midpoint", "Base vs bonus", "HR staff ratio"], ans: 1 },
+  { q: "Normal bell curve percentage within one standard deviation?", options: ["50%", "68%", "95%", "99.7%"], ans: 1 },
+  { q: "Purpose of salary benchmarking?", options: ["Equal pay", "Comparing internal vs external market", "Severance", "Notice periods"], ans: 1 },
+  { q: "High 90-day turnover indicates:", options: ["Retirement plans", "Flawed onboarding", "Leadership presence", "Leave policy"], ans: 1 },
+  { q: "STAR behavioral interview stands for:", options: ["Start Think Act Respond", "Situation Task Action Result", "System Target Assess Report", "Standardized Test"], ans: 1 },
+  { q: "Favoring a candidate with a similar background is:", options: ["Halo Effect", "Contrast Bias", "Similar-to-me Bias", "Confirmation Bias"], ans: 2 },
+  { q: "Response to neurodivergent accommodation request:", options: ["Ignore if targets met", "Engage in interactive dialogue", "Move to lower role", "Require full disclosure"], ans: 1 },
+  { q: "Succession Planning is:", options: ["Holiday calendar", "Developing internal talent for leadership", "Mass layoffs", "Automating payroll"], ans: 1 },
+  { q: "Correlation method for engagement vs sales:", options: ["Chi-square test", "T-test", "Pearson correlation", "ANOVA"], ans: 2 },
+  { q: "Statutory benefit in Indian corporate sector:", options: ["Dependent Health Insurance", "Provident Fund (EPF)", "Sabbatical", "ESOPs"], ans: 1 },
+  { q: "Candidate asks about work-life balance. Response:", options: ["Refuse to answer", "60 hours minimum", "Provide transparent examples like flex hours", "It's fantastic"], ans: 2 },
+  { q: "Primary function of an exit interview:", options: ["Guilt to stay", "Gather data on organizational deficiencies", "Negotiate final paycheck", "Assign tasks"], ans: 1 },
+  { q: "Two senior managers engaged in toxic conflict. Intervention:", options: ["Terminate both", "Structured mediation session", "Tell teams to ignore", "Transfer randomly"], ans: 1 },
+  { q: "Difference between Base Pay and Variable Pay:", options: ["Base is fixed; Variable is tied to performance", "Base for executives; Variable for entry", "Base is taxed; Variable tax-free", "No difference"], ans: 0 },
+  { q: "Tool to represent hierarchical structure:", options: ["Scatter Plot", "Gantt Chart", "Organogram", "Pareto Chart"], ans: 2 },
+  { q: "In compensation, a 'Buyout' refers to:", options: ["Purchasing competitor", "New employer paying to waive notice period", "Buying shares", "Purchasing software"], ans: 1 },
+  { q: "Indicator of successful onboarding:", options: ["Signed forms on day one", "Reduced time-to-productivity", "Attended lunch", "Laptop on time"], ans: 1 }
 ];
 
 let selectedQuizQuestions = [];
@@ -1415,57 +1411,56 @@ let quizTimerInterval;
 let quizTimeLeft = 600;
 
 window.renderQuiz = function() {
-const container = document.getElementById('quizContainer');
-if(!container) return;
-container.innerHTML = '';
-selectedQuizQuestions = masterAptitudeQuestions.sort(() => 0.5 - Math.random()).slice(0, 20);
-selectedQuizQuestions.forEach((item, index) => {
-let html = `<div class="p-4 md:p-5 rounded-lg border border-slate-300 bg-slate-50/10 shadow-sm mb-4 text-slate-800"><p class="font-bold text-xs md:text-sm mb-3">${index + 1}. ${item.q}</p><div class="space-y-2">`;
-item.options.forEach((opt, oIndex) => { html += `<label class="flex items-start text-xs md:text-sm cursor-pointer hover:bg-slate-200/20 p-2 rounded border border-transparent transition"><input type="radio" name="q${index}" value="${oIndex}" class="mt-0.5 mr-3 accent-brand-500 flex-shrink-0"> <span>${opt}</span></label>`; });
-html += `</div></div>`; container.innerHTML += html;
-});
-}
+  const container = document.getElementById('quizContainer');
+  if(!container) return;
+  container.innerHTML = '';
+  selectedQuizQuestions = masterAptitudeQuestions.sort(() => 0.5 - Math.random()).slice(0, 20);
+  selectedQuizQuestions.forEach((item, index) => {
+    let html = `<div class="p-4 md:p-5 rounded-lg border border-slate-300 bg-slate-50/10 shadow-sm mb-4 text-slate-800"><p class="font-bold text-xs md:text-sm mb-3">${index + 1}. ${item.q}</p><div class="space-y-2">`;
+    item.options.forEach((opt, oIndex) => { html += `<label class="flex items-start text-xs md:text-sm cursor-pointer hover:bg-slate-200/20 p-2 rounded border border-transparent transition"><input type="radio" name="q${index}" value="${oIndex}" class="mt-0.5 mr-3 accent-brand-500 flex-shrink-0"> <span>${opt}</span></label>`; });
+    html += `</div></div>`; container.innerHTML += html;
+  });
+};
 
 window.startAptitudeTest = async function() {
-if (!window.candidateId) { window.showMessage("Save your profile first!", "error"); return; }
-document.getElementById('quizStartOverlay').classList.add('hidden'); document.getElementById('quizContainerWrapper').classList.remove('hidden');
-window.renderQuiz();
-if(window.isAIMode) { window.activeSpeaker = 'guide'; document.getElementById('guide-avatar').classList.add('avatar-talking'); await window.speakAIPromise("You have exactly 10 minutes to complete 20 cognitive scenarios. Go.", 'guide'); window.activeSpeaker = null; document.getElementById('guide-avatar').classList.remove('avatar-talking'); }
+  if (!window.candidateId) { window.showMessage("Save your profile first!", "error"); return; }
+  document.getElementById('quizStartOverlay').classList.add('hidden'); document.getElementById('quizContainerWrapper').classList.remove('hidden');
+  window.renderQuiz();
+  if(window.isAIMode) { window.activeSpeaker = 'guide'; document.getElementById('guide-avatar').classList.add('avatar-talking'); await window.speakAIPromise("You have exactly 10 minutes to complete 20 cognitive scenarios. Go.", 'guide'); window.activeSpeaker = null; document.getElementById('guide-avatar').classList.remove('avatar-talking'); }
 
-quizTimerInterval = setInterval(() => {
-quizTimeLeft--; let m = Math.floor(quizTimeLeft / 60); let s = quizTimeLeft % 60;
-document.getElementById('quizTimer').innerText = `${m}:${s.toString().padStart(2, '0')}`;
-if (quizTimeLeft <= 60) document.getElementById('quizTimer').classList.add('timer-urgent');
-if (quizTimeLeft <= 0) { clearInterval(quizTimerInterval); window.submitTest(true); }
-}, 1000);
-}
+  quizTimerInterval = setInterval(() => {
+    quizTimeLeft--; let m = Math.floor(quizTimeLeft / 60); let s = quizTimeLeft % 60;
+    document.getElementById('quizTimer').innerText = `${m}:${s.toString().padStart(2, '0')}`;
+    if (quizTimeLeft <= 60) document.getElementById('quizTimer').classList.add('timer-urgent');
+    if (quizTimeLeft <= 0) { clearInterval(quizTimerInterval); window.submitTest(true); }
+  }, 1000);
+};
 
-window.submitTest = async function(isAutoSubmit = false) {
-clearInterval(quizTimerInterval); document.getElementById('quizTimer').classList.remove('timer-urgent'); document.getElementById('quizTimer').innerText = "DONE";
-let score = 0;
-selectedQuizQuestions.forEach((item, index) => { const selected = document.querySelector(`input[name="q${index}"]:checked`); if(selected && parseInt(selected.value) === item.ans) score += 5; });
-window.userData.test_score = score; await syncToCloud();
-window.autoAdvanceTab('tab-test', 'tab-archetype', 'Cognitive Aptitude Test');
-document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
-}
+window.submitTest = async function() {
+  clearInterval(quizTimerInterval); document.getElementById('quizTimer').classList.remove('timer-urgent'); document.getElementById('quizTimer').innerText = "DONE";
+  let score = 0;
+  selectedQuizQuestions.forEach((item, index) => { const selected = document.querySelector(`input[name="q${index}"]:checked`); if(selected && parseInt(selected.value) === item.ans) score += 5; });
+  window.userData.test_score = score; await syncToCloud();
+  window.autoAdvanceTab('tab-test', 'tab-archetype', 'Cognitive Aptitude Test');
+  document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
+};
 
-// CONVERSATIONAL GD ENGINE
 let currentGDRound = 1; let totalGDRounds = 5; let gdHistory = "";
 
 async function setSpeaker(id, name, text, avatarId) {
-    window.activeSpeaker = id; 
-    document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
-    if(id) { 
-        const avatar = document.getElementById(id === 'meera' ? 'ai-hr-meera' : (id==='guide' ? 'guide-avatar' : `avatar-${id}`)); 
-        if(avatar) avatar.classList.add('avatar-talking'); 
-    }
-    writeTranscript(id === 'meera' ? 'interview-transcript' : 'gd-transcript', name, text); 
-    if(id !== 'meera') gdHistory += `${name}: ${text}\n`;
-    
-    await window.speakAIPromise(text, avatarId || id);
-    
-    window.activeSpeaker = null; 
-    document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
+  window.activeSpeaker = id; 
+  document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
+  if(id) { 
+    const avatar = document.getElementById(id === 'meera' ? 'ai-hr-meera' : (id==='guide' ? 'guide-avatar' : `avatar-${id}`)); 
+    if(avatar) avatar.classList.add('avatar-talking'); 
+  }
+  writeTranscript(id === 'meera' ? 'interview-transcript' : 'gd-transcript', name, text); 
+  if(id !== 'meera') gdHistory += `${name}: ${text}\n`;
+  
+  await window.speakAIPromise(text, avatarId || id);
+  
+  window.activeSpeaker = null; 
+  document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
 }
 
 window.startAIGD = async function() {
@@ -1483,30 +1478,30 @@ window.startAIGD = async function() {
   
   document.getElementById('gd-mic-zone').classList.remove('hidden');
   document.getElementById('gd-mic-zone').classList.add('flex');
-}
+};
 
 window.toggleGDRecording = function(e) {
-if(e) e.preventDefault();
-if(!recognition) return window.showMessage("Speech API not supported.", "error");
+  if(e) e.preventDefault();
+  if(!recognition) return window.showMessage("Speech API not supported.", "error");
 
-if(isRecording) {
+  if(isRecording) {
     recognition.stop();
-} else {
+  } else {
     activeInputBox = 'gdTextInput';
     activeMicBtn = document.getElementById('gdMicBtn');
     try { recognition.start(); } catch(err) {}
-}
-}
+  }
+};
 
 window.submitGDAnswer = function() {
-if(isRecording) recognition.stop();
-const box = document.getElementById('gdTextInput');
-const userSpeech = box.value.trim();
-if(!userSpeech) return window.showMessage("Please provide an answer first.", "error");
+  if(isRecording) recognition.stop();
+  const box = document.getElementById('gdTextInput');
+  const userSpeech = box.value.trim();
+  if(!userSpeech) return window.showMessage("Please provide an answer first.", "error");
 
-box.value = ""; 
-window.processGDSpeech(userSpeech);
-}
+  box.value = ""; 
+  window.processGDSpeech(userSpeech);
+};
 
 window.processGDSpeech = async function(userSpeech) {
   writeTranscript('gd-transcript', 'Candidate', userSpeech);
@@ -1516,166 +1511,164 @@ window.processGDSpeech = async function(userSpeech) {
   currentGDRound++;
 
   if(currentGDRound <= totalGDRounds) {
-      document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
-      writeTranscript('gd-transcript', 'System', 'AI is thinking...');
+    document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
+    writeTranscript('gd-transcript', 'System', 'AI is thinking...');
 
-      let persona = currentGDRound % 2 === 0 ? "Kavya (Creative and empathetic)" : "Arjun (Analytical and data-driven)";
-      let speakerId = currentGDRound % 2 === 0 ? "kavya" : "arjun";
-      const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
-      
-      let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "AI in Performance Reviews". The user you are debating is named ${firstName}. Respond to ${firstName}'s last point. Keep it conversational, natural, and professional. 1 to 2 sentences max. Do not use your own name or brackets in your response.`;
-      
-      let aiReply = await callGemini(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
-      
-      await setSpeaker(speakerId, speakerId === 'kavya' ? 'Kavya' : 'Arjun', aiReply, speakerId); 
-      
-      document.getElementById('gd-mic-zone').classList.remove('hidden'); 
-      document.getElementById('gd-mic-zone').classList.add('flex');
+    let persona = currentGDRound % 2 === 0 ? "Kavya (Creative and empathetic)" : "Arjun (Analytical and data-driven)";
+    let speakerId = currentGDRound % 2 === 0 ? "kavya" : "arjun";
+    const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
+    
+    let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "AI in Performance Reviews". The user you are debating is named ${firstName}. Respond to ${firstName}'s last point. Keep it conversational, natural, and professional. 1 to 2 sentences max. Do not use your own name or brackets in your response.`;
+    
+    let aiReply = await callGemini(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
+    
+    await setSpeaker(speakerId, speakerId === 'kavya' ? 'Kavya' : 'Arjun', aiReply, speakerId); 
+    
+    document.getElementById('gd-mic-zone').classList.remove('hidden'); 
+    document.getElementById('gd-mic-zone').classList.add('flex');
   } else {
-      writeTranscript('gd-transcript', 'System', 'Calculating final GD score via LLM...');
-      let finalScoreStr = await callGemini(`Evaluate this candidate's GD performance: ${gdHistory}. Return only a number out of 30 representing their score. Example: 26`);
-      let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (22 + Math.floor(Math.random() * 8)); 
-      window.userData.gd_score = score; 
-      await syncToCloud(); 
-      writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Score: ${score}/30`); 
-      window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
+    writeTranscript('gd-transcript', 'System', 'Calculating final GD score via LLM...');
+    let finalScoreStr = await callGemini(`Evaluate this candidate's GD performance: ${gdHistory}. Return only a number out of 30 representing their score. Example: 26`);
+    let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (22 + Math.floor(Math.random() * 8)); 
+    window.userData.gd_score = score; 
+    await syncToCloud(); 
+    writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Score: ${score}/30`); 
+    window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
   }
-}
+};
 
-// WEBCAM & REAL COMPUTER VISION FACE TRACKING
 let webcamStream = null; 
 function startRealFaceTracking() {
-    try {
-        if(!window.tracking) return;
-        const tracker = new tracking.ObjectTracker('face');
-        tracker.setInitialScale(4);
-        tracker.setStepSize(2);
-        tracker.setEdgesDensity(0.1);
-        
-        tracking.track('#interviewWebcam', tracker);
+  try {
+    if(!window.tracking) return;
+    const tracker = new tracking.ObjectTracker('face');
+    tracker.setInitialScale(4);
+    tracker.setStepSize(2);
+    tracker.setEdgesDensity(0.1);
+    
+    tracking.track('#interviewWebcam', tracker);
 
-        let lastX = 0; let lastY = 0; let lostCount = 0;
-        let currentEye = 82; let currentStress = 18;
-        let lastTrackTime = Date.now();
+    let lastX = 0; let lastY = 0; let lostCount = 0;
+    let currentEye = 82; let currentStress = 18;
+    let lastTrackTime = Date.now();
 
-        tracker.on('track', function(event) {
-            const now = Date.now();
-            if (now - lastTrackTime < 1000) return;
-            lastTrackTime = now;
+    tracker.on('track', function(event) {
+      const now = Date.now();
+      if (now - lastTrackTime < 1000) return;
+      lastTrackTime = now;
 
-            if(!window.isAIMode || !document.getElementById('tab-interview').classList.contains('active')) return;
+      if(!window.isAIMode || !document.getElementById('tab-interview').classList.contains('active')) return;
 
-            if (event.data.length === 0) {
-                lostCount++;
-                if (lostCount > 2) {
-                    currentEye = Math.max(15, currentEye - 15);
-                    currentStress = Math.min(85, currentStress + 10);
-                    document.getElementById('eyeContactVal').innerText = currentEye + '% (Lost)';
-                    document.getElementById('postureVal').innerText = "Not Detected";
-                }
-            } else {
-                lostCount = 0;
-                const rect = event.data[0];
-                const move = Math.abs(rect.x - lastX) + Math.abs(rect.y - lastY);
-                lastX = rect.x; lastY = rect.y;
+      if (event.data.length === 0) {
+        lostCount++;
+        if (lostCount > 2) {
+          currentEye = Math.max(15, currentEye - 15);
+          currentStress = Math.min(85, currentStress + 10);
+          document.getElementById('eyeContactVal').innerText = currentEye + '% (Lost)';
+          document.getElementById('postureVal').innerText = "Not Detected";
+        }
+      } else {
+        lostCount = 0;
+        const rect = event.data[0];
+        const move = Math.abs(rect.x - lastX) + Math.abs(rect.y - lastY);
+        lastX = rect.x; lastY = rect.y;
 
-                if (move > 15) {
-                    currentStress = Math.min(90, currentStress + 8);
-                    currentEye = Math.max(45, currentEye - 5);
-                    document.getElementById('postureVal').innerText = "Shifting";
-                } else {
-                    currentStress = Math.max(10, currentStress - 3);
-                    currentEye = Math.min(98, currentEye + 4);
-                    document.getElementById('postureVal').innerText = "Aligned";
-                }
+        if (move > 15) {
+          currentStress = Math.min(90, currentStress + 8);
+          currentEye = Math.max(45, currentEye - 5);
+          document.getElementById('postureVal').innerText = "Shifting";
+        } else {
+          currentStress = Math.max(10, currentStress - 3);
+          currentEye = Math.min(98, currentEye + 4);
+          document.getElementById('postureVal').innerText = "Aligned";
+        }
 
-                document.getElementById('eyeContactVal').innerText = currentEye + '%';
-                document.getElementById('stressVal').innerText = currentStress + '%';
-                window.bioMetrics.eyeContact.push(currentEye);
-                window.bioMetrics.stress.push(currentStress);
-            }
-        });
-    } catch(e) {}
+        document.getElementById('eyeContactVal').innerText = currentEye + '%';
+        document.getElementById('stressVal').innerText = currentStress + '%';
+        window.bioMetrics.eyeContact.push(currentEye);
+        window.bioMetrics.stress.push(currentStress);
+      }
+    });
+  } catch(e) {}
 }
 
 function initWebcamStream() {
-    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(stream => { 
-            webcamStream = stream; 
-            const gdVid = document.getElementById('gdWebcam');
-            const intVid = document.getElementById('interviewWebcam');
-            if(gdVid) { gdVid.srcObject = stream; }
-            if(intVid) { intVid.srcObject = stream; }
-            startRealFaceTracking();
-        }).catch(err => {});
-    }
+  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(stream => { 
+      webcamStream = stream; 
+      const gdVid = document.getElementById('gdWebcam');
+      const intVid = document.getElementById('interviewWebcam');
+      if(gdVid) { gdVid.srcObject = stream; }
+      if(intVid) { intVid.srcObject = stream; }
+      startRealFaceTracking();
+    }).catch(() => {});
+  }
 }
 
-// CONVERSATIONAL INTERVIEW ENGINE
 let interviewStep = 0; let intHistory = "";
 
 window.interviewMethod = 'star';
 window.setInterviewMethod = function(method) {
-    window.interviewMethod = method;
-    const btnStar = document.getElementById('btnMethodSTAR');
-    const btnGen = document.getElementById('btnMethodGeneral');
-    if(method === 'star') {
-        btnStar.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors w-1/2 sm:w-auto";
-        btnGen.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto";
-    } else {
-        btnGen.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors w-1/2 sm:w-auto";
-        btnStar.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto";
-    }
-}
+  window.interviewMethod = method;
+  const btnStar = document.getElementById('btnMethodSTAR');
+  const btnGen = document.getElementById('btnMethodGeneral');
+  if(method === 'star') {
+    btnStar.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors w-1/2 sm:w-auto";
+    btnGen.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto";
+  } else {
+    btnGen.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors w-1/2 sm:w-auto";
+    btnStar.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto";
+  }
+};
 
 window.startAIInterview = async function() {
-    document.getElementById('startInterviewBtn').classList.add('hidden');
-    const togglePanel = document.getElementById('interviewModeToggle');
-    togglePanel.classList.add('opacity-50', 'pointer-events-none');
-    document.getElementById('interview-transcript').innerHTML = ""; 
-    interviewStep = 0; 
-    intHistory = ""; 
-    window.bioMetrics = { eyeContact: [], stress: [] }; 
-    askNextInterviewQuestion();
-}
+  document.getElementById('startInterviewBtn').classList.add('hidden');
+  const togglePanel = document.getElementById('interviewModeToggle');
+  togglePanel.classList.add('opacity-50', 'pointer-events-none');
+  document.getElementById('interview-transcript').innerHTML = ""; 
+  interviewStep = 0; 
+  intHistory = ""; 
+  window.bioMetrics = { eyeContact: [], stress: [] }; 
+  askNextInterviewQuestion();
+};
 
 async function askNextInterviewQuestion() {
   if (interviewStep === 0) {
-      const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
-      let q = window.interviewMethod === 'star' 
-          ? `Welcome to the final stage, ${firstName}. Could you walk me through a complex organizational problem you solved using data analytics?` 
-          : `Welcome to the final stage, ${firstName}. To start, could you tell me a little bit about yourself and what drives you professionally?`;
-      intHistory += `Meera: ${q}\n`;
-      
-      await setSpeaker('meera', 'HR Director Meera', q, 'meera');
-      
-      document.getElementById('interview-mic-zone').classList.remove('hidden'); 
-      document.getElementById('interview-mic-zone').classList.add('flex');
+    const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
+    let q = window.interviewMethod === 'star' 
+      ? `Welcome to the final stage, ${firstName}. Could you walk me through a complex organizational problem you solved using data analytics?` 
+      : `Welcome to the final stage, ${firstName}. To start, could you tell me a little bit about yourself and what drives you professionally?`;
+    intHistory += `Meera: ${q}\n`;
+    
+    await setSpeaker('meera', 'HR Director Meera', q, 'meera');
+    
+    document.getElementById('interview-mic-zone').classList.remove('hidden'); 
+    document.getElementById('interview-mic-zone').classList.add('flex');
   }
 }
 
 window.toggleInterviewRecording = function(e) {
-if(e) e.preventDefault();
-if(!recognition) return window.showMessage("Speech API not supported.", "error"); 
+  if(e) e.preventDefault();
+  if(!recognition) return window.showMessage("Speech API not supported.", "error"); 
 
-if(isRecording) {
+  if(isRecording) {
     recognition.stop();
-} else {
+  } else {
     activeInputBox = 'interviewTextInput';
     activeMicBtn = document.getElementById('interviewMicBtn');
     try { recognition.start(); } catch(err) {} 
-}
-}
+  }
+};
 
 window.submitInterviewAnswer = function() {
-if(isRecording) recognition.stop();
-const box = document.getElementById('interviewTextInput');
-const candidateResponse = box.value.trim();
-if(!candidateResponse) return window.showMessage("Please provide an answer first.", "error");
+  if(isRecording) recognition.stop();
+  const box = document.getElementById('interviewTextInput');
+  const candidateResponse = box.value.trim();
+  if(!candidateResponse) return window.showMessage("Please provide an answer first.", "error");
 
-box.value = "";
-window.processInterviewSpeech(candidateResponse);
-}
+  box.value = "";
+  window.processInterviewSpeech(candidateResponse);
+};
 
 window.processInterviewSpeech = async function(candidateResponse) {
   writeTranscript('interview-transcript', 'Candidate', candidateResponse); 
@@ -1685,164 +1678,163 @@ window.processInterviewSpeech = async function(candidateResponse) {
   interviewStep++;
 
   if (interviewStep < 5) {
-      writeTranscript('interview-transcript', 'System', 'Meera is analyzing your response...');
-      
-      const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
-      
-      let systemPrompt = window.interviewMethod === 'star'
-          ? `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: Immediately ask a hard, relevant follow-up question using the STAR method based on their answer. CRITICAL INSTRUCTION: DO NOT acknowledge, evaluate, or appreciate their previous answer in any way. Be completely silent on what they just said. Do not say 'thank you', 'good point', or 'interesting'. Just ask the next question directly. Do not include your name or brackets.`
-          : `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: Immediately ask a broad, open-ended follow-up question. CRITICAL INSTRUCTION: DO NOT acknowledge, evaluate, or appreciate their previous answer in any way. Be completely silent on what they just said. Do not say 'thank you', 'good point', or 'interesting'. Just ask the next question directly. Do not include your name or brackets.`;
-      
-      let meeraReply = await callGemini(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
-      
-      intHistory += `Meera: ${meeraReply}\n`;
-      
-      await setSpeaker('meera', 'HR Director Meera', meeraReply, 'meera');
-      
-      document.getElementById('interview-mic-zone').classList.remove('hidden'); 
-      document.getElementById('interview-mic-zone').classList.add('flex');
+    writeTranscript('interview-transcript', 'System', 'Meera is analyzing your response...');
+    
+    const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
+    
+    let systemPrompt = window.interviewMethod === 'star'
+      ? `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: Immediately ask a hard, relevant follow-up question using the STAR method based on their answer. CRITICAL INSTRUCTION: DO NOT acknowledge, evaluate, or appreciate their previous answer in any way. Be completely silent on what they just said. Do not say 'thank you', 'good point', or 'interesting'. Just ask the next question directly. Do not include your name or brackets.`
+      : `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: Immediately ask a broad, open-ended follow-up question. CRITICAL INSTRUCTION: DO NOT acknowledge, evaluate, or appreciate their previous answer in any way. Be completely silent on what they just said. Do not say 'thank you', 'good point', or 'interesting'. Just ask the next question directly. Do not include your name or brackets.`;
+    
+    let meeraReply = await callGemini(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
+    
+    intHistory += `Meera: ${meeraReply}\n`;
+    
+    await setSpeaker('meera', 'HR Director Meera', meeraReply, 'meera');
+    
+    document.getElementById('interview-mic-zone').classList.remove('hidden'); 
+    document.getElementById('interview-mic-zone').classList.add('flex');
   } else {
-      writeTranscript('interview-transcript', 'System', 'Evaluating overall performance...');
-      await setSpeaker('meera', 'HR Director Meera', 'Interview complete. Decrypting your Talent Passport and dispatching report now.', 'meera');
-      
-      let evalPrompt = window.interviewMethod === 'star'
-          ? `Evaluate this candidate's interview performance based on the STAR method: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`
-          : `Evaluate this candidate's general interview performance: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`;
-          
-      let finalScoreStr = await callGemini(evalPrompt);
-      let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (82 + Math.floor(Math.random() * 15)); 
-      
-      window.userData.interview_score = score; 
-      window.userData.published = true; 
-      
-      try {
-        await syncToCloud(); 
-      } catch (err) {}
-      
-      window.updatePassportUI();
-      
-      setTimeout(() => {
-          window.emailDetailedReport();
-      }, 1200);
+    writeTranscript('interview-transcript', 'System', 'Evaluating overall performance...');
+    await setSpeaker('meera', 'HR Director Meera', 'Interview complete. Decrypting your Talent Passport and dispatching report now.', 'meera');
+    
+    let evalPrompt = window.interviewMethod === 'star'
+      ? `Evaluate this candidate's interview performance based on the STAR method: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`
+      : `Evaluate this candidate's general interview performance: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`;
+        
+    let finalScoreStr = await callGemini(evalPrompt);
+    let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (82 + Math.floor(Math.random() * 15)); 
+    
+    window.userData.interview_score = score; 
+    window.userData.published = true; 
+    
+    try {
+      await syncToCloud(); 
+    } catch (err) {}
+    
+    window.updatePassportUI();
+    
+    setTimeout(() => {
+      window.emailDetailedReport();
+    }, 1200);
 
-      window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral HR Interview');
+    window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral HR Interview');
   }
-}
+};
 
 window.updatePassportUI = function() {
-document.getElementById('passName').innerText = window.userData.name || "Candidate Name"; 
-document.getElementById('passArchetype').innerHTML = `<i class="fa-solid fa-dna mr-2"></i>Archetype: ${window.userData.archetype}`; 
-document.getElementById('passATS').innerText = `${window.userData.ats_score}/100`; 
-document.getElementById('passTest').innerText = `${window.userData.test_score}/100`; 
-document.getElementById('passGD').innerText = `${window.userData.gd_score}/30`; 
-document.getElementById('passInterview').innerText = `${window.userData.interview_score}/100`;
+  document.getElementById('passName').innerText = window.userData.name || "Candidate Name"; 
+  document.getElementById('passArchetype').innerHTML = `<i class="fa-solid fa-dna mr-2"></i>Archetype: ${window.userData.archetype}`; 
+  document.getElementById('passATS').innerText = `${window.userData.ats_score}/100`; 
+  document.getElementById('passTest').innerText = `${window.userData.test_score}/100`; 
+  document.getElementById('passGD').innerText = `${window.userData.gd_score}/30`; 
+  document.getElementById('passInterview').innerText = `${window.userData.interview_score}/100`;
 
-let t = Math.round((window.userData.ats_score + window.userData.test_score + ((window.userData.gd_score/30)*100) + window.userData.interview_score) / 4); 
-document.getElementById('passTotal').innerText = `${t || 0}%`;
+  let t = Math.round((window.userData.ats_score + window.userData.test_score + ((window.userData.gd_score/30)*100) + window.userData.interview_score) / 4); 
+  document.getElementById('passTotal').innerText = `${t || 0}%`;
 
-if (window.userData.published || window.isAdmin) { 
+  if (window.userData.published || window.isAdmin) { 
     document.getElementById('passportLock').classList.add('hidden'); 
     document.getElementById('passportContent').classList.remove('hidden'); 
-} else { 
+  } else { 
     document.getElementById('passportLock').classList.remove('hidden'); 
     document.getElementById('passportContent').classList.add('hidden'); 
-}
-}
+  }
+};
 
 window.emailDetailedReport = function() {
-    const recipient = window.userData.email || document.getElementById('loginEmailLookup').value.trim();
-    if (!recipient) { window.showMessage("Candidate email required to send report.", "error"); return; }
+  const recipient = window.userData.email || document.getElementById('loginEmailLookup').value.trim();
+  if (!recipient) { window.showMessage("Candidate email required to send report.", "error"); return; }
 
-    const total = document.getElementById('passTotal').innerText;
-    const to = encodeURIComponent(recipient);
-    const sub = encodeURIComponent(`CONFIDENTIAL DOSSIER: Executive Talent Passport - ${window.userData.name || 'Candidate'}`);
+  const total = document.getElementById('passTotal').innerText;
+  const to = encodeURIComponent(recipient);
+  const sub = encodeURIComponent(`CONFIDENTIAL DOSSIER: Executive Talent Passport - ${window.userData.name || 'Candidate'}`);
 
-    let avgEye = window.bioMetrics.eyeContact.length ? Math.round(window.bioMetrics.eyeContact.reduce((a,b)=>a+b,0)/window.bioMetrics.eyeContact.length) : 80;
-    let avgStress = window.bioMetrics.stress.length ? Math.round(window.bioMetrics.stress.reduce((a,b)=>a+b,0)/window.bioMetrics.stress.length) : 20;
+  let avgEye = window.bioMetrics.eyeContact.length ? Math.round(window.bioMetrics.eyeContact.reduce((a,b)=>a+b,0)/window.bioMetrics.eyeContact.length) : 80;
+  let avgStress = window.bioMetrics.stress.length ? Math.round(window.bioMetrics.stress.reduce((a,b)=>a+b,0)/window.bioMetrics.stress.length) : 20;
 
-    const archDetails = {
-        "Strategist": {
-            profile: "Highly analytical, data-driven, and focused on long-term systemic impact rather than short-term fixes.",
-            strengths: "Objective decision-making, structural optimization, and removing emotional bias from complex business problems.",
-            blindSpots: "Can occasionally project a lack of empathy or appear overly rigid when dealing with nuanced human-centric conflicts.",
-            actionPlan: "During executive interviews, consciously blend your quantitative metrics with qualitative empathy. When using the STAR method, emphasize how your structural solutions positively impacted the team's morale and daily workflow, not just the bottom line."
-        },
-        "Innovator": {
-            profile: "Forward-thinking, creative, and highly adaptable to sudden market shifts and new technologies.",
-            strengths: "Brainstorming disruptive solutions, embracing calculated risks, and inspiring teams toward a grand vision.",
-            blindSpots: "May struggle with operational follow-through or become easily frustrated by bureaucratic compliance and red tape.",
-            actionPlan: "Executive panels look for innovators who can execute. In your STAR responses, heavily emphasize the 'Action' and 'Result' phases. Prove that your groundbreaking ideas are grounded in realistic budgets, timelines, and measurable KPIs."
-        },
-        "Connector": {
-            profile: "Highly empathetic, emotionally intelligent, and deeply focused on team cohesion and stakeholder alignment.",
-            strengths: "Mediating disputes, building psychological safety, and driving consensus across fragmented, cross-functional teams.",
-            blindSpots: "May hesitate to make unpopular but necessary executive decisions, risking 'groupthink' or delayed project timelines.",
-            actionPlan: "You naturally excel at the behavioral interview. However, you must prove your ability to be decisive. Highlight at least one STAR scenario where you had to make a tough, data-backed choice that was initially unpopular but ultimately drove business success."
-        },
-        "Executor": {
-            profile: "Fiercely pragmatic, process-oriented, and ruthlessly efficient in translating strategy into completed tasks.",
-            strengths: "Meeting strict deadlines, optimizing daily operational workflows, and maintaining team focus under extreme pressure.",
-            blindSpots: "Can suffer from tunnel vision, potentially ignoring systemic flaws or creative alternatives in the rush to 'get it done'.",
-            actionPlan: "To elevate to an executive tier, you must demonstrate strategic elevation. Use your interviews to show how your operational execution aligns with long-term macroeconomic goals. Shift your narrative from 'I finished this task on time' to 'I designed this workflow to scale our division.'"
-        },
-        "Not Evaluated": { profile: "Data missing.", strengths: "Data missing.", blindSpots: "Data missing.", actionPlan: "Please complete Stage 3." }
-    };
+  const archDetails = {
+    "Strategist": {
+      profile: "Highly analytical, data-driven, and focused on long-term systemic impact rather than short-term fixes.",
+      strengths: "Objective decision-making, structural optimization, and removing emotional bias from complex business problems.",
+      blindSpots: "Can occasionally project a lack of empathy or appear overly rigid when dealing with nuanced human-centric conflicts.",
+      actionPlan: "During executive interviews, consciously blend your quantitative metrics with qualitative empathy. When using the STAR method, emphasize how your structural solutions positively impacted the team's morale and daily workflow, not just the bottom line."
+    },
+    "Innovator": {
+      profile: "Forward-thinking, creative, and highly adaptable to sudden market shifts and new technologies.",
+      strengths: "Brainstorming disruptive solutions, embracing calculated risks, and inspiring teams toward a grand vision.",
+      blindSpots: "May struggle with operational follow-through or become easily frustrated by bureaucratic compliance and red tape.",
+      actionPlan: "Executive panels look for innovators who can execute. In your STAR responses, heavily emphasize the 'Action' and 'Result' phases. Prove that your groundbreaking ideas are grounded in realistic budgets, timelines, and measurable KPIs."
+    },
+    "Connector": {
+      profile: "Highly empathetic, emotionally intelligent, and deeply focused on team cohesion and stakeholder alignment.",
+      strengths: "Mediating disputes, building psychological safety, and driving consensus across fragmented, cross-functional teams.",
+      blindSpots: "May hesitate to make unpopular but necessary executive decisions, risking 'groupthink' or delayed project timelines.",
+      actionPlan: "You naturally excel at the behavioral interview. However, you must prove your ability to be decisive. Highlight at least one STAR scenario where you had to make a tough, data-backed choice that was initially unpopular but ultimately drove business success."
+    },
+    "Executor": {
+      profile: "Fiercely pragmatic, process-oriented, and ruthlessly efficient in translating strategy into completed tasks.",
+      strengths: "Meeting strict deadlines, optimizing daily operational workflows, and maintaining team focus under extreme pressure.",
+      blindSpots: "Can suffer from tunnel vision, potentially ignoring systemic flaws or creative alternatives in the rush to 'get it done'.",
+      actionPlan: "To elevate to an executive tier, you must demonstrate strategic elevation. Use your interviews to show how your operational execution aligns with long-term macroeconomic goals. Shift your narrative from 'I finished this task on time' to 'I designed this workflow to scale our division.'"
+    },
+    "Not Evaluated": { profile: "Data missing.", strengths: "Data missing.", blindSpots: "Data missing.", actionPlan: "Please complete Stage 3." }
+  };
 
-    const myArch = archDetails[window.userData.archetype] || archDetails["Not Evaluated"];
+  const myArch = archDetails[window.userData.archetype] || archDetails["Not Evaluated"];
 
-    let b = `Dear ${window.userData.name || 'Candidate'},\n\n`;
-    b += `Thank you for completing the 6-Stage HR Executive Assessment Gauntlet. This document serves as your official, comprehensive Talent Passport. It has been generated by evaluating your quantitative knowledge, psychometric archetype, and biometric executive presence.\n\n`;
-    
-    b += `======================================================\n`;
-    b += `🏆 OVERALL EXECUTIVE READINESS INDEX: ${total}\n`;
-    b += `🧬 PRIMARY WORKPLACE ARCHETYPE: ${window.userData.archetype.toUpperCase()}\n`;
-    b += `======================================================\n\n`;
-    
-    b += `[ PART 1: STAGE-BY-STAGE QUANTITATIVE ANALYSIS ]\n\n`;
-    
-    b += `1. Enterprise ATS Audit (Resume Parsing & TF-IDF)\n`;
-    b += `   >> Score: ${window.userData.ats_score}/100\n`;
-    b += `   >> Insight: Measures how effectively your resume's keyword density aligns with Fortune 500 algorithmic screening parameters. A score below 75 indicates a high probability of automated rejection before a human recruiter sees your profile.\n\n`;
-    
-    b += `2. Cognitive Aptitude & Decision Velocity\n`;
-    b += `   >> Score: ${window.userData.test_score}/100\n`;
-    b += `   >> Insight: Evaluates your theoretical HR knowledge (OB, TA, L&D, Compensation) under a strict time constraint. This reflects your ability to recall and apply labor laws and corporate frameworks under pressure.\n\n`;
-    
-    b += `3. Multi-Agent Virtual Group Discussion (GD)\n`;
-    b += `   >> Score: ${window.userData.gd_score}/30\n`;
-    b += `   >> Insight: Scored via AI linguistic analysis. Measures your ability to synthesize opposing viewpoints (analytical vs. creative), mediate conflict, and drive consensus in a competitive environment.\n\n`;
-    
-    b += `4. AI Behavioral HR Interview (STAR Framework)\n`;
-    b += `   >> Score: ${window.userData.interview_score}/100\n`;
-    b += `   >> Insight: Measures the structural integrity of your verbal responses. High scores indicate mastery of the Situation-Task-Action-Result format, highlighting concrete, data-backed business outcomes.\n\n`;
-    
-    b += `------------------------------------------------------\n\n`;
-    
-    b += `[ PART 2: REAL-TIME BIOMETRIC & NON-VERBAL ANALYTICS ]\n\n`;
-    b += `During Stage 5, our computer vision algorithms tracked your micro-expressions and physical composure.\n\n`;
-    b += `* Visual Focus & Eye Contact Index: ${avgEye}%\n`;
-    b += `  (Target: 70-85%. Maintaining eye contact signals confidence and active listening. Scores too high may indicate unnatural staring; scores too low indicate distraction or lack of confidence.)\n\n`;
-    b += `* Cognitive Stress & Movement Index: ${avgStress}%\n`;
-    b += `  (Target: <30%. Elevated movement, shifting posture, or breaking frame indicates high cognitive load and pressure fatigue. Executive presence requires maintaining this below 30%.)\n\n`;
-    
-    b += `------------------------------------------------------\n\n`;
+  let b = `Dear ${window.userData.name || 'Candidate'},\n\n`;
+  b += `Thank you for completing the 6-Stage HR Executive Assessment Gauntlet. This document serves as your official, comprehensive Talent Passport. It has been generated by evaluating your quantitative knowledge, psychometric archetype, and biometric executive presence.\n\n`;
+  
+  b += `======================================================\n`;
+  b += `🏆 OVERALL EXECUTIVE READINESS INDEX: ${total}\n`;
+  b += `🧬 PRIMARY WORKPLACE ARCHETYPE: ${window.userData.archetype.toUpperCase()}\n`;
+  b += `======================================================\n\n`;
+  
+  b += `[ PART 1: STAGE-BY-STAGE QUANTITATIVE ANALYSIS ]\n\n`;
+  
+  b += `1. Enterprise ATS Audit (Resume Parsing & TF-IDF)\n`;
+  b += `   >> Score: ${window.userData.ats_score}/100\n`;
+  b += `   >> Insight: Measures how effectively your resume's keyword density aligns with Fortune 500 algorithmic screening parameters. A score below 75 indicates a high probability of automated rejection before a human recruiter sees your profile.\n\n`;
+  
+  b += `2. Cognitive Aptitude & Decision Velocity\n`;
+  b += `   >> Score: ${window.userData.test_score}/100\n`;
+  b += `   >> Insight: Evaluates your theoretical HR knowledge (OB, TA, L&D, Compensation) under a strict time constraint. This reflects your ability to recall and apply labor laws and corporate frameworks under pressure.\n\n`;
+  
+  b += `3. Multi-Agent Virtual Group Discussion (GD)\n`;
+  b += `   >> Score: ${window.userData.gd_score}/30\n`;
+  b += `   >> Insight: Scored via AI linguistic analysis. Measures your ability to synthesize opposing viewpoints (analytical vs. creative), mediate conflict, and drive consensus in a competitive environment.\n\n`;
+  
+  b += `4. AI Behavioral HR Interview (STAR Framework)\n`;
+  b += `   >> Score: ${window.userData.interview_score}/100\n`;
+  b += `   >> Insight: Measures the structural integrity of your verbal responses. High scores indicate mastery of the Situation-Task-Action-Result format, highlighting concrete, data-backed business outcomes.\n\n`;
+  
+  b += `------------------------------------------------------\n\n`;
+  
+  b += `[ PART 2: REAL-TIME BIOMETRIC & NON-VERBAL ANALYTICS ]\n\n`;
+  b += `During Stage 5, our computer vision algorithms tracked your micro-expressions and physical composure.\n\n`;
+  b += `* Visual Focus & Eye Contact Index: ${avgEye}%\n`;
+  b += `  (Target: 70-85%. Maintaining eye contact signals confidence and active listening. Scores too high may indicate unnatural staring; scores too low indicate distraction or lack of confidence.)\n\n`;
+  b += `* Cognitive Stress & Movement Index: ${avgStress}%\n`;
+  b += `  (Target: <30%. Elevated movement, shifting posture, or breaking frame indicates high cognitive load and pressure fatigue. Executive presence requires maintaining this below 30%.)\n\n`;
+  
+  b += `------------------------------------------------------\n\n`;
 
-    b += `[ PART 3: PSYCHOMETRIC ARCHETYPE DEEP-DIVE: ${window.userData.archetype.toUpperCase()} ]\n\n`;
-    b += `Based on your Stage 3 forced-choice situational matrix, you operate primarily as a ${window.userData.archetype}.\n\n`;
-    b += `* Profile Overview: \n  ${myArch.profile}\n\n`;
-    b += `* Core Executive Strengths: \n  ${myArch.strengths}\n\n`;
-    b += `* Critical Blind Spots: \n  ${myArch.blindSpots}\n\n`;
-    b += `* INTERVIEW & PLACEMENT STRATEGY:\n  ${myArch.actionPlan}\n\n`;
-    
-    b += `======================================================\n\n`;
-    b += `Final Recommendation: Review your lowest-scoring stage and consult the Academic Modules on the platform to bridge the gap before official placement season begins.\n\n`;
-    b += `Best regards,\n`;
-    b += `The Assetize AI Evaluation System\n`;
+  b += `[ PART 3: PSYCHOMETRIC ARCHETYPE DEEP-DIVE: ${window.userData.archetype.toUpperCase()} ]\n\n`;
+  b += `Based on your Stage 3 forced-choice situational matrix, you operate primarily as a ${window.userData.archetype}.\n\n`;
+  b += `* Profile Overview: \n  ${myArch.profile}\n\n`;
+  b += `* Core Executive Strengths: \n  ${myArch.strengths}\n\n`;
+  b += `* Critical Blind Spots: \n  ${myArch.blindSpots}\n\n`;
+  b += `* INTERVIEW & PLACEMENT STRATEGY:\n  ${myArch.actionPlan}\n\n`;
+  
+  b += `======================================================\n\n`;
+  b += `Final Recommendation: Review your lowest-scoring stage and consult the Academic Modules on the platform to bridge the gap before official placement season begins.\n\n`;
+  b += `Best regards,\n`;
+  b += `The Assetize AI Evaluation System\n`;
 
-    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=${encodeURIComponent(b)}`, '_blank');
-}
+  window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=${encodeURIComponent(b)}`, '_blank');
+};
 
-// --- EXPANDED PRACTICE ZONE LOGIC ---
 const practiceQuizzes = {
   ats: {
     title: "Enterprise ATS Audit",
@@ -1919,75 +1911,98 @@ window.loadPracticeQuiz = function(category) {
   
   html += `</div>`;
   container.innerHTML = html;
-}
+};
 
 window.checkPracticeAnswer = function(category, qIndex, selectedOpt, correctOpt, btnEl) {
-   const parent = document.getElementById(`quiz-opts-${category}-${qIndex}`);
-   const buttons = parent.querySelectorAll('button');
-   const feedback = document.getElementById(`quiz-feedback-${category}-${qIndex}`);
+  const parent = document.getElementById(`quiz-opts-${category}-${qIndex}`);
+  const buttons = parent.querySelectorAll('button');
+  const feedback = document.getElementById(`quiz-feedback-${category}-${qIndex}`);
    
-   buttons.forEach(b => {
-       b.disabled = true;
-       b.classList.remove('hover:bg-brand-50', 'cursor-pointer');
-       b.classList.add('opacity-70', 'cursor-not-allowed');
-   });
+  buttons.forEach(b => {
+    b.disabled = true;
+    b.classList.remove('hover:bg-brand-50', 'cursor-pointer');
+    b.classList.add('opacity-70', 'cursor-not-allowed');
+  });
    
-   if (selectedOpt === correctOpt) {
-       btnEl.classList.remove('bg-white', 'border-slate-300');
-       btnEl.classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'ring-2', 'ring-green-500', 'opacity-100');
-       feedback.innerHTML = `<i class="fa-solid fa-check-circle text-green-600 mr-1"></i> Correct!`;
-       feedback.classList.remove('hidden', 'text-red-600');
-       feedback.classList.add('text-green-600');
-   } else {
-       btnEl.classList.remove('bg-white', 'border-slate-300', 'opacity-70');
-       btnEl.classList.add('bg-red-100', 'border-red-500', 'text-red-800', 'opacity-100');
-       buttons[correctOpt].classList.remove('bg-white', 'border-slate-300', 'opacity-70');
-       buttons[correctOpt].classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'opacity-100');
-       feedback.innerHTML = `<i class="fa-solid fa-times-circle text-red-600 mr-1"></i> Incorrect.`;
-       feedback.classList.remove('hidden', 'text-green-600');
-       feedback.classList.add('text-red-600');
-   }
-}
+  if (selectedOpt === correctOpt) {
+    btnEl.classList.remove('bg-white', 'border-slate-300');
+    btnEl.classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'ring-2', 'ring-green-500', 'opacity-100');
+    feedback.innerHTML = `<i class="fa-solid fa-check-circle text-green-600 mr-1"></i> Correct!`;
+    feedback.classList.remove('hidden', 'text-red-600');
+    feedback.classList.add('text-green-600');
+  } else {
+    btnEl.classList.remove('bg-white', 'border-slate-300', 'opacity-70');
+    btnEl.classList.add('bg-red-100', 'border-red-500', 'text-red-800', 'opacity-100');
+    buttons[correctOpt].classList.remove('bg-white', 'border-slate-300', 'opacity-70');
+    buttons[correctOpt].classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'opacity-100');
+    feedback.innerHTML = `<i class="fa-solid fa-times-circle text-red-600 mr-1"></i> Incorrect.`;
+    feedback.classList.remove('hidden', 'text-green-600');
+    feedback.classList.add('text-red-600');
+  }
+};
 
-// INITIALIZATION
-renderArchetypeQs();
-initRealisticAvatars();
-
-// INDIAN AVATAR CONFIGS
+// ==========================================
+// AVATAR CONFIGURATIONS & SVG ENGINE
+// ==========================================
 const avatarConfigs = {
-'guide-avatar': { bg: '#e2e8f0', skin: '#fcd34d', skinDark: '#d97706', hair: '#1e293b', shirt: '#3b82f6', hairPath: '<path d="M 15 45 C 15 10, 85 10, 85 45 L 85 30 C 85 5, 15 5, 15 30 Z" fill="#1e293b"/>' },
-'avatar-arjun': { bg: '#bfdbfe', skin: '#d97706', skinDark: '#92400e', hair: '#111827', shirt: '#ffffff', glasses: true, hairPath: '<path d="M 22 45 C 22 10, 78 10, 78 45 L 78 30 C 78 5, 22 5, 22 30 Z" fill="#111827"/>' },
-'avatar-kavya': { bg: '#fbcfe8', skin: '#b45309', skinDark: '#78350f', hair: '#111827', shirt: '#fef08a', hairPath: '<circle cx="50" cy="15" r="18" fill="#111827"/><circle cx="35" cy="25" r="14" fill="#111827"/><circle cx="65" cy="25" r="14" fill="#111827"/><path d="M 22 45 C 22 15, 78 15, 78 45 C 78 30, 50 25, 22 45 Z" fill="#111827"/>' },
-'ai-hr-meera': { bg: '#e9d5ff', skin: '#d97706', skinDark: '#92400e', hair: '#111827', shirt: '#4c1d95', glasses: true, hairPath: '<circle cx="50" cy="10" r="15" fill="#111827"/><path d="M 22 45 C 22 15, 78 15, 78 45 L 78 35 C 78 5, 22 5, 22 35 Z" fill="#111827"/>' }
+  'guide-avatar': { bg: '#e2e8f0', skin: '#fcd34d', skinDark: '#d97706', hair: '#1e293b', shirt: '#3b82f6', hairPath: '<path d="M 15 45 C 15 10, 85 10, 85 45 L 85 30 C 85 5, 15 5, 15 30 Z" fill="#1e293b"/>' },
+  'avatar-arjun': { bg: '#bfdbfe', skin: '#d97706', skinDark: '#92400e', hair: '#111827', shirt: '#ffffff', glasses: true, hairPath: '<path d="M 22 45 C 22 10, 78 10, 78 45 L 78 30 C 78 5, 22 5, 22 30 Z" fill="#111827"/>' },
+  'avatar-kavya': { bg: '#fbcfe8', skin: '#b45309', skinDark: '#78350f', hair: '#111827', shirt: '#fef08a', hairPath: '<circle cx="50" cy="15" r="18" fill="#111827"/><circle cx="35" cy="25" r="14" fill="#111827"/><circle cx="65" cy="25" r="14" fill="#111827"/><path d="M 22 45 C 22 15, 78 15, 78 45 C 78 30, 50 25, 22 45 Z" fill="#111827"/>' },
+  'ai-hr-meera': { bg: '#e9d5ff', skin: '#d97706', skinDark: '#92400e', hair: '#111827', shirt: '#4c1d95', glasses: true, hairPath: '<circle cx="50" cy="10" r="15" fill="#111827"/><path d="M 22 45 C 22 15, 78 15, 78 45 L 78 35 C 78 5, 22 5, 22 35 Z" fill="#111827"/>' }
 };
 
 function generateSVG(config, id) {
-return `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="skin-grad-${id}" cx="35%" cy="35%" r="65%"><stop offset="0%" stop-color="${config.skin}"/><stop offset="100%" stop-color="${config.skinDark}"/></radialGradient><clipPath id="eye-clip-l-${id}"><ellipse cx="35" cy="40" rx="6" ry="7"/></clipPath><clipPath id="eye-clip-r-${id}"><ellipse cx="65" cy="40" rx="6" ry="7"/></clipPath></defs><rect width="100" height="100" fill="${config.bg}"/><path d="M 20 100 C 20 65, 80 65, 80 100" fill="${config.shirt}"/><path d="M 38 70 L 62 70 L 58 100 L 42 100 Z" fill="${config.skinDark}"/><ellipse cx="22" cy="45" rx="4" ry="7" fill="${config.skinDark}"/><ellipse cx="78" cy="45" rx="4" ry="7" fill="${config.skinDark}"/><g class="face-features"><ellipse cx="50" cy="45" rx="26" ry="32" fill="url(#skin-grad-${id})"/><path d="M 27 33 Q 35 29 42 33" stroke="${config.hair}" stroke-width="2.5" fill="none" stroke-linecap="round" class="avatar-eyebrow"/><path d="M 58 33 Q 65 29 73 33" stroke="${config.hair}" stroke-width="2.5" fill="none" stroke-linecap="round" class="avatar-eyebrow"/><ellipse cx="35" cy="40" rx="6" ry="7" fill="white"/><ellipse cx="65" cy="40" rx="6" ry="7" fill="white"/><g class="avatar-pupil"><circle cx="35" cy="40" r="3.5" fill="${config.hair}"/><circle cx="34" cy="39" r="1" fill="white"/></g><g class="avatar-pupil"><circle cx="65" cy="40" r="3.5" fill="${config.hair}"/><circle cx="64" cy="39" r="1" fill="white"/></g><rect x="25" y="30" width="20" height="20" fill="${config.skinDark}" class="avatar-eyelid" style="transform-origin: top; transform: scaleY(0);" clip-path="url(#eye-clip-l-${id})"/><rect x="55" y="30" width="20" height="20" fill="${config.skinDark}" class="avatar-eyelid" style="transform-origin: top; transform: scaleY(0);" clip-path="url(#eye-clip-r-${id})"/><path d="M 50 42 Q 48 52 50 54 Q 52 54 52 50" fill="none" stroke="${config.skinDark}" stroke-width="2" stroke-linecap="round"/><path d="M 35 65 Q 50 70 65 65 Q 50 68 35 65" fill="#431407" class="avatar-mouth-path"/><path d="M 40 66 Q 50 66 60 66 Q 50 66 40 66" fill="#ffffff" class="avatar-teeth-path"/>${config.glasses ? `<rect x="25" y="34" width="20" height="12" rx="3" fill="none" stroke="#1e293b" stroke-width="2"/><rect x="55" y="34" width="20" height="12" rx="3" fill="none" stroke="#1e293b" stroke-width="2"/><line x1="45" y1="40" x2="55" y2="40" stroke="#1e293b" stroke-width="2"/>` : ''}</g><g class="hair-front">${config.hairPath}</g></svg>`;
+  return `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="skin-grad-${id}" cx="35%" cy="35%" r="65%"><stop offset="0%" stop-color="${config.skin}"/><stop offset="100%" stop-color="${config.skinDark}"/></radialGradient><clipPath id="eye-clip-l-${id}"><ellipse cx="35" cy="40" rx="6" ry="7"/></clipPath><clipPath id="eye-clip-r-${id}"><ellipse cx="65" cy="40" rx="6" ry="7"/></clipPath></defs><rect width="100" height="100" fill="${config.bg}"/><path d="M 20 100 C 20 65, 80 65, 80 100" fill="${config.shirt}"/><path d="M 38 70 L 62 70 L 58 100 L 42 100 Z" fill="${config.skinDark}"/><ellipse cx="22" cy="45" rx="4" ry="7" fill="${config.skinDark}"/><ellipse cx="78" cy="45" rx="4" ry="7" fill="${config.skinDark}"/><g class="face-features"><ellipse cx="50" cy="45" rx="26" ry="32" fill="url(#skin-grad-${id})"/><path d="M 27 33 Q 35 29 42 33" stroke="${config.hair}" stroke-width="2.5" fill="none" stroke-linecap="round" class="avatar-eyebrow"/><path d="M 58 33 Q 65 29 73 33" stroke="${config.hair}" stroke-width="2.5" fill="none" stroke-linecap="round" class="avatar-eyebrow"/><ellipse cx="35" cy="40" rx="6" ry="7" fill="white"/><ellipse cx="65" cy="40" rx="6" ry="7" fill="white"/><g class="avatar-pupil"><circle cx="35" cy="40" r="3.5" fill="${config.hair}"/><circle cx="34" cy="39" r="1" fill="white"/></g><g class="avatar-pupil"><circle cx="65" cy="40" r="3.5" fill="${config.hair}"/><circle cx="64" cy="39" r="1" fill="white"/></g><rect x="25" y="30" width="20" height="20" fill="${config.skinDark}" class="avatar-eyelid" style="transform-origin: top; transform: scaleY(0);" clip-path="url(#eye-clip-l-${id})"/><rect x="55" y="30" width="20" height="20" fill="${config.skinDark}" class="avatar-eyelid" style="transform-origin: top; transform: scaleY(0);" clip-path="url(#eye-clip-r-${id})"/><path d="M 50 42 Q 48 52 50 54 Q 52 54 52 50" fill="none" stroke="${config.skinDark}" stroke-width="2" stroke-linecap="round"/><path d="M 35 65 Q 50 70 65 65 Q 50 68 35 65" fill="#431407" class="avatar-mouth-path"/><path d="M 40 66 Q 50 66 60 66 Q 50 66 40 66" fill="#ffffff" class="avatar-teeth-path"/>${config.glasses ? `<rect x="25" y="34" width="20" height="12" rx="3" fill="none" stroke="#1e293b" stroke-width="2"/><rect x="55" y="34" width="20" height="12" rx="3" fill="none" stroke="#1e293b" stroke-width="2"/><line x1="45" y1="40" x2="55" y2="40" stroke="#1e293b" stroke-width="2"/>` : ''}</g><g class="hair-front">${config.hairPath}</g></svg>`;
 }
 
 function initRealisticAvatars() {
-Object.keys(avatarConfigs).forEach(id => { const container = document.getElementById(id); if(container) container.innerHTML = generateSVG(avatarConfigs[id], id); });
-setInterval(() => {
-Object.keys(avatarConfigs).forEach(id => {
-const container = document.getElementById(id); if(!container) return;
-const mouth = container.querySelector('.avatar-mouth-path'); const teeth = container.querySelector('.avatar-teeth-path'); if(!mouth) return;
-let speakerMap = { 'guide-avatar': 'guide', 'avatar-arjun': 'arjun', 'avatar-kavya': 'kavya', 'ai-hr-meera': 'meera' };
-if(window.activeSpeaker === speakerMap[id]) {
-const visemes = ["M 35 65 Q 50 55 65 65 Q 50 85 35 65", "M 40 65 Q 50 50 60 65 Q 50 80 40 65", "M 32 65 Q 50 60 68 65 Q 50 75 32 65"];
-const teethPaths = ["M 38 62 Q 50 58 62 62 Q 50 65 38 62", "M 42 55 Q 50 52 58 55 Q 50 60 42 55", "M 35 62 Q 50 58 65 62 Q 50 66 35 62"];
-const r = Math.floor(Math.random() * visemes.length);
-mouth.setAttribute('d', visemes[r]); teeth.setAttribute('d', teethPaths[r]);
-} else { mouth.setAttribute('d', "M 35 65 Q 50 70 65 65 Q 50 68 35 65"); teeth.setAttribute('d', "M 40 66 Q 50 66 60 66 Q 50 66 40 66"); }
-});
-}, 80);
-setInterval(() => {
-Object.keys(avatarConfigs).forEach(id => {
-const container = document.getElementById(id); if(!container) return;
-const eyelids = container.querySelectorAll('.avatar-eyelid'); if(!eyelids.length) return;
-if(Math.random() < 0.05) { eyelids.forEach(lid => lid.style.transform = 'scaleY(1)'); setTimeout(() => { eyelids.forEach(lid => lid.style.transform = 'scaleY(0)'); }, 150); }
-});
-}, 200);
+  Object.keys(avatarConfigs).forEach(id => {
+    const container = document.getElementById(id);
+    if (container) container.innerHTML = generateSVG(avatarConfigs[id], id);
+  });
+
+  setInterval(() => {
+    Object.keys(avatarConfigs).forEach(id => {
+      const container = document.getElementById(id);
+      if (!container) return;
+      const mouth = container.querySelector('.avatar-mouth-path');
+      const teeth = container.querySelector('.avatar-teeth-path');
+      if (!mouth) return;
+
+      let speakerMap = { 'guide-avatar': 'guide', 'avatar-arjun': 'arjun', 'avatar-kavya': 'kavya', 'ai-hr-meera': 'meera' };
+      if (window.activeSpeaker === speakerMap[id]) {
+        const visemes = ["M 35 65 Q 50 55 65 65 Q 50 85 35 65", "M 40 65 Q 50 50 60 65 Q 50 80 40 65", "M 32 65 Q 50 60 68 65 Q 50 75 32 65"];
+        const teethPaths = ["M 38 62 Q 50 58 62 62 Q 50 65 38 62", "M 42 55 Q 50 52 58 55 Q 50 60 42 55", "M 35 62 Q 50 58 65 62 Q 50 66 35 62"];
+        const r = Math.floor(Math.random() * visemes.length);
+        mouth.setAttribute('d', visemes[r]);
+        teeth.setAttribute('d', teethPaths[r]);
+      } else {
+        mouth.setAttribute('d', "M 35 65 Q 50 70 65 65 Q 50 68 35 65");
+        teeth.setAttribute('d', "M 40 66 Q 50 66 60 66 Q 50 66 40 66");
+      }
+    });
+  }, 80);
+
+  setInterval(() => {
+    Object.keys(avatarConfigs).forEach(id => {
+      const container = document.getElementById(id);
+      if (!container) return;
+      const eyelids = container.querySelectorAll('.avatar-eyelid');
+      if (!eyelids.length) return;
+      if (Math.random() < 0.05) {
+        eyelids.forEach(lid => lid.style.transform = 'scaleY(1)');
+        setTimeout(() => {
+          eyelids.forEach(lid => lid.style.transform = 'scaleY(0)');
+        }, 150);
+      }
+    });
+  }, 200);
 }
+
+// RUN INITIALIZERS
+renderArchetypeQs();
+initRealisticAvatars();
+
 </script>
 </body>
 </html>
