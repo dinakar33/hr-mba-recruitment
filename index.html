@@ -952,16 +952,17 @@ function renderArchetypeQs() {
   let finalHtml = '';
   archQ.forEach((item, idx) => {
     let html = `
-      <div class="mb-5 bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+      <div class="mb-5 bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative z-10">
         <p class="text-sm md:text-base font-bold text-slate-800 mb-4">${item.q}</p>
         <div class="space-y-3">`;
         
     for(let key in item.o) {
+      const uniqueId = `arch_${idx}_${key}`;
       html += `
-        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all duration-200">
-          <input type="radio" name="arch${idx}" value="${key}" class="w-5 h-5 text-brand-600 border-gray-300 focus:ring-brand-500 cursor-pointer accent-brand-600">
-          <span class="ml-3 text-sm md:text-base text-slate-700 font-medium w-full">${item.o[key]}</span>
-        </label>`;
+        <div class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all duration-200" onclick="document.getElementById('${uniqueId}').checked = true;">
+          <input type="radio" id="${uniqueId}" name="arch${idx}" value="${key}" class="w-5 h-5 text-brand-600 border-gray-300 focus:ring-brand-500 cursor-pointer accent-brand-600 pointer-events-none">
+          <label for="${uniqueId}" class="ml-3 text-sm md:text-base text-slate-700 font-medium w-full cursor-pointer pointer-events-none">${item.o[key]}</label>
+        </div>`;
     }
     html += `</div></div>`;
     finalHtml += html;
@@ -1116,7 +1117,8 @@ window.submitArchetype = async function() {
     const checked = document.querySelector(`input[name="arch${i}"]:checked`);
     if(!checked) { 
       window.showMessage(`Please select an option for Question ${i+1}.`, "error"); 
-      document.getElementById('archetypeQuestionsContainer').scrollTop = (i * 120);
+      const container = document.getElementById('archetypeQuestionsContainer');
+      if(container) container.scrollTop = (i * 120);
       return; 
     }
     counts[checked.value]++;
@@ -1134,7 +1136,12 @@ window.submitArchetype = async function() {
   const map = { s:"Strategist", i:"Innovator", c:"Connector", e:"Executor" };
   window.userData.archetype = map[maxKey];
   
-  await syncToCloud(); 
+  try {
+    await syncToCloud(); 
+  } catch (e) {
+    console.warn("Cloud sync failed. Advancing locally.", e);
+  }
+  
   window.autoAdvanceTab('tab-archetype', 'tab-gd', 'Archetype Assessment');
 };
 
