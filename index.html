@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Human Assetize - Practice-Perform-Place</title>
+<title>Assetize - Practice-Perform-Place</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -127,11 +127,10 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-6">
 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 w-full">
 
-<!-- Responsive Title & Mobile About Button -->
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div>
     <h1 class="text-2xl md:text-3xl tracking-tight flex flex-col sm:flex-row sm:items-baseline">
-      <span class="font-extrabold">Human Assetize</span>
+      <span class="font-extrabold">Assetize</span>
       <span class="text-brand-200 font-medium text-lg md:text-xl sm:ml-2 mt-1 sm:mt-0">- Practice-Perform-Place</span>
     </h1>
   </div>
@@ -140,7 +139,6 @@ body.ai-mode .gd-avatar { background: #334155; }
   </button>
 </div>
 
-<!-- Desktop & Mobile Controls -->
 <div class="flex flex-wrap items-center gap-3 md:gap-4 w-full lg:w-auto mt-2 lg:mt-0 flex">
   <div class="flex items-center justify-center space-x-2 bg-black/20 px-3 md:px-4 py-2 rounded-full border border-white/10">
     <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-200">Manual</span>
@@ -165,11 +163,9 @@ body.ai-mode .gd-avatar { background: #334155; }
     </div>
   </div>
 
-  <!-- ABOUT BUTTON PINNED TO TOP RIGHT (DESKTOP ONLY) -->
   <button onclick="window.switchTab('tab-overview')" class="hidden md:flex bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 md:px-4 py-2 rounded-lg transition text-xs md:text-sm font-bold shadow-md items-center ml-2">
     <i class="fa-solid fa-circle-info mr-1 md:mr-2 text-brand-200"></i> About
   </button>
-
 </div>
 </div>
 </div>
@@ -251,7 +247,6 @@ body.ai-mode .gd-avatar { background: #334155; }
   </div>
 </section>
 
-<!-- ONBOARDING SECTION -->
 <section id="tab-onboarding" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
@@ -324,7 +319,6 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
-<!-- STAGE 2: APTITUDE TEST -->
 <section id="tab-test" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-center sm:items-start bg-red-500/10 p-4 rounded-lg border border-red-500/30 gap-4">
 <div class="text-center sm:text-left">
@@ -371,7 +365,6 @@ Submit Archetype Answers
 </div>
 </section>
 
-<!-- STAGE 4: VIRTUAL GD -->
 <section id="tab-gd" class="tab-content">
 <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
@@ -385,8 +378,8 @@ Submit Archetype Answers
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
 <div class="glass-card p-4 md:p-6 rounded-xl border-l-4 border-l-amber-500 flex flex-col min-h-[450px] md:min-h-[500px]">
 <h3 class="text-lg md:text-xl font-bold mb-2"><i class="fa-solid fa-comments text-amber-500 mr-2"></i>Active Case Study</h3>
-<p id="gd-topic-title" class="text-base md:text-lg font-bold text-brand-600 mb-1">Loading Case Study...</p>
-<p id="gd-topic-desc" class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Please wait while the system assigns a random topic.</p>
+<p id="gd-topic-title" class="text-base md:text-lg font-bold text-brand-600 mb-1">Loading Topic...</p>
+<p id="gd-topic-desc" class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Please wait.</p>
 <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
 <div class="gd-boardroom-container">
   <div class="gd-seat gd-seat-top-left">
@@ -408,7 +401,7 @@ Submit Archetype Answers
   </div>
 </div>
 <div id="gd-transcript" class="bg-slate-900 text-green-400 p-3 md:p-4 rounded-lg font-mono text-xs md:text-sm flex-grow overflow-y-auto h-32 md:h-48 border border-slate-700 shadow-inner mb-4">
-> Click 'Initialize Virtual Agents' to begin...
+> System Ready. Click Initialize to Begin...
 </div>
 <div id="gd-mic-zone" class="w-full flex-col items-center hidden">
 <textarea id="gdTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-2.5 md:p-3 mb-2 md:mb-3 text-xs md:text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
@@ -450,7 +443,6 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 </div>
 </section>
 
-<!-- STAGE 5: INTERVIEW -->
 <section id="tab-interview" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 5: AI Behavioral HR Interview</h2>
@@ -556,25 +548,45 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 <!-- PLATFORM OVERVIEW SECTION (ABOUT) -->
 <section id="tab-about" class="tab-content">
   <div class="mb-8 md:mb-10 text-center md:text-left">
-    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">About: The 6-Stage Assessment Gauntlet</h2>
-    <p class="text-sm md:text-lg text-slate-500 mt-2">Bridging postgraduate classroom theory with real-world HR technology execution. Understand exactly how you are evaluated across all 6 stages.</p>
+    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & Curriculum Mapping</h2>
+    <p class="text-sm md:text-lg text-slate-500 mt-2">Bridging postgraduate classroom theory with real-world HR technology execution.</p>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-    
-    <!-- Stage 1 -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500 flex flex-col justify-between">
       <div>
         <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-sitemap"></i></div>
           <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">1. Enterprise ATS Audit</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Strategic Talent Acquisition</span>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">1. Organizational Behavior & Psychometrics</h3>
+            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Onboarding & Archetype Profiling</span>
           </div>
         </div>
         <div class="space-y-4 mb-6">
           <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
             <span class="text-[10px] md:text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+            <p class="text-xs md:text-sm text-slate-700">Big Five Personality Traits, DISC assessments, cognitive biases, and predictive workplace behavior models.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+            <p class="text-xs md:text-sm text-slate-700">Forces candidates through a forced-choice situational matrix to mathematically determine their operational archetype.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-file-contract"></i></div>
+          <div>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">2. Strategic Talent Acquisition (TA)</h3>
+            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 1: Enterprise ATS Audit</span>
+          </div>
+        </div>
+        <div class="space-y-4 mb-6">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
             <p class="text-xs md:text-sm text-slate-700">Recruitment funnels, algorithmic screening, Term Frequency-Inverse Document Frequency (TF-IDF), and predictive validity.</p>
           </div>
           <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
@@ -585,19 +597,18 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
       </div>
     </div>
 
-    <!-- Stage 2 -->
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500 flex flex-col justify-between">
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500 flex flex-col justify-between">
       <div>
         <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-stopwatch"></i></div>
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-brain"></i></div>
           <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">2. Decision Velocity Assessment</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Learning & Development</span>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">3. Learning & Development (L&D)</h3>
+            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 2: Decision Velocity Assessment</span>
           </div>
         </div>
         <div class="space-y-4 mb-6">
           <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+            <span class="text-[10px] md:text-xs font-bold text-purple-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
             <p class="text-xs md:text-sm text-slate-700">Cognitive load theory, situational judgment testing (SJT), and decision-making under high stress/strict deadlines.</p>
           </div>
           <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
@@ -608,37 +619,13 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
       </div>
     </div>
 
-    <!-- Stage 3 (Archetype) -->
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-sitemap"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">3. Archetype Profiling</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Organizational Behavior (OB)</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-purple-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">Big Five Personality Traits, DISC assessments, cognitive biases, and predictive workplace behavior models.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Forces candidates through a forced-choice situational matrix to mathematically determine their operational archetype before entering team dynamics.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Stage 4 -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500 flex flex-col justify-between">
       <div>
         <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-users"></i></div>
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-comments"></i></div>
           <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">4. Multi-Agent Virtual GD</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Group Dynamics & Team Leadership</span>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">4. Group Dynamics & Team Leadership</h3>
+            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 3: Multi-Agent Virtual GD</span>
           </div>
         </div>
         <div class="space-y-4 mb-6">
@@ -653,53 +640,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
         </div>
       </div>
     </div>
-
-    <!-- Stage 5 -->
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-red-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-red-500/10 text-red-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-microphone-lines"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">5. AI Behavioral Interview</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Executive Presence & Structuring</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-red-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">The STAR method framework, physical executive presence markers, and data-backed quantitative storytelling.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Conversational AI tracks your verbal STAR structure, while live computer vision tracks eye contact and physiological stress limits.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Stage 6 -->
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-emerald-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-id-card"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">6. Executive Talent Passport</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Holistic Evaluation</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-emerald-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">Multi-modal assessment weighting, predictive validity indices, and automated HR feedback loops.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Automatically decrypts and emails a comprehensive PDF dossier mapping the student's exact blind spots to correct before real placements begin.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 
@@ -784,9 +724,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// ==========================================
-// GEMINI 2.5 FLASH TTS ENGINE
-// ==========================================
 class AvatarSpeechService {
   constructor(apiKey) {
     this.apiKey = apiKey;
@@ -903,10 +840,10 @@ async function callGemini(prompt, systemInstruction = null) {
       throw new Error("Missing Key");
     }
     
-    let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
+    // Switch to gemini-3-flash-preview for text generation
+    let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
     let headers = { 
-      'Content-Type': 'application/json',
-      'x-goog-api-key': GEMINI_API_KEY 
+      'Content-Type': 'application/json'
     };
 
     const payload = { contents: [{ parts: [{ text: prompt }] }] };
@@ -932,7 +869,6 @@ async function callGemini(prompt, systemInstruction = null) {
   }
 }
 
-// ARCHETYPE QUESTIONS
 const archQ = [
   {q: "1. When starting a complex new project, your first priority is to:", o: {s: "Define clear metrics", i: "Find a unique angle", c: "Ensure the right people are assigned", e: "Set a strict timeline"}},
   {q: "2. In team meetings, you are usually the one who:", o: {s: "Points out logical flaws", i: "Pitches the big ideas", c: "Makes sure everyone speaks", e: "Pushes the meeting to end"}},
@@ -1135,7 +1071,7 @@ window.submitArchetype = async function() {
   const map = { s:"Strategist", i:"Innovator", c:"Connector", e:"Executor" };
   window.userData.archetype = map[maxKey];
   
-  await syncToCloud(); 
+  try { await syncToCloud(); } catch (e) {} 
   window.autoAdvanceTab('tab-archetype', 'tab-gd', 'Archetype Assessment');
 };
 
@@ -1381,9 +1317,6 @@ window.submitTest = async function() {
   document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
 };
 
-// ==========================================
-// DYNAMIC GD TOPICS
-// ==========================================
 const gdTopics = [
   {
     title: "AI in Performance Reviews",
@@ -1394,7 +1327,7 @@ const gdTopics = [
   {
     title: "Mandatory Return to Office (RTO)",
     desc: "Debate the long-term impact of forcing employees back to the office versus maintaining remote flexibility.",
-    arjunStart: "Mandatory RTO is necessary for company culture. Spontaneous collaboration drops significantly in fully remote environments.",
+    arjunStart: "Mandatory RTO is necessary for company culture. Data shows spontaneous collaboration drops significantly in fully remote environments.",
     kavyaStart: "But Arjun, forced RTO destroys employee morale and increases turnover among top talent who value flexibility."
   },
   {
@@ -1408,23 +1341,34 @@ const gdTopics = [
     desc: "Should corporate employees be legally permitted to take up secondary jobs outside working hours?",
     arjunStart: "Moonlighting is a breach of contract. It creates massive IP security risks and drains the energy employees owe to their primary employer.",
     kavyaStart: "I view it differently. If an employee fulfills their 40-hour commitment, what they do on weekends is their fundamental right."
+  },
+  {
+    title: "Universal Basic Income (UBI)",
+    desc: "Evaluate if UBI is a necessary safety net for AI-driven job displacement or an economic burden.",
+    arjunStart: "UBI is mathematically unsustainable and disincentivizes productivity and skill acquisition in the workforce.",
+    kavyaStart: "That's a narrow view. UBI provides a baseline safety net that actually encourages entrepreneurial risk and creative innovation."
+  },
+  {
+    title: "The Zero-Experience Paradox",
+    desc: "Are entry-level corporate jobs becoming obsolete due to automation, and what is the HR solution?",
+    arjunStart: "Automation of entry-level tasks is a positive efficiency gain. Companies should hire fewer juniors and pay seniors more.",
+    kavyaStart: "But without entry-level roles, we destroy the pipeline for future senior leadership. Where will tomorrow's experts come from?"
   }
 ];
 
-let currentActiveTopic;
+let currentActiveTopic = gdTopics[0];
 let currentGDRound = 1; 
 let totalGDRounds = 5; 
 let gdHistory = "";
 
-// Called on load to randomly pick and show the topic in the UI
 window.initGDUI = function() {
-    currentActiveTopic = gdTopics[Math.floor(Math.random() * gdTopics.length)];
-    const titleEl = document.getElementById('gd-topic-title');
-    const descEl = document.getElementById('gd-topic-desc');
-    if (titleEl && descEl) {
-        titleEl.innerText = `"${currentActiveTopic.title}"`;
-        descEl.innerText = currentActiveTopic.desc;
-    }
+  currentActiveTopic = gdTopics[Math.floor(Math.random() * gdTopics.length)];
+  const titleEl = document.getElementById('gd-topic-title');
+  const descEl = document.getElementById('gd-topic-desc');
+  if (titleEl && descEl) {
+      titleEl.innerText = `"${currentActiveTopic.title}"`;
+      descEl.innerText = currentActiveTopic.desc;
+  }
 };
 
 async function setSpeaker(id, name, text, avatarId) {
@@ -1445,20 +1389,16 @@ async function setSpeaker(id, name, text, avatarId) {
 
 window.startAIGD = async function() {
   if (!window.isAIMode) {
-      window.isAIMode = true;
-      const toggle = document.getElementById('aiToggle');
-      if (toggle) toggle.checked = true;
-      document.body.classList.add('ai-mode');
-      document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
+    document.getElementById('aiToggle').checked = true;
+    await window.toggleAIMode();
   }
-  initWebcamStream();
 
   document.getElementById('aiVoiceBtn4').disabled = true; 
   currentGDRound = 1; 
   document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`; 
   document.getElementById('gd-transcript').innerHTML = ""; 
   gdHistory = "";
-  
+
   writeTranscript('gd-transcript', 'System', `Initiating 5-Round Virtual GD on: ${currentActiveTopic.title}...`);
 
   const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
@@ -1508,9 +1448,10 @@ window.processGDSpeech = async function(userSpeech) {
     let speakerId = currentGDRound % 2 === 0 ? "kavya" : "arjun";
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
     
-    // NEW PROMPT: Forces AI to strictly challenge weak logic
+    // STRICT GD PROMPT
     let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "${currentActiveTopic.title}". The user you are debating is named ${firstName}. 
-    CRITICAL INSTRUCTION: Deeply analyze ${firstName}'s last argument. If their argument is weak, loose, illogical, or lacks solid data, you MUST push back, point out the exact flaws, and challenge them directly. If it is strong, counter it with a different perspective. Keep it conversational, 1-2 sentences. Do not use your own name or brackets.`;
+    CRITICAL INSTRUCTION: Analyze ${firstName}'s last point. If their argument is loose, weak, illogical, or lacks solid data, you MUST push back, point out the exact flaws in their logic, and challenge them directly. If it is strong, counter it with a different perspective. 
+    Do not just blindly agree or say 'good point'. Keep it conversational, natural, and highly professional. Strictly 1 to 2 sentences max. Do not use your own name or brackets.`;
     
     let aiReply = await callGemini(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
     
@@ -1519,25 +1460,24 @@ window.processGDSpeech = async function(userSpeech) {
     document.getElementById('gd-mic-zone').classList.remove('hidden'); 
     document.getElementById('gd-mic-zone').classList.add('flex');
   } else {
-    writeTranscript('gd-transcript', 'System', 'Calculating final GD score via Strict Assessment Rubric...');
+    writeTranscript('gd-transcript', 'System', 'Calculating final GD score via LLM rubric...');
     
-    // NEW SCORING PROMPT: Enforces explicit 3-Tier logic
-    let gdScoringPrompt = `You are an expert HR Evaluator grading an MBA Group Discussion. 
-    Topic: ${currentActiveTopic.title}
-    Transcript:
-    ${gdHistory}
+    // --- INTEGRATED 3-TIER GD SCORING ENGINE (Out of 30) ---
+    let gdScoringPrompt = `You are a strict Executive Assessment Evaluator grading an MBA Group Discussion transcript.
+Evaluate the candidate's performance across 3 parameters (10 marks each, total 30 marks):
+1. Content & Substance (0-10): Relevance, logical arguments, data backing.
+2. Communication & Articulation (0-10): Clarity, professional phrasing, concise delivery.
+3. Group Dynamics & Synthesis (0-10): Direct responses to peers, active listening, mediating consensus.
 
-    Evaluate the candidate ('Candidate') across 3 parameters (10 marks each) for a Total of 30 marks:
-    1. Content (0-10)
-    2. Communication (0-10)
-    3. Group Dynamics (0-10)
+Scoring Tiers:
+- Tier 1 (1 to 10): Basic / Off-topic / Minimal substance / Fragmented arguments.
+- Tier 2 (11 to 20): Competent / Average / Clear points but lacks deep numerical/strategic insight.
+- Tier 3 (21 to 30): Advanced / Exceptional / Structured, persuasive, highly collaborative.
 
-    CRITICAL - YOU MUST ASSIGN A SCORE BASED ON THESE EXACT TIERS:
-    - 1 to 10 Marks: Basic / Loose arguments / Weak logic / Needs Improvement.
-    - 11 to 20 Marks: Competent / Average / Good points but lacks deep insight.
-    - 21 to 30 Marks: Advanced / Exceptional / Strong data-backed arguments and leadership.
+Transcript to evaluate:
+${gdHistory}
 
-    Return ONLY a single integer number between 1 and 30 representing the final score. Do not include any text, explanations, or punctuation. Just the number. Example: 18`;
+Return ONLY a single integer score between 1 and 30 representing the exact sum. Example output: 24`;
 
     let finalScoreStr = await callGemini(gdScoringPrompt);
     let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
@@ -1545,7 +1485,7 @@ window.processGDSpeech = async function(userSpeech) {
     
     window.userData.gd_score = score; 
     try { await syncToCloud(); } catch(e) {}
-    writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Evaluated Score: ${score}/30`); 
+    writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Score: ${score}/30`); 
     window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
   }
 };
@@ -1636,15 +1576,10 @@ window.setInterviewMethod = function(method) {
 
 window.startAIInterview = async function() {
   if (!window.isAIMode) {
-    window.isAIMode = true;
-    const toggle = document.getElementById('aiToggle');
-    if (toggle) toggle.checked = true;
-    document.body.classList.add('ai-mode');
-    document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
+    document.getElementById('aiToggle').checked = true;
+    await window.toggleAIMode();
   }
   
-  initWebcamStream();
-
   document.getElementById('startInterviewBtn').classList.add('hidden');
   const togglePanel = document.getElementById('interviewModeToggle');
   if (togglePanel) togglePanel.classList.add('opacity-50', 'pointer-events-none');
@@ -1718,44 +1653,43 @@ window.processInterviewSpeech = async function(candidateResponse) {
     document.getElementById('interview-mic-zone').classList.remove('hidden'); 
     document.getElementById('interview-mic-zone').classList.add('flex');
   } else {
-    writeTranscript('interview-transcript', 'System', 'Evaluating overall performance across strict assessment tiers...');
+    writeTranscript('interview-transcript', 'System', 'Evaluating overall performance across rubric dimensions...');
     await setSpeaker('meera', 'HR Director Meera', 'Interview complete. Decrypting your Talent Passport and dispatching report now.', 'meera');
     
-    // NEW SCORING PROMPT: Enforces explicit 3-Tier logic for Interview
-    let interviewRubricPrompt = window.interviewMethod === 'star' ?
-      `You are a Fortune 500 Executive Recruiter scoring a candidate's behavioral interview transcript strictly against the STAR framework.
-      Transcript:
-      ${intHistory}
+    // --- INTEGRATED 3-TIER INTERVIEW SCORING ENGINE (Out of 100) ---
+    let interviewRubricPrompt = window.interviewMethod === 'star'
+      ? `You are a Fortune 500 Executive Recruiter scoring a candidate's 5-question behavioral interview transcript strictly against the STAR framework.
+Evaluate across 4 distinct dimensions (Total 100 Marks):
+1. Technical Accuracy & Domain Relevance (0-30): Depth of HR/management concepts and direct responses.
+2. STAR Structure & Logical Rigor (0-25): Clear Situation, Task, Action, and measurable numerical Result.
+3. Communication & Articulation (0-25): Professional phrasing, clarity, conciseness, absence of fluff.
+4. Executive Composure & Behavioral Fit (0-20): Problem-solving maturity and decision-making clarity.
 
-      Evaluate across 4 distinct dimensions (Total 100 Marks):
-      1. Technical Accuracy & Domain Relevance (0-30)
-      2. STAR Structure & Logical Rigor (0-25)
-      3. Communication & Articulation (0-25)
-      4. Executive Composure & Behavioral Fit (0-20)
+Score Tiers:
+- Tier 1 (0 to 40): Unsatisfactory / High Risk / Rambling / No STAR structure / Missing metrics.
+- Tier 2 (41 to 70): Proficient / Standard Pass / Answers prompt / Basic logic / Light on data.
+- Tier 3 (71 to 100): Exemplary / Strong Hire / Strict STAR adherence / Concrete KPIs / Exceptional leadership presence.
 
-      CRITICAL - YOU MUST ASSIGN A SCORE BASED ON THESE EXACT TIERS:
-      - 0 to 40 Marks: Unsatisfactory / High Risk / Rambling / No STAR structure / Weak or loose arguments.
-      - 41 to 70 Marks: Proficient / Standard Pass / Answers prompt / Basic logic but lacks deep data.
-      - 71 to 100 Marks: Exemplary / Strong Hire / Strict STAR adherence / Concrete KPIs / Exceptional presence.
+Transcript:
+${intHistory}
 
-      Return ONLY a single integer number between 0 and 100 representing the final score. No text, no explanations. Example: 65` 
-      : 
-      `You are a Fortune 500 Executive Recruiter scoring a candidate's general HR interview transcript.
-      Transcript:
-      ${intHistory}
+Calculate the sum and return ONLY a single integer score between 0 and 100. Example output: 84`
+      : `You are a Fortune 500 Executive Recruiter scoring a candidate's 5-question general HR interview transcript.
+Evaluate across 4 distinct dimensions (Total 100 Marks):
+1. Domain Relevance & Knowledge Depth (0-30): Understanding of organizational dynamics and role competencies.
+2. Structure & Logical Progression (0-25): Coherent reasoning, clear beginning-middle-end narratives.
+3. Communication, Confidence & Fluency (0-25): Executive vocabulary, concise articulation.
+4. Cultural Fit & Situational Problem Solving (0-20): Practical leadership mindset and strategic alignment.
 
-      Evaluate across 4 distinct dimensions (Total 100 Marks):
-      1. Domain Relevance & Knowledge Depth (0-30)
-      2. Structure & Logical Progression (0-25)
-      3. Communication & Fluency (0-25)
-      4. Cultural Fit & Problem Solving (0-20)
+Score Tiers:
+- Tier 1 (0 to 40): Unsatisfactory / High Risk / Vague / Disjointed thoughts.
+- Tier 2 (41 to 70): Proficient / Standard Pass / Clear, relevant, solid communication.
+- Tier 3 (71 to 100): Exemplary / Strong Hire / Insightful, polished, strategic vision.
 
-      CRITICAL - YOU MUST ASSIGN A SCORE BASED ON THESE EXACT TIERS:
-      - 0 to 40 Marks: Unsatisfactory / High Risk / Vague / Loose arguments.
-      - 41 to 70 Marks: Proficient / Standard Pass / Clear and relevant.
-      - 71 to 100 Marks: Exemplary / Strong Hire / Insightful and polished.
+Transcript:
+${intHistory}
 
-      Return ONLY a single integer number between 0 and 100 representing the final score. No text, no explanations. Example: 65`;
+Calculate the sum and return ONLY a single integer score between 0 and 100. Example output: 84`;
         
     let finalScoreStr = await callGemini(interviewRubricPrompt);
     let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
@@ -1809,6 +1743,7 @@ window.emailDetailedReport = function() {
   let avgEye = window.bioMetrics.eyeContact.length ? Math.round(window.bioMetrics.eyeContact.reduce((a,b)=>a+b,0)/window.bioMetrics.eyeContact.length) : 80;
   let avgStress = window.bioMetrics.stress.length ? Math.round(window.bioMetrics.stress.reduce((a,b)=>a+b,0)/window.bioMetrics.stress.length) : 20;
 
+  // Archetype Definitions
   const archDetails = {
     "Strategist": {
       profile: "Highly analytical, data-driven, and focused on long-term systemic impact rather than short-term fixes.",
@@ -1839,6 +1774,15 @@ window.emailDetailedReport = function() {
 
   const myArch = archDetails[window.userData.archetype] || archDetails["Not Evaluated"];
 
+  // Dynamic Feedback based on exact scores
+  let atsFeedback = window.userData.ats_score < 50 ? "Tier 1 (High Risk): Your resume lacks critical keywords from the job description. You are highly likely to be auto-rejected by enterprise ATS filters. Action: Re-map your hard skills and action verbs directly to the JD." : (window.userData.ats_score < 75 ? "Tier 2 (Proficient): Keyword density is acceptable but leaves room for improvement. Action: Ensure exact phrase matching for technical skills." : "Tier 3 (Exemplary): High keyword alignment with the target role. Your format and text are highly optimized for automated parsers.");
+  
+  let aptitudeFeedback = window.userData.test_score < 50 ? "Tier 1 (Needs Development): Decision velocity under pressure is low. Action: Review fundamental corporate frameworks and labor rights to improve recall speed." : (window.userData.test_score < 75 ? "Tier 2 (Competent): Solid theoretical foundation, though decision velocity under strict timers could be improved." : "Tier 3 (Advanced): Exceptional cognitive agility and strong recall of domain knowledge under pressure. You excel in situational judgment.");
+  
+  let gdFeedback = window.userData.gd_score <= 10 ? "Tier 1 (Basic): Arguments lacked data-backed substance or collaborative synthesis. Action: Practice active listening and framing your points using the PESTLE or Pros/Cons frameworks." : (window.userData.gd_score <= 20 ? "Tier 2 (Competent): You participated well and maintained professional dynamics, but your points needed more strategic depth and persuasive data." : "Tier 3 (Advanced): You demonstrated outstanding leadership, synthesized opposing views smoothly, and backed your assertions with strong logic.");
+  
+  let interviewFeedback = window.userData.interview_score <= 40 ? "Tier 1 (Unsatisfactory): Your responses lacked structure, leading to rambling or vague answers. Action: Rigorously practice the STAR framework focusing heavily on quantifiable outcomes." : (window.userData.interview_score <= 70 ? "Tier 2 (Proficient): Your narratives were clear and relevant. However, to reach the executive tier, you must inject more data, specific KPIs, and a stronger commanding tone." : "Tier 3 (Exemplary): Outstanding executive presence. Your answers were highly structured, metric-driven, and articulated with exceptional fluency.");
+
   let b = `Dear ${window.userData.name || 'Candidate'},\n\n`;
   b += `Thank you for completing the 6-Stage HR Executive Assessment Gauntlet. This document serves as your official, comprehensive Talent Passport. It has been generated by evaluating your quantitative knowledge, psychometric archetype, and biometric executive presence.\n\n`;
   
@@ -1851,21 +1795,19 @@ window.emailDetailedReport = function() {
   
   b += `1. Enterprise ATS Audit (Resume Parsing & TF-IDF)\n`;
   b += `   >> Score: ${window.userData.ats_score}/100\n`;
-  b += `   >> Insight: Measures how effectively your resume's keyword density aligns with Fortune 500 algorithmic screening parameters. A score below 75 indicates a high probability of automated rejection before a human recruiter sees your profile.\n\n`;
+  b += `   >> Analysis: ${atsFeedback}\n\n`;
   
   b += `2. Cognitive Aptitude & Decision Velocity\n`;
   b += `   >> Score: ${window.userData.test_score}/100\n`;
-  b += `   >> Insight: Evaluates your theoretical HR knowledge (OB, TA, L&D, Compensation) under a strict time constraint. This reflects your ability to recall and apply labor laws and corporate frameworks under pressure.\n\n`;
+  b += `   >> Analysis: ${aptitudeFeedback}\n\n`;
   
   b += `3. Multi-Agent Virtual Group Discussion (GD)\n`;
   b += `   >> Score: ${window.userData.gd_score}/30\n`;
-  b += `   >> Tier Breakdown: 1-10 (Basic), 11-20 (Competent), 21-30 (Exceptional)\n`;
-  b += `   >> Insight: Scored via multi-dimensional rubric evaluating Content Substance, Articulation, and Group Dynamics.\n\n`;
+  b += `   >> Analysis: ${gdFeedback}\n\n`;
   
   b += `4. AI Behavioral HR Interview (${window.interviewMethod.toUpperCase()} Mode)\n`;
   b += `   >> Score: ${window.userData.interview_score}/100\n`;
-  b += `   >> Tier Breakdown: 0-40 (Unsatisfactory), 41-70 (Proficient), 71-100 (Exemplary)\n`;
-  b += `   >> Insight: Measures technical depth, STAR structural integrity, verbal fluency, and executive composure.\n\n`;
+  b += `   >> Analysis: ${interviewFeedback}\n\n`;
   
   b += `------------------------------------------------------\n\n`;
   
@@ -1888,7 +1830,7 @@ window.emailDetailedReport = function() {
   b += `======================================================\n\n`;
   b += `Final Recommendation: Review your lowest-scoring stage and consult the Academic Modules on the platform to bridge the gap before official placement season begins.\n\n`;
   b += `Best regards,\n`;
-  b += `The Huamn Assetize AI Evaluation System\n`;
+  b += `The Assetize AI Evaluation System\n`;
 
   window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=${encodeURIComponent(b)}`, '_blank');
 };
@@ -1999,9 +1941,6 @@ window.checkPracticeAnswer = function(category, qIndex, selectedOpt, correctOpt,
   }
 };
 
-// ==========================================
-// AVATAR CONFIGURATIONS & SVG ENGINE
-// ==========================================
 const avatarConfigs = {
   'guide-avatar': { bg: '#e2e8f0', skin: '#fcd34d', skinDark: '#d97706', hair: '#1e293b', shirt: '#3b82f6', hairPath: '<path d="M 15 45 C 15 10, 85 10, 85 45 L 85 30 C 85 5, 15 5, 15 30 Z" fill="#1e293b"/>' },
   'avatar-arjun': { bg: '#bfdbfe', skin: '#d97706', skinDark: '#92400e', hair: '#111827', shirt: '#ffffff', glasses: true, hairPath: '<path d="M 22 45 C 22 10, 78 10, 78 45 L 78 30 C 78 5, 22 5, 22 30 Z" fill="#111827"/>' },
@@ -2058,11 +1997,9 @@ function initRealisticAvatars() {
 }
 
 // RUN INITIALIZERS
-window.addEventListener('DOMContentLoaded', () => {
-    renderArchetypeQs();
-    initRealisticAvatars();
-    if(window.initGDUI) window.initGDUI();
-});
+window.initGDUI();
+renderArchetypeQs();
+initRealisticAvatars();
 
 </script>
 </body>
