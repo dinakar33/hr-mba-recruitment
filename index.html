@@ -46,6 +46,7 @@ body.ai-mode { background-color: #0f172a; color: #f1f5f9; }
 body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgba(51, 65, 85, 0.8); color: #f8fafc; }
 body.ai-mode h2, body.ai-mode h3, body.ai-mode p, body.ai-mode span, body.ai-mode label { color: #f8fafc !important; }
 body.ai-mode .text-slate-500, body.ai-mode .text-slate-600 { color: #cbd5e1 !important; }
+body.ai-mode .text-slate-700, body.ai-mode .text-slate-800 { color: #f8fafc !important; } /* Fixes blank text in modules */
 body.ai-mode .bg-white { background-color: #1e293b !important; }
 body.ai-mode .bg-slate-50 { background-color: rgba(255, 255, 255, 0.05) !important; }
 body.ai-mode .border-gray-300, body.ai-mode .border { border-color: #475569 !important; }
@@ -738,6 +739,103 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
+<section id="tab-about" class="tab-content">
+<div class="mb-6 md:mb-8 text-center md:text-left">
+  <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & Curriculum Mapping</h2>
+  <p class="text-sm md:text-lg text-slate-500 mt-2">Bridging postgraduate classroom theory with real-world HR technology execution.</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+  <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center space-x-3 mb-4">
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-sitemap"></i></div>
+        <div>
+          <h3 class="text-lg md:text-xl font-bold text-slate-800">1. Organizational Behavior & Psychometrics</h3>
+          <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Onboarding & Archetype Profiling</span>
+        </div>
+      </div>
+      <div class="space-y-4 mb-6">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-[10px] md:text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+          <p class="text-xs md:text-sm text-slate-700">Big Five Personality Traits, DISC assessments, cognitive biases, and predictive workplace behavior models.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+          <p class="text-xs md:text-sm text-slate-700">Forces candidates through a forced-choice situational matrix to mathematically determine their operational archetype.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center space-x-3 mb-4">
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-file-contract"></i></div>
+        <div>
+          <h3 class="text-lg md:text-xl font-bold text-slate-800">2. Strategic Talent Acquisition (TA)</h3>
+          <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 1: Enterprise ATS Audit</span>
+        </div>
+      </div>
+      <div class="space-y-4 mb-6">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-[10px] md:text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+          <p class="text-xs md:text-sm text-slate-700">Recruitment funnels, algorithmic screening, Term Frequency-Inverse Document Frequency (TF-IDF), and predictive validity.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+          <p class="text-xs md:text-sm text-slate-700">Demystifies the "black box" of Fortune 500 resume screening via real-time PDF parsing and keyword density matching.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center space-x-3 mb-4">
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-brain"></i></div>
+        <div>
+          <h3 class="text-lg md:text-xl font-bold text-slate-800">3. Learning & Development (L&D)</h3>
+          <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 2: Decision Velocity Assessment</span>
+        </div>
+      </div>
+      <div class="space-y-4 mb-6">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-[10px] md:text-xs font-bold text-purple-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+          <p class="text-xs md:text-sm text-slate-700">Cognitive load theory, situational judgment testing (SJT), and decision-making under high stress/strict deadlines.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+          <p class="text-xs md:text-sm text-slate-700">Simulates real-world management pressure with a randomized 20-question, 10-minute countdown assessment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center space-x-3 mb-4">
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-comments"></i></div>
+        <div>
+          <h3 class="text-lg md:text-xl font-bold text-slate-800">4. Group Dynamics & Team Leadership</h3>
+          <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 3: Multi-Agent Virtual GD</span>
+        </div>
+      </div>
+      <div class="space-y-4 mb-6">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-[10px] md:text-xs font-bold text-amber-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+          <p class="text-xs md:text-sm text-slate-700">Tuckman's stages of group development, conflict resolution modes (Thomas-Kilmann model), and consensus building.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+          <p class="text-xs md:text-sm text-slate-700">Pits the candidate against two opposing AI personas (Analytical Arjun vs. Creative Kavya) in an interactive debate.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
 <!-- OPTIONAL PRACTICE QUIZ SECTION -->
 <section id="tab-quiz" class="tab-content">
   <div class="mb-6 md:mb-8 text-center md:text-left">
@@ -1151,25 +1249,63 @@ window.toggleAIMode = async function() {
   const body = document.body;
   const guide = document.getElementById('global-ai-guide');
 
-  if (window.isAIMode) {
-    body.classList.add('ai-mode');
-    document.getElementById('aiVoiceBtn4').classList.remove('hidden'); document.getElementById('aiVoiceBtn5').classList.remove('hidden');
-    document.getElementById('gd-arena').classList.remove('opacity-50', 'pointer-events-none');
-    document.getElementById('interview-controls').classList.remove('hidden'); document.getElementById('interview-controls').classList.add('flex');
-    document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
-    guide.classList.add('visible'); document.getElementById('guide-text').innerText = "AI Protocol Activated.";
-    window.activeSpeaker = 'guide'; document.getElementById('guide-avatar').classList.add('avatar-talking');
-    await window.speakAIPromise("AI Protocol Activated. I will guide you through this assessment.", 'guide');
-    window.activeSpeaker = null; document.getElementById('guide-avatar').classList.remove('avatar-talking');
-    document.getElementById('guide-text').innerText = "Navigate through your assessment stages.";
-    if(document.getElementById('tab-interview').classList.contains('active') || document.getElementById('tab-gd').classList.contains('active')) initWebcamStream();
-  } else {
-    body.classList.remove('ai-mode');
-    document.getElementById('aiVoiceBtn4').classList.add('hidden'); document.getElementById('aiVoiceBtn5').classList.add('hidden');
-    document.getElementById('gd-arena').classList.add('opacity-50', 'pointer-events-none');
-    document.getElementById('interview-controls').classList.add('hidden'); document.getElementById('interview-controls').classList.remove('flex');
-    document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-breathing', 'avatar-talking'));
-    guide.classList.remove('visible'); ttsService.stop(); window.activeSpeaker = null;
+  try {
+      if (window.isAIMode) {
+        body.classList.add('ai-mode');
+        
+        const btn4 = document.getElementById('aiVoiceBtn4');
+        if (btn4) btn4.classList.remove('hidden');
+        
+        const btn5 = document.getElementById('aiVoiceBtn5');
+        if (btn5) btn5.classList.remove('hidden');
+        
+        document.getElementById('gd-arena').classList.remove('opacity-50', 'pointer-events-none');
+        document.getElementById('interview-controls').classList.remove('hidden'); 
+        document.getElementById('interview-controls').classList.add('flex');
+        
+        document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
+        
+        if (guide) {
+            guide.classList.add('visible'); 
+            document.getElementById('guide-text').innerText = "AI Protocol Activated.";
+            window.activeSpeaker = 'guide'; 
+            const guideAv = document.getElementById('guide-avatar');
+            if (guideAv) guideAv.classList.add('avatar-talking');
+        }
+        
+        await window.speakAIPromise("AI Protocol Activated. I will guide you through this assessment.", 'guide');
+        
+        window.activeSpeaker = null; 
+        if (guide) {
+            const guideAv = document.getElementById('guide-avatar');
+            if (guideAv) guideAv.classList.remove('avatar-talking');
+            document.getElementById('guide-text').innerText = "Navigate through your assessment stages.";
+        }
+        
+        if(document.getElementById('tab-interview').classList.contains('active') || document.getElementById('tab-gd').classList.contains('active')) {
+            initWebcamStream();
+        }
+      } else {
+        body.classList.remove('ai-mode');
+        
+        const btn4 = document.getElementById('aiVoiceBtn4');
+        if (btn4) btn4.classList.add('hidden');
+        
+        const btn5 = document.getElementById('aiVoiceBtn5');
+        if (btn5) btn5.classList.add('hidden');
+        
+        document.getElementById('gd-arena').classList.add('opacity-50', 'pointer-events-none');
+        document.getElementById('interview-controls').classList.add('hidden'); 
+        document.getElementById('interview-controls').classList.remove('flex');
+        
+        document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-breathing', 'avatar-talking'));
+        
+        if (guide) guide.classList.remove('visible'); 
+        ttsService.stop(); 
+        window.activeSpeaker = null;
+      }
+  } catch (err) {
+      console.error("AI Mode Toggle Error:", err);
   }
 };
 
