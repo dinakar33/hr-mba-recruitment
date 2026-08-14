@@ -134,8 +134,6 @@ body.ai-mode .gd-avatar { background: #334155; }
       <span class="text-brand-200 font-medium text-lg md:text-xl sm:ml-2 mt-1 sm:mt-0">- Practice-Perform-Place</span>
     </h1>
   </div>
-  
-  <!-- ABOUT BUTTON PINNED TO TOP RIGHT (MOBILE ONLY) -->
   <button onclick="window.switchTab('tab-overview')" class="md:hidden bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 py-1.5 rounded-lg transition text-xs font-bold shadow-md flex items-center mt-1 flex-shrink-0">
     <i class="fa-solid fa-circle-info mr-1 text-brand-200"></i> About
   </button>
@@ -223,21 +221,14 @@ body.ai-mode .gd-avatar { background: #334155; }
         <div class="hero-glow absolute -top-[50%] -left-[10%] w-[70%] h-[150%] bg-brand-600/30 blur-[100px] rounded-full rotate-12"></div>
         <div class="hero-glow absolute top-[20%] -right-[20%] w-[60%] h-[120%] bg-purple-600/20 blur-[100px] rounded-full -rotate-12" style="animation-delay: 2s;"></div>
      </div>
-
      <div class="relative z-10 px-6 py-16 md:py-24 md:px-12 flex flex-col items-center text-center">
         <span class="inline-block py-1.5 px-4 rounded-full bg-brand-500/20 border border-brand-400/30 text-brand-300 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-6"><i class="fa-solid fa-bolt text-yellow-400 mr-2"></i>Enterprise-Grade Evaluation</span>
         <h2 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-tight">Master the Future of <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-purple-400">HR Executive Leadership</span></h2>
         <p class="text-sm md:text-lg lg:text-xl text-slate-300 max-w-3xl mx-auto mb-10 md:mb-12 leading-relaxed">Experience a hyper-realistic, AI-driven assessment gauntlet designed exclusively for elite MBA talent. Benchmark your cognitive agility, psychometric archetype, and biometric composure against Fortune 500 standards.</p>
-        
         <button onclick="window.startAssessment()" class="bg-brand-600 hover:bg-brand-500 text-white px-8 md:px-12 py-4 md:py-5 rounded-full text-base md:text-lg font-bold shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_35px_rgba(37,99,235,0.6)] transition-all transform hover:-translate-y-1 flex items-center">
            Start Assessment Gauntlet <i class="fa-solid fa-arrow-right ml-3"></i>
         </button>
      </div>
-  </div>
-
-  <div class="mb-8 md:mb-12 text-center px-4">
-     <h3 class="text-2xl md:text-3xl font-bold text-slate-800 mb-3 md:mb-4">Why Take This Assessment?</h3>
-     <p class="text-sm md:text-base text-slate-500 max-w-2xl mx-auto">This platform bridges the gap between classroom theory and boardroom reality, providing you with a critical competitive edge before placement season begins.</p>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8">
@@ -271,7 +262,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 <button onclick="window.restoreUserSession()" class="bg-slate-800 hover:bg-slate-900 text-white text-sm font-semibold px-4 py-2 rounded-lg transition"><i class="fa-solid fa-arrows-rotate mr-1"></i> Restore</button>
 </div>
 </div>
-
 <div class="glass-card p-5 md:p-8 rounded-xl shadow-sm max-w-3xl mx-auto">
 <h3 class="text-base md:text-lg font-semibold border-b border-gray-200/50 pb-3 mb-6"><i class="fa-solid fa-address-card text-brand-500 mr-2"></i>Personal Details</h3>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -297,15 +287,13 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 <section id="tab-ats" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 1: Enterprise ATS Audit (TF-IDF)</h2>
-<p class="text-sm md:text-base text-slate-500 mt-1 md:mt-2">Paste a Job Description and upload your resume. The AI will extract core competencies and score your match.</p>
+<p class="text-sm md:text-base text-slate-500 mt-1 md:mt-2">Paste a Job Description and upload your resume.</p>
 </div>
-
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
 <div class="lg:col-span-2 space-y-4 md:space-y-6">
 <div class="glass-card p-5 md:p-6 rounded-xl shadow-sm">
 <label class="block text-sm font-semibold mb-2">1. Paste Target Job Description</label>
-<textarea id="jdInput" rows="4" class="w-full border border-gray-300 rounded-lg p-3 text-xs md:text-sm outline-none bg-transparent mb-4 text-slate-800" placeholder="Paste the job description here... (e.g. Seeking a data-driven HR professional with experience in compliance, talent acquisition, and analytics...)"></textarea>
-
+<textarea id="jdInput" rows="4" class="w-full border border-gray-300 rounded-lg p-3 text-xs md:text-sm outline-none bg-transparent mb-4 text-slate-800" placeholder="Paste the job description here..."></textarea>
 <label class="block text-sm font-semibold mb-3">2. Upload PDF Resume</label>
 <div id="dropZone" class="drop-zone w-full h-24 md:h-32 rounded-xl flex flex-col items-center justify-center cursor-pointer bg-slate-500/5 hover:bg-slate-500/10 transition p-4 text-center">
 <i class="fa-solid fa-cloud-arrow-up text-2xl md:text-3xl text-brand-400 mb-2"></i>
@@ -314,12 +302,10 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 <p id="fileNameDisplay" class="mt-2 text-xs md:text-sm text-brand-600 font-medium hidden"><i class="fa-solid fa-check-circle mr-1"></i> File ready: <span id="fName"></span></p>
 </div>
-
 <button id="btnRunATS" onclick="window.runATS()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 rounded-lg shadow-md transition border border-slate-600 text-sm md:text-base">
 <i class="fa-solid fa-microchip mr-2"></i> Extract Keywords & Run Scan
 </button>
 </div>
-
 <div class="glass-card p-5 md:p-6 rounded-xl shadow-sm flex flex-col justify-start items-center h-[400px] md:h-[450px] overflow-hidden">
 <h3 class="text-base md:text-lg font-semibold border-b border-gray-200/50 pb-3 mb-4 w-full text-center">Live Parsing Results</h3>
 <div class="inline-flex items-center justify-center w-24 h-24 md:w-28 md:h-28 rounded-full border-8 border-brand-100 bg-white shadow-inner relative mb-2 flex-shrink-0">
@@ -327,7 +313,6 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 <p class="text-[10px] md:text-xs font-medium text-gray-500 uppercase tracking-wide mb-4">Match Score</p>
 <p class="text-xs md:text-sm text-green-700 bg-green-500/20 p-2 rounded hidden w-full text-center mb-4" id="atsSuccessMsg"><i class="fa-solid fa-check"></i> Score synced!</p>
-
 <div class="w-full flex-grow overflow-y-auto pr-2 custom-scrollbar text-left text-xs md:text-sm">
 <h4 class="font-bold text-slate-700 mb-2">JD Extracted Keywords:</h4>
 <div id="keywordResults" class="space-y-2">
@@ -350,7 +335,6 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 <div id="quizTimer" class="text-3xl md:text-4xl font-mono font-black text-red-600 mt-1 drop-shadow-md">10:00</div>
 </div>
 </div>
-
 <div id="quizStartOverlay" class="glass-card p-8 md:p-12 text-center rounded-xl mb-8">
 <i class="fa-solid fa-stopwatch text-5xl md:text-6xl text-brand-500 mb-4 hover:scale-110 transition-transform"></i>
 <h3 class="text-xl md:text-2xl font-bold mb-2">Ready to begin?</h3>
@@ -359,7 +343,6 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 Start 10-Minute Timer
 </button>
 </div>
-
 <div id="quizContainerWrapper" class="hidden glass-card p-4 md:p-8 rounded-xl shadow-sm max-w-4xl mx-auto h-[500px] md:h-[600px] overflow-y-auto no-scrollbar relative border-t-4 border-t-brand-500">
 <div id="quizContainer" class="space-y-4 md:space-y-6"></div>
 <div class="mt-8 md:mt-10 pt-4 md:pt-6 border-t border-gray-200/50 flex justify-center pb-4">
@@ -370,13 +353,12 @@ Submit Final Answers
 </div>
 </section>
 
-<!-- NEW STAGE 3: ARCHETYPE ASSESSMENT -->
+<!-- STAGE 3: ARCHETYPE ASSESSMENT -->
 <section id="tab-archetype" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 3: Archetype Assessment</h2>
 <p class="text-sm md:text-base text-slate-500 mt-1 md:mt-2">Answer the following 10 scenarios to determine your dominant workplace behavioral archetype.</p>
 </div>
-
 <div class="glass-card p-5 md:p-8 rounded-xl shadow-sm max-w-4xl mx-auto">
 <div class="space-y-6 max-h-[600px] overflow-y-auto pr-4 custom-scrollbar" id="archetypeQuestionsContainer">
 </div>
@@ -399,31 +381,24 @@ Submit Archetype Answers
 <i class="fa-solid fa-users-viewfinder mr-2"></i>Initialize Virtual Agents
 </button>
 </div>
-
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
 <div class="glass-card p-4 md:p-6 rounded-xl border-l-4 border-l-amber-500 flex flex-col min-h-[450px] md:min-h-[500px]">
 <h3 class="text-lg md:text-xl font-bold mb-2"><i class="fa-solid fa-comments text-amber-500 mr-2"></i>Active Case Study</h3>
 <p class="text-base md:text-lg font-bold text-brand-600 mb-1">"AI in Performance Reviews"</p>
 <p class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Discuss the ethical implications of replacing human managers with AI scoring systems.</p>
-
 <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
-
-<!-- 3D BOARDROOM OVAL TABLE -->
 <div class="gd-boardroom-container">
   <div class="gd-seat gd-seat-top-left">
     <div id="avatar-kavya" class="gd-avatar w-14 h-14 md:w-20 md:h-20 avatar-breathing border-pink-400"></div>
     <span class="text-[10px] md:text-xs font-bold mt-1 block text-pink-400">Kavya (Creative)</span>
   </div>
-
   <div class="gd-table-oval">
     <span class="text-slate-400 font-mono text-[8px] md:text-[11px] font-bold uppercase tracking-widest text-center px-2 md:px-4"><i class="fa-solid fa-shield-halved text-brand-400 mb-1 block"></i>Executive Boardroom</span>
   </div>
-
   <div class="gd-seat gd-seat-top-right">
     <div id="avatar-arjun" class="gd-avatar w-14 h-14 md:w-20 md:h-20 avatar-breathing border-blue-400"></div>
     <span class="text-[10px] md:text-xs font-bold mt-1 block text-blue-400">Arjun (Analytical)</span>
   </div>
-
   <div class="gd-seat gd-seat-bottom">
     <div class="gd-avatar w-14 h-14 md:w-20 md:h-20 avatar-breathing border-green-400 bg-slate-800 flex items-center justify-center">
       <i class="fa-solid fa-user text-xl md:text-2xl text-green-400"></i>
@@ -431,11 +406,9 @@ Submit Archetype Answers
     <span class="text-[10px] md:text-xs font-bold mt-1 block text-green-400">You (Candidate)</span>
   </div>
 </div>
-
 <div id="gd-transcript" class="bg-slate-900 text-green-400 p-3 md:p-4 rounded-lg font-mono text-xs md:text-sm flex-grow overflow-y-auto h-32 md:h-48 border border-slate-700 shadow-inner mb-4">
 > System Ready. Awaiting initialization...
 </div>
-
 <div id="gd-mic-zone" class="w-full flex-col items-center hidden">
 <textarea id="gdTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-2.5 md:p-3 mb-2 md:mb-3 text-xs md:text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
 <div class="flex items-center justify-center space-x-3 md:space-x-4 w-full">
@@ -446,12 +419,9 @@ Submit Archetype Answers
 Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa-paper-plane ml-2"></i>
 </button>
 </div>
-<p id="gdMicLabel" class="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-2 md:mt-3 text-center">Tap Mic to Dictate or Type</p>
-</div>
-
 </div>
 </div>
-
+</div>
 <div class="flex flex-col gap-6 h-fit">
 <div class="glass-card p-4 md:p-6 rounded-xl shadow-sm flex flex-col items-center justify-center border border-gray-200/50">
 <h3 class="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-2 md:mb-3"><i class="fa-solid fa-video text-blue-500 mr-2"></i>Conference Stream</h3>
@@ -459,7 +429,6 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 <video id="gdWebcam" class="w-full h-full object-cover transform -scale-x-100" autoplay playsinline muted></video>
 </div>
 </div>
-
 <div class="glass-card p-5 md:p-6 rounded-xl shadow-sm admin-only border border-brand-500">
 <div class="flex items-center justify-between border-b border-gray-200/50 pb-3 mb-4 md:mb-6">
 <h3 class="text-base md:text-lg font-semibold text-slate-800"><i class="fa-solid fa-clipboard-check mr-2 text-brand-500"></i>Moderator Scoring</h3>
@@ -471,7 +440,6 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 </div>
 <button onclick="window.saveGDScore()" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-semibold py-2.5 md:py-3 rounded-lg shadow-md transition text-sm md:text-base">Push Manual Score</button>
 </div>
-
 <div class="glass-card p-5 md:p-6 rounded-xl flex flex-col items-center justify-center text-center [&:has(~.admin-only:not([style*='display: none']))]:hidden" id="gdWaitingArea">
 <i class="fa-solid fa-satellite-dish text-4xl md:text-5xl text-slate-400 mb-4 md:mb-6 hover:scale-110 transition-transform"></i>
 <h3 class="text-lg md:text-xl font-bold mb-2">Awaiting AI Evaluation</h3>
@@ -487,7 +455,6 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 5: AI Behavioral HR Interview</h2>
 <p class="text-xs md:text-sm text-slate-500 mt-1 md:mt-2">STAR-method evaluation with 100% accurate Real Computer Vision tracking.</p>
 </div>
-
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
 <div class="glass-card p-4 md:p-6 rounded-xl shadow-sm flex flex-col items-center justify-center border border-gray-200/50">
 <h3 class="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-2 md:mb-3"><i class="fa-solid fa-video text-red-500 mr-2"></i>Candidate Video Stream</h3>
@@ -508,17 +475,13 @@ Posture: <strong id="postureVal">Pending</strong>
 </div>
 <p class="text-[10px] md:text-xs text-slate-500 mt-2 md:mt-3 text-center">Live biometric algorithms measure composure and executive presence.</p>
 </div>
-
 <div class="lg:col-span-2 glass-card p-5 md:p-8 rounded-xl shadow-sm flex flex-col items-center border border-gray-200/50 relative">
 <div id="ai-hr-meera" class="gd-avatar w-24 h-24 md:w-32 md:h-32 avatar-breathing shadow-2xl transition-all duration-300 mb-3 md:mb-4 border-4 border-brand-400 relative z-10"></div>
-
 <h3 class="text-lg md:text-xl font-bold mb-1 text-center">Virtual HR Director Meera</h3>
 <p id="interview-status" class="text-[10px] md:text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 md:mb-4 text-center">Offline - Switch to AI Mode</p>
-
 <div class="w-full bg-slate-900 rounded-lg p-3 md:p-4 font-mono text-xs md:text-sm text-green-400 h-40 md:h-48 overflow-y-auto mb-4 border border-slate-700 shadow-inner" id="interview-transcript">
 > System initialized. Waiting for AI activation...
 </div>
-
 <div id="interview-controls" class="hidden w-full flex-col items-center">
 <div id="interviewModeToggle" class="flex flex-col sm:flex-row items-center gap-2 sm:space-x-4 mb-4 bg-slate-800 p-2 rounded-lg border border-slate-700 w-full sm:w-auto transition-opacity duration-300">
 <span class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest text-center">Style:</span>
@@ -527,11 +490,9 @@ Posture: <strong id="postureVal">Pending</strong>
 <button id="btnMethodGeneral" onclick="window.setInterviewMethod('general')" class="px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto">General</button>
 </div>
 </div>
-
 <button id="startInterviewBtn" onclick="window.startAIInterview()" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-6 md:px-8 rounded-full shadow-lg transition mb-2 border border-brand-400 text-sm md:text-base flex items-center justify-center">
 <i class="fa-solid fa-play mr-2"></i> Initialize Protocol
 </button>
-
 <div id="interview-mic-zone" class="w-full flex-col items-center hidden">
 <textarea id="interviewTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-2.5 md:p-3 mb-2 md:mb-3 text-xs md:text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
 <div class="flex items-center justify-center space-x-3 md:space-x-4 w-full">
@@ -542,9 +503,7 @@ Posture: <strong id="postureVal">Pending</strong>
 Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-paper-plane ml-2"></i>
 </button>
 </div>
-<p id="interviewMicLabel" class="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-2 md:mt-3 text-center">Tap Mic to Dictate or Type</p>
 </div>
-
 </div>
 </div>
 </div>
@@ -557,15 +516,12 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 6: Executive Talent Passport</h2>
 <p class="text-[10px] md:text-xs text-slate-500 mt-1">Automated evaluation completed upon Stage 5 interview submission.</p>
 </div>
-<button id="aiVoiceBtn5" onclick="window.playDebrief()" class="w-full sm:w-auto hidden bg-brand-600 hover:bg-brand-500 text-white px-4 md:px-6 py-2 rounded-full shadow-lg transition text-sm md:text-base font-bold border border-brand-400 flex items-center justify-center"><i class="fa-solid fa-bullhorn mr-2"></i>Play Audio Debrief</button>
 </div>
-
 <div id="passportLock" class="glass-card p-8 md:p-12 rounded-xl text-center border border-gray-200/50">
 <i class="fa-solid fa-hourglass-half text-5xl md:text-6xl text-brand-400 mb-4 md:mb-6 animate-pulse"></i>
 <h3 class="text-2xl md:text-3xl font-bold mb-2">Assessment In Progress</h3>
 <p class="text-sm md:text-base max-w-md mx-auto text-slate-500">Complete Stage 5 (AI Behavioral Interview). Upon completion, your Talent Passport decrypts automatically and your report is emailed to you.</p>
 </div>
-
 <div id="passportContent" class="hidden mb-6 md:mb-8">
 <div class="bg-gradient-to-br from-slate-900 to-brand-900 rounded-2xl p-6 md:p-10 text-white relative overflow-hidden shadow-2xl border border-white/10">
 <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/20 pb-6 md:pb-8 mb-6 md:mb-8 gap-4">
@@ -587,11 +543,9 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </div>
 </div>
-
 <div class="glass-card rounded-xl p-6 md:p-8 shadow-sm mt-6 md:mt-8 border-l-4 md:border-l-8 border-l-brand-500">
 <h3 class="font-bold text-lg md:text-xl mb-2 md:mb-4 text-slate-800"><i class="fa-solid fa-paper-plane mr-2 text-brand-500"></i>Official Executive Report Dispatch</h3>
 <p class="text-xs md:text-sm text-slate-600 mb-4 md:mb-6">Your official evaluation report compiles your quantitative index, visual composure metrics, and developmental feedback.</p>
-
 <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
 <button onclick="window.emailDetailedReport()" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-500 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-bold transition shadow-lg text-sm md:text-lg flex items-center justify-center"><i class="fa-brands fa-google mr-2"></i> Resend Official Report (Gmail)</button>
 </div>
@@ -926,6 +880,88 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// ==========================================
+// GEMINI 2.5 FLASH TTS ENGINE
+// ==========================================
+class AvatarSpeechService {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.voiceMap = {
+      'arjun': 'Charon', 
+      'kavya': 'Puck',   
+      'meera': 'Kore',   
+      'guide': 'Aoede'  
+    };
+    this.currentAudio = null;
+  }
+
+  async speak(text, avatarId) {
+    this.stop();
+    const voiceName = this.voiceMap[avatarId] || 'Aoede';
+
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${this.apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: [{ text: text }] }],
+            generationConfig: {
+              responseModalities: ["AUDIO"],
+              speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voiceName } } }
+            }
+          })
+        }
+      );
+
+      if (!response.ok) throw new Error(`API Error: ${response.status}`);
+      const data = await response.json();
+      
+      const audioPart = data.candidates?.[0]?.content?.parts?.find(
+        part => part.inlineData && part.inlineData.mimeType.startsWith('audio/')
+      );
+
+      if (audioPart && audioPart.inlineData) {
+        const audioSrc = `data:${audioPart.inlineData.mimeType};base64,${audioPart.inlineData.data}`;
+        this.currentAudio = new Audio(audioSrc);
+        return new Promise(resolve => {
+            this.currentAudio.onended = resolve;
+            this.currentAudio.play();
+        });
+      } else {
+        return this.fallbackBrowserTTS(text, avatarId);
+      }
+    } catch (error) {
+      console.error("Gemini TTS Error:", error);
+      return this.fallbackBrowserTTS(text, avatarId); 
+    }
+  }
+
+  stop() {
+    if (this.currentAudio) {
+      this.currentAudio.pause();
+      this.currentAudio.currentTime = 0;
+      this.currentAudio = null;
+    }
+    window.speechSynthesis.cancel();
+  }
+
+  fallbackBrowserTTS(text, avatarId) {
+    return new Promise(resolve => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        if (avatarId === 'arjun') { utterance.pitch = 0.8; utterance.rate = 0.9; }
+        if (avatarId === 'kavya') { utterance.pitch = 1.2; utterance.rate = 1.1; }
+        if (avatarId === 'meera') { utterance.pitch = 0.9; utterance.rate = 1.0; }
+        if (avatarId === 'guide') { utterance.pitch = 1.0; utterance.rate = 1.0; }
+        utterance.onend = resolve;
+        window.speechSynthesis.speak(utterance);
+    });
+  }
+}
+
+const ttsService = new AvatarSpeechService(GEMINI_API_KEY);
+
 const APP_ID = 'hr-blog-app'; 
 window.isAdmin = false;
 window.adminSelectedId = null;
@@ -945,9 +981,9 @@ const localResponses = {
         "Let's synthesize both views: AI should act as a decision-support system, leaving final talent decisions to certified managers."
     ],
     interview: [
-        "That demonstrates structured problem-solving. How did you specifically measure the quantitative outcome of that action?",
-        "Interesting approach. When managing stakeholders with opposing priorities, how do you negotiate consensus?",
-        "Thank you for sharing that experience. What key metric would you track differently if you repeated that project?"
+        "How did you specifically measure the quantitative outcome of that action?",
+        "When managing stakeholders with opposing priorities, how do you negotiate consensus?",
+        "What key metric would you track differently if you repeated that project?"
     ]
 };
 let localFallbackIndex = 0;
@@ -1008,17 +1044,28 @@ const archQ = [
 ];
 
 function renderArchetypeQs() {
-const c = document.getElementById('archetypeQuestionsContainer');
-if(!c) return;
-c.innerHTML = '';
-archQ.forEach((item, idx) => {
-let html = `<div class="mb-4"><p class="text-sm font-bold text-slate-800 mb-2">${item.q}</p><div class="space-y-2">`;
-for(let key in item.o) {
-html += `<label class="flex items-start p-2 border border-gray-200/50 rounded-lg cursor-pointer hover:bg-slate-50 transition"><input type="radio" name="arch${idx}" value="${key}" class="mt-0.5 flex-shrink-0"><span class="ml-3 text-xs md:text-sm text-slate-700">${item.o[key]}</span></label>`;
-}
-html += `</div></div>`;
-c.innerHTML += html;
-});
+  const c = document.getElementById('archetypeQuestionsContainer');
+  if(!c) return;
+  
+  let finalHtml = '';
+  archQ.forEach((item, idx) => {
+    let html = `
+      <div class="mb-5 bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+        <p class="text-sm md:text-base font-bold text-slate-800 mb-4">${item.q}</p>
+        <div class="space-y-3">`;
+        
+    for(let key in item.o) {
+      html += `
+        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all duration-200">
+          <input type="radio" name="arch${idx}" value="${key}" class="w-5 h-5 text-brand-600 border-gray-300 focus:ring-brand-500 cursor-pointer accent-brand-600">
+          <span class="ml-3 text-sm md:text-base text-slate-700 font-medium w-full">${item.o[key]}</span>
+        </label>`;
+    }
+    html += `</div></div>`;
+    finalHtml += html;
+  });
+  
+  c.innerHTML = finalHtml;
 }
 
 window.switchTab = function(tabId, btn) {
@@ -1137,8 +1184,13 @@ window.updatePassportUI();
 }
 
 async function syncToCloud() {
-if (!window.candidateId || window.isAdmin) return; 
-await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), window.userData, { merge: true });
+  if (!window.candidateId || window.isAdmin) return; 
+  
+  try {
+    await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), window.userData, { merge: true });
+  } catch (error) {
+    console.warn("Firebase sync prevented. Advancing the user locally instead.", error);
+  }
 }
 
 window.saveProfile = async function() {
@@ -1158,121 +1210,40 @@ window.autoAdvanceTab('tab-onboarding', 'tab-ats', 'Registration');
 }
 
 window.submitArchetype = async function() {
-let counts = { s:0, i:0, c:0, e:0 };
-for(let i=0; i<10; i++) {
-const checked = document.querySelector(`input[name="arch${i}"]:checked`);
-if(!checked) { window.showMessage(`Please answer question ${i+1}.`, "error"); return; }
-counts[checked.value]++;
-}
-const max = Object.keys(counts).reduce((a,b) => counts[a] > counts[b] ? a : b);
-const map = { s:"Strategist", i:"Innovator", c:"Connector", e:"Executor" };
-
-window.userData.archetype = map[max];
-await syncToCloud();
-window.autoAdvanceTab('tab-archetype', 'tab-gd', 'Archetype Assessment');
-}
-
-// GEMINI 2.5 FLASH TTS SERVICE
-class AvatarSpeechService {
-  constructor(apiKey) {
-    this.apiKey = apiKey;
-    this.voiceMap = {
-      'arjun': 'Charon', 
-      'kavya': 'Puck',   
-      'meera': 'Kore',   
-      'guide': 'Aoede'  
-    };
-    this.currentAudio = null;
-    
-    this.fallbackVoices = { male: null, female: null };
-    this.loadFallbackVoices();
-    window.speechSynthesis.onvoiceschanged = () => this.loadFallbackVoices();
-  }
-
-  loadFallbackVoices() {
-    let voices = window.speechSynthesis.getVoices();
-    if(voices.length) {
-        this.fallbackVoices.female = voices.find(v => v.name.includes('Google UK English Female') || v.name.includes('Microsoft Zira') || v.name.includes('Google US English') || v.name.includes('Samantha')) || voices.find(v => v.name.includes('Female')) || voices[0];
-        this.fallbackVoices.male = voices.find(v => v.name.includes('Google UK English Male') || v.name.includes('Microsoft Mark') || v.name.includes('Microsoft David') || v.name.includes('Daniel') || v.name.includes('Alex')) || voices.find(v => v.name.includes('Male')) || voices[0];
+  let counts = { s:0, i:0, c:0, e:0 };
+  
+  for(let i=0; i<10; i++) {
+    const checked = document.querySelector(`input[name="arch${i}"]:checked`);
+    if(!checked) { 
+      window.showMessage(`Please select an option for Question ${i+1}.`, "error"); 
+      document.getElementById('archetypeQuestionsContainer').scrollTop = (i * 120);
+      return; 
     }
+    counts[checked.value]++;
   }
-
-  async speak(text, avatarId) {
-    return new Promise(async (resolve) => {
-        if (!window.isAIMode) { resolve(); return; }
-        this.stop();
-        
-        // Map the incoming ID to Gemini's voice
-        const voiceName = this.voiceMap[avatarId] || 'Aoede';
-        
-        try {
-          const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${this.apiKey}`,
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                contents: [{ role: "user", parts: [{ text: text }] }],
-                generationConfig: {
-                  responseModalities: ["AUDIO"],
-                  speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voiceName } } }
-                }
-              })
-            }
-          );
-
-          if (!response.ok) throw new Error(`API Error: ${response.status}`);
-          const data = await response.json();
-          
-          const audioPart = data.candidates?.[0]?.content?.parts?.find(
-            part => part.inlineData && part.inlineData.mimeType.startsWith('audio/')
-          );
-
-          if (audioPart && audioPart.inlineData) {
-            const audioSrc = `data:${audioPart.inlineData.mimeType};base64,${audioPart.inlineData.data}`;
-            this.currentAudio = new Audio(audioSrc);
-            this.currentAudio.onended = resolve;
-            this.currentAudio.onerror = () => {
-                console.warn("Audio playback failed, falling back.");
-                this.fallbackBrowserTTS(text, avatarId, resolve);
-            };
-            await this.currentAudio.play();
-          } else {
-            this.fallbackBrowserTTS(text, avatarId, resolve);
-          }
-        } catch (error) {
-          console.error("Gemini TTS Error:", error);
-          this.fallbackBrowserTTS(text, avatarId, resolve); 
-        }
-    });
+  
+  let maxVal = 0;
+  let maxKey = 's';
+  for (let key in counts) {
+      if (counts[key] > maxVal) {
+          maxVal = counts[key];
+          maxKey = key;
+      }
   }
-
-  stop() {
-    if (this.currentAudio) {
-      this.currentAudio.pause();
-      this.currentAudio.currentTime = 0;
-      this.currentAudio = null;
-    }
-    window.speechSynthesis.cancel();
-  }
-
-  fallbackBrowserTTS(text, avatarId, resolve) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    if (avatarId === 'arjun') { utterance.voice = this.fallbackVoices.male; utterance.pitch = 0.8; utterance.rate = 0.9; }
-    else if (avatarId === 'kavya') { utterance.voice = this.fallbackVoices.female; utterance.pitch = 1.2; utterance.rate = 1.1; }
-    else if (avatarId === 'meera') { utterance.voice = this.fallbackVoices.female; utterance.pitch = 0.9; utterance.rate = 1.0; }
-    else { utterance.voice = this.fallbackVoices.female; utterance.pitch = 1.0; utterance.rate = 1.0; }
-    
-    utterance.onend = resolve;
-    utterance.onerror = resolve;
-    window.speechSynthesis.speak(utterance);
-  }
+  
+  const map = { s:"Strategist", i:"Innovator", c:"Connector", e:"Executor" };
+  window.userData.archetype = map[maxKey];
+  
+  await syncToCloud(); 
+  window.autoAdvanceTab('tab-archetype', 'tab-gd', 'Archetype Assessment');
 }
-
-const ttsService = new AvatarSpeechService(GEMINI_API_KEY);
 
 window.speakAIPromise = function(text, avatarId) {
-    return ttsService.speak(text, avatarId);
+    return new Promise(async resolve => {
+        if (!window.isAIMode) { resolve(); return; }
+        await ttsService.speak(text, avatarId);
+        resolve();
+    });
 };
 
 window.toggleAIMode = async function() {
@@ -1298,7 +1269,7 @@ document.getElementById('aiVoiceBtn4').classList.add('hidden'); document.getElem
 document.getElementById('gd-arena').classList.add('opacity-50', 'pointer-events-none');
 document.getElementById('interview-controls').classList.add('hidden'); document.getElementById('interview-controls').classList.remove('flex');
 document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-breathing', 'avatar-talking'));
-guide.classList.remove('visible'); window.speechSynthesis.cancel(); window.activeSpeaker = null;
+guide.classList.remove('visible'); ttsService.stop(); window.activeSpeaker = null;
 }
 }
 
@@ -1481,25 +1452,37 @@ document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true)
 // CONVERSATIONAL GD ENGINE
 let currentGDRound = 1; let totalGDRounds = 5; let gdHistory = "";
 
-async function setSpeaker(id, name, text) {
-window.activeSpeaker = id; document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
-if(id) { const avatar = document.getElementById(id === 'meera' ? 'ai-hr-meera' : (id==='guide' ? 'guide-avatar' : `avatar-${id}`)); if(avatar) avatar.classList.add('avatar-talking'); }
-writeTranscript(id === 'meera' ? 'interview-transcript' : 'gd-transcript', name, text); 
-if(id !== 'meera') gdHistory += `${name}: ${text}\n`;
-await window.speakAIPromise(text, id);
-window.activeSpeaker = null; document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
+async function setSpeaker(id, name, text, avatarId) {
+    window.activeSpeaker = id; 
+    document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
+    if(id) { 
+        const avatar = document.getElementById(id === 'meera' ? 'ai-hr-meera' : (id==='guide' ? 'guide-avatar' : `avatar-${id}`)); 
+        if(avatar) avatar.classList.add('avatar-talking'); 
+    }
+    writeTranscript(id === 'meera' ? 'interview-transcript' : 'gd-transcript', name, text); 
+    if(id !== 'meera') gdHistory += `${name}: ${text}\n`;
+    
+    await window.speakAIPromise(text, avatarId || id);
+    
+    window.activeSpeaker = null; 
+    document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
 }
 
 window.startAIGD = async function() {
-document.getElementById('aiVoiceBtn4').disabled = true; currentGDRound = 1; document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`; document.getElementById('gd-transcript').innerHTML = ""; gdHistory = "";
-writeTranscript('gd-transcript', 'System', 'Initiating 5-Round Virtual GD...');
+  document.getElementById('aiVoiceBtn4').disabled = true; 
+  currentGDRound = 1; 
+  document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`; 
+  document.getElementById('gd-transcript').innerHTML = ""; 
+  gdHistory = "";
+  writeTranscript('gd-transcript', 'System', 'Initiating 5-Round Virtual GD...');
 
-const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
+  const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
 
-await setSpeaker('arjun', 'Arjun', "Round 1: Implementing AI in performance reviews is essential. It standardizes metrics across departments.");
-await setSpeaker('kavya', 'Kavya', `I disagree, Arjun. Historical bias in datasets risks automating systemic discrimination. ${firstName}, your thoughts?`);
-document.getElementById('gd-mic-zone').classList.remove('hidden');
-document.getElementById('gd-mic-zone').classList.add('flex');
+  await setSpeaker('arjun', 'Arjun', "Implementing AI in performance reviews is essential. It standardizes metrics across departments.", 'arjun');
+  await setSpeaker('kavya', 'Kavya', `I disagree, Arjun. Historical bias in datasets risks automating systemic discrimination. ${firstName}, your thoughts?`, 'kavya');
+  
+  document.getElementById('gd-mic-zone').classList.remove('hidden');
+  document.getElementById('gd-mic-zone').classList.add('flex');
 }
 
 window.toggleGDRecording = function(e) {
@@ -1526,32 +1509,37 @@ window.processGDSpeech(userSpeech);
 }
 
 window.processGDSpeech = async function(userSpeech) {
-writeTranscript('gd-transcript', 'Candidate', userSpeech);
-gdHistory += `Candidate: ${userSpeech}\n`;
-document.getElementById('gd-mic-zone').classList.add('hidden'); document.getElementById('gd-mic-zone').classList.remove('flex');
-currentGDRound++;
+  writeTranscript('gd-transcript', 'Candidate', userSpeech);
+  gdHistory += `Candidate: ${userSpeech}\n`;
+  document.getElementById('gd-mic-zone').classList.add('hidden'); 
+  document.getElementById('gd-mic-zone').classList.remove('flex');
+  currentGDRound++;
 
-if(currentGDRound <= totalGDRounds) {
-    document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
-    writeTranscript('gd-transcript', 'System', 'AI is thinking...');
+  if(currentGDRound <= totalGDRounds) {
+      document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
+      writeTranscript('gd-transcript', 'System', 'AI is thinking...');
 
-    let persona = currentGDRound % 2 === 0 ? "Kavya (Creative and empathetic)" : "Arjun (Analytical and data-driven)";
-    let speakerId = currentGDRound % 2 === 0 ? "kavya" : "arjun";
-    
-    const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
-    
-    let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "AI in Performance Reviews". The user you are debating is named ${firstName}. Respond to ${firstName}'s last point. Keep it conversational, natural, and professional. 1 to 2 sentences max. Do not use your own name or brackets in your response.`;
-    
-    let aiReply = await callGemini(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
-    
-    await setSpeaker(speakerId, speakerId === 'kavya' ? 'Kavya' : 'Arjun', `Round ${currentGDRound}: ${aiReply}`); 
-    document.getElementById('gd-mic-zone').classList.remove('hidden'); document.getElementById('gd-mic-zone').classList.add('flex');
-} else {
-    writeTranscript('gd-transcript', 'System', 'Calculating final GD score via LLM...');
-    let finalScoreStr = await callGemini(`Evaluate this candidate's GD performance: ${gdHistory}. Return only a number out of 30 representing their score. Example: 26`);
-    let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (22 + Math.floor(Math.random() * 8)); 
-    window.userData.gd_score = score; await syncToCloud(); writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Score: ${score}/30`); window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
-}
+      let persona = currentGDRound % 2 === 0 ? "Kavya (Creative and empathetic)" : "Arjun (Analytical and data-driven)";
+      let speakerId = currentGDRound % 2 === 0 ? "kavya" : "arjun";
+      const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
+      
+      let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "AI in Performance Reviews". The user you are debating is named ${firstName}. Respond to ${firstName}'s last point. Keep it conversational, natural, and professional. 1 to 2 sentences max. Do not use your own name or brackets in your response.`;
+      
+      let aiReply = await callGemini(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
+      
+      await setSpeaker(speakerId, speakerId === 'kavya' ? 'Kavya' : 'Arjun', aiReply, speakerId); 
+      
+      document.getElementById('gd-mic-zone').classList.remove('hidden'); 
+      document.getElementById('gd-mic-zone').classList.add('flex');
+  } else {
+      writeTranscript('gd-transcript', 'System', 'Calculating final GD score via LLM...');
+      let finalScoreStr = await callGemini(`Evaluate this candidate's GD performance: ${gdHistory}. Return only a number out of 30 representing their score. Example: 26`);
+      let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (22 + Math.floor(Math.random() * 8)); 
+      window.userData.gd_score = score; 
+      await syncToCloud(); 
+      writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Score: ${score}/30`); 
+      window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
+  }
 }
 
 // WEBCAM & REAL COMPUTER VISION FACE TRACKING
@@ -1642,11 +1630,8 @@ window.setInterviewMethod = function(method) {
 
 window.startAIInterview = async function() {
     document.getElementById('startInterviewBtn').classList.add('hidden');
-    
-    // Dim the toggle instead of completely hiding it
     const togglePanel = document.getElementById('interviewModeToggle');
     togglePanel.classList.add('opacity-50', 'pointer-events-none');
-    
     document.getElementById('interview-transcript').innerHTML = ""; 
     interviewStep = 0; 
     intHistory = ""; 
@@ -1655,15 +1640,18 @@ window.startAIInterview = async function() {
 }
 
 async function askNextInterviewQuestion() {
-if (interviewStep === 0) {
-    const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
-    let q = window.interviewMethod === 'star' 
-        ? `Welcome to the final stage, ${firstName}. Could you walk me through a complex organizational problem you solved using data analytics?` 
-        : `Welcome to the final stage, ${firstName}. To start, could you tell me a little bit about yourself and what drives you professionally?`;
-    intHistory += `Meera: ${q}\n`;
-    await setSpeaker('meera', 'HR Director Meera', `[Q1/5] ${q}`);
-    document.getElementById('interview-mic-zone').classList.remove('hidden'); document.getElementById('interview-mic-zone').classList.add('flex');
-}
+  if (interviewStep === 0) {
+      const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
+      let q = window.interviewMethod === 'star' 
+          ? `Welcome to the final stage, ${firstName}. Could you walk me through a complex organizational problem you solved using data analytics?` 
+          : `Welcome to the final stage, ${firstName}. To start, could you tell me a little bit about yourself and what drives you professionally?`;
+      intHistory += `Meera: ${q}\n`;
+      
+      await setSpeaker('meera', 'HR Director Meera', q, 'meera');
+      
+      document.getElementById('interview-mic-zone').classList.remove('hidden'); 
+      document.getElementById('interview-mic-zone').classList.add('flex');
+  }
 }
 
 window.toggleInterviewRecording = function(e) {
@@ -1690,47 +1678,55 @@ window.processInterviewSpeech(candidateResponse);
 }
 
 window.processInterviewSpeech = async function(candidateResponse) {
-writeTranscript('interview-transcript', 'Candidate', candidateResponse); 
-intHistory += `Candidate: ${candidateResponse}\n`;
-document.getElementById('interview-mic-zone').classList.add('hidden'); document.getElementById('interview-mic-zone').classList.remove('flex');
-interviewStep++;
+  writeTranscript('interview-transcript', 'Candidate', candidateResponse); 
+  intHistory += `Candidate: ${candidateResponse}\n`;
+  document.getElementById('interview-mic-zone').classList.add('hidden'); 
+  document.getElementById('interview-mic-zone').classList.remove('flex');
+  interviewStep++;
 
-if (interviewStep < 5) {
-    writeTranscript('interview-transcript', 'System', 'Meera is analyzing your response...');
-    
-    const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
-    let systemPrompt = window.interviewMethod === 'star'
-        ? `You are Meera, a strict but professional HR Director interviewing a candidate named ${firstName}. Respond in exactly 2 sentences: First, acknowledge their answer naturally, occasionally using their name. Second, ask a relevant follow-up question using the STAR method. Do not include your name or brackets.`
-        : `You are Meera, a professional HR Director interviewing a candidate named ${firstName}. Respond in exactly 2 sentences: First, acknowledge their answer naturally, occasionally using their name. Second, ask a broad, open-ended follow-up question. Do not include your name or brackets.`;
-    
-    let meeraReply = await callGemini(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
-    
-    intHistory += `Meera: ${meeraReply}\n`;
-    await setSpeaker('meera', 'HR Director Meera', `[Q${interviewStep+1}/5] ${meeraReply}`);
-    document.getElementById('interview-mic-zone').classList.remove('hidden'); document.getElementById('interview-mic-zone').classList.add('flex');
-} else {
-    writeTranscript('interview-transcript', 'System', 'Evaluating overall performance...');
-    await setSpeaker('meera', 'HR Director Meera', 'Interview complete. Decrypting your Talent Passport and dispatching report now.');
-    
-    let evalPrompt = window.interviewMethod === 'star'
-        ? `Evaluate this candidate's interview performance based on the STAR method: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`
-        : `Evaluate this candidate's general interview performance: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`;
-        
-    let finalScoreStr = await callGemini(evalPrompt);
-    let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (82 + Math.floor(Math.random() * 15)); 
-    
-    window.userData.interview_score = score; 
-    window.userData.published = true; 
-    await syncToCloud(); 
-    
-    window.updatePassportUI();
-    
-    setTimeout(() => {
-        window.emailDetailedReport();
-    }, 1200);
+  if (interviewStep < 5) {
+      writeTranscript('interview-transcript', 'System', 'Meera is analyzing your response...');
+      
+      const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
+      
+      let systemPrompt = window.interviewMethod === 'star'
+          ? `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: Immediately ask a hard, relevant follow-up question using the STAR method based on their answer. CRITICAL INSTRUCTION: DO NOT acknowledge, evaluate, or appreciate their previous answer in any way. Be completely silent on what they just said. Do not say 'thank you', 'good point', or 'interesting'. Just ask the next question directly. Do not include your name or brackets.`
+          : `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: Immediately ask a broad, open-ended follow-up question. CRITICAL INSTRUCTION: DO NOT acknowledge, evaluate, or appreciate their previous answer in any way. Be completely silent on what they just said. Do not say 'thank you', 'good point', or 'interesting'. Just ask the next question directly. Do not include your name or brackets.`;
+      
+      let meeraReply = await callGemini(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
+      
+      intHistory += `Meera: ${meeraReply}\n`;
+      
+      await setSpeaker('meera', 'HR Director Meera', meeraReply, 'meera');
+      
+      document.getElementById('interview-mic-zone').classList.remove('hidden'); 
+      document.getElementById('interview-mic-zone').classList.add('flex');
+  } else {
+      writeTranscript('interview-transcript', 'System', 'Evaluating overall performance...');
+      await setSpeaker('meera', 'HR Director Meera', 'Interview complete. Decrypting your Talent Passport and dispatching report now.', 'meera');
+      
+      let evalPrompt = window.interviewMethod === 'star'
+          ? `Evaluate this candidate's interview performance based on the STAR method: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`
+          : `Evaluate this candidate's general interview performance: ${intHistory}. Return only a number out of 100 representing their score. Example: 88`;
+          
+      let finalScoreStr = await callGemini(evalPrompt);
+      let score = parseInt(finalScoreStr.match(/\d+/)?.[0]) || (82 + Math.floor(Math.random() * 15)); 
+      
+      window.userData.interview_score = score; 
+      window.userData.published = true; 
+      
+      try {
+        await syncToCloud(); 
+      } catch (err) {}
+      
+      window.updatePassportUI();
+      
+      setTimeout(() => {
+          window.emailDetailedReport();
+      }, 1200);
 
-    window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral HR Interview');
-}
+      window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral HR Interview');
+  }
 }
 
 window.updatePassportUI = function() {
@@ -1754,34 +1750,96 @@ if (window.userData.published || window.isAdmin) {
 }
 
 window.emailDetailedReport = function() {
-const recipient = window.userData.email || document.getElementById('loginEmailLookup').value.trim();
-if (!recipient) { window.showMessage("Candidate email required to send report.", "error"); return; }
+    const recipient = window.userData.email || document.getElementById('loginEmailLookup').value.trim();
+    if (!recipient) { window.showMessage("Candidate email required to send report.", "error"); return; }
 
-const total = document.getElementById('passTotal').innerText;
-const to = encodeURIComponent(recipient);
-const sub = encodeURIComponent("CONFIDENTIAL: Your Official HR Executive Talent Passport & Biometric Evaluation");
+    const total = document.getElementById('passTotal').innerText;
+    const to = encodeURIComponent(recipient);
+    const sub = encodeURIComponent(`CONFIDENTIAL DOSSIER: Executive Talent Passport - ${window.userData.name || 'Candidate'}`);
 
-let avgEye = window.bioMetrics.eyeContact.length ? Math.round(window.bioMetrics.eyeContact.reduce((a,b)=>a+b,0)/window.bioMetrics.eyeContact.length) : 80;
-let avgStress = window.bioMetrics.stress.length ? Math.round(window.bioMetrics.stress.reduce((a,b)=>a+b,0)/window.bioMetrics.stress.length) : 20;
+    let avgEye = window.bioMetrics.eyeContact.length ? Math.round(window.bioMetrics.eyeContact.reduce((a,b)=>a+b,0)/window.bioMetrics.eyeContact.length) : 80;
+    let avgStress = window.bioMetrics.stress.length ? Math.round(window.bioMetrics.stress.reduce((a,b)=>a+b,0)/window.bioMetrics.stress.length) : 20;
 
-let b = `Dear ${window.userData.name || 'Candidate'},\n\nThank you for completing the HR Executive Recruitment Assessment. Below is your official Talent Passport evaluation report.\n\n`;
-b += `==========================================\n`;
-b += `OVERALL READINESS INDEX: ${total}\n`;
-b += `WORKPLACE ARCHETYPE: ${window.userData.archetype}\n`;
-b += `==========================================\n\n`;
-b += `--- QUANTITATIVE STAGE BREAKDOWN ---\n`;
-b += `* Stage 1: Enterprise ATS Audit Score: ${window.userData.ats_score}/100\n`;
-b += `* Stage 2: Cognitive Aptitude Test Score: ${window.userData.test_score}/100\n`;
-b += `* Stage 4: Virtual Group Discussion Score: ${window.userData.gd_score}/30\n`;
-b += `* Stage 5: AI Behavioral HR Interview Score: ${window.userData.interview_score}/100\n\n`;
-b += `--- NON-VERBAL BIOMETRIC ANALYTICS ---\n`;
-b += `* Visual Focus & Eye Contact Index: ${avgEye}% (Target: 70-85%)\n`;
-b += `* Cognitive Stress & Movement Index: ${avgStress}% (Target: <30%)\n\n`;
-b += `--- ARCHETYPE FEEDBACK ---\n`;
-b += `As an assigned ${window.userData.archetype}, focus on leveraging your primary workplace strengths during interview interactions while ensuring clear quantitative outcomes in your STAR responses.\n\n`;
-b += `Best regards,\nHR Academic & Executive Assessment Team`;
+    const archDetails = {
+        "Strategist": {
+            profile: "Highly analytical, data-driven, and focused on long-term systemic impact rather than short-term fixes.",
+            strengths: "Objective decision-making, structural optimization, and removing emotional bias from complex business problems.",
+            blindSpots: "Can occasionally project a lack of empathy or appear overly rigid when dealing with nuanced human-centric conflicts.",
+            actionPlan: "During executive interviews, consciously blend your quantitative metrics with qualitative empathy. When using the STAR method, emphasize how your structural solutions positively impacted the team's morale and daily workflow, not just the bottom line."
+        },
+        "Innovator": {
+            profile: "Forward-thinking, creative, and highly adaptable to sudden market shifts and new technologies.",
+            strengths: "Brainstorming disruptive solutions, embracing calculated risks, and inspiring teams toward a grand vision.",
+            blindSpots: "May struggle with operational follow-through or become easily frustrated by bureaucratic compliance and red tape.",
+            actionPlan: "Executive panels look for innovators who can execute. In your STAR responses, heavily emphasize the 'Action' and 'Result' phases. Prove that your groundbreaking ideas are grounded in realistic budgets, timelines, and measurable KPIs."
+        },
+        "Connector": {
+            profile: "Highly empathetic, emotionally intelligent, and deeply focused on team cohesion and stakeholder alignment.",
+            strengths: "Mediating disputes, building psychological safety, and driving consensus across fragmented, cross-functional teams.",
+            blindSpots: "May hesitate to make unpopular but necessary executive decisions, risking 'groupthink' or delayed project timelines.",
+            actionPlan: "You naturally excel at the behavioral interview. However, you must prove your ability to be decisive. Highlight at least one STAR scenario where you had to make a tough, data-backed choice that was initially unpopular but ultimately drove business success."
+        },
+        "Executor": {
+            profile: "Fiercely pragmatic, process-oriented, and ruthlessly efficient in translating strategy into completed tasks.",
+            strengths: "Meeting strict deadlines, optimizing daily operational workflows, and maintaining team focus under extreme pressure.",
+            blindSpots: "Can suffer from tunnel vision, potentially ignoring systemic flaws or creative alternatives in the rush to 'get it done'.",
+            actionPlan: "To elevate to an executive tier, you must demonstrate strategic elevation. Use your interviews to show how your operational execution aligns with long-term macroeconomic goals. Shift your narrative from 'I finished this task on time' to 'I designed this workflow to scale our division.'"
+        },
+        "Not Evaluated": { profile: "Data missing.", strengths: "Data missing.", blindSpots: "Data missing.", actionPlan: "Please complete Stage 3." }
+    };
 
-window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=${encodeURIComponent(b)}`, '_blank');
+    const myArch = archDetails[window.userData.archetype] || archDetails["Not Evaluated"];
+
+    let b = `Dear ${window.userData.name || 'Candidate'},\n\n`;
+    b += `Thank you for completing the 6-Stage HR Executive Assessment Gauntlet. This document serves as your official, comprehensive Talent Passport. It has been generated by evaluating your quantitative knowledge, psychometric archetype, and biometric executive presence.\n\n`;
+    
+    b += `======================================================\n`;
+    b += `🏆 OVERALL EXECUTIVE READINESS INDEX: ${total}\n`;
+    b += `🧬 PRIMARY WORKPLACE ARCHETYPE: ${window.userData.archetype.toUpperCase()}\n`;
+    b += `======================================================\n\n`;
+    
+    b += `[ PART 1: STAGE-BY-STAGE QUANTITATIVE ANALYSIS ]\n\n`;
+    
+    b += `1. Enterprise ATS Audit (Resume Parsing & TF-IDF)\n`;
+    b += `   >> Score: ${window.userData.ats_score}/100\n`;
+    b += `   >> Insight: Measures how effectively your resume's keyword density aligns with Fortune 500 algorithmic screening parameters. A score below 75 indicates a high probability of automated rejection before a human recruiter sees your profile.\n\n`;
+    
+    b += `2. Cognitive Aptitude & Decision Velocity\n`;
+    b += `   >> Score: ${window.userData.test_score}/100\n`;
+    b += `   >> Insight: Evaluates your theoretical HR knowledge (OB, TA, L&D, Compensation) under a strict time constraint. This reflects your ability to recall and apply labor laws and corporate frameworks under pressure.\n\n`;
+    
+    b += `3. Multi-Agent Virtual Group Discussion (GD)\n`;
+    b += `   >> Score: ${window.userData.gd_score}/30\n`;
+    b += `   >> Insight: Scored via AI linguistic analysis. Measures your ability to synthesize opposing viewpoints (analytical vs. creative), mediate conflict, and drive consensus in a competitive environment.\n\n`;
+    
+    b += `4. AI Behavioral HR Interview (STAR Framework)\n`;
+    b += `   >> Score: ${window.userData.interview_score}/100\n`;
+    b += `   >> Insight: Measures the structural integrity of your verbal responses. High scores indicate mastery of the Situation-Task-Action-Result format, highlighting concrete, data-backed business outcomes.\n\n`;
+    
+    b += `------------------------------------------------------\n\n`;
+    
+    b += `[ PART 2: REAL-TIME BIOMETRIC & NON-VERBAL ANALYTICS ]\n\n`;
+    b += `During Stage 5, our computer vision algorithms tracked your micro-expressions and physical composure.\n\n`;
+    b += `* Visual Focus & Eye Contact Index: ${avgEye}%\n`;
+    b += `  (Target: 70-85%. Maintaining eye contact signals confidence and active listening. Scores too high may indicate unnatural staring; scores too low indicate distraction or lack of confidence.)\n\n`;
+    b += `* Cognitive Stress & Movement Index: ${avgStress}%\n`;
+    b += `  (Target: <30%. Elevated movement, shifting posture, or breaking frame indicates high cognitive load and pressure fatigue. Executive presence requires maintaining this below 30%.)\n\n`;
+    
+    b += `------------------------------------------------------\n\n`;
+
+    b += `[ PART 3: PSYCHOMETRIC ARCHETYPE DEEP-DIVE: ${window.userData.archetype.toUpperCase()} ]\n\n`;
+    b += `Based on your Stage 3 forced-choice situational matrix, you operate primarily as a ${window.userData.archetype}.\n\n`;
+    b += `* Profile Overview: \n  ${myArch.profile}\n\n`;
+    b += `* Core Executive Strengths: \n  ${myArch.strengths}\n\n`;
+    b += `* Critical Blind Spots: \n  ${myArch.blindSpots}\n\n`;
+    b += `* INTERVIEW & PLACEMENT STRATEGY:\n  ${myArch.actionPlan}\n\n`;
+    
+    b += `======================================================\n\n`;
+    b += `Final Recommendation: Review your lowest-scoring stage and consult the Academic Modules on the platform to bridge the gap before official placement season begins.\n\n`;
+    b += `Best regards,\n`;
+    b += `The Assetize AI Evaluation System\n`;
+
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=${encodeURIComponent(b)}`, '_blank');
 }
 
 // --- EXPANDED PRACTICE ZONE LOGIC ---
@@ -1891,10 +1949,9 @@ window.checkPracticeAnswer = function(category, qIndex, selectedOpt, correctOpt,
    }
 }
 
-window.addEventListener('load', () => {
+// INITIALIZATION
 renderArchetypeQs();
 initRealisticAvatars();
-});
 
 // INDIAN AVATAR CONFIGS
 const avatarConfigs = {
