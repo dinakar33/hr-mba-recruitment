@@ -1,4 +1,4 @@
-<!DOCTYPE html>f
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -41,7 +41,6 @@ body.admin-mode .admin-login-btn { display: none; }
 body.admin-mode .admin-only-flex { display: flex; }
 .touch-manipulation { touch-action: manipulation; }
 
-/* AI Dark Mode Styles */
 body.ai-mode { background-color: #0f172a; color: #f1f5f9; }
 body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgba(51, 65, 85, 0.8); color: #f8fafc; }
 body.ai-mode h2, body.ai-mode h3, body.ai-mode p, body.ai-mode span, body.ai-mode label { color: #f8fafc !important; }
@@ -70,7 +69,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes urgent-glow { 0% { text-shadow: 0 0 5px red; } 50% { text-shadow: 0 0 20px red; color: #ff9999; } 100% { text-shadow: 0 0 5px red; } }
 .timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
 
-/* Responsive 3D Round Table GD Layout */
 .gd-boardroom-container {
     position: relative;
     width: 100%;
@@ -112,7 +110,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 }
 .gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 
-/* Subtle pulse for hero background */
 @keyframes slowPulse {
     0%, 100% { opacity: 0.5; transform: scale(1); }
     50% { opacity: 0.8; transform: scale(1.05); }
@@ -127,7 +124,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-6">
 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 w-full">
 
-<!-- Responsive Title & Mobile About Button -->
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div>
     <h1 class="text-2xl md:text-3xl tracking-tight flex flex-col sm:flex-row sm:items-baseline">
@@ -140,7 +136,6 @@ body.ai-mode .gd-avatar { background: #334155; }
   </button>
 </div>
 
-<!-- Desktop & Mobile Controls -->
 <div class="flex flex-wrap items-center gap-3 md:gap-4 w-full lg:w-auto mt-2 lg:mt-0 flex">
   <div class="flex items-center justify-center space-x-2 bg-black/20 px-3 md:px-4 py-2 rounded-full border border-white/10">
     <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-200">Manual</span>
@@ -165,7 +160,6 @@ body.ai-mode .gd-avatar { background: #334155; }
     </div>
   </div>
 
-  <!-- ABOUT BUTTON PINNED TO TOP RIGHT (DESKTOP ONLY) -->
   <button onclick="window.switchTab('tab-overview')" class="hidden md:flex bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 md:px-4 py-2 rounded-lg transition text-xs md:text-sm font-bold shadow-md items-center ml-2">
     <i class="fa-solid fa-circle-info mr-1 md:mr-2 text-brand-200"></i> About
   </button>
@@ -215,7 +209,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 </div>
 </div>
 
-<!-- ENTERPRISE HOMEPAGE -->
 <section id="tab-home" class="tab-content active">
   <div class="relative overflow-hidden rounded-3xl bg-slate-900 text-white shadow-2xl mb-12 border border-slate-700">
      <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
@@ -283,7 +276,6 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
-<!-- STAGE 1: ATS AUDIT -->
 <section id="tab-ats" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 1: Enterprise ATS Audit (TF-IDF)</h2>
@@ -323,7 +315,6 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
-<!-- STAGE 2: APTITUDE TEST -->
 <section id="tab-test" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-center sm:items-start bg-red-500/10 p-4 rounded-lg border border-red-500/30 gap-4">
 <div class="text-center sm:text-left">
@@ -353,7 +344,6 @@ Submit Final Answers
 </div>
 </section>
 
-<!-- STAGE 3: ARCHETYPE ASSESSMENT -->
 <section id="tab-archetype" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 3: Archetype Assessment</h2>
@@ -370,7 +360,6 @@ Submit Archetype Answers
 </div>
 </section>
 
-<!-- STAGE 4: VIRTUAL GD -->
 <section id="tab-gd" class="tab-content">
 <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
@@ -449,7 +438,6 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 </div>
 </section>
 
-<!-- STAGE 5: INTERVIEW -->
 <section id="tab-interview" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 5: AI Behavioral HR Interview</h2>
@@ -509,7 +497,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
-<!-- STAGE 6: PASSPORT -->
 <section id="tab-passport" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
@@ -552,7 +539,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
-<!-- PLATFORM OVERVIEW SECTION (ABOUT) -->
 <section id="tab-overview" class="tab-content">
   <div class="mb-8 md:mb-10 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">About: The 6-Stage Assessment Gauntlet</h2>
@@ -560,8 +546,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-    
-    <!-- Stage 1 -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500 flex flex-col justify-between">
       <div>
         <div class="flex items-center space-x-3 mb-4">
@@ -583,8 +567,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
         </div>
       </div>
     </div>
-
-    <!-- Stage 2 -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500 flex flex-col justify-between">
       <div>
         <div class="flex items-center space-x-3 mb-4">
@@ -606,8 +588,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
         </div>
       </div>
     </div>
-
-    <!-- Stage 3 (Archetype) -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500 flex flex-col justify-between">
       <div>
         <div class="flex items-center space-x-3 mb-4">
@@ -629,8 +609,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
         </div>
       </div>
     </div>
-
-    <!-- Stage 4 -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500 flex flex-col justify-between">
       <div>
         <div class="flex items-center space-x-3 mb-4">
@@ -652,8 +630,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
         </div>
       </div>
     </div>
-
-    <!-- Stage 5 -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-red-500 flex flex-col justify-between">
       <div>
         <div class="flex items-center space-x-3 mb-4">
@@ -675,8 +651,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
         </div>
       </div>
     </div>
-
-    <!-- Stage 6 -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-emerald-500 flex flex-col justify-between">
       <div>
         <div class="flex items-center space-x-3 mb-4">
@@ -698,17 +672,14 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- EMPLOYEE RIGHTS SECTION -->
 <section id="tab-rights" class="tab-content">
 <div class="mb-6 md:mb-8 text-center md:text-left">
   <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Employee Rights Spotlight & Masterclasses</h2>
   <p class="text-sm md:text-base text-slate-500 mt-2">Essential regulatory knowledge every postgraduate professional must master before signing an offer letter.</p>
 </div>
-
 <div class="grid grid-cols-1 gap-8 md:gap-10">
 <div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-blue-500">
 <h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-coins mr-2 text-blue-500"></i>1. Compensation & CTC Breakdowns</h3>
@@ -719,7 +690,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 <iframe class="w-full h-48 md:h-64 rounded-lg shadow" src="https://www.youtube.com/embed/UqjZEC2Ykb4?si=5Yf-fGJ-eAXGg-Ou" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
 </div>
 </div>
-
 <div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-pink-500">
 <h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-shield-halved mr-2 text-pink-500"></i>2. Prevention of Sexual Harassment (POSH)</h3>
 <p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>The 2013 Act & Vishakha Guidelines:</strong> Every organization with 10 or more employees is legally mandated to constitute an Internal Complaints Committee (ICC).</p>
@@ -729,7 +699,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 <iframe class="w-full h-48 md:h-64 rounded-lg shadow" src="https://www.youtube.com/embed/tEulz5dqQL4?si=LH05s_AwAX2m2P2M" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
 </div>
 </div>
-
 <div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-emerald-500">
 <h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-file-contract mr-2 text-emerald-500"></i>3. Employment Contracts & Notice Periods</h3>
 <p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>Non-Compete Clauses:</strong> Under Section 27 of the Indian Contract Act, post-employment non-compete clauses are generally void and unenforceable.</p>
@@ -738,20 +707,17 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
-<!-- OPTIONAL PRACTICE QUIZ SECTION -->
 <section id="tab-quiz" class="tab-content">
   <div class="mb-6 md:mb-8 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Optional Practice Zone</h2>
     <p class="text-sm md:text-lg text-slate-500 mt-2">Test your knowledge on each module. These quizzes are strictly for practice, provide instant feedback, and do <strong class="text-red-500">NOT</strong> affect your official Talent Passport.</p>
   </div>
-  
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-6 md:mb-8">
      <button id="btn-quiz-ats" onclick="window.loadPracticeQuiz('ats')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-file-pdf text-indigo-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> ATS Audit</button>
      <button id="btn-quiz-aptitude" onclick="window.loadPracticeQuiz('aptitude')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-stopwatch text-purple-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> Aptitude</button>
      <button id="btn-quiz-gd" onclick="window.loadPracticeQuiz('gd')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-users text-amber-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> Virtual GD</button>
      <button id="btn-quiz-interview" onclick="window.loadPracticeQuiz('interview')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-microphone-lines text-brand-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> AI Interview</button>
   </div>
-  
   <div id="practiceQuizContainer" class="glass-card p-5 md:p-8 rounded-xl shadow-md min-h-[250px] md:min-h-[300px] border-t-4 border-t-slate-400">
      <div class="text-center text-slate-400 mt-8 md:mt-10">
        <i class="fa-solid fa-hand-pointer text-3xl md:text-4xl mb-3 md:mb-4 block"></i>
@@ -767,7 +733,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-const GEMINI_API_KEY = "AQ.Ab8RN6ISnP6XqfnQExC9_pVH1S5PIribDiYVk6CBQYNv9zclfA"; 
+const GEMINI_API_KEY = "AQ.Ab8RN6LX1RAGG5wUxiydy0R1u8H3by2XRvUC791UrWrFmNH-sQ"; 
 
 const firebaseConfig = {
 apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
@@ -783,9 +749,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// ==========================================
-// NATIVE INDIAN TTS ENGINE
-// ==========================================
 class AvatarSpeechService {
   constructor() {
     this.voices = [];
@@ -804,24 +767,19 @@ class AvatarSpeechService {
     return new Promise(resolve => {
       const utterance = new SpeechSynthesisUtterance(text);
       
-      // 1. Prioritize Indian English voices
       let inVoices = this.voices.filter(v => v.lang === 'en-IN' || v.lang === 'en_IN' || v.lang.includes('India'));
-      
       let maleVoice = null;
       let femaleVoice = null;
 
       if (inVoices.length > 0) {
-        // Attempt to map male/female Indian voices by system name
         maleVoice = inVoices.find(v => v.name.toLowerCase().includes('ravi') || v.name.toLowerCase().includes('male')) || inVoices[0];
         femaleVoice = inVoices.find(v => v.name.toLowerCase().includes('heera') || v.name.toLowerCase().includes('neerja') || v.name.toLowerCase().includes('female')) || inVoices[inVoices.length - 1];
       } else {
-         // 2. Fallback to generic English if Indian isn't installed on the browser
          let enVoices = this.voices.filter(v => v.lang.startsWith('en'));
          maleVoice = enVoices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('david')) || enVoices[0];
          femaleVoice = enVoices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira')) || enVoices[0];
       }
 
-      // 3. Assign specific pitch and speed to differentiate characters
       if (avatarId === 'arjun') {
         if (maleVoice) utterance.voice = maleVoice;
         utterance.pitch = 0.8; 
@@ -832,9 +790,9 @@ class AvatarSpeechService {
         utterance.rate = 1.05;
       } else if (avatarId === 'meera') {
         if (femaleVoice) utterance.voice = femaleVoice;
-        utterance.pitch = 0.85; // Strict, authoritative HR female voice
+        utterance.pitch = 0.85; 
         utterance.rate = 0.95;
-      } else { // guide
+      } else { 
         if (femaleVoice) utterance.voice = femaleVoice;
         utterance.pitch = 1.0;
         utterance.rate = 1.0;
@@ -886,15 +844,13 @@ window.startAssessment = function() {
 
 async function callGemini(prompt, systemInstruction = null) {
   try {
-    if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("PASTE_YOUR_API_KEY_HERE")) {
+    if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("PASTE_")) {
       throw new Error("Missing Key");
     }
     
-    let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
-    let headers = { 
-      'Content-Type': 'application/json',
-      'x-goog-api-key': GEMINI_API_KEY 
-    };
+    // Using AQ key directly in the URL to bypass authentication header bug
+    let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+    let headers = { 'Content-Type': 'application/json' };
 
     const payload = { contents: [{ parts: [{ text: prompt }] }] };
     if (systemInstruction) {
@@ -914,11 +870,13 @@ async function callGemini(prompt, systemInstruction = null) {
     console.warn("API Call switched to Local Simulation Engine:", e.message);
     let category = prompt.includes("Interview") || prompt.includes("Meera") ? "interview" : "gd";
     
-    // --- NEW: Smart Offline Fallback for short/lazy answers ---
     let lastInputMatch = prompt.match(/Candidate:\s*(.*)/g);
     let lastInput = lastInputMatch ? lastInputMatch[lastInputMatch.length - 1].replace('Candidate:', '').trim() : "";
     
-    if (lastInput.length < 15 || ['ok', 'yes', 'no', 'nothing', 'i agree', 'sure'].includes(lastInput.toLowerCase())) {
+    // Strict fallback engine bypasses punctuation trickery
+    let cleanedInput = lastInput.replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ").trim().toLowerCase();
+    
+    if (cleanedInput.length < 15 || ['ok', 'yes', 'no', 'nothing', 'i agree', 'sure'].includes(cleanedInput)) {
        if (category === 'gd') return "Saying '" + lastInput + "' contributes absolutely nothing to this boardroom. I expect strategic, data-backed insights, not one-word answers.";
        if (category === 'interview') return "A response of '" + lastInput + "' is unacceptable for an executive role. Please elaborate with a detailed, structured example.";
     }
@@ -929,7 +887,6 @@ async function callGemini(prompt, systemInstruction = null) {
   }
 }
 
-// ARCHETYPE QUESTIONS
 const archQ = [
   {q: "1. When starting a complex new project, your first priority is to:", o: {s: "Define clear metrics", i: "Find a unique angle", c: "Ensure the right people are assigned", e: "Set a strict timeline"}},
   {q: "2. In team meetings, you are usually the one who:", o: {s: "Points out logical flaws", i: "Pitches the big ideas", c: "Makes sure everyone speaks", e: "Pushes the meeting to end"}},
@@ -1385,9 +1342,6 @@ window.submitTest = async function() {
   document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
 };
 
-// ==========================================
-// DYNAMIC GD TOPICS
-// ==========================================
 const gdTopics = [
   {
     title: "AI in Performance Reviews",
@@ -1467,8 +1421,7 @@ window.startAIGD = async function() {
   document.getElementById('gd-transcript').innerHTML = ""; 
   gdHistory = "";
   
-  // Randomly select a topic
-  currentActiveTopic = gdTopics[Math.floor(Math.random() * gdTopics.length)];
+  // Re-confirm topic inside UI just in case
   document.getElementById('gd-topic-title').innerText = `"${currentActiveTopic.title}"`;
   document.getElementById('gd-topic-desc').innerText = currentActiveTopic.desc;
 
@@ -2034,9 +1987,6 @@ window.checkPracticeAnswer = function(category, qIndex, selectedOpt, correctOpt,
   }
 };
 
-// ==========================================
-// AVATAR CONFIGURATIONS & SVG ENGINE
-// ==========================================
 const avatarConfigs = {
   'guide-avatar': { bg: '#e2e8f0', skin: '#fcd34d', skinDark: '#d97706', hair: '#1e293b', shirt: '#3b82f6', hairPath: '<path d="M 15 45 C 15 10, 85 10, 85 45 L 85 30 C 85 5, 15 5, 15 30 Z" fill="#1e293b"/>' },
   'avatar-arjun': { bg: '#bfdbfe', skin: '#d97706', skinDark: '#92400e', hair: '#111827', shirt: '#ffffff', glasses: true, hairPath: '<path d="M 22 45 C 22 10, 78 10, 78 45 L 78 30 C 78 5, 22 5, 22 30 Z" fill="#111827"/>' },
@@ -2092,7 +2042,6 @@ function initRealisticAvatars() {
   }, 200);
 }
 
-// RUN INITIALIZERS
 renderArchetypeQs();
 initRealisticAvatars();
 
