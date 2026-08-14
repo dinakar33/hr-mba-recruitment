@@ -784,132 +784,74 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // ==========================================
-// GEMINI 2.5 FLASH TTS ENGINE
+// NATIVE INDIAN TTS ENGINE
 // ==========================================
 class AvatarSpeechService {
-  constructor(apiKey) {
-    this.apiKey = apiKey;
-    this.voiceMap = {
-      'arjun': 'Charon', 
-      'kavya': 'Puck',   
-      'meera': 'Kore',   
-      'guide': 'Aoede'  
-    };
-    this.currentAudio = null;
+  constructor() {
+    this.voices = [];
+    this.populateVoices();
+    if (typeof window.speechSynthesis !== 'undefined' && window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = this.populateVoices.bind(this);
+    }
   }
 
-  // 1. New Helper function to create a playable WAV file from Raw PCM data
-  createWavBlob(pcmData, sampleRate) {
-    const header = new ArrayBuffer(44);
-    const view = new DataView(header);
-    
-    const writeString = (view, offset, string) => {
-        for (let i = 0; i < string.length; i++) {
-            view.setUint8(offset + i, string.charCodeAt(i));
-        }
-    };
-
-    writeString(view, 0, 'RIFF');
-    view.setUint32(4, 36 + pcmData.byteLength, true);
-    writeString(view, 8, 'WAVE');
-    writeString(view, 12, 'fmt ');
-    view.setUint32(16, 16, true);
-    view.setUint16(20, 1, true);
-    view.setUint16(22, 1, true); // Mono channel
-    view.setUint32(24, sampleRate, true);
-    view.setUint32(28, sampleRate * 2, true); // Byte rate
-    view.setUint16(32, 2, true); // Block align
-    view.setUint16(34, 16, true); // Bits per sample
-    writeString(view, 36, 'data');
-    view.setUint32(40, pcmData.byteLength, true);
-
-    return new Blob([header, pcmData], { type: 'audio/wav' });
+  populateVoices() {
+    this.voices = window.speechSynthesis.getVoices();
   }
 
-  async speak(text, avatarId) {
+  speak(text, avatarId) {
     this.stop();
-    const voiceName = this.voiceMap[avatarId] || 'Aoede';
-
-    try {
-      // 2. Updated API endpoint to the dedicated TTS model
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${this.apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: text }] }],
-            generationConfig: {
-              responseModalities: ["AUDIO"],
-              speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voiceName } } }
-            }
-          })
-        }
-      );
-
-      if (!response.ok) throw new Error(`API Error: ${response.status}`);
-      const data = await response.json();
-      
-      const part = data.candidates?.[0]?.content?.parts?.[0];
-      const audioData = part?.inlineData?.data;
-      const mimeType = part?.inlineData?.mimeType;
-
-      if (audioData && mimeType && mimeType.startsWith("audio/")) {
-        // 3. Extract sample rate and decode the raw base64 string
-        const sampleRateMatch = mimeType.match(/rate=(\d+)/);
-        const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 24000;
-        
-        const binaryString = window.atob(audioData);
-        const bytes = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
-        }
-        
-        // 4. Wrap the raw data into a .WAV blob so HTML5 Audio can play it natively
-        const wavBlob = this.createWavBlob(bytes.buffer, sampleRate);
-        const audioUrl = URL.createObjectURL(wavBlob);
-        
-        this.currentAudio = new Audio(audioUrl);
-        return new Promise((resolve, reject) => {
-          this.currentAudio.onended = resolve;
-          this.currentAudio.onerror = reject;
-          this.currentAudio.play().catch(err => {
-             console.warn("WAV Playback blocked, falling back.", err);
-             resolve(this.fallbackBrowserTTS(text, avatarId));
-          });
-        });
-      } else {
-        return this.fallbackBrowserTTS(text, avatarId);
-      }
-    } catch (error) {
-      console.error("Gemini TTS Error:", error);
-      return this.fallbackBrowserTTS(text, avatarId); 
-    }
-  }
-
-  stop() {
-    if (this.currentAudio) {
-      this.currentAudio.pause();
-      this.currentAudio.currentTime = 0;
-      this.currentAudio = null;
-    }
-    window.speechSynthesis.cancel();
-  }
-
-  fallbackBrowserTTS(text, avatarId) {
     return new Promise(resolve => {
       const utterance = new SpeechSynthesisUtterance(text);
-      if (avatarId === 'arjun') { utterance.pitch = 0.8; utterance.rate = 0.9; }
-      if (avatarId === 'kavya') { utterance.pitch = 1.2; utterance.rate = 1.1; }
-      if (avatarId === 'meera') { utterance.pitch = 0.9; utterance.rate = 1.0; }
-      if (avatarId === 'guide') { utterance.pitch = 1.0; utterance.rate = 1.0; }
+      
+      // 1. Prioritize Indian English voices
+      let inVoices = this.voices.filter(v => v.lang === 'en-IN' || v.lang === 'en_IN' || v.lang.includes('India'));
+      
+      let maleVoice = null;
+      let femaleVoice = null;
+
+      if (inVoices.length > 0) {
+        // Attempt to map male/female Indian voices by system name
+        maleVoice = inVoices.find(v => v.name.toLowerCase().includes('ravi') || v.name.toLowerCase().includes('male')) || inVoices[0];
+        femaleVoice = inVoices.find(v => v.name.toLowerCase().includes('heera') || v.name.toLowerCase().includes('neerja') || v.name.toLowerCase().includes('female')) || inVoices[inVoices.length - 1];
+      } else {
+         // 2. Fallback to generic English if Indian isn't installed on the browser
+         let enVoices = this.voices.filter(v => v.lang.startsWith('en'));
+         maleVoice = enVoices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('david')) || enVoices[0];
+         femaleVoice = enVoices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira')) || enVoices[0];
+      }
+
+      // 3. Assign specific pitch and speed to differentiate characters
+      if (avatarId === 'arjun') {
+        if (maleVoice) utterance.voice = maleVoice;
+        utterance.pitch = 0.8; 
+        utterance.rate = 0.95;
+      } else if (avatarId === 'kavya') {
+        if (femaleVoice) utterance.voice = femaleVoice;
+        utterance.pitch = 1.3; 
+        utterance.rate = 1.05;
+      } else if (avatarId === 'meera') {
+        if (femaleVoice) utterance.voice = femaleVoice;
+        utterance.pitch = 0.85; // Strict, authoritative HR female voice
+        utterance.rate = 0.95;
+      } else { // guide
+        if (femaleVoice) utterance.voice = femaleVoice;
+        utterance.pitch = 1.0;
+        utterance.rate = 1.0;
+      }
+
       utterance.onend = resolve;
+      utterance.onerror = resolve; 
       window.speechSynthesis.speak(utterance);
     });
   }
+
+  stop() {
+    window.speechSynthesis.cancel();
+  }
 }
 
-const ttsService = new AvatarSpeechService(GEMINI_API_KEY);
+const ttsService = new AvatarSpeechService();
 
 const APP_ID = 'hr-blog-app'; 
 window.isAdmin = false;
