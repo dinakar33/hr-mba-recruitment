@@ -376,7 +376,7 @@ Submit Archetype Answers
 <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 4: Virtual Group Discussion (5 Rounds)</h2>
-<p class="text-xs md:text-sm text-slate-500 mt-1">Active Cycle: <span id="gdRoundBadge" class="font-bold text-brand-600">Round 1 of 5</span></p>
+<p class="text-xs md:text-sm text-slate-500 mt-1">Active Cycle: <span id="gdRoundBadge" class="font-bold text-brand-600">Pending Start</span></p>
 </div>
 <button id="aiVoiceBtn4" onclick="window.startAIGD()" class="w-full sm:w-auto flex bg-brand-600 hover:bg-brand-500 text-white px-4 md:px-6 py-2 rounded-full shadow-lg transition text-sm md:text-base font-bold border border-brand-400 items-center justify-center">
 <i class="fa-solid fa-users-viewfinder mr-2"></i>Initialize Virtual Agents
@@ -385,8 +385,8 @@ Submit Archetype Answers
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
 <div class="glass-card p-4 md:p-6 rounded-xl border-l-4 border-l-amber-500 flex flex-col min-h-[450px] md:min-h-[500px]">
 <h3 class="text-lg md:text-xl font-bold mb-2"><i class="fa-solid fa-comments text-amber-500 mr-2"></i>Active Case Study</h3>
-<p id="gd-topic-title" class="text-base md:text-lg font-bold text-brand-600 mb-1">"AI in Performance Reviews"</p>
-<p id="gd-topic-desc" class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Discuss the ethical implications of replacing human managers with AI scoring systems.</p>
+<p id="gd-topic-title" class="text-base md:text-lg font-bold text-brand-600 mb-1">Loading Case Study...</p>
+<p id="gd-topic-desc" class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Please wait while the system assigns a random topic.</p>
 <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
 <div class="gd-boardroom-container">
   <div class="gd-seat gd-seat-top-left">
@@ -408,7 +408,7 @@ Submit Archetype Answers
   </div>
 </div>
 <div id="gd-transcript" class="bg-slate-900 text-green-400 p-3 md:p-4 rounded-lg font-mono text-xs md:text-sm flex-grow overflow-y-auto h-32 md:h-48 border border-slate-700 shadow-inner mb-4">
-> System Ready. Awaiting initialization...
+> Click 'Initialize Virtual Agents' to begin...
 </div>
 <div id="gd-mic-zone" class="w-full flex-col items-center hidden">
 <textarea id="gdTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-2.5 md:p-3 mb-2 md:mb-3 text-xs md:text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
@@ -444,7 +444,7 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 <div class="glass-card p-5 md:p-6 rounded-xl flex flex-col items-center justify-center text-center [&:has(~.admin-only:not([style*='display: none']))]:hidden" id="gdWaitingArea">
 <i class="fa-solid fa-satellite-dish text-4xl md:text-5xl text-slate-400 mb-4 md:mb-6 hover:scale-110 transition-transform"></i>
 <h3 class="text-lg md:text-xl font-bold mb-2">Awaiting AI Evaluation</h3>
-<p class="text-xs md:text-sm max-w-sm">Engage in the 5-round simulation. The AI agents will dynamically debate your points via LLM before auto-scoring.</p>
+<p class="text-xs md:text-sm max-w-sm">Engage in the 5-round simulation. The AI agents will dynamically debate your points via LLM before auto-scoring based on strict tiers.</p>
 </div>
 </div>
 </div>
@@ -481,7 +481,7 @@ Posture: <strong id="postureVal">Pending</strong>
 <h3 class="text-lg md:text-xl font-bold mb-1 text-center">Virtual HR Director Meera</h3>
 <p id="interview-status" class="text-[10px] md:text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 md:mb-4 text-center">Ready to Begin</p>
 <div class="w-full bg-slate-900 rounded-lg p-3 md:p-4 font-mono text-xs md:text-sm text-green-400 h-40 md:h-48 overflow-y-auto mb-4 border border-slate-700 shadow-inner" id="interview-transcript">
-> System initialized. Waiting for AI activation...
+> System initialized. Click Initialize Protocol to begin.
 </div>
 <div id="interview-controls" class="flex w-full flex-col items-center">
 <div id="interviewModeToggle" class="flex flex-col sm:flex-row items-center gap-2 sm:space-x-4 mb-4 bg-slate-800 p-2 rounded-lg border border-slate-700 w-full sm:w-auto transition-opacity duration-300">
@@ -491,7 +491,7 @@ Posture: <strong id="postureVal">Pending</strong>
 <button id="btnMethodGeneral" onclick="window.setInterviewMethod('general')" class="px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto">General</button>
 </div>
 </div>
-<button id="startInterviewBtn" onclick="window.startAIInterview()" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-6 md:px-8 rounded-full shadow-lg transition mb-2 border border-brand-400 text-sm md:text-base flex items-center justify-center">
+<button id="startInterviewBtn" onclick="window.startAIInterview()" class="w-full sm:w-auto flex bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-6 md:px-8 rounded-full shadow-lg transition mb-2 border border-brand-400 text-sm md:text-base items-center justify-center">
 <i class="fa-solid fa-play mr-2"></i> Initialize Protocol
 </button>
 <div id="interview-mic-zone" class="w-full flex-col items-center hidden">
@@ -554,7 +554,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </section>
 
 <!-- PLATFORM OVERVIEW SECTION (ABOUT) -->
-<section id="tab-overview" class="tab-content">
+<section id="tab-about" class="tab-content">
   <div class="mb-8 md:mb-10 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">About: The 6-Stage Assessment Gauntlet</h2>
     <p class="text-sm md:text-lg text-slate-500 mt-2">Bridging postgraduate classroom theory with real-world HR technology execution. Understand exactly how you are evaluated across all 6 stages.</p>
@@ -1394,7 +1394,7 @@ const gdTopics = [
   {
     title: "Mandatory Return to Office (RTO)",
     desc: "Debate the long-term impact of forcing employees back to the office versus maintaining remote flexibility.",
-    arjunStart: "Mandatory RTO is necessary for company culture. Data shows spontaneous collaboration drops significantly in fully remote environments.",
+    arjunStart: "Mandatory RTO is necessary for company culture. Spontaneous collaboration drops significantly in fully remote environments.",
     kavyaStart: "But Arjun, forced RTO destroys employee morale and increases turnover among top talent who value flexibility."
   },
   {
@@ -1408,19 +1408,24 @@ const gdTopics = [
     desc: "Should corporate employees be legally permitted to take up secondary jobs outside working hours?",
     arjunStart: "Moonlighting is a breach of contract. It creates massive IP security risks and drains the energy employees owe to their primary employer.",
     kavyaStart: "I view it differently. If an employee fulfills their 40-hour commitment, what they do on weekends is their fundamental right."
-  },
-  {
-    title: "Universal Basic Income (UBI)",
-    desc: "Evaluate if UBI is a necessary safety net for AI-driven job displacement or an economic burden.",
-    arjunStart: "UBI is mathematically unsustainable and disincentivizes productivity and skill acquisition in the workforce.",
-    kavyaStart: "That's a narrow view. UBI provides a baseline safety net that actually encourages entrepreneurial risk and creative innovation."
   }
 ];
 
-let currentActiveTopic = gdTopics[0];
+let currentActiveTopic;
 let currentGDRound = 1; 
 let totalGDRounds = 5; 
 let gdHistory = "";
+
+// Called on load to randomly pick and show the topic in the UI
+window.initGDUI = function() {
+    currentActiveTopic = gdTopics[Math.floor(Math.random() * gdTopics.length)];
+    const titleEl = document.getElementById('gd-topic-title');
+    const descEl = document.getElementById('gd-topic-desc');
+    if (titleEl && descEl) {
+        titleEl.innerText = `"${currentActiveTopic.title}"`;
+        descEl.innerText = currentActiveTopic.desc;
+    }
+};
 
 async function setSpeaker(id, name, text, avatarId) {
   window.activeSpeaker = id; 
@@ -1454,11 +1459,6 @@ window.startAIGD = async function() {
   document.getElementById('gd-transcript').innerHTML = ""; 
   gdHistory = "";
   
-  // Randomly select a topic
-  currentActiveTopic = gdTopics[Math.floor(Math.random() * gdTopics.length)];
-  document.getElementById('gd-topic-title').innerText = `"${currentActiveTopic.title}"`;
-  document.getElementById('gd-topic-desc').innerText = currentActiveTopic.desc;
-
   writeTranscript('gd-transcript', 'System', `Initiating 5-Round Virtual GD on: ${currentActiveTopic.title}...`);
 
   const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
@@ -1508,10 +1508,9 @@ window.processGDSpeech = async function(userSpeech) {
     let speakerId = currentGDRound % 2 === 0 ? "kavya" : "arjun";
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
     
-    // STRICT GD PROMPT
+    // NEW PROMPT: Forces AI to strictly challenge weak logic
     let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "${currentActiveTopic.title}". The user you are debating is named ${firstName}. 
-    CRITICAL INSTRUCTION: Analyze ${firstName}'s last point. If their argument is loose, weak, illogical, or lacks solid data, you MUST push back, point out the exact flaws in their logic, and challenge them directly. If it is strong, counter it with a different perspective. 
-    Do not just blindly agree or say 'good point'. Keep it conversational, natural, and highly professional. Strictly 1 to 2 sentences max. Do not use your own name or brackets.`;
+    CRITICAL INSTRUCTION: Deeply analyze ${firstName}'s last argument. If their argument is weak, loose, illogical, or lacks solid data, you MUST push back, point out the exact flaws, and challenge them directly. If it is strong, counter it with a different perspective. Keep it conversational, 1-2 sentences. Do not use your own name or brackets.`;
     
     let aiReply = await callGemini(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
     
@@ -1520,24 +1519,25 @@ window.processGDSpeech = async function(userSpeech) {
     document.getElementById('gd-mic-zone').classList.remove('hidden'); 
     document.getElementById('gd-mic-zone').classList.add('flex');
   } else {
-    writeTranscript('gd-transcript', 'System', 'Calculating final GD score via LLM rubric...');
+    writeTranscript('gd-transcript', 'System', 'Calculating final GD score via Strict Assessment Rubric...');
     
-    // --- INTEGRATED 3-TIER GD SCORING ENGINE (Out of 30) ---
-    let gdScoringPrompt = `You are a strict Executive Assessment Evaluator grading an MBA Group Discussion transcript.
-Evaluate the candidate's performance across 3 parameters (10 marks each, total 30 marks):
-1. Content & Substance (0-10): Relevance, logical arguments, data backing.
-2. Communication & Articulation (0-10): Clarity, professional phrasing, concise delivery.
-3. Group Dynamics & Synthesis (0-10): Direct responses to peers, active listening, mediating consensus.
+    // NEW SCORING PROMPT: Enforces explicit 3-Tier logic
+    let gdScoringPrompt = `You are an expert HR Evaluator grading an MBA Group Discussion. 
+    Topic: ${currentActiveTopic.title}
+    Transcript:
+    ${gdHistory}
 
-Scoring Tiers:
-- Tier 1 (1 to 10): Basic / Off-topic / Minimal substance / Fragmented arguments.
-- Tier 2 (11 to 20): Competent / Average / Clear points but lacks deep numerical/strategic insight.
-- Tier 3 (21 to 30): Advanced / Exceptional / Structured, persuasive, highly collaborative.
+    Evaluate the candidate ('Candidate') across 3 parameters (10 marks each) for a Total of 30 marks:
+    1. Content (0-10)
+    2. Communication (0-10)
+    3. Group Dynamics (0-10)
 
-Transcript to evaluate:
-${gdHistory}
+    CRITICAL - YOU MUST ASSIGN A SCORE BASED ON THESE EXACT TIERS:
+    - 1 to 10 Marks: Basic / Loose arguments / Weak logic / Needs Improvement.
+    - 11 to 20 Marks: Competent / Average / Good points but lacks deep insight.
+    - 21 to 30 Marks: Advanced / Exceptional / Strong data-backed arguments and leadership.
 
-Return ONLY a single integer score between 1 and 30 representing the exact sum. Example output: 24`;
+    Return ONLY a single integer number between 1 and 30 representing the final score. Do not include any text, explanations, or punctuation. Just the number. Example: 18`;
 
     let finalScoreStr = await callGemini(gdScoringPrompt);
     let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
@@ -1545,7 +1545,7 @@ Return ONLY a single integer score between 1 and 30 representing the exact sum. 
     
     window.userData.gd_score = score; 
     try { await syncToCloud(); } catch(e) {}
-    writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Score: ${score}/30`); 
+    writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Evaluated Score: ${score}/30`); 
     window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
   }
 };
@@ -1718,43 +1718,44 @@ window.processInterviewSpeech = async function(candidateResponse) {
     document.getElementById('interview-mic-zone').classList.remove('hidden'); 
     document.getElementById('interview-mic-zone').classList.add('flex');
   } else {
-    writeTranscript('interview-transcript', 'System', 'Evaluating overall performance across rubric dimensions...');
+    writeTranscript('interview-transcript', 'System', 'Evaluating overall performance across strict assessment tiers...');
     await setSpeaker('meera', 'HR Director Meera', 'Interview complete. Decrypting your Talent Passport and dispatching report now.', 'meera');
     
-    // --- INTEGRATED 3-TIER INTERVIEW SCORING ENGINE (Out of 100) ---
-    let interviewRubricPrompt = window.interviewMethod === 'star'
-      ? `You are a Fortune 500 Executive Recruiter scoring a candidate's 5-question behavioral interview transcript strictly against the STAR framework.
-Evaluate across 4 distinct dimensions (Total 100 Marks):
-1. Technical Accuracy & Domain Relevance (0-30): Depth of HR/management concepts and direct responses.
-2. STAR Structure & Logical Rigor (0-25): Clear Situation, Task, Action, and measurable numerical Result.
-3. Communication & Articulation (0-25): Professional phrasing, clarity, conciseness, absence of fluff.
-4. Executive Composure & Behavioral Fit (0-20): Problem-solving maturity and decision-making clarity.
+    // NEW SCORING PROMPT: Enforces explicit 3-Tier logic for Interview
+    let interviewRubricPrompt = window.interviewMethod === 'star' ?
+      `You are a Fortune 500 Executive Recruiter scoring a candidate's behavioral interview transcript strictly against the STAR framework.
+      Transcript:
+      ${intHistory}
 
-Score Tiers:
-- Tier 1 (0 to 40): Unsatisfactory / High Risk / Rambling / No STAR structure / Missing metrics.
-- Tier 2 (41 to 70): Proficient / Standard Pass / Answers prompt / Basic logic / Light on data.
-- Tier 3 (71 to 100): Exemplary / Strong Hire / Strict STAR adherence / Concrete KPIs / Exceptional leadership presence.
+      Evaluate across 4 distinct dimensions (Total 100 Marks):
+      1. Technical Accuracy & Domain Relevance (0-30)
+      2. STAR Structure & Logical Rigor (0-25)
+      3. Communication & Articulation (0-25)
+      4. Executive Composure & Behavioral Fit (0-20)
 
-Transcript:
-${intHistory}
+      CRITICAL - YOU MUST ASSIGN A SCORE BASED ON THESE EXACT TIERS:
+      - 0 to 40 Marks: Unsatisfactory / High Risk / Rambling / No STAR structure / Weak or loose arguments.
+      - 41 to 70 Marks: Proficient / Standard Pass / Answers prompt / Basic logic but lacks deep data.
+      - 71 to 100 Marks: Exemplary / Strong Hire / Strict STAR adherence / Concrete KPIs / Exceptional presence.
 
-Calculate the sum and return ONLY a single integer score between 0 and 100. Example output: 84`
-      : `You are a Fortune 500 Executive Recruiter scoring a candidate's 5-question general HR interview transcript.
-Evaluate across 4 distinct dimensions (Total 100 Marks):
-1. Domain Relevance & Knowledge Depth (0-30): Understanding of organizational dynamics and role competencies.
-2. Structure & Logical Progression (0-25): Coherent reasoning, clear beginning-middle-end narratives.
-3. Communication, Confidence & Fluency (0-25): Executive vocabulary, concise articulation.
-4. Cultural Fit & Situational Problem Solving (0-20): Practical leadership mindset and strategic alignment.
+      Return ONLY a single integer number between 0 and 100 representing the final score. No text, no explanations. Example: 65` 
+      : 
+      `You are a Fortune 500 Executive Recruiter scoring a candidate's general HR interview transcript.
+      Transcript:
+      ${intHistory}
 
-Score Tiers:
-- Tier 1 (0 to 40): Unsatisfactory / High Risk / Vague / Disjointed thoughts.
-- Tier 2 (41 to 70): Proficient / Standard Pass / Clear, relevant, solid communication.
-- Tier 3 (71 to 100): Exemplary / Strong Hire / Insightful, polished, strategic vision.
+      Evaluate across 4 distinct dimensions (Total 100 Marks):
+      1. Domain Relevance & Knowledge Depth (0-30)
+      2. Structure & Logical Progression (0-25)
+      3. Communication & Fluency (0-25)
+      4. Cultural Fit & Problem Solving (0-20)
 
-Transcript:
-${intHistory}
+      CRITICAL - YOU MUST ASSIGN A SCORE BASED ON THESE EXACT TIERS:
+      - 0 to 40 Marks: Unsatisfactory / High Risk / Vague / Loose arguments.
+      - 41 to 70 Marks: Proficient / Standard Pass / Clear and relevant.
+      - 71 to 100 Marks: Exemplary / Strong Hire / Insightful and polished.
 
-Calculate the sum and return ONLY a single integer score between 0 and 100. Example output: 84`;
+      Return ONLY a single integer number between 0 and 100 representing the final score. No text, no explanations. Example: 65`;
         
     let finalScoreStr = await callGemini(interviewRubricPrompt);
     let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
@@ -2057,8 +2058,11 @@ function initRealisticAvatars() {
 }
 
 // RUN INITIALIZERS
-renderArchetypeQs();
-initRealisticAvatars();
+window.addEventListener('DOMContentLoaded', () => {
+    renderArchetypeQs();
+    initRealisticAvatars();
+    if(window.initGDUI) window.initGDUI();
+});
 
 </script>
 </body>
