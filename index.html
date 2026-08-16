@@ -1101,12 +1101,15 @@ signInAnonymously(auth).then((userCredential) => {
       if (snap.exists()) {
           const config = snap.data();
           const overlay = document.getElementById('launchOverlay');
-          if (config.launchMode === true && sessionStorage.getItem('chairman_launched') !== 'true') {
-              overlay.classList.remove('hidden');
-              overlay.style.display = 'flex';
+          if (config.launchMode === true) {
+              if (sessionStorage.getItem('chairman_launched') !== 'true') {
+                  overlay.classList.remove('hidden');
+                  overlay.style.display = 'flex';
+              }
           } else {
               overlay.classList.add('hidden');
               overlay.style.display = 'none';
+              sessionStorage.removeItem('chairman_launched'); // Reset memory so it can be launched again!
           }
       }
   });
