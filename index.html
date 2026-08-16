@@ -10,7 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
-<!-- Real Computer Vision Libraries for Facial Tracking -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/tracking-min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/data/face-min.js"></script>
 
@@ -33,14 +32,7 @@ body { font-family: 'Inter', sans-serif; background-color: #f8fafc; transition: 
 .drop-zone { border: 2px dashed #cbd5e1; transition: all 0.2s ease; }
 .drop-zone.dragover { border-color: #2563eb; background-color: #eff6ff; }
 
-.admin-only { display: none; }
-body.admin-mode .admin-only { display: block; }
-body.admin-mode .admin-login-btn { display: none; }
-
-.admin-only-flex { display: none; }
-body.admin-mode .admin-only-flex { display: flex; }
-.touch-manipulation { touch-action: manipulation; }
-
+/* AI Dark Mode Styles */
 body.ai-mode { background-color: #0f172a; color: #f1f5f9; }
 body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgba(51, 65, 85, 0.8); color: #f8fafc; }
 body.ai-mode h2, body.ai-mode h3, body.ai-mode p, body.ai-mode span, body.ai-mode label { color: #f8fafc !important; }
@@ -69,51 +61,21 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes urgent-glow { 0% { text-shadow: 0 0 5px red; } 50% { text-shadow: 0 0 20px red; color: #ff9999; } 100% { text-shadow: 0 0 5px red; } }
 .timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
 
-.gd-boardroom-container {
-    position: relative;
-    width: 100%;
-    min-height: 240px;
-    background: radial-gradient(circle, #1e293b 0%, #0f172a 100%);
-    border-radius: 1rem;
-    border: 1px solid #334155;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-}
-@media (min-width: 768px) {
-    .gd-boardroom-container { min-height: 320px; }
-}
+/* Responsive 3D Round Table GD Layout */
+.gd-boardroom-container { position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem; }
+@media (min-width: 768px) { .gd-boardroom-container { min-height: 320px; } }
 
-.gd-table-oval {
-    width: 85%;
-    height: 100px;
-    background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
-    border: 3px solid #475569;
-    border-radius: 100px;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-@media (min-width: 768px) {
-    .gd-table-oval { width: 80%; height: 140px; }
-}
+.gd-table-oval { width: 85%; height: 100px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border: 3px solid #475569; border-radius: 100px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
+@media (min-width: 768px) { .gd-table-oval { width: 80%; height: 140px; } }
 
 .gd-seat { position: absolute; text-align: center; }
 .gd-seat-top-left { top: 10px; left: 5%; }
 .gd-seat-top-right { top: 10px; right: 5%; }
-@media (min-width: 768px) {
-    .gd-seat-top-left { top: 15px; left: 15%; }
-    .gd-seat-top-right { top: 15px; right: 15%; }
-}
+@media (min-width: 768px) { .gd-seat-top-left { top: 15px; left: 15%; } .gd-seat-top-right { top: 15px; right: 15%; } }
 .gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 
-@keyframes slowPulse {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); }
-}
+/* Subtle pulse for hero background */
+@keyframes slowPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
 .hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
 </style>
 </head>
@@ -146,12 +108,11 @@ body.ai-mode .gd-avatar { background: #334155; }
     <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-200"><i class="fa-solid fa-sparkles text-yellow-300 mr-1"></i>AI Guided</span>
   </div>
 
-  <!-- ABOUT BUTTON PINNED TO TOP RIGHT (DESKTOP ONLY) -->
   <button onclick="window.switchTab('tab-overview')" class="hidden md:flex bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 md:px-4 py-2 rounded-lg transition text-xs md:text-sm font-bold shadow-md items-center ml-2">
     <i class="fa-solid fa-circle-info mr-1 md:mr-2 text-brand-200"></i> About
   </button>
-
 </div>
+
 </div>
 </div>
 
@@ -253,6 +214,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
+<!-- STAGE 1: ATS AUDIT -->
 <section id="tab-ats" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 1: Enterprise ATS Audit (TF-IDF)</h2>
@@ -321,6 +283,7 @@ Submit Final Answers
 </div>
 </section>
 
+<!-- STAGE 3: ARCHETYPE ASSESSMENT -->
 <section id="tab-archetype" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 3: Archetype Assessment</h2>
@@ -391,22 +354,11 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 <div class="flex flex-col gap-6 h-fit">
 <div class="glass-card p-4 md:p-6 rounded-xl shadow-sm flex flex-col items-center justify-center border border-gray-200/50">
 <h3 class="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-2 md:mb-3"><i class="fa-solid fa-video text-blue-500 mr-2"></i>Conference Stream</h3>
-<div class="w-full h-40 md:h-48 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
-<video id="gdWebcam" class="w-full h-full object-cover transform -scale-x-100" autoplay playsinline muted></video>
+<div class="w-full h-40 md:h-48 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700 relative">
+<video id="gdWebcam" class="w-full h-full object-cover" style="transform: scaleX(-1);" autoplay playsinline muted></video>
 </div>
 </div>
 <div class="glass-card p-5 md:p-6 rounded-xl flex flex-col items-center justify-center text-center" id="gdWaitingArea">
-<i class="fa-solid fa-satellite-dish text-4xl md:text-5xl text-slate-400 mb-4 md:mb-6 hover:scale-110 transition-transform"></i>
-<h3 class="text-lg md:text-xl font-bold mb-2">Awaiting AI Evaluation</h3>
-<p class="text-xs md:text-sm max-w-sm">Engage in the 5-round simulation. The AI agents will dynamically debate your points via LLM before auto-scoring based on strict tiers.</p>
-</div>
-</div>
-</div>
-</section>
-
-<!-- STAGE 5: INTERVIEW -->
-</div>
-<div class="glass-card p-5 md:p-6 rounded-xl flex flex-col items-center justify-center text-center [&:has(~.admin-only:not([style*='display: none']))]:hidden" id="gdWaitingArea">
 <i class="fa-solid fa-satellite-dish text-4xl md:text-5xl text-slate-400 mb-4 md:mb-6 hover:scale-110 transition-transform"></i>
 <h3 class="text-lg md:text-xl font-bold mb-2">Awaiting AI Evaluation</h3>
 <p class="text-xs md:text-sm max-w-sm">Engage in the 5-round simulation. The AI agents will dynamically debate your points via LLM before auto-scoring based on strict tiers.</p>
@@ -516,97 +468,101 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
-<!-- ACADEMIC MODULES SECTION (Highly Detailed) -->
-<section id="tab-about" class="tab-content">
+<section id="tab-overview" class="tab-content">
   <div class="mb-8 md:mb-10 text-center md:text-left">
-    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & Case Studies</h2>
-    <p class="text-sm md:text-lg text-slate-500 mt-2">Deep-dive into the foundational theories, frameworks, and formulas driving modern Fortune 500 HR operations.</p>
+    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">About: The 6-Stage Assessment Gauntlet</h2>
+    <p class="text-sm md:text-lg text-slate-500 mt-2">Bridging postgraduate classroom theory with real-world HR technology execution. Understand exactly how you are evaluated across all 6 stages.</p>
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-    
-    <!-- Module 1 -->
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500">
-      <div class="flex items-center space-x-3 mb-6 border-b border-gray-200 pb-4">
-        <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-microchip"></i></div>
-        <div>
-          <h3 class="text-lg md:text-xl font-bold text-slate-800">Module 1: HR Analytics & ATS</h3>
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Predictive Talent Acquisition</span>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-file-pdf"></i></div>
+          <div>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">1. Enterprise ATS Audit</h3>
+            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Strategic Talent Acquisition</span>
+          </div>
         </div>
-      </div>
-      <div class="space-y-4 text-sm text-slate-600">
-        <p><strong>Term Frequency-Inverse Document Frequency (TF-IDF):</strong> The core algorithm used by enterprise ATS systems (like Workday and Taleo) to score resumes. It measures how frequently a keyword appears in your resume compared to how rare it is across all resumes.</p>
-        <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
-          <p class="font-mono text-xs text-blue-800 font-bold mb-1">Turnover Rate Formula:</p>
-          <p class="font-mono text-xs text-blue-600">(Total Separations / Average Number of Employees) × 100</p>
-        </div>
-        <p><strong>Predictive Validity:</strong> The extent to which a score on a scale or test predicts future performance. AI Interviews and Cognitive Aptitude tests boast the highest predictive validity (0.65+) compared to unstructured interviews (0.20).</p>
-      </div>
-    </div>
-
-    <!-- Module 2 -->
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-emerald-500">
-      <div class="flex items-center space-x-3 mb-6 border-b border-gray-200 pb-4">
-        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-sack-dollar"></i></div>
-        <div>
-          <h3 class="text-lg md:text-xl font-bold text-slate-800">Module 2: Total Rewards & Comp</h3>
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Compensation & Benefits</span>
-        </div>
-      </div>
-      <div class="space-y-4 text-sm text-slate-600">
-        <p><strong>The Compa-Ratio:</strong> A metric used to assess how an employee's salary compares to the market midpoint. A ratio of 1.0 means the employee is paid exactly at market average.</p>
-        <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-100">
-          <p class="font-mono text-xs text-emerald-800 font-bold mb-1">Compa-Ratio Formula:</p>
-          <p class="font-mono text-xs text-emerald-600">(Employee Base Salary / Market Midpoint for Role) × 100</p>
-        </div>
-        <p><strong>Statutory Compliance (India):</strong> Provident Fund (PF) is mandated at 12% of basic pay. Gratuity calculations become eligible after exactly 5 years of continuous service. Notice period "buyouts" occur when a new employer pays the gross salary equivalent for the unserved notice days.</p>
-      </div>
-    </div>
-
-    <!-- Module 3 -->
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500">
-      <div class="flex items-center space-x-3 mb-6 border-b border-gray-200 pb-4">
-        <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-600 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-users-gear"></i></div>
-        <div>
-          <h3 class="text-lg md:text-xl font-bold text-slate-800">Module 3: Org Behavior (OB)</h3>
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Group Dynamics & Leadership</span>
-        </div>
-      </div>
-      <div class="space-y-4 text-sm text-slate-600">
-        <p><strong>Tuckman's Stages of Group Development:</strong> Forming, Storming (conflict arises), Norming (rules are set), Performing, and Adjourning. High-performing leaders navigate teams through 'Storming' rapidly using conflict resolution.</p>
-        <ul class="list-disc pl-5 space-y-1">
-          <li><strong>Halo Effect:</strong> Cognitive bias where one positive trait blinds the recruiter to negative traits.</li>
-          <li><strong>Groupthink:</strong> The dangerous drive for consensus that suppresses dissenting opinions and leads to catastrophic business decisions.</li>
-        </ul>
-        <p><strong>The STAR Method:</strong> Essential for behavioral interviews. <strong>S</strong>ituation (Context), <strong>T</strong>ask (Challenge), <strong>A</strong>ction (What YOU did), <strong>R</strong>esult (Quantifiable Metric).</p>
-      </div>
-    </div>
-
-    <!-- Module 4 -->
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500">
-      <div class="flex items-center space-x-3 mb-6 border-b border-gray-200 pb-4">
-        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-scale-balanced"></i></div>
-        <div>
-          <h3 class="text-lg md:text-xl font-bold text-slate-800">Module 4: Labor Law & Compliance</h3>
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Legal Frameworks & Ethics</span>
-        </div>
-      </div>
-      <div class="space-y-4 text-sm text-slate-600">
-        <p><strong>Prevention of Sexual Harassment (POSH) 2013:</strong> Mandates the creation of an Internal Complaints Committee (ICC) for any organization with 10 or more employees. Harassment includes implied requests for favors or hostile environments.</p>
-        <p><strong>Non-Compete Clauses:</strong> Under Section 27 of the Indian Contract Act, post-employment non-compete restrictions are generally void and unenforceable, though non-solicitation (stealing clients) remains legally binding.</p>
-        <div class="bg-amber-50 p-4 rounded-lg border border-amber-100 flex items-center justify-center">
-           <i class="fa-solid fa-triangle-exclamation text-amber-500 text-3xl mr-4"></i>
-           <p class="font-bold text-xs text-amber-800">Always read the severance and IP clauses before signing an executive contract.</p>
+        <div class="space-y-4 mb-6">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+            <p class="text-xs md:text-sm text-slate-700">Recruitment funnels, algorithmic screening, Term Frequency-Inverse Document Frequency (TF-IDF), and predictive validity.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+            <p class="text-xs md:text-sm text-slate-700">Demystifies the "black box" of Fortune 500 resume screening via real-time PDF parsing and keyword density matching.</p>
+          </div>
         </div>
       </div>
     </div>
 
-  </div>
-</section>
-
-<!-- EMPLOYEE RIGHTS SECTION -->
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-stopwatch"></i></div>
+          <div>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">2. Decision Velocity Assessment</h3>
+            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Learning & Development</span>
+          </div>
+        </div>
+        <div class="space-y-4 mb-6">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+            <p class="text-xs md:text-sm text-slate-700">Cognitive load theory, situational judgment testing (SJT), and decision-making under high stress/strict deadlines.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+            <p class="text-xs md:text-sm text-slate-700">Simulates real-world management pressure with a randomized 20-question, 10-minute countdown assessment.</p>
+          </div>
+        </div>
       </div>
     </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-sitemap"></i></div>
+          <div>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">3. Archetype Profiling</h3>
+            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Organizational Behavior (OB)</span>
+          </div>
+        </div>
+        <div class="space-y-4 mb-6">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-purple-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+            <p class="text-xs md:text-sm text-slate-700">Big Five Personality Traits, DISC assessments, cognitive biases, and predictive workplace behavior models.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+            <p class="text-xs md:text-sm text-slate-700">Forces candidates through a forced-choice situational matrix to mathematically determine their operational archetype before entering team dynamics.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-users"></i></div>
+          <div>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">4. Multi-Agent Virtual GD</h3>
+            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Group Dynamics & Team Leadership</span>
+          </div>
+        </div>
+        <div class="space-y-4 mb-6">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-amber-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+            <p class="text-xs md:text-sm text-slate-700">Tuckman's stages of group development, conflict resolution modes (Thomas-Kilmann model), and consensus building.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+            <p class="text-xs md:text-sm text-slate-700">Pits the candidate against two opposing AI personas (Analytical Arjun vs. Creative Kavya) in an interactive debate.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-red-500 flex flex-col justify-between">
       <div>
         <div class="flex items-center space-x-3 mb-4">
@@ -628,6 +584,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
         </div>
       </div>
     </div>
+
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-emerald-500 flex flex-col justify-between">
       <div>
         <div class="flex items-center space-x-3 mb-4">
@@ -657,25 +614,36 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
   <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Employee Rights Spotlight & Masterclasses</h2>
   <p class="text-sm md:text-base text-slate-500 mt-2">Essential regulatory knowledge every postgraduate professional must master before signing an offer letter.</p>
 </div>
+
 <div class="grid grid-cols-1 gap-8 md:gap-10">
 <div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-blue-500">
 <h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-coins mr-2 text-blue-500"></i>1. Compensation & CTC Breakdowns</h3>
 <p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>Base vs. Variable Pay:</strong> Never evaluate a job offer purely on "CTC" (Cost to Company). Base pay is fixed and guaranteed. Variable pay is contingent on company profits and individual performance.</p>
 <p class="text-xs md:text-sm mb-4 md:mb-6 text-slate-600"><strong>Provident Fund & Gratuity:</strong> In India, PF (12% of Basic) is deducted from your salary but matched by the employer. Gratuity is paid after 5 years of continuous service.</p>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-<iframe class="w-full h-48 md:h-64 rounded-lg shadow" src="https://www.youtube.com/embed/Qz1VhbNjboE?si=WqFq057njlqp0ocb" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
-<iframe class="w-full h-48 md:h-64 rounded-lg shadow" src="https://www.youtube.com/embed/UqjZEC2Ykb4?si=5Yf-fGJ-eAXGg-Ou" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+  <div class="relative w-full overflow-hidden pt-[56.25%] rounded-lg shadow-lg bg-slate-800">
+    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/Qz1VhbNjboE?si=WqFq057njlqp0ocb" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+  </div>
+  <div class="relative w-full overflow-hidden pt-[56.25%] rounded-lg shadow-lg bg-slate-800">
+    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/UqjZEC2Ykb4?si=5Yf-fGJ-eAXGg-Ou" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+  </div>
 </div>
 </div>
+
 <div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-pink-500">
 <h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-shield-halved mr-2 text-pink-500"></i>2. Prevention of Sexual Harassment (POSH)</h3>
 <p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>The 2013 Act & Vishakha Guidelines:</strong> Every organization with 10 or more employees is legally mandated to constitute an Internal Complaints Committee (ICC).</p>
 <p class="text-xs md:text-sm mb-4 md:mb-6 text-slate-600"><strong>Zero Tolerance Policies:</strong> Harassment includes implied requests for favors, sexually colored remarks, and creating a hostile work environment.</p>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-<iframe class="w-full h-48 md:h-64 rounded-lg shadow" src="https://www.youtube.com/embed/M8C2B949BqA?si=DXddUt1YXOrBTig0" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
-<iframe class="w-full h-48 md:h-64 rounded-lg shadow" src="https://www.youtube.com/embed/tEulz5dqQL4?si=LH05s_AwAX2m2P2M" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+  <div class="relative w-full overflow-hidden pt-[56.25%] rounded-lg shadow-lg bg-slate-800">
+    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/M8C2B949BqA?si=DXddUt1YXOrBTig0" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+  </div>
+  <div class="relative w-full overflow-hidden pt-[56.25%] rounded-lg shadow-lg bg-slate-800">
+    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/tEulz5dqQL4?si=LH05s_AwAX2m2P2M" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+  </div>
 </div>
 </div>
+
 <div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-emerald-500">
 <h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-file-contract mr-2 text-emerald-500"></i>3. Employment Contracts & Notice Periods</h3>
 <p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>Non-Compete Clauses:</strong> Under Section 27 of the Indian Contract Act, post-employment non-compete clauses are generally void and unenforceable.</p>
@@ -684,17 +652,100 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
+<section id="tab-about" class="tab-content">
+  <div class="mb-8 md:mb-10 text-center md:text-left">
+    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & Case Studies</h2>
+    <p class="text-sm md:text-lg text-slate-500 mt-2">Deep-dive into the foundational theories, frameworks, and formulas driving modern Fortune 500 HR operations.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500">
+      <div class="flex items-center space-x-3 mb-6 border-b border-gray-200 pb-4">
+        <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-microchip"></i></div>
+        <div>
+          <h3 class="text-lg md:text-xl font-bold text-slate-800">Module 1: HR Analytics & ATS</h3>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Predictive Talent Acquisition</span>
+        </div>
+      </div>
+      <div class="space-y-4 text-sm text-slate-600">
+        <p><strong>Term Frequency-Inverse Document Frequency (TF-IDF):</strong> The core algorithm used by enterprise ATS systems to score resumes. It measures how frequently a keyword appears in your resume compared to how rare it is globally.</p>
+        <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+          <p class="font-mono text-xs text-blue-800 font-bold mb-1">Turnover Rate Formula:</p>
+          <p class="font-mono text-xs text-blue-600">(Total Separations / Average Number of Employees) × 100</p>
+        </div>
+        <p><strong>Predictive Validity:</strong> The extent to which a test predicts future performance. AI Interviews boast the highest predictive validity (0.65+) compared to unstructured interviews (0.20).</p>
+      </div>
+    </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-emerald-500">
+      <div class="flex items-center space-x-3 mb-6 border-b border-gray-200 pb-4">
+        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-sack-dollar"></i></div>
+        <div>
+          <h3 class="text-lg md:text-xl font-bold text-slate-800">Module 2: Total Rewards & Comp</h3>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Compensation & Benefits</span>
+        </div>
+      </div>
+      <div class="space-y-4 text-sm text-slate-600">
+        <p><strong>The Compa-Ratio:</strong> A metric used to assess how an employee's salary compares to the market midpoint. A ratio of 1.0 means the employee is paid exactly at market average.</p>
+        <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-100">
+          <p class="font-mono text-xs text-emerald-800 font-bold mb-1">Compa-Ratio Formula:</p>
+          <p class="font-mono text-xs text-emerald-600">(Employee Base Salary / Market Midpoint for Role) × 100</p>
+        </div>
+        <p><strong>Statutory Compliance (India):</strong> Provident Fund (PF) is mandated at 12% of basic pay. Gratuity calculations become eligible after exactly 5 years of continuous service.</p>
+      </div>
+    </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500">
+      <div class="flex items-center space-x-3 mb-6 border-b border-gray-200 pb-4">
+        <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-600 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-users-gear"></i></div>
+        <div>
+          <h3 class="text-lg md:text-xl font-bold text-slate-800">Module 3: Org Behavior (OB)</h3>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Group Dynamics & Leadership</span>
+        </div>
+      </div>
+      <div class="space-y-4 text-sm text-slate-600">
+        <p><strong>Tuckman's Stages of Group Development:</strong> Forming, Storming (conflict arises), Norming (rules are set), Performing, and Adjourning. Leaders navigate teams through 'Storming' rapidly using conflict resolution.</p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li><strong>Halo Effect:</strong> Cognitive bias where one positive trait blinds the recruiter to negative traits.</li>
+          <li><strong>Groupthink:</strong> The dangerous drive for consensus that suppresses dissenting opinions.</li>
+        </ul>
+        <p><strong>The STAR Method:</strong> Essential for behavioral interviews. <strong>S</strong>ituation (Context), <strong>T</strong>ask (Challenge), <strong>A</strong>ction (What YOU did), <strong>R</strong>esult (Quantifiable Metric).</p>
+      </div>
+    </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500">
+      <div class="flex items-center space-x-3 mb-6 border-b border-gray-200 pb-4">
+        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-2xl font-bold"><i class="fa-solid fa-scale-balanced"></i></div>
+        <div>
+          <h3 class="text-lg md:text-xl font-bold text-slate-800">Module 4: Labor Law & Compliance</h3>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Legal Frameworks & Ethics</span>
+        </div>
+      </div>
+      <div class="space-y-4 text-sm text-slate-600">
+        <p><strong>Prevention of Sexual Harassment (POSH) 2013:</strong> Mandates the creation of an Internal Complaints Committee (ICC) for any organization with 10 or more employees.</p>
+        <p><strong>Non-Compete Clauses:</strong> Under Section 27 of the Indian Contract Act, post-employment non-compete restrictions are generally void and unenforceable.</p>
+        <div class="bg-amber-50 p-4 rounded-lg border border-amber-100 flex items-center justify-center">
+           <i class="fa-solid fa-triangle-exclamation text-amber-500 text-3xl mr-4"></i>
+           <p class="font-bold text-xs text-amber-800">Always read the severance and IP clauses before signing an executive contract.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="tab-quiz" class="tab-content">
   <div class="mb-6 md:mb-8 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Optional Practice Zone</h2>
     <p class="text-sm md:text-lg text-slate-500 mt-2">Test your knowledge on each module. These quizzes are strictly for practice, provide instant feedback, and do <strong class="text-red-500">NOT</strong> affect your official Talent Passport.</p>
   </div>
+  
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-6 md:mb-8">
      <button id="btn-quiz-ats" onclick="window.loadPracticeQuiz('ats')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-file-pdf text-indigo-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> ATS Audit</button>
      <button id="btn-quiz-aptitude" onclick="window.loadPracticeQuiz('aptitude')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-stopwatch text-purple-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> Aptitude</button>
      <button id="btn-quiz-gd" onclick="window.loadPracticeQuiz('gd')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-users text-amber-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> Virtual GD</button>
      <button id="btn-quiz-interview" onclick="window.loadPracticeQuiz('interview')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-microphone-lines text-brand-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> AI Interview</button>
   </div>
+  
   <div id="practiceQuizContainer" class="glass-card p-5 md:p-8 rounded-xl shadow-md min-h-[250px] md:min-h-[300px] border-t-4 border-t-slate-400">
      <div class="text-center text-slate-400 mt-8 md:mt-10">
        <i class="fa-solid fa-hand-pointer text-3xl md:text-4xl mb-3 md:mb-4 block"></i>
@@ -708,10 +759,10 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
-const GEMINI_API_KEY = "AQ.Ab8RN6ISnP6XqfnQExC9_pVH1S5PIribDiYVk6CBQYNv9zclfA"; 
+const GEMINI_API_KEY = "AQ.Ab8RN6LX1RAGG5wUxiydy0R1u8H3by2XRvUC791UrWrFmNH-sQ"; 
 
 const firebaseConfig = {
 apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
@@ -730,6 +781,10 @@ const storage = getStorage(app);
 
 // ==========================================
 // NATIVE INDIAN TTS ENGINE
+// ==========================================
+class AvatarSpeechService {
+  constructor() {
+    this.voices = [];
     this.populateVoices();
     if (typeof window.speechSynthesis !== 'undefined' && window.speechSynthesis.onvoiceschanged !== undefined) {
       window.speechSynthesis.onvoiceschanged = this.populateVoices.bind(this);
@@ -790,14 +845,11 @@ const storage = getStorage(app);
 const ttsService = new AvatarSpeechService();
 
 const APP_ID = 'hr-blog-app'; 
-window.isAdmin = false;
-window.adminSelectedId = null;
 window.candidateId = null;
 window.isAIMode = false;
 window.activeSpeaker = null; 
 window.userData = { name: "", email: "", archetype: "Not Evaluated", ats_score: 0, test_score: 0, gd_score: 0, interview_score: 0, published: false };
 let unsubscribeStudent = null;
-
 window.bioMetrics = { eyeContact: [], stress: [] };
 
 const localResponses = {
@@ -822,11 +874,11 @@ window.startAssessment = function() {
 
 async function callGemini(prompt, systemInstruction = null) {
   try {
-    if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("PASTE_")) {
+    if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("PASTE_YOUR_AIZASY_KEY_HERE")) {
       throw new Error("Missing Key");
     }
     
-    // Using AQ key directly in the URL to bypass authentication header bug
+    // Using AQ Key directly in URL
     let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
     let headers = { 'Content-Type': 'application/json' };
 
@@ -848,10 +900,9 @@ async function callGemini(prompt, systemInstruction = null) {
     console.warn("API Call switched to Local Simulation Engine:", e.message);
     let category = prompt.includes("Interview") || prompt.includes("Meera") ? "interview" : "gd";
     
+    // Advanced Punctuation Strip Fallback
     let lastInputMatch = prompt.match(/Candidate:\s*(.*)/g);
     let lastInput = lastInputMatch ? lastInputMatch[lastInputMatch.length - 1].replace('Candidate:', '').trim() : "";
-    
-    // Strict fallback engine bypasses punctuation trickery
     let cleanedInput = lastInput.replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ").trim().toLowerCase();
     
     if (cleanedInput.length < 15 || ['ok', 'yes', 'no', 'nothing', 'i agree', 'sure'].includes(cleanedInput)) {
@@ -865,6 +916,7 @@ async function callGemini(prompt, systemInstruction = null) {
   }
 }
 
+// ARCHETYPE QUESTIONS
 const archQ = [
   {q: "1. When starting a complex new project, your first priority is to:", o: {s: "Define clear metrics", i: "Find a unique angle", c: "Ensure the right people are assigned", e: "Set a strict timeline"}},
   {q: "2. In team meetings, you are usually the one who:", o: {s: "Points out logical flaws", i: "Pitches the big ideas", c: "Makes sure everyone speaks", e: "Pushes the meeting to end"}},
@@ -900,7 +952,6 @@ function renderArchetypeQs() {
     html += `</div></div>`;
     finalHtml += html;
   });
-  
   c.innerHTML = finalHtml;
 }
 
@@ -929,51 +980,6 @@ window.showMessage = function(text, type = 'success') {
   document.getElementById('msgText').innerHTML = text;
   box.classList.remove('hidden');
   setTimeout(() => { box.classList.add('hidden'); }, 5000);
-};
-
-window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); };
-window.closeAdminModal = function() { document.getElementById('adminModal').classList.add('hidden'); };
-window.verifyAdmin = function() {
-  const pass = document.getElementById('adminPass').value;
-  if(pass === 'admin123') {
-    window.isAdmin = true;
-    document.body.classList.add('admin-mode');
-    window.closeAdminModal();
-    window.showMessage("Admin Command Center Unlocked!");
-    loadAdminCandidates();
-  } else {
-    window.showMessage("Invalid Admin Passcode", "error");
-  }
-};
-
-async function loadAdminCandidates() {
-  try {
-    const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'));
-    const snap = await getDocs(q);
-    const sel = document.getElementById('adminCandidateSelect');
-    sel.innerHTML = '<option value="" class="text-slate-800">-- Select Candidate --</option>';
-    snap.forEach(docSnap => {
-      let data = docSnap.data();
-      sel.innerHTML += `<option value="${docSnap.id}" class="text-slate-800">${data.name || 'Unnamed'} (${data.email})</option>`;
-    });
-  } catch(e) {}
-}
-
-window.onAdminSelectCandidate = async function(id) {
-  if(!id) return;
-  window.adminSelectedId = id;
-  const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', id));
-  if(snap.exists()) {
-    window.userData = snap.data();
-    window.updatePassportUI();
-  }
-};
-
-window.saveGDScore = async function() {
-  let s = parseInt(document.getElementById('gdScoreInput').value) || 0;
-  window.userData.gd_score = s;
-  await syncToCloud();
-  window.showMessage("GD Score Pushed Successfully!");
 };
 
 signInAnonymously(auth).then((userCredential) => {
@@ -1009,7 +1015,7 @@ window.restoreUserSession = async function() {
 };
 
 function listenToStudentData() {
-  if (!window.candidateId || window.isAdmin) return;
+  if (!window.candidateId) return;
   unsubscribeStudent = onSnapshot(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), (snap) => {
     if (snap.exists()) {
       window.userData = Object.assign({}, window.userData, snap.data());
@@ -1019,7 +1025,7 @@ function listenToStudentData() {
 }
 
 async function syncToCloud() {
-  if (!window.candidateId || window.isAdmin) return; 
+  if (!window.candidateId) return; 
   try {
     await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), window.userData, { merge: true });
   } catch (error) {
@@ -1069,12 +1075,7 @@ window.submitArchetype = async function() {
   const map = { s:"Strategist", i:"Innovator", c:"Connector", e:"Executor" };
   window.userData.archetype = map[maxKey];
   
-  try {
-    await syncToCloud(); 
-  } catch (e) {
-    console.warn("Cloud sync failed. Advancing locally.", e);
-  }
-  
+  try { await syncToCloud(); } catch (e) {}
   window.autoAdvanceTab('tab-archetype', 'tab-gd', 'Archetype Assessment');
 };
 
@@ -1140,9 +1141,7 @@ window.toggleAIMode = async function() {
         ttsService.stop(); 
         window.activeSpeaker = null;
       }
-  } catch (err) {
-      console.error("AI Mode Toggle Error:", err);
-  }
+  } catch (err) {}
 };
 
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -1242,14 +1241,14 @@ window.runATS = async function() {
     window.userData.ats_score = Math.round((matched.length / sortedKeywords.length) * 100) || 10;
     document.getElementById('atsScoreDisplay').innerText = `${window.userData.ats_score}%`;
     document.getElementById('atsSuccessMsg').classList.remove('hidden');
-
-    // Upload Resume to Firebase Storage
+    
+    // UPLOAD RESUME PDF DIRECTLY TO FIREBASE STORAGE
     try {
         const file = fileInput.files[0];
         const storageRef = ref(storage, `artifacts/${APP_ID}/resumes/${window.candidateId}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
-        window.userData.resume_url = downloadURL;
+        window.userData.resume_url = downloadURL; // Attach the download link to the candidate's profile
     } catch (storageErr) {
         console.warn("Storage upload failed, proceeding without resume link.", storageErr);
     }
@@ -1410,7 +1409,7 @@ window.startAIGD = async function() {
   document.getElementById('gd-transcript').innerHTML = ""; 
   gdHistory = "";
   
-  // Re-confirm topic inside UI just in case
+  currentActiveTopic = gdTopics[Math.floor(Math.random() * gdTopics.length)];
   document.getElementById('gd-topic-title').innerText = `"${currentActiveTopic.title}"`;
   document.getElementById('gd-topic-desc').innerText = currentActiveTopic.desc;
 
@@ -1759,7 +1758,7 @@ window.updatePassportUI = function() {
   let t = Math.round((window.userData.ats_score + window.userData.test_score + ((window.userData.gd_score/30)*100) + window.userData.interview_score) / 4); 
   document.getElementById('passTotal').innerText = `${t || 0}%`;
 
-  if (window.userData.published || window.isAdmin) { 
+  if (window.userData.published) { 
     document.getElementById('passportLock').classList.add('hidden'); 
     document.getElementById('passportContent').classList.remove('hidden'); 
   } else { 
@@ -1779,7 +1778,6 @@ window.emailDetailedReport = function() {
   let avgEye = window.bioMetrics.eyeContact.length ? Math.round(window.bioMetrics.eyeContact.reduce((a,b)=>a+b,0)/window.bioMetrics.eyeContact.length) : 80;
   let avgStress = window.bioMetrics.stress.length ? Math.round(window.bioMetrics.stress.reduce((a,b)=>a+b,0)/window.bioMetrics.stress.length) : 20;
 
-  // DETAILED TIER FEEDBACK STRINGS
   let atsFeedback = window.userData.ats_score < 50 ? "Tier 1 (High Risk): Your resume lacks critical keywords from the job description. You are highly likely to be auto-rejected by enterprise ATS filters. Action: Re-map your hard skills and action verbs directly to the JD." : (window.userData.ats_score < 75 ? "Tier 2 (Proficient): Keyword density is acceptable but leaves room for improvement. Action: Ensure exact phrase matching for technical skills." : "Tier 3 (Exemplary): High keyword alignment with the target role. Your format and text are highly optimized for automated parsers.");
   
   let aptitudeFeedback = window.userData.test_score < 50 ? "Tier 1 (Needs Development): Decision velocity under pressure is low. Action: Review fundamental corporate frameworks and labor rights to improve recall speed." : (window.userData.test_score < 75 ? "Tier 2 (Competent): Solid theoretical foundation, though decision velocity under strict timers could be improved." : "Tier 3 (Advanced): Exceptional cognitive agility and strong recall of domain knowledge under pressure. You excel in situational judgment.");
@@ -2031,6 +2029,7 @@ function initRealisticAvatars() {
   }, 200);
 }
 
+// RUN INITIALIZERS
 renderArchetypeQs();
 initRealisticAvatars();
 
