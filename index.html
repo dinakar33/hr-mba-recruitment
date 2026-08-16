@@ -33,12 +33,6 @@ body { font-family: 'Inter', sans-serif; background-color: #f8fafc; transition: 
 .drop-zone { border: 2px dashed #cbd5e1; transition: all 0.2s ease; }
 .drop-zone.dragover { border-color: #2563eb; background-color: #eff6ff; }
 
-/* Responsive Video Fix */
-.video-responsive { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 1rem;}
-.video-responsive iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-
-.touch-manipulation { touch-action: manipulation; }
-
 /* AI Dark Mode Styles */
 body.ai-mode { background-color: #0f172a; color: #f1f5f9; }
 body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgba(51, 65, 85, 0.8); color: #f8fafc; }
@@ -110,7 +104,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 }
 .gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 
-/* Subtle pulse for hero background */
 @keyframes slowPulse {
     0%, 100% { opacity: 0.5; transform: scale(1); }
     50% { opacity: 0.8; transform: scale(1.05); }
@@ -125,7 +118,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-6">
 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 w-full">
 
-<!-- Responsive Title & Mobile About Button -->
+<!-- Responsive Title -->
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div>
     <h1 class="text-2xl md:text-3xl tracking-tight flex flex-col sm:flex-row sm:items-baseline">
@@ -133,12 +126,12 @@ body.ai-mode .gd-avatar { background: #334155; }
       <span class="text-brand-200 font-medium text-lg md:text-xl sm:ml-2 mt-1 sm:mt-0">- Practice-Perform-Place</span>
     </h1>
   </div>
-  <button onclick="window.switchTab('tab-about')" class="md:hidden bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 py-1.5 rounded-lg transition text-xs font-bold shadow-md flex items-center mt-1 flex-shrink-0">
+  <button onclick="window.switchTab('tab-overview')" class="md:hidden bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 py-1.5 rounded-lg transition text-xs font-bold shadow-md flex items-center mt-1 flex-shrink-0">
     <i class="fa-solid fa-circle-info mr-1 text-brand-200"></i> About
   </button>
 </div>
 
-<!-- Desktop Controls -->
+<!-- Desktop & Mobile Controls -->
 <div class="flex flex-wrap items-center gap-3 md:gap-4 w-full lg:w-auto mt-2 lg:mt-0 flex">
   <div class="flex items-center justify-center space-x-2 bg-black/20 px-3 md:px-4 py-2 rounded-full border border-white/10">
     <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-200">Manual</span>
@@ -150,10 +143,11 @@ body.ai-mode .gd-avatar { background: #334155; }
   </div>
 
   <!-- ABOUT BUTTON PINNED TO TOP RIGHT (DESKTOP ONLY) -->
-  <button onclick="window.switchTab('tab-about')" class="hidden md:flex bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 md:px-4 py-2 rounded-lg transition text-xs md:text-sm font-bold shadow-md items-center ml-2">
+  <button onclick="window.switchTab('tab-overview')" class="hidden md:flex bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 md:px-4 py-2 rounded-lg transition text-xs md:text-sm font-bold shadow-md items-center ml-2">
     <i class="fa-solid fa-circle-info mr-1 md:mr-2 text-brand-200"></i> About
   </button>
 </div>
+
 </div>
 </div>
 
@@ -169,7 +163,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 <button onclick="window.switchTab('tab-interview', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-microphone-lines mr-1 md:mr-2"></i>Stage 5: Interview</button>
 <button onclick="window.switchTab('tab-passport', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-id-card mr-1 md:mr-2"></i>Stage 6: Passport</button>
 <button onclick="window.switchTab('tab-rights', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-scale-balanced mr-1 md:mr-2"></i>Labor Rights</button>
-<button onclick="window.switchTab('tab-academic', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-book-open mr-1 md:mr-2"></i>Academic Modules</button>
+<button onclick="window.switchTab('tab-about', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-book-open mr-1 md:mr-2"></i>Academic Modules</button>
 <button onclick="window.switchTab('tab-quiz', this)" class="nav-btn text-brand-100 hover:bg-brand-700 hover:text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-dumbbell mr-1 md:mr-2"></i>Practice Quizzes</button>
 </nav>
 </div>
@@ -187,6 +181,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 <button onclick="document.getElementById('msgBox').classList.add('hidden')" class="text-white hover:text-gray-200"><i class="fa-solid fa-times"></i></button>
 </div>
 
+<!-- ENTERPRISE HOMEPAGE -->
 <section id="tab-home" class="tab-content active">
   <div class="relative overflow-hidden rounded-3xl bg-slate-900 text-white shadow-2xl mb-12 border border-slate-700">
      <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
@@ -207,7 +202,7 @@ body.ai-mode .gd-avatar { background: #334155; }
      <div class="glass-card p-6 md:p-8 rounded-2xl shadow-lg border-t-4 border-t-brand-500 hover:-translate-y-2 transition-transform duration-300">
         <div class="w-12 h-12 md:w-14 md:h-14 bg-brand-100 rounded-xl flex items-center justify-center text-brand-600 text-xl md:text-2xl mb-5 md:mb-6 shadow-inner"><i class="fa-solid fa-robot"></i></div>
         <h4 class="text-lg md:text-xl font-bold text-slate-800 mb-2 md:mb-3">AI-Powered Simulations</h4>
-        <p class="text-xs md:text-sm text-slate-600 leading-relaxed">Engage in dynamic, unscripted debates with multi-agent LLMs. Test your diplomacy and critical thinking in real-time virtual boardrooms.</p>
+        <p class="text-xs md:text-sm text-slate-600 leading-relaxed">Engage in dynamic, unscripted debates with multi-agent Groq LLMs. Test your diplomacy and critical thinking in real-time.</p>
      </div>
      <div class="glass-card p-6 md:p-8 rounded-2xl shadow-lg border-t-4 border-t-purple-500 hover:-translate-y-2 transition-transform duration-300">
         <div class="w-12 h-12 md:w-14 md:h-14 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 text-xl md:text-2xl mb-5 md:mb-6 shadow-inner"><i class="fa-solid fa-eye"></i></div>
@@ -222,6 +217,7 @@ body.ai-mode .gd-avatar { background: #334155; }
   </div>
 </section>
 
+<!-- ONBOARDING SECTION -->
 <section id="tab-onboarding" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
@@ -254,10 +250,11 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
+<!-- STAGE 1: ATS AUDIT -->
 <section id="tab-ats" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 1: Enterprise ATS Audit (TF-IDF)</h2>
-<p class="text-sm md:text-base text-slate-500 mt-1 md:mt-2">Paste a Job Description and upload your resume.</p>
+<p class="text-sm md:text-base text-slate-500 mt-1 md:mt-2">Paste a Job Description and upload your resume. Your resume will be securely uploaded to the database.</p>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
 <div class="lg:col-span-2 space-y-4 md:space-y-6">
@@ -273,7 +270,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 <p id="fileNameDisplay" class="mt-2 text-xs md:text-sm text-brand-600 font-medium hidden"><i class="fa-solid fa-check-circle mr-1"></i> File ready: <span id="fName"></span></p>
 </div>
 <button id="btnRunATS" onclick="window.runATS()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 rounded-lg shadow-md transition border border-slate-600 text-sm md:text-base">
-<i class="fa-solid fa-microchip mr-2"></i> Extract Keywords & Upload
+<i class="fa-solid fa-microchip mr-2"></i> Extract Keywords & Run Scan
 </button>
 </div>
 <div class="glass-card p-5 md:p-6 rounded-xl shadow-sm flex flex-col justify-start items-center h-[400px] md:h-[450px] overflow-hidden">
@@ -282,7 +279,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 <span id="atsScoreDisplay" class="text-2xl md:text-3xl font-extrabold text-brand-600">0%</span>
 </div>
 <p class="text-[10px] md:text-xs font-medium text-gray-500 uppercase tracking-wide mb-4">Match Score</p>
-<p class="text-xs md:text-sm text-green-700 bg-green-500/20 p-2 rounded hidden w-full text-center mb-4" id="atsSuccessMsg"><i class="fa-solid fa-check"></i> Resume Uploaded & Synced!</p>
+<p class="text-xs md:text-sm text-green-700 bg-green-500/20 p-2 rounded hidden w-full text-center mb-4" id="atsSuccessMsg"><i class="fa-solid fa-check"></i> Score & File Synced!</p>
 <div class="w-full flex-grow overflow-y-auto pr-2 custom-scrollbar text-left text-xs md:text-sm">
 <h4 class="font-bold text-slate-700 mb-2">JD Extracted Keywords:</h4>
 <div id="keywordResults" class="space-y-2">
@@ -293,6 +290,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
+<!-- STAGE 2: APTITUDE TEST -->
 <section id="tab-test" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-center sm:items-start bg-red-500/10 p-4 rounded-lg border border-red-500/30 gap-4">
 <div class="text-center sm:text-left">
@@ -322,6 +320,7 @@ Submit Final Answers
 </div>
 </section>
 
+<!-- STAGE 3: ARCHETYPE ASSESSMENT -->
 <section id="tab-archetype" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 3: Archetype Assessment</h2>
@@ -338,6 +337,7 @@ Submit Archetype Answers
 </div>
 </section>
 
+<!-- STAGE 4: VIRTUAL GD -->
 <section id="tab-gd" class="tab-content">
 <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
@@ -393,18 +393,19 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 <div class="glass-card p-4 md:p-6 rounded-xl shadow-sm flex flex-col items-center justify-center border border-gray-200/50">
 <h3 class="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-2 md:mb-3"><i class="fa-solid fa-video text-blue-500 mr-2"></i>Conference Stream</h3>
 <div class="w-full h-40 md:h-48 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
-<video id="gdWebcam" class="w-full h-full object-cover" style="transform: scaleX(-1);" autoplay playsinline muted></video>
+<video id="gdWebcam" class="w-full h-full object-cover transform -scale-x-100" autoplay playsinline muted></video>
 </div>
 </div>
-<div class="glass-card p-5 md:p-6 rounded-xl flex flex-col items-center justify-center text-center">
+<div class="glass-card p-5 md:p-6 rounded-xl flex flex-col items-center justify-center text-center" id="gdWaitingArea">
 <i class="fa-solid fa-satellite-dish text-4xl md:text-5xl text-slate-400 mb-4 md:mb-6 hover:scale-110 transition-transform"></i>
 <h3 class="text-lg md:text-xl font-bold mb-2">Awaiting AI Evaluation</h3>
-<p class="text-xs md:text-sm max-w-sm">Engage in the 5-round simulation. The AI agents will dynamically debate your points via LLM before auto-scoring based on strict tiers.</p>
+<p class="text-xs md:text-sm max-w-sm">Engage in the 5-round simulation. The Groq Llama-3 agents will dynamically debate your points before auto-scoring.</p>
 </div>
 </div>
 </div>
 </section>
 
+<!-- STAGE 5: INTERVIEW -->
 <section id="tab-interview" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 5: AI Behavioral HR Interview</h2>
@@ -414,7 +415,7 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 <div class="glass-card p-4 md:p-6 rounded-xl shadow-sm flex flex-col items-center justify-center border border-gray-200/50">
 <h3 class="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-2 md:mb-3"><i class="fa-solid fa-video text-red-500 mr-2"></i>Candidate Video Stream</h3>
 <div class="relative w-full h-48 md:h-64 bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
-<video id="interviewWebcam" class="w-full h-full object-cover" style="transform: scaleX(-1);" autoplay playsinline muted></video>
+<video id="interviewWebcam" class="w-full h-full object-cover transform -scale-x-100" autoplay playsinline muted></video>
 <div id="aiScanOverlay" class="absolute inset-0 pointer-events-none border-2 border-green-400/40 rounded-xl flex flex-col justify-between p-2 md:p-3 transition-opacity duration-300">
 <div class="flex justify-between text-[8px] md:text-[10px] font-mono text-green-400 bg-black/60 px-1.5 md:px-2 py-1 rounded">
 <span>Eye Cont: <strong id="eyeContactVal">Scanning...</strong></span>
@@ -464,6 +465,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
+<!-- STAGE 6: PASSPORT -->
 <section id="tab-passport" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
@@ -506,8 +508,95 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
-<!-- PLATFORM OVERVIEW SECTION (ABOUT) -->
+<!-- EMPLOYEE RIGHTS SECTION -->
+<section id="tab-rights" class="tab-content">
+<div class="mb-6 md:mb-8 text-center md:text-left">
+  <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Employee Rights Spotlight & Masterclasses</h2>
+  <p class="text-sm md:text-base text-slate-500 mt-2">Essential regulatory knowledge every postgraduate professional must master before signing an offer letter.</p>
+</div>
+
+<div class="grid grid-cols-1 gap-8 md:gap-10">
+<div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-blue-500">
+<h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-coins mr-2 text-blue-500"></i>1. Compensation & CTC Breakdowns</h3>
+<p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>Base vs. Variable Pay:</strong> Never evaluate a job offer purely on "CTC" (Cost to Company). Base pay is fixed and guaranteed. Variable pay is contingent on company profits and individual performance.</p>
+<p class="text-xs md:text-sm mb-4 md:mb-6 text-slate-600"><strong>Provident Fund & Gratuity:</strong> In India, PF (12% of Basic) is deducted from your salary but matched by the employer. Gratuity is paid after 5 years of continuous service.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+<div class="aspect-video w-full rounded-lg shadow overflow-hidden"><iframe class="w-full h-full" src="https://www.youtube.com/embed/Qz1VhbNjboE?si=WqFq057njlqp0ocb" title="YouTube video player" frameborder="0" allowfullscreen></iframe></div>
+<div class="aspect-video w-full rounded-lg shadow overflow-hidden"><iframe class="w-full h-full" src="https://www.youtube.com/embed/UqjZEC2Ykb4?si=5Yf-fGJ-eAXGg-Ou" title="YouTube video player" frameborder="0" allowfullscreen></iframe></div>
+</div>
+</div>
+
+<div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-pink-500">
+<h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-shield-halved mr-2 text-pink-500"></i>2. Prevention of Sexual Harassment (POSH)</h3>
+<p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>The 2013 Act & Vishakha Guidelines:</strong> Every organization with 10 or more employees is legally mandated to constitute an Internal Complaints Committee (ICC).</p>
+<p class="text-xs md:text-sm mb-4 md:mb-6 text-slate-600"><strong>Zero Tolerance Policies:</strong> Harassment includes implied requests for favors, sexually colored remarks, and creating a hostile work environment.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+<div class="aspect-video w-full rounded-lg shadow overflow-hidden"><iframe class="w-full h-full" src="https://www.youtube.com/embed/M8C2B949BqA?si=DXddUt1YXOrBTig0" title="YouTube video player" frameborder="0" allowfullscreen></iframe></div>
+<div class="aspect-video w-full rounded-lg shadow overflow-hidden"><iframe class="w-full h-full" src="https://www.youtube.com/embed/tEulz5dqQL4?si=LH05s_AwAX2m2P2M" title="YouTube video player" frameborder="0" allowfullscreen></iframe></div>
+</div>
+</div>
+
+<div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-emerald-500">
+<h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-file-contract mr-2 text-emerald-500"></i>3. Employment Contracts & Notice Periods</h3>
+<p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>Non-Compete Clauses:</strong> Under Section 27 of the Indian Contract Act, post-employment non-compete clauses are generally void and unenforceable.</p>
+<p class="text-xs md:text-sm mb-4 md:mb-6 text-slate-600"><strong>Notice Period Buyouts:</strong> Notice periods are contractual. New employers can "buy out" notice periods by paying the basic salary for unserved days.</p>
+</div>
+</div>
+</section>
+
+<!-- ACADEMIC MODULES SECTION -->
 <section id="tab-about" class="tab-content">
+  <div class="mb-8 md:mb-10 text-center md:text-left">
+    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & HR Frameworks</h2>
+    <p class="text-sm md:text-lg text-slate-500 mt-2">Deep-dive into the organizational behavior theories, compensation formulas, and talent acquisition logic that powers Fortune 500 HR departments.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-blue-500">
+      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-microchip text-blue-500 mr-2"></i>TF-IDF Algorithm (Applicant Tracking)</h3>
+      <p class="text-sm text-slate-600 mb-4">Term Frequency-Inverse Document Frequency is a statistical measure used by enterprise ATS systems (like Workday or Taleo) to evaluate how relevant a candidate's resume is to a Job Description.</p>
+      <div class="bg-slate-900 text-green-400 font-mono p-4 rounded-lg text-xs md:text-sm mb-4 shadow-inner">
+        TF = (Number of times keyword appears in resume) / (Total words in resume)<br><br>
+        IDF = log_e(Total resumes in database / Number of resumes containing the keyword)
+      </div>
+      <p class="text-sm text-slate-600"><strong>Key Takeaway:</strong> If you use a highly common buzzword ("team player"), the IDF score drops. If you use a rare, specific technical skill required in the JD ("Tableau Data Blending"), your ATS ranking skyrockets.</p>
+    </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-purple-500">
+      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-sitemap text-purple-500 mr-2"></i>Tuckman's Stages of Group Development</h3>
+      <p class="text-sm text-slate-600 mb-4">A foundational framework in Organizational Behavior detailing how a team moves from strangers to a high-performing unit. Crucial for understanding Group Discussion (GD) dynamics.</p>
+      <ul class="space-y-3 text-sm text-slate-700">
+        <li><strong>1. Forming:</strong> Polite, anxious. High dependence on the leader for guidance.</li>
+        <li><strong>2. Storming:</strong> Conflict emerges. Personalities clash over power and control. (This is where most GD candidates fail by getting aggressive).</li>
+        <li><strong>3. Norming:</strong> Resolution. The team agrees on rules, roles, and respects individual strengths.</li>
+        <li><strong>4. Performing:</strong> Frictionless execution. The team acts autonomously to achieve the goal.</li>
+      </ul>
+    </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-emerald-500">
+      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-money-bill-trend-up text-emerald-500 mr-2"></i>Compa-Ratio (Compensation Strategy)</h3>
+      <p class="text-sm text-slate-600 mb-4">The Compa-Ratio (Comparative Ratio) is the standard metric used by HR compensation analysts to determine if an employee is being paid fairly compared to the market rate.</p>
+      <div class="bg-slate-50 text-slate-800 border border-slate-300 font-bold p-4 rounded-lg text-center mb-4">
+        Compa-Ratio = (Actual Employee Salary) / (Market Midpoint Salary)
+      </div>
+      <p class="text-sm text-slate-600">A ratio of 1.0 means the employee is paid exactly at market average. A ratio of 0.8 means they are severely underpaid (high flight risk). A ratio of 1.2 means they are paid above market (usually reserved for critical top performers).</p>
+    </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-brand-500">
+      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-star text-brand-500 mr-2"></i>The STAR Method (Interviewing)</h3>
+      <p class="text-sm text-slate-600 mb-4">The globally recognized standard for answering behavioral interview questions. It forces candidates to provide structured, evidence-based narratives instead of vague philosophies.</p>
+      <ul class="space-y-3 text-sm text-slate-700">
+        <li><strong>S - Situation:</strong> Set the scene. What was the context or crisis? (10% of your answer)</li>
+        <li><strong>T - Task:</strong> What was your specific responsibility? (10%)</li>
+        <li><strong>A - Action:</strong> Exactly what steps did *you* (not "we") take to solve it? (60% of your answer)</li>
+        <li><strong>R - Result:</strong> The quantifiable outcome. How much money was saved? What was the percentage increase? (20% of your answer)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM OVERVIEW SECTION (ABOUT) -->
+<section id="tab-overview" class="tab-content">
   <div class="mb-8 md:mb-10 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">About: The 6-Stage Assessment Gauntlet</h2>
     <p class="text-sm md:text-lg text-slate-500 mt-2">Bridging postgraduate classroom theory with real-world HR technology execution. Understand exactly how you are evaluated across all 6 stages.</p>
@@ -649,81 +738,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
   </div>
 </section>
 
-<!-- ACADEMIC MODULES SECTION -->
-<section id="tab-academic" class="tab-content">
-  <div class="mb-8 md:mb-10 text-center md:text-left">
-    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & Frameworks</h2>
-    <p class="text-sm md:text-lg text-slate-500 mt-2">Comprehensive core modules covering Strategic HR, Compensation, Organizational Behavior, and Analytics.</p>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-brand-500">
-      <h3 class="text-xl font-bold text-slate-800 mb-3"><i class="fa-solid fa-chart-line text-brand-600 mr-2"></i>Module 1: HR Analytics & TF-IDF</h3>
-      <p class="text-sm text-slate-600 leading-relaxed mb-4">Learn how recruitment funnels are quantified. We examine TF-IDF (Term Frequency-Inverse Document Frequency) algorithms used by Fortune 500 ATS systems to score resume relevance against target job descriptions.</p>
-      <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-xs text-slate-700">
-        Formula: TF(t) = (Count of t in doc) / (Total words in doc)
-      </div>
-    </div>
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500">
-      <h3 class="text-xl font-bold text-slate-800 mb-3"><i class="fa-solid fa-brain text-purple-600 mr-2"></i>Module 2: Organizational Behavior</h3>
-      <p class="text-sm text-slate-600 leading-relaxed mb-4">Deep dive into the Big Five Personality Traits, Myers-Briggs, and the DISC behavioral model. Understand how workplace archetypes (Strategist, Innovator, Connector, Executor) interact in high-stakes boardrooms.</p>
-      <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-xs text-slate-700">
-        Key Framework: Tuckman's Stages of Group Development (Forming, Storming, Norming, Performing).
-      </div>
-    </div>
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-emerald-500">
-      <h3 class="text-xl font-bold text-slate-800 mb-3"><i class="fa-solid fa-coins text-emerald-600 mr-2"></i>Module 3: Compensation & Compa-Ratio</h3>
-      <p class="text-sm text-slate-600 leading-relaxed mb-4">Master CTC breakdowns, fixed vs. variable pay structures, Provident Fund (EPF), Gratuity acts, and market benchmarking using Compa-Ratios.</p>
-      <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-xs text-slate-700">
-        Formula: Compa-Ratio = (Employee Salary) / (Market Pay Midpoint) * 100
-      </div>
-    </div>
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-red-500">
-      <h3 class="text-xl font-bold text-slate-800 mb-3"><i class="fa-solid fa-microphone-lines text-red-600 mr-2"></i>Module 4: Behavioral Interviewing</h3>
-      <p class="text-sm text-slate-600 leading-relaxed mb-4">Master structured storytelling under pressure. The STAR method ensures candidates provide concrete metrics during executive evaluations instead of vague generalizations.</p>
-      <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-xs text-slate-700">
-        Structure: Situation -> Task -> Action -> Result (Quantified KPI).
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EMPLOYEE RIGHTS SECTION -->
-<section id="tab-rights" class="tab-content">
-<div class="mb-6 md:mb-8 text-center md:text-left">
-  <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Employee Rights Spotlight & Masterclasses</h2>
-  <p class="text-sm md:text-base text-slate-500 mt-2">Essential regulatory knowledge every postgraduate professional must master before signing an offer letter.</p>
-</div>
-
-<div class="grid grid-cols-1 gap-8 md:gap-10">
-<div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-blue-500">
-<h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-coins mr-2 text-blue-500"></i>1. Compensation & CTC Breakdowns</h3>
-<p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>Base vs. Variable Pay:</strong> Never evaluate a job offer purely on "CTC" (Cost to Company). Base pay is fixed and guaranteed. Variable pay is contingent on company profits and individual performance.</p>
-<p class="text-xs md:text-sm mb-4 md:mb-6 text-slate-600"><strong>Provident Fund & Gratuity:</strong> In India, PF (12% of Basic) is deducted from your salary but matched by the employer. Gratuity is paid after 5 years of continuous service.</p>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-<div class="video-responsive"><iframe src="https://www.youtube.com/embed/Qz1VhbNjboE?si=WqFq057njlqp0ocb" title="YouTube video player" allowfullscreen></iframe></div>
-<div class="video-responsive"><iframe src="https://www.youtube.com/embed/UqjZEC2Ykb4?si=5Yf-fGJ-eAXGg-Ou" title="YouTube video player" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-pink-500">
-<h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-shield-halved mr-2 text-pink-500"></i>2. Prevention of Sexual Harassment (POSH)</h3>
-<p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>The 2013 Act & Vishakha Guidelines:</strong> Every organization with 10 or more employees is legally mandated to constitute an Internal Complaints Committee (ICC).</p>
-<p class="text-xs md:text-sm mb-4 md:mb-6 text-slate-600"><strong>Zero Tolerance Policies:</strong> Harassment includes implied requests for favors, sexually colored remarks, and creating a hostile work environment.</p>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-<div class="video-responsive"><iframe src="https://www.youtube.com/embed/M8C2B949BqA?si=DXddUt1YXOrBTig0" title="YouTube video player" allowfullscreen></iframe></div>
-<div class="video-responsive"><iframe src="https://www.youtube.com/embed/tEulz5dqQL4?si=LH05s_AwAX2m2P2M" title="YouTube video player" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-emerald-500">
-<h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-file-contract mr-2 text-emerald-500"></i>3. Employment Contracts & Notice Periods</h3>
-<p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>Non-Compete Clauses:</strong> Under Section 27 of the Indian Contract Act, post-employment non-compete clauses are generally void and unenforceable.</p>
-<p class="text-xs md:text-sm mb-4 md:mb-6 text-slate-600"><strong>Notice Period Buyouts:</strong> Notice periods are contractual. New employers can "buy out" notice periods by paying the basic salary for unserved days.</p>
-</div>
-</div>
-</section>
-
 <!-- OPTIONAL PRACTICE QUIZ SECTION -->
 <section id="tab-quiz" class="tab-content">
   <div class="mb-6 md:mb-8 text-center md:text-left">
@@ -754,7 +768,10 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/1
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
-const GEMINI_API_KEY = "AQ.Ab8RN6LX1RAGG5wUxiydy0R1u8H3by2XRvUC791UrWrFmNH-sQ"; 
+// ==========================================
+// 🚀 GROQ Llama-3 API INTEGRATION
+// ==========================================
+const GROQ_API_KEY = "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"; 
 
 const firebaseConfig = {
 apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
@@ -806,21 +823,13 @@ class AvatarSpeechService {
       }
 
       if (avatarId === 'arjun') {
-        if (maleVoice) utterance.voice = maleVoice;
-        utterance.pitch = 0.8; 
-        utterance.rate = 0.95;
+        if (maleVoice) utterance.voice = maleVoice; utterance.pitch = 0.8; utterance.rate = 0.95;
       } else if (avatarId === 'kavya') {
-        if (femaleVoice) utterance.voice = femaleVoice;
-        utterance.pitch = 1.3; 
-        utterance.rate = 1.05;
+        if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 1.3; utterance.rate = 1.05;
       } else if (avatarId === 'meera') {
-        if (femaleVoice) utterance.voice = femaleVoice;
-        utterance.pitch = 0.85;
-        utterance.rate = 0.95;
-      } else {
-        if (femaleVoice) utterance.voice = femaleVoice;
-        utterance.pitch = 1.0;
-        utterance.rate = 1.0;
+        if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 0.85; utterance.rate = 0.95;
+      } else { 
+        if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 1.0; utterance.rate = 1.0;
       }
 
       utterance.onend = resolve;
@@ -829,9 +838,7 @@ class AvatarSpeechService {
     });
   }
 
-  stop() {
-    window.speechSynthesis.cancel();
-  }
+  stop() { window.speechSynthesis.cancel(); }
 }
 
 const ttsService = new AvatarSpeechService();
@@ -840,24 +847,10 @@ const APP_ID = 'hr-blog-app';
 window.candidateId = null;
 window.isAIMode = false;
 window.activeSpeaker = null; 
-window.userData = { name: "", email: "", archetype: "Not Evaluated", ats_score: 0, test_score: 0, gd_score: 0, interview_score: 0, published: false, resume_url: null };
+window.userData = { name: "", email: "", archetype: "Not Evaluated", ats_score: 0, test_score: 0, gd_score: 0, interview_score: 0, published: false };
 let unsubscribeStudent = null;
 
 window.bioMetrics = { eyeContact: [], stress: [] };
-
-const localResponses = {
-  gd: [
-    "That is a strong perspective. However, we must ensure algorithmic auditing is legally mandated before replacing human oversight.",
-    "I agree in principle, but human resource analytics must balance data-driven KPIs with employee empathy and well-being.",
-    "Let's synthesize both views: AI should act as a decision-support system, leaving final talent decisions to certified managers."
-  ],
-  interview: [
-    "How did you specifically measure the quantitative outcome of that action?",
-    "When managing stakeholders with opposing priorities, how do you negotiate consensus?",
-    "What key metric would you track differently if you repeated that project?"
-  ]
-};
-let localFallbackIndex = 0;
 
 window.startAssessment = function() {
   const targetNavBtn = document.querySelector(`button[onclick*="'tab-onboarding'"]`);
@@ -865,58 +858,45 @@ window.startAssessment = function() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-async function callGemini(prompt, systemInstruction = null) {
+async function callGroq(prompt, systemInstruction = "You are a professional corporate evaluator.") {
   try {
-    if (!GEMINI_API_KEY) throw new Error("Missing Key");
-    
-    let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-    let headers = { 'Content-Type': 'application/json' };
-
-    const payload = { contents: [{ parts: [{ text: prompt }] }] };
-    if (systemInstruction) {
-      payload.systemInstruction = { parts: [{ text: systemInstruction }] };
+    if (!GROQ_API_KEY || GROQ_API_KEY.includes("PASTE_YOUR")) {
+      throw new Error("Missing Groq API Key.");
     }
     
-    const response = await fetch(apiUrl, { method: 'POST', headers: headers, body: JSON.stringify(payload) });
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: "llama3-8b-8192",
+        messages: [
+          { role: "system", "content": systemInstruction },
+          { role: "user", "content": prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 150
+      })
+    });
+
     const result = await response.json();
-    
     if (!response.ok) throw new Error(result.error?.message || 'API Error');
     
-    if (result.candidates && result.candidates[0].content.parts[0].text) {
-      return result.candidates[0].content.parts[0].text.replace(/\*/g, '').trim();
-    }
-    throw new Error("Empty Response");
+    return result.choices[0].message.content.replace(/\*/g, '').trim();
   } catch (e) {
-    console.warn("API Call switched to Local Simulation Engine:", e.message);
+    console.warn("API Error:", e.message);
     
-    // CASE-INSENSITIVE FALLBACK ROUTING
-    let pLower = prompt.toLowerCase();
-    let sysLower = systemInstruction ? systemInstruction.toLowerCase() : "";
-    let category = (pLower.includes("interview") || pLower.includes("meera") || sysLower.includes("interview")) ? "interview" : "gd";
-    
-    // SMART LAZY-ANSWER CATCHER
+    // Strict fallback safety check
     let lastInputMatch = prompt.match(/Candidate:\s*(.*)/g);
     let lastInput = lastInputMatch ? lastInputMatch[lastInputMatch.length - 1].replace('Candidate:', '').trim() : "";
-    let cleanInput = lastInput.toLowerCase().replace(/[^a-z0-9]/g, ''); 
+    let cleanInput = lastInput.toLowerCase().replace(/[^a-z0-9]/g, '');
     
-    // Only roast if they actually typed something but it was too short (less than 15 chars)
-    if (cleanInput.length > 0 && cleanInput.length < 15) {
-       if (category === 'gd') return "Saying '" + lastInput + "' contributes absolutely nothing to this boardroom. I expect strategic, data-backed insights, not one-word answers.";
-       if (category === 'interview') return "A response of '" + lastInput + "' is unacceptable for an executive role. Please elaborate with a detailed, structured example.";
+    if (cleanInput.length > 0 && (cleanInput.length < 5 || ['ok', 'yes', 'no', 'nothing', 'iagree', 'sure'].includes(cleanInput))) {
+        return "Saying '" + lastInput + "' contributes absolutely nothing. I expect strategic, data-backed insights, not one-word answers.";
     }
-    
-    // DYNAMIC INTERVIEW OPENING FALLBACK
-    if (category === 'interview' && cleanInput.length === 0) {
-        if(window.interviewMethod === 'star') {
-            return `Welcome to the final stage. Walk me through a complex organizational problem you solved using data analytics.`;
-        } else {
-            return `Welcome to the final stage. Tell me a bit about yourself and your corporate leadership style.`;
-        }
-    }
-    
-    let fallbackText = localResponses[category][localFallbackIndex % localResponses[category].length];
-    localFallbackIndex++;
-    return fallbackText;
+    return `[SYSTEM ERROR: Invalid Groq API Key or network issue.]`;
   }
 }
 
@@ -1056,7 +1036,6 @@ window.saveProfile = async function() {
 
 window.submitArchetype = async function() {
   let counts = { s:0, i:0, c:0, e:0 };
-  
   for(let i=0; i<10; i++) {
     const checked = document.querySelector(`input[name="arch${i}"]:checked`);
     if(!checked) { 
@@ -1068,13 +1047,9 @@ window.submitArchetype = async function() {
     counts[checked.value]++;
   }
   
-  let maxVal = 0;
-  let maxKey = 's';
+  let maxVal = 0; let maxKey = 's';
   for (let key in counts) {
-    if (counts[key] > maxVal) {
-      maxVal = counts[key];
-      maxKey = key;
-    }
+    if (counts[key] > maxVal) { maxVal = counts[key]; maxKey = key; }
   }
   
   const map = { s:"Strategist", i:"Innovator", c:"Connector", e:"Executor" };
@@ -1100,14 +1075,11 @@ window.toggleAIMode = async function() {
   try {
       if (window.isAIMode) {
         body.classList.add('ai-mode');
-        
         const btn4 = document.getElementById('aiVoiceBtn4');
         if (btn4) btn4.classList.remove('hidden');
-        
         document.getElementById('gd-arena').classList.remove('opacity-50', 'pointer-events-none');
         document.getElementById('interview-controls').classList.remove('hidden'); 
         document.getElementById('interview-controls').classList.add('flex');
-        
         document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
         
         if (guide) {
@@ -1132,23 +1104,18 @@ window.toggleAIMode = async function() {
         }
       } else {
         body.classList.remove('ai-mode');
-        
         const btn4 = document.getElementById('aiVoiceBtn4');
         if (btn4) btn4.classList.add('hidden');
-        
         document.getElementById('gd-arena').classList.add('opacity-50', 'pointer-events-none');
         document.getElementById('interview-controls').classList.add('hidden'); 
         document.getElementById('interview-controls').classList.remove('flex');
-        
         document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-breathing', 'avatar-talking'));
         
         if (guide) guide.classList.remove('visible'); 
         ttsService.stop(); 
         window.activeSpeaker = null;
       }
-  } catch (err) {
-      console.error("AI Mode Toggle Error:", err);
-  }
+  } catch (err) {}
 };
 
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -1169,9 +1136,7 @@ if(window.SpeechRecognition) {
       activeMicBtn.classList.remove('bg-slate-700');
       activeMicBtn.classList.add('bg-red-600', 'animate-pulse');
     }
-    if (activeInputBox) {
-      document.getElementById(activeInputBox).placeholder = "Listening... speak clearly and pause.";
-    }
+    if (activeInputBox) document.getElementById(activeInputBox).placeholder = "Listening... speak clearly and pause.";
   };
 
   recognition.onresult = (event) => { 
@@ -1230,14 +1195,7 @@ window.runATS = async function() {
     const freq = {}; words.forEach(w => freq[w] = (freq[w] || 0) + 1);
     const sortedKeywords = Object.keys(freq).sort((a,b) => freq[b] - freq[a]).slice(0, 15);
 
-    // 1. UPLOAD PDF TO FIREBASE
     const file = fileInput.files[0];
-    const storageRef = ref(storage, `resumes/${window.candidateId}_${file.name}`);
-    await uploadBytes(storageRef, file);
-    const downloadUrl = await getDownloadURL(storageRef);
-    window.userData.resume_url = downloadUrl; // Save download URL to user data
-
-    // 2. PARSE PDF TEXT
     const arrayBuffer = await file.arrayBuffer(); 
     const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise; 
     let resumeText = '';
@@ -1254,6 +1212,17 @@ window.runATS = async function() {
     });
 
     window.userData.ats_score = Math.round((matched.length / sortedKeywords.length) * 100) || 10;
+    
+    // Securely upload resume to Firebase Storage
+    try {
+       const storageRef = ref(storage, `artifacts/${APP_ID}/public/data/resumes/${window.candidateId}.pdf`);
+       await uploadBytes(storageRef, file);
+       const dlUrl = await getDownloadURL(storageRef);
+       window.userData.resume_url = dlUrl;
+    } catch(uploadErr) {
+       console.warn("Storage upload failed, proceeding without file link", uploadErr);
+    }
+
     document.getElementById('atsScoreDisplay').innerText = `${window.userData.ats_score}%`;
     document.getElementById('atsSuccessMsg').classList.remove('hidden');
 
@@ -1264,7 +1233,7 @@ window.runATS = async function() {
 
     await syncToCloud();
     window.autoAdvanceTab('tab-ats', 'tab-test', 'Enterprise ATS Audit');
-  } catch (err) { window.showMessage("Failed to parse PDF or upload.", "error"); } finally { btn.innerHTML = '<i class="fa-solid fa-microchip mr-2"></i> Extract Keywords & Run Scan'; btn.disabled = false; }
+  } catch (err) { window.showMessage("Failed to parse PDF.", "error"); } finally { btn.innerHTML = '<i class="fa-solid fa-microchip mr-2"></i> Extract Keywords & Run Scan'; btn.disabled = false; }
 };
 
 const masterAptitudeQuestions = [
@@ -1337,51 +1306,23 @@ window.submitTest = async function() {
 const gdTopics = [
   {
     title: "AI in Performance Reviews",
-    desc: "Discuss the ethical implications of replacing human managers with AI scoring systems.",
-    arjunStart: "Implementing AI in performance reviews is a strategic imperative. It eliminates human bias and provides scalable, quantitative metrics for our talent pipeline.",
-    kavyaStart: "I challenge that, Arjun. Algorithmic bias in HR tech creates massive legal liabilities and fundamentally breaks psychological safety within high-performing teams."
+    desc: "Discuss the ethical implications of replacing human managers with AI scoring systems."
   },
   {
     title: "Mandatory Return to Office (RTO)",
-    desc: "Debate the long-term impact of forcing employees back to the office versus maintaining remote flexibility.",
-    arjunStart: "Mandatory RTO is essential for long-term ROI. Internal data proves that asynchronous remote work diminishes cross-functional innovation and delays product shipping cycles.",
-    kavyaStart: "But Arjun, forced RTO policies are driving a 20% spike in attrition among our top percentile talent. We are sacrificing retention for an outdated real estate sunk cost."
+    desc: "Debate the long-term impact of forcing employees back to the office versus maintaining remote flexibility."
   },
   {
     title: "The 4-Day Workweek",
-    desc: "Analyze the financial and operational feasibility of a 4-day workweek without reducing pay.",
-    arjunStart: "Compressing operational hours into a 4-day week creates an unsustainable bottleneck. B2B client SLAs demand 5-day availability, making this a massive competitive disadvantage.",
-    kavyaStart: "Conversely, longitudinal data shows a 4-day week reduces burnout-related healthcare costs and maintains 100% output efficiency due to Parkinson's Law."
+    desc: "Analyze the financial and operational feasibility of a 4-day workweek without reducing pay."
   },
   {
     title: "Moonlighting in Corporate IT",
-    desc: "Should corporate employees be legally permitted to take up secondary jobs outside working hours?",
-    arjunStart: "Moonlighting is an unacceptable IP and security risk. It creates a blatant conflict of interest and dilutes the operational bandwidth employees owe to our enterprise.",
-    kavyaStart: "If we enforce strict NDAs, what they do off the clock is irrelevant. In fact, side projects often accelerate their upskilling without tapping into our L&D budget."
+    desc: "Should corporate employees be legally permitted to take up secondary jobs outside working hours?"
   },
   {
     title: "Diversity Quotas vs. Pure Meritocracy",
-    desc: "Should executive boards enforce strict diversity quotas, or does it compromise pure merit-based hiring?",
-    arjunStart: "Enforcing quotas artificially restricts our talent pool. We must operate as a strict meritocracy to ensure maximum operational efficiency and shareholder returns.",
-    kavyaStart: "That's a narrow view, Arjun. Homogeneous teams suffer from groupthink. Diversity isn't just a quota; it's a proven driver of innovation and new market penetration."
-  },
-  {
-    title: "Unlimited Paid Time Off (PTO)",
-    desc: "Is unlimited PTO a progressive employee benefit or a psychological trap that leads to less vacation time taken?",
-    arjunStart: "Unlimited PTO is a liability nightmare. Without accrued tracking, project timelines become unpredictable and team dependencies constantly break.",
-    kavyaStart: "Actually, Arjun, unlimited PTO acts as a psychological deterrent. Employees take less time off out of guilt, which saves the company money but accelerates burnout."
-  },
-  {
-    title: "AI Surveillance in Remote Work",
-    desc: "Tracking keystrokes and webcam focus for remote employees - necessary accountability or a toxic privacy violation?",
-    arjunStart: "If we are paying for 40 hours of operational bandwidth, we have a fiduciary duty to monitor keystrokes and active screen time to prevent payroll theft.",
-    kavyaStart: "Micromanaging via surveillance software immediately destroys trust. It incentivizes employees to optimize for 'appearing active' rather than delivering actual business value."
-  },
-  {
-    title: "The Gig Economy & White-Collar Work",
-    desc: "Should corporations shift to a 50% freelance workforce to optimize cost, or does it destroy institutional knowledge?",
-    arjunStart: "Shifting to a 50% contractor model converts fixed payroll liabilities into flexible OPEX. It allows us to scale talent dynamically based on market cycles.",
-    kavyaStart: "But you lose all institutional memory, Arjun. Gig workers have zero loyalty to our enterprise, resulting in inconsistent output and constant retraining costs."
+    desc: "Should executive boards enforce strict diversity quotas, or does it compromise pure merit-based hiring?"
   }
 ];
 
@@ -1413,17 +1354,16 @@ window.startAIGD = async function() {
   document.getElementById('gd-transcript').innerHTML = ""; 
   gdHistory = "";
   
-  // Randomly select a topic
-  currentActiveTopic = gdTopics[Math.floor(Math.random() * gdTopics.length)];
-  document.getElementById('gd-topic-title').innerText = `"${currentActiveTopic.title}"`;
-  document.getElementById('gd-topic-desc').innerText = currentActiveTopic.desc;
-
   writeTranscript('gd-transcript', 'System', `Initiating 5-Round Virtual GD on: ${currentActiveTopic.title}...`);
-
   const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
 
-  await setSpeaker('arjun', 'Arjun', currentActiveTopic.arjunStart, 'arjun');
-  await setSpeaker('kavya', 'Kavya', `${currentActiveTopic.kavyaStart} ${firstName}, what are your thoughts on the operational impact?`, 'kavya');
+  let arjunPrompt = `You are Arjun, a strictly data-driven MBA candidate in a Group Discussion. Generate your opening argument for the topic: "${currentActiveTopic.title}". Keep it under 2 sentences and sound authoritative.`;
+  let arjunReply = await callGroq(arjunPrompt);
+  await setSpeaker('arjun', 'Arjun', arjunReply, 'arjun');
+
+  let kavyaPrompt = `You are Kavya, a creative and empathetic MBA candidate. Read Arjun's opening argument: "${arjunReply}". Generate a 1 sentence counter-argument, and then directly ask the user (${firstName}) for their thoughts. Keep it under 2 sentences.`;
+  let kavyaReply = await callGroq(kavyaPrompt);
+  await setSpeaker('kavya', 'Kavya', kavyaReply, 'kavya');
   
   document.getElementById('gd-mic-zone').classList.remove('hidden');
   document.getElementById('gd-mic-zone').classList.add('flex');
@@ -1432,14 +1372,8 @@ window.startAIGD = async function() {
 window.toggleGDRecording = function(e) {
   if(e) e.preventDefault();
   if(!recognition) return window.showMessage("Speech API not supported.", "error");
-
-  if(isRecording) {
-    recognition.stop();
-  } else {
-    activeInputBox = 'gdTextInput';
-    activeMicBtn = document.getElementById('gdMicBtn');
-    try { recognition.start(); } catch(err) {}
-  }
+  if(isRecording) { recognition.stop(); } 
+  else { activeInputBox = 'gdTextInput'; activeMicBtn = document.getElementById('gdMicBtn'); try { recognition.start(); } catch(err) {} }
 };
 
 window.submitGDAnswer = function() {
@@ -1469,12 +1403,11 @@ window.processGDSpeech = async function(userSpeech) {
     
     let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "${currentActiveTopic.title}". The user you are debating is named ${firstName}. 
     CRITICAL INSTRUCTION: Analyze ${firstName}'s last point. 
-    1. If their answer is very short (like 'ok', 'nothing', 'yes', 'no') or lacks substance, you MUST harshly call them out for poor contribution and demand a strategic point. Do NOT praise them under any circumstances.
-    2. If their argument is loose or illogical, point out the exact flaws and challenge them directly.
-    3. If it is strong, counter it with a different corporate perspective.
+    1. If their argument is loose or illogical, point out the exact flaws and challenge them directly.
+    2. If it is strong, counter it with a different corporate perspective.
     Keep it conversational, natural, and highly professional. Strictly 1 to 2 sentences max. Do not use your own name or brackets.`;
     
-    let aiReply = await callGemini(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
+    let aiReply = await callGroq(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
     
     await setSpeaker(speakerId, speakerId === 'kavya' ? 'Kavya' : 'Arjun', aiReply, speakerId); 
     
@@ -1499,7 +1432,7 @@ ${gdHistory}
 
 Return ONLY a single integer score between 1 and 30 representing the exact sum. Example output: 24`;
 
-    let finalScoreStr = await callGemini(gdScoringPrompt);
+    let finalScoreStr = await callGroq(gdScoringPrompt);
     let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
     let score = (!isNaN(parsedScore) && parsedScore >= 1 && parsedScore <= 30) ? parsedScore : (20 + Math.floor(Math.random() * 8)); 
     
@@ -1515,10 +1448,7 @@ function startRealFaceTracking() {
   try {
     if(!window.tracking) return;
     const tracker = new tracking.ObjectTracker('face');
-    tracker.setInitialScale(4);
-    tracker.setStepSize(2);
-    tracker.setEdgesDensity(0.1);
-    
+    tracker.setInitialScale(4); tracker.setStepSize(2); tracker.setEdgesDensity(0.1);
     tracking.track('#interviewWebcam', tracker);
 
     let lastX = 0; let lastY = 0; let lostCount = 0;
@@ -1535,8 +1465,7 @@ function startRealFaceTracking() {
       if (event.data.length === 0) {
         lostCount++;
         if (lostCount > 2) {
-          currentEye = Math.max(15, currentEye - 15);
-          currentStress = Math.min(85, currentStress + 10);
+          currentEye = Math.max(15, currentEye - 15); currentStress = Math.min(85, currentStress + 10);
           document.getElementById('eyeContactVal').innerText = currentEye + '% (Lost)';
           document.getElementById('postureVal').innerText = "Not Detected";
         }
@@ -1547,19 +1476,15 @@ function startRealFaceTracking() {
         lastX = rect.x; lastY = rect.y;
 
         if (move > 15) {
-          currentStress = Math.min(90, currentStress + 8);
-          currentEye = Math.max(45, currentEye - 5);
+          currentStress = Math.min(90, currentStress + 8); currentEye = Math.max(45, currentEye - 5);
           document.getElementById('postureVal').innerText = "Shifting";
         } else {
-          currentStress = Math.max(10, currentStress - 3);
-          currentEye = Math.min(98, currentEye + 4);
+          currentStress = Math.max(10, currentStress - 3); currentEye = Math.min(98, currentEye + 4);
           document.getElementById('postureVal').innerText = "Aligned";
         }
-
         document.getElementById('eyeContactVal').innerText = currentEye + '%';
         document.getElementById('stressVal').innerText = currentStress + '%';
-        window.bioMetrics.eyeContact.push(currentEye);
-        window.bioMetrics.stress.push(currentStress);
+        window.bioMetrics.eyeContact.push(currentEye); window.bioMetrics.stress.push(currentStress);
       }
     });
   } catch(e) {}
@@ -1567,15 +1492,11 @@ function startRealFaceTracking() {
 
 function initWebcamStream() {
   if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ 
-        video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" }, 
-        audio: false 
-    }).then(stream => { 
+    navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" }, audio: false })
+    .then(stream => { 
       webcamStream = stream; 
-      const gdVid = document.getElementById('gdWebcam');
-      const intVid = document.getElementById('interviewWebcam');
-      if(gdVid) { gdVid.srcObject = stream; }
-      if(intVid) { intVid.srcObject = stream; }
+      const gdVid = document.getElementById('gdWebcam'); const intVid = document.getElementById('interviewWebcam');
+      if(gdVid) { gdVid.srcObject = stream; } if(intVid) { intVid.srcObject = stream; }
       startRealFaceTracking();
     }).catch(err => console.error("Webcam Error", err));
   }
@@ -1599,11 +1520,8 @@ window.setInterviewMethod = function(method) {
 
 window.startAIInterview = async function() {
   if (!window.isAIMode) {
-    window.isAIMode = true;
-    const toggle = document.getElementById('aiToggle');
-    if (toggle) toggle.checked = true;
-    document.body.classList.add('ai-mode');
-    document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
+    window.isAIMode = true; const toggle = document.getElementById('aiToggle'); if (toggle) toggle.checked = true;
+    document.body.classList.add('ai-mode'); document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
   }
   
   initWebcamStream();
@@ -1612,9 +1530,7 @@ window.startAIInterview = async function() {
   const togglePanel = document.getElementById('interviewModeToggle');
   if (togglePanel) togglePanel.classList.add('opacity-50', 'pointer-events-none');
   document.getElementById('interview-transcript').innerHTML = ""; 
-  interviewStep = 0; 
-  intHistory = ""; 
-  window.bioMetrics = { eyeContact: [], stress: [] }; 
+  interviewStep = 0; intHistory = ""; window.bioMetrics = { eyeContact: [], stress: [] }; 
   askNextInterviewQuestion();
 };
 
@@ -1631,10 +1547,8 @@ async function askNextInterviewQuestion() {
     If the requested method is GENERAL: Greet them professionally and ask a deep, open-ended question about their leadership philosophy, career trajectory, or how they handle corporate politics.
     Keep your response strictly under 2 sentences. Make it sound highly authentic and unpredictable. Do not use your own name or brackets. Method to use: ${window.interviewMethod.toUpperCase()}`;
     
-    let q = await callGemini(`Generate the opening interview question for ${firstName}.`, systemPrompt);
-    
+    let q = await callGroq(`Generate the FIRST question for ${firstName}.`, systemPrompt);
     intHistory += `Meera: ${q}\n`;
-    
     await setSpeaker('meera', 'HR Director Meera', q, 'meera');
     
     document.getElementById('interview-mic-zone').classList.remove('hidden'); 
@@ -1645,14 +1559,8 @@ async function askNextInterviewQuestion() {
 window.toggleInterviewRecording = function(e) {
   if(e) e.preventDefault();
   if(!recognition) return window.showMessage("Speech API not supported.", "error"); 
-
-  if(isRecording) {
-    recognition.stop();
-  } else {
-    activeInputBox = 'interviewTextInput';
-    activeMicBtn = document.getElementById('interviewMicBtn');
-    try { recognition.start(); } catch(err) {} 
-  }
+  if(isRecording) { recognition.stop(); } 
+  else { activeInputBox = 'interviewTextInput'; activeMicBtn = document.getElementById('interviewMicBtn'); try { recognition.start(); } catch(err) {} }
 };
 
 window.submitInterviewAnswer = function() {
@@ -1674,21 +1582,16 @@ window.processInterviewSpeech = async function(candidateResponse) {
 
   if (interviewStep < 5) {
     writeTranscript('interview-transcript', 'System', 'Meera is analyzing your response...');
-    
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
     
     let systemPrompt = window.interviewMethod === 'star'
       ? `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: 
-      CRITICAL INSTRUCTION: Read their last answer. If their answer is extremely short ('ok', 'nothing', 'yes') or lacks detail, reprimand them for the lack of executive presence and demand a full STAR method response. 
-      If they gave a full answer, immediately ask a hard, relevant follow-up question using the STAR method based on their answer. DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`
+      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a hard, relevant follow-up question using the STAR method based on their answer. DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`
       : `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: 
-      CRITICAL INSTRUCTION: Read their last answer. If their answer is extremely short ('ok', 'nothing', 'yes') or lacks detail, reprimand them for the lack of executive presence and demand a full detailed response. 
-      If they gave a full answer, immediately ask a broad, open-ended follow-up question. DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`;
+      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a broad, open-ended follow-up question. DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`;
     
-    let meeraReply = await callGemini(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
-    
+    let meeraReply = await callGroq(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
     intHistory += `Meera: ${meeraReply}\n`;
-    
     await setSpeaker('meera', 'HR Director Meera', meeraReply, 'meera');
     
     document.getElementById('interview-mic-zone').classList.remove('hidden'); 
@@ -1731,23 +1634,17 @@ ${intHistory}
 
 Calculate the sum and return ONLY a single integer score between 0 and 100. Example output: 84`;
         
-    let finalScoreStr = await callGemini(interviewRubricPrompt);
+    let finalScoreStr = await callGroq(interviewRubricPrompt);
     let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
     let score = (!isNaN(parsedScore) && parsedScore >= 0 && parsedScore <= 100) ? parsedScore : (78 + Math.floor(Math.random() * 16)); 
     
     window.userData.interview_score = score; 
     window.userData.published = true; 
     
-    try {
-      await syncToCloud(); 
-    } catch (err) {}
+    try { await syncToCloud(); } catch (err) {}
     
     window.updatePassportUI();
-    
-    setTimeout(() => {
-      window.emailDetailedReport();
-    }, 1200);
-
+    setTimeout(() => { window.emailDetailedReport(); }, 1200);
     window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral HR Interview');
   }
 };
@@ -1763,7 +1660,7 @@ window.updatePassportUI = function() {
   let t = Math.round((window.userData.ats_score + window.userData.test_score + ((window.userData.gd_score/30)*100) + window.userData.interview_score) / 4); 
   document.getElementById('passTotal').innerText = `${t || 0}%`;
 
-  if (window.userData.published || window.isAdmin) { 
+  if (window.userData.published) { 
     document.getElementById('passportLock').classList.add('hidden'); 
     document.getElementById('passportContent').classList.remove('hidden'); 
   } else { 
@@ -1784,79 +1681,37 @@ window.emailDetailedReport = function() {
   let avgStress = window.bioMetrics.stress.length ? Math.round(window.bioMetrics.stress.reduce((a,b)=>a+b,0)/window.bioMetrics.stress.length) : 20;
 
   let atsFeedback = window.userData.ats_score < 50 ? "Tier 1 (High Risk): Your resume lacks critical keywords from the job description. You are highly likely to be auto-rejected by enterprise ATS filters. Action: Re-map your hard skills and action verbs directly to the JD." : (window.userData.ats_score < 75 ? "Tier 2 (Proficient): Keyword density is acceptable but leaves room for improvement. Action: Ensure exact phrase matching for technical skills." : "Tier 3 (Exemplary): High keyword alignment with the target role. Your format and text are highly optimized for automated parsers.");
-  
   let aptitudeFeedback = window.userData.test_score < 50 ? "Tier 1 (Needs Development): Decision velocity under pressure is low. Action: Review fundamental corporate frameworks and labor rights to improve recall speed." : (window.userData.test_score < 75 ? "Tier 2 (Competent): Solid theoretical foundation, though decision velocity under strict timers could be improved." : "Tier 3 (Advanced): Exceptional cognitive agility and strong recall of domain knowledge under pressure. You excel in situational judgment.");
-  
   let gdFeedback = window.userData.gd_score <= 10 ? "Tier 1 (Basic): Arguments lacked data-backed substance or collaborative synthesis. Action: Practice active listening and framing your points using the PESTLE or Pros/Cons frameworks." : (window.userData.gd_score <= 20 ? "Tier 2 (Competent): You participated well and maintained professional dynamics, but your points needed more strategic depth and persuasive data." : "Tier 3 (Advanced): You demonstrated outstanding leadership, synthesized opposing views smoothly, and backed your assertions with strong logic.");
-  
   let interviewFeedback = window.userData.interview_score <= 40 ? "Tier 1 (Unsatisfactory): Your responses lacked structure, leading to rambling or vague answers. Action: Rigorously practice the STAR framework focusing heavily on quantifiable outcomes." : (window.userData.interview_score <= 70 ? "Tier 2 (Proficient): Your narratives were clear and relevant. However, to reach the executive tier, you must inject more data, specific KPIs, and a stronger commanding tone." : "Tier 3 (Exemplary): Outstanding executive presence. Your answers were highly structured, metric-driven, and articulated with exceptional fluency.");
 
   const archDetails = {
-    "Strategist": {
-      profile: "Highly analytical, data-driven, and focused on long-term systemic impact rather than short-term fixes.",
-      strengths: "Objective decision-making, structural optimization, and removing emotional bias from complex business problems.",
-      blindSpots: "Can occasionally project a lack of empathy or appear overly rigid when dealing with nuanced human-centric conflicts.",
-      actionPlan: "During executive interviews, consciously blend your quantitative metrics with qualitative empathy. When using the STAR method, emphasize how your structural solutions positively impacted the team's morale and daily workflow, not just the bottom line."
-    },
-    "Innovator": {
-      profile: "Forward-thinking, creative, and highly adaptable to sudden market shifts and new technologies.",
-      strengths: "Brainstorming disruptive solutions, embracing calculated risks, and inspiring teams toward a grand vision.",
-      blindSpots: "May struggle with operational follow-through or become easily frustrated by bureaucratic compliance and red tape.",
-      actionPlan: "Executive panels look for innovators who can execute. In your STAR responses, heavily emphasize the 'Action' and 'Result' phases. Prove that your groundbreaking ideas are grounded in realistic budgets, timelines, and measurable KPIs."
-    },
-    "Connector": {
-      profile: "Highly empathetic, emotionally intelligent, and deeply focused on team cohesion and stakeholder alignment.",
-      strengths: "Mediating disputes, building psychological safety, and driving consensus across fragmented, cross-functional teams.",
-      blindSpots: "May hesitate to make unpopular but necessary executive decisions, risking 'groupthink' or delayed project timelines.",
-      actionPlan: "You naturally excel at the behavioral interview. However, you must prove your ability to be decisive. Highlight at least one STAR scenario where you had to make a tough, data-backed choice that was initially unpopular but ultimately drove business success."
-    },
-    "Executor": {
-      profile: "Fiercely pragmatic, process-oriented, and ruthlessly efficient in translating strategy into completed tasks.",
-      strengths: "Meeting strict deadlines, optimizing daily operational workflows, and maintaining team focus under extreme pressure.",
-      blindSpots: "Can suffer from tunnel vision, potentially ignoring systemic flaws or creative alternatives in the rush to 'get it done'.",
-      actionPlan: "To elevate to an executive tier, you must demonstrate strategic elevation. Use your interviews to show how your operational execution aligns with long-term macroeconomic goals. Shift your narrative from 'I finished this task on time' to 'I designed this workflow to scale our division.'"
-    },
+    "Strategist": { profile: "Highly analytical, data-driven, and focused on long-term systemic impact rather than short-term fixes.", strengths: "Objective decision-making, structural optimization, and removing emotional bias from complex business problems.", blindSpots: "Can occasionally project a lack of empathy or appear overly rigid when dealing with nuanced human-centric conflicts.", actionPlan: "During executive interviews, consciously blend your quantitative metrics with qualitative empathy. When using the STAR method, emphasize how your structural solutions positively impacted the team's morale and daily workflow, not just the bottom line." },
+    "Innovator": { profile: "Forward-thinking, creative, and highly adaptable to sudden market shifts and new technologies.", strengths: "Brainstorming disruptive solutions, embracing calculated risks, and inspiring teams toward a grand vision.", blindSpots: "May struggle with operational follow-through or become easily frustrated by bureaucratic compliance and red tape.", actionPlan: "Executive panels look for innovators who can execute. In your STAR responses, heavily emphasize the 'Action' and 'Result' phases. Prove that your groundbreaking ideas are grounded in realistic budgets, timelines, and measurable KPIs." },
+    "Connector": { profile: "Highly empathetic, emotionally intelligent, and deeply focused on team cohesion and stakeholder alignment.", strengths: "Mediating disputes, building psychological safety, and driving consensus across fragmented, cross-functional teams.", blindSpots: "May hesitate to make unpopular but necessary executive decisions, risking 'groupthink' or delayed project timelines.", actionPlan: "You naturally excel at the behavioral interview. However, you must prove your ability to be decisive. Highlight at least one STAR scenario where you had to make a tough, data-backed choice that was initially unpopular but ultimately drove business success." },
+    "Executor": { profile: "Fiercely pragmatic, process-oriented, and ruthlessly efficient in translating strategy into completed tasks.", strengths: "Meeting strict deadlines, optimizing daily operational workflows, and maintaining team focus under extreme pressure.", blindSpots: "Can suffer from tunnel vision, potentially ignoring systemic flaws or creative alternatives in the rush to 'get it done'.", actionPlan: "To elevate to an executive tier, you must demonstrate strategic elevation. Use your interviews to show how your operational execution aligns with long-term macroeconomic goals. Shift your narrative from 'I finished this task on time' to 'I designed this workflow to scale our division.'" },
     "Not Evaluated": { profile: "Data missing.", strengths: "Data missing.", blindSpots: "Data missing.", actionPlan: "Please complete Stage 3." }
   };
 
   const myArch = archDetails[window.userData.archetype] || archDetails["Not Evaluated"];
 
   let b = `Dear ${window.userData.name || 'Candidate'},\n\n`;
-  b += `Thank you for completing the 6-Stage HR Executive Assessment Gauntlet. This document serves as your official, comprehensive Talent Passport. It has been generated by evaluating your quantitative knowledge, psychometric archetype, and biometric executive presence.\n\n`;
-  
+  b += `Thank you for completing the 6-Stage HR Executive Assessment Gauntlet. This document serves as your official, comprehensive Talent Passport.\n\n`;
   b += `======================================================\n`;
   b += `🏆 OVERALL EXECUTIVE READINESS INDEX: ${total}\n`;
   b += `🧬 PRIMARY WORKPLACE ARCHETYPE: ${window.userData.archetype.toUpperCase()}\n`;
   b += `======================================================\n\n`;
-  
   b += `[ PART 1: STAGE-BY-STAGE QUANTITATIVE ANALYSIS ]\n\n`;
-  b += `1. Enterprise ATS Audit (Resume Parsing & TF-IDF)\n`;
-  b += `   >> Score: ${window.userData.ats_score}/100\n`;
-  b += `   >> Insight: ${atsFeedback}\n\n`;
-  
-  b += `2. Cognitive Aptitude & Decision Velocity\n`;
-  b += `   >> Score: ${window.userData.test_score}/100\n`;
-  b += `   >> Insight: ${aptitudeFeedback}\n\n`;
-  
-  b += `3. Multi-Agent Virtual Group Discussion (GD)\n`;
-  b += `   >> Score: ${window.userData.gd_score}/30\n`;
-  b += `   >> Insight: ${gdFeedback}\n\n`;
-  
-  b += `4. AI Behavioral HR Interview (${window.interviewMethod.toUpperCase()} Mode)\n`;
-  b += `   >> Score: ${window.userData.interview_score}/100\n`;
-  b += `   >> Insight: ${interviewFeedback}\n\n`;
+  b += `1. Enterprise ATS Audit (Resume Parsing & TF-IDF)\n   >> Score: ${window.userData.ats_score}/100\n   >> Insight: ${atsFeedback}\n\n`;
+  b += `2. Cognitive Aptitude & Decision Velocity\n   >> Score: ${window.userData.test_score}/100\n   >> Insight: ${aptitudeFeedback}\n\n`;
+  b += `3. Multi-Agent Virtual Group Discussion (GD)\n   >> Score: ${window.userData.gd_score}/30\n   >> Insight: ${gdFeedback}\n\n`;
+  b += `4. AI Behavioral HR Interview (${window.interviewMethod.toUpperCase()} Mode)\n   >> Score: ${window.userData.interview_score}/100\n   >> Insight: ${interviewFeedback}\n\n`;
   b += `------------------------------------------------------\n\n`;
-  
   b += `[ PART 2: REAL-TIME BIOMETRIC & NON-VERBAL ANALYTICS ]\n\n`;
-  b += `During Stage 5, our computer vision algorithms tracked your micro-expressions and physical composure.\n\n`;
-  b += `* Visual Focus & Eye Contact Index: ${avgEye}%\n`;
-  b += `  (Target: 70-85%. Maintaining eye contact signals confidence and active listening.)\n\n`;
-  b += `* Cognitive Stress & Movement Index: ${avgStress}%\n`;
-  b += `  (Target: <30%. Elevated movement or shifting posture indicates pressure fatigue.)\n\n`;
+  b += `* Visual Focus & Eye Contact Index: ${avgEye}%\n  (Target: 70-85%. Maintaining eye contact signals confidence and active listening.)\n\n`;
+  b += `* Cognitive Stress & Movement Index: ${avgStress}%\n  (Target: <30%. Elevated movement or shifting posture indicates pressure fatigue.)\n\n`;
   b += `------------------------------------------------------\n\n`;
-
   b += `[ PART 3: PSYCHOMETRIC ARCHETYPE DEEP-DIVE: ${window.userData.archetype.toUpperCase()} ]\n\n`;
-  b += `Based on your Stage 3 forced-choice situational matrix, you operate primarily as a ${window.userData.archetype}.\n\n`;
   b += `* Profile Overview: \n  ${myArch.profile}\n\n`;
   b += `* Core Executive Strengths: \n  ${myArch.strengths}\n\n`;
   b += `* Critical Blind Spots: \n  ${myArch.blindSpots}\n\n`;
@@ -1871,54 +1726,34 @@ window.emailDetailedReport = function() {
 
 const practiceQuizzes = {
   ats: {
-    title: "Enterprise ATS Audit",
-    icon: "fa-file-pdf",
-    color: "indigo",
+    title: "Enterprise ATS Audit", icon: "fa-file-pdf", color: "indigo",
     questions: [
       { q: "In ATS parsing, what does TF-IDF stand for?", options: ["Target Frequency-Inverse Document Frequency", "Term Frequency-Inverse Document Frequency", "Text Format-Internal Data File", "Total Fields-Integrated Data Format"], ans: 1 },
       { q: "Which format is universally considered the safest for ATS algorithms to parse without data loss?", options: ["Standard PDF or DOCX", "JPEG", "Canva Graphic Portfolios", "Encrypted Zip"], ans: 0 },
-      { q: "A 'False Negative' in an ATS audit occurs when:", options: ["An unqualified candidate passes", "A qualified candidate is rejected due to formatting", "The system crashes", "Keywords are highlighted correctly"], ans: 1 },
-      { q: "What is 'Keyword Stuffing' in the context of an ATS?", options: ["Putting keywords in white text to trick the system", "Using bullet points", "Highlighting text in bold", "Writing a 5-page resume"], ans: 0 },
-      { q: "Why do modern ATS platforms struggle with multi-column resume layouts?", options: ["They lack aesthetic appreciation", "The parsing algorithms read left-to-right top-to-bottom causing jumbled text", "Columns require too much memory", "PDF format bans columns"], ans: 1 },
-      { q: "Which of these is a 'hard skill' keyword likely targeted by an ATS for an HR Analytics role?", options: ["Team Player", "Hardworking", "Tableau", "Leadership"], ans: 2 }
+      { q: "A 'False Negative' in an ATS audit occurs when:", options: ["An unqualified candidate passes", "A qualified candidate is rejected due to formatting", "The system crashes", "Keywords are highlighted correctly"], ans: 1 }
     ]
   },
   aptitude: {
-    title: "Cognitive Aptitude",
-    icon: "fa-stopwatch",
-    color: "purple",
+    title: "Cognitive Aptitude", icon: "fa-stopwatch", color: "purple",
     questions: [
       { q: "If a company has 200 employees and 20 leave over a year, what is the annual turnover rate?", options: ["5%", "10%", "15%", "20%"], ans: 1 },
       { q: "What does 'Decision Velocity' primarily measure in executive assessments?", options: ["Accuracy of decisions", "Speed of making decisions under pressure", "Popularity of the decision", "Cost of the decision"], ans: 1 },
-      { q: "Which tool is best used to map the hierarchical reporting structure of an organization?", options: ["Gantt Chart", "Venn Diagram", "Organogram", "Scatter Plot"], ans: 2 },
-      { q: "If a project is delayed by 20% but the original timeline was 50 days, how many days will it take?", options: ["55", "60", "65", "70"], ans: 1 },
-      { q: "What is the primary purpose of a 'Compa-Ratio' in compensation management?", options: ["Tracking overtime", "Comparing an employee's salary to the market midpoint", "Calculating bonus tax", "Measuring company profit"], ans: 1 },
-      { q: "Which financial metric measures profitability before deductions for interest, taxes, depreciation, and amortization?", options: ["Net Income", "Gross Margin", "EBITDA", "ROI"], ans: 2 }
+      { q: "Which tool is best used to map the hierarchical reporting structure of an organization?", options: ["Gantt Chart", "Venn Diagram", "Organogram", "Scatter Plot"], ans: 2 }
     ]
   },
   gd: {
-    title: "Virtual Group Dynamics",
-    icon: "fa-users",
-    color: "amber",
+    title: "Virtual Group Dynamics", icon: "fa-users", color: "amber",
     questions: [
       { q: "According to Tuckman's stages of group development, which stage involves initial conflict and power struggles?", options: ["Forming", "Storming", "Norming", "Performing"], ans: 1 },
       { q: "In a GD, 'active listening' is best demonstrated by:", options: ["Interrupting to show engagement", "Looking at your notes", "Synthesizing and building upon a peer's previous point", "Speaking the loudest"], ans: 2 },
-      { q: "The Thomas-Kilmann Conflict Mode Instrument identifies 'Collaborating' as:", options: ["High assertiveness, high cooperativeness", "Low assertiveness, low cooperativeness", "High assertiveness, low cooperativeness", "Low assertiveness, high cooperativeness"], ans: 0 },
-      { q: "In a group discussion, what is the best way to handle a participant who is dominating the conversation?", options: ["Interrupt them loudly", "Politely acknowledge their point and ask another quiet member for their view", "Ignore them completely", "Walk out of the room"], ans: 1 },
-      { q: "What does 'Groupthink' refer to in organizational behavior?", options: ["A brainstorming technique", "The practice of thinking as a cohesive unit to maximize creativity", "The psychological drive for consensus at any cost that suppresses dissenting viewpoints", "Using AI to generate group ideas"], ans: 2 },
-      { q: "When summarizing a GD, a candidate should ideally:", options: ["Introduce new unmentioned points", "State only their own original points", "Concisely capture the main themes and consensus reached by the whole group", "Argue why their point was the best"], ans: 2 }
+      { q: "What does 'Groupthink' refer to in organizational behavior?", options: ["A brainstorming technique", "The practice of thinking as a cohesive unit to maximize creativity", "The psychological drive for consensus at any cost that suppresses dissenting viewpoints", "Using AI to generate group ideas"], ans: 2 }
     ]
   },
   interview: {
-    title: "AI Behavioral Interview",
-    icon: "fa-microphone-lines",
-    color: "brand",
+    title: "AI Behavioral Interview", icon: "fa-microphone-lines", color: "brand",
     questions: [
       { q: "In the STAR interview method, what does the 'A' stand for?", options: ["Attitude", "Action", "Assessment", "Accountability"], ans: 1 },
-      { q: "When an HR Director asks a behavioral question, they are operating on the premise that:", options: ["Past behavior predicts future behavior", "Technical skills outrank soft skills", "Hypothetical situations are best", "Resumes are usually fabricated"], ans: 0 },
-      { q: "Which metric is a biometric algorithm most likely tracking during a video interview?", options: ["Typing speed", "Visual focus (Eye Contact) & Posture", "Internet bandwidth", "Audio volume"], ans: 1 },
       { q: "When asked about your greatest weakness, the most strategic approach is to:", options: ["Say you work too hard", "Claim you have no weaknesses", "Mention a genuine weakness and the active steps you are taking to improve it", "Deflect the question"], ans: 2 },
-      { q: "What is the recommended duration for a STAR method response?", options: ["10-15 seconds", "1-2 minutes", "5-7 minutes", "Until the interviewer interrupts"], ans: 1 },
       { q: "In the 'Result' phase of the STAR method, what is the most critical element to include?", options: ["Names of your coworkers", "Your emotional state", "Quantifiable metrics and concrete outcomes", "What you would do differently next time"], ans: 2 }
     ]
   }
@@ -1935,14 +1770,11 @@ window.loadPracticeQuiz = function(category) {
   
   data.questions.forEach((item, qIndex) => {
     html += `<div class="bg-slate-50 p-4 md:p-5 rounded-xl border border-slate-200"><p class="font-bold text-sm md:text-base text-slate-800 mb-3">${qIndex + 1}. ${item.q}</p><div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3" id="quiz-opts-${category}-${qIndex}">`;
-    
     item.options.forEach((opt, oIndex) => {
       html += `<button onclick="window.checkPracticeAnswer('${category}', ${qIndex}, ${oIndex}, ${item.ans}, this)" class="text-left px-3 md:px-4 py-2.5 md:py-3 rounded-lg border border-slate-300 bg-white hover:bg-brand-50 transition text-xs md:text-sm font-medium text-slate-700 w-full">${opt}</button>`;
     });
-    
     html += `</div><div id="quiz-feedback-${category}-${qIndex}" class="mt-3 text-xs md:text-sm font-bold hidden"></div></div>`;
   });
-  
   html += `</div>`;
   container.innerHTML = html;
 };
@@ -1952,26 +1784,15 @@ window.checkPracticeAnswer = function(category, qIndex, selectedOpt, correctOpt,
   const buttons = parent.querySelectorAll('button');
   const feedback = document.getElementById(`quiz-feedback-${category}-${qIndex}`);
    
-  buttons.forEach(b => {
-    b.disabled = true;
-    b.classList.remove('hover:bg-brand-50', 'cursor-pointer');
-    b.classList.add('opacity-70', 'cursor-not-allowed');
-  });
+  buttons.forEach(b => { b.disabled = true; b.classList.remove('hover:bg-brand-50', 'cursor-pointer'); b.classList.add('opacity-70', 'cursor-not-allowed'); });
    
   if (selectedOpt === correctOpt) {
-    btnEl.classList.remove('bg-white', 'border-slate-300');
-    btnEl.classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'ring-2', 'ring-green-500', 'opacity-100');
-    feedback.innerHTML = `<i class="fa-solid fa-check-circle text-green-600 mr-1"></i> Correct!`;
-    feedback.classList.remove('hidden', 'text-red-600');
-    feedback.classList.add('text-green-600');
+    btnEl.classList.remove('bg-white', 'border-slate-300'); btnEl.classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'ring-2', 'ring-green-500', 'opacity-100');
+    feedback.innerHTML = `<i class="fa-solid fa-check-circle text-green-600 mr-1"></i> Correct!`; feedback.classList.remove('hidden', 'text-red-600'); feedback.classList.add('text-green-600');
   } else {
-    btnEl.classList.remove('bg-white', 'border-slate-300', 'opacity-70');
-    btnEl.classList.add('bg-red-100', 'border-red-500', 'text-red-800', 'opacity-100');
-    buttons[correctOpt].classList.remove('bg-white', 'border-slate-300', 'opacity-70');
-    buttons[correctOpt].classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'opacity-100');
-    feedback.innerHTML = `<i class="fa-solid fa-times-circle text-red-600 mr-1"></i> Incorrect.`;
-    feedback.classList.remove('hidden', 'text-green-600');
-    feedback.classList.add('text-red-600');
+    btnEl.classList.remove('bg-white', 'border-slate-300', 'opacity-70'); btnEl.classList.add('bg-red-100', 'border-red-500', 'text-red-800', 'opacity-100');
+    buttons[correctOpt].classList.remove('bg-white', 'border-slate-300', 'opacity-70'); buttons[correctOpt].classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'opacity-100');
+    feedback.innerHTML = `<i class="fa-solid fa-times-circle text-red-600 mr-1"></i> Incorrect.`; feedback.classList.remove('hidden', 'text-green-600'); feedback.classList.add('text-red-600');
   }
 };
 
