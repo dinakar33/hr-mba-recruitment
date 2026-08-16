@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Human Assetize - Practice-Perform-Place</title>
+<title>Assetize - Practice-Perform-Place</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -104,6 +104,13 @@ body.ai-mode .gd-avatar { background: #334155; }
 }
 .gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 
+/* Subtle pulse for hero background */
+@keyframes slowPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+}
+.hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
+
 #launchOverlay { position: fixed; inset: 0; background: radial-gradient(circle, #1e293b 0%, #020617 100%); z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out; }
 .stars-bg { position: absolute; inset: 0; background-image: radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 50px 160px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 130px 80px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 160px 120px, #ffffff, rgba(0,0,0,0)); background-repeat: repeat; background-size: 200px 200px; animation: twinkle 4s infinite; opacity: 0.5; }
 @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
@@ -115,13 +122,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 .deployed .satellite-container { transform: translate(-50%, -50%) scale(1.2); opacity: 1; animation: orbitFloat 4s infinite alternate ease-in-out; }
 @keyframes orbitFloat { 0% { transform: translate(-50%, -50%) scale(1.2) rotate(-5deg); } 100% { transform: translate(-50%, -55%) scale(1.2) rotate(5deg); } }
 .flash-bang { position: absolute; inset: 0; background: white; opacity: 0; pointer-events: none; transition: opacity 0.2s ease-out; z-index: 10000; }
-
-/* Subtle pulse for hero background */
-@keyframes slowPulse {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); }
-}
-.hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
 </style>
 </head>
 
@@ -159,11 +159,11 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-6">
 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 w-full">
 
-<!-- Responsive Title -->
+<!-- Responsive Title & Mobile About Button -->
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div>
     <h1 class="text-2xl md:text-3xl tracking-tight flex flex-col sm:flex-row sm:items-baseline">
-      <span class="font-extrabold">Human Assetize</span>
+      <span class="font-extrabold">Assetize</span>
       <span class="text-brand-200 font-medium text-lg md:text-xl sm:ml-2 mt-1 sm:mt-0">- Practice-Perform-Place</span>
     </h1>
   </div>
@@ -172,7 +172,7 @@ body.ai-mode .gd-avatar { background: #334155; }
   </button>
 </div>
 
-<!-- Desktop & Mobile Controls -->
+<!-- Desktop Controls -->
 <div class="flex flex-wrap items-center gap-3 md:gap-4 w-full lg:w-auto mt-2 lg:mt-0 flex">
   <div class="flex items-center justify-center space-x-2 bg-black/20 px-3 md:px-4 py-2 rounded-full border border-white/10">
     <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-200">Manual</span>
@@ -188,7 +188,6 @@ body.ai-mode .gd-avatar { background: #334155; }
     <i class="fa-solid fa-circle-info mr-1 md:mr-2 text-brand-200"></i> About
   </button>
 </div>
-
 </div>
 </div>
 
@@ -222,7 +221,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 <button onclick="document.getElementById('msgBox').classList.add('hidden')" class="text-white hover:text-gray-200"><i class="fa-solid fa-times"></i></button>
 </div>
 
-<!-- ENTERPRISE HOMEPAGE -->
 <section id="tab-home" class="tab-content active">
   <div class="relative overflow-hidden rounded-3xl bg-slate-900 text-white shadow-2xl mb-12 border border-slate-700">
      <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
@@ -241,7 +239,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 
   <div class="mb-12">
       <div class="text-center mb-8 md:mb-10">
-          <h3 class="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">Why Human Assetize is Required?</h3>
+          <h3 class="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">Why Assetize is Required?</h3>
           <div class="w-24 h-1.5 bg-brand-500 mx-auto mt-4 rounded-full"></div>
       </div>
       
@@ -250,25 +248,25 @@ body.ai-mode .gd-avatar { background: #334155; }
               <div class="absolute -right-4 -bottom-4 text-blue-500/10 text-7xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-bridge"></i></div>
               <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4 relative z-10"><i class="fa-solid fa-bridge"></i></div>
               <h4 class="text-lg font-bold text-slate-800 mb-2 relative z-10">Bridging the Gap</h4>
-              <p class="text-sm text-slate-600 relative z-10">Eradicates the disconnect between theoretical MBA classroom knowledge and the harsh, data-driven reality of Fortune 500 corporate evaluations.</p>
+              <p class="text-sm text-slate-600 relative z-10">Eradicates the disconnect between theoretical MBA classroom knowledge and the harsh, data-driven reality of corporate evaluations.</p>
           </div>
           <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-t-purple-500 relative overflow-hidden group">
               <div class="absolute -right-4 -bottom-4 text-purple-500/10 text-7xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-scale-unbalanced"></i></div>
               <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl mb-4 relative z-10"><i class="fa-solid fa-scale-unbalanced"></i></div>
               <h4 class="text-lg font-bold text-slate-800 mb-2 relative z-10">Eliminating Bias</h4>
-              <p class="text-sm text-slate-600 relative z-10">Human interviews are flawed by subjective biases (Halo effect, Contrast bias). Our LLM algorithms provide 100% objective, purely meritocratic scoring.</p>
+              <p class="text-sm text-slate-600 relative z-10">Human interviews are flawed by subjective biases. Our AI algorithms provide 100% objective, purely meritocratic scoring.</p>
           </div>
           <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-t-red-500 relative overflow-hidden group">
               <div class="absolute -right-4 -bottom-4 text-red-500/10 text-7xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-heart-pulse"></i></div>
               <div class="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-xl mb-4 relative z-10"><i class="fa-solid fa-heart-pulse"></i></div>
               <h4 class="text-lg font-bold text-slate-800 mb-2 relative z-10">Biometric Integrity</h4>
-              <p class="text-sm text-slate-600 relative z-10">Executives aren't just graded on what they say, but how they handle pressure. Live computer vision tracks stress and visual composure in real-time.</p>
+              <p class="text-sm text-slate-600 relative z-10">Executives aren't just graded on what they say. Live computer vision tracks stress and visual composure in real-time.</p>
           </div>
           <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-t-emerald-500 relative overflow-hidden group">
               <div class="absolute -right-4 -bottom-4 text-emerald-500/10 text-7xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-passport"></i></div>
               <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4 relative z-10"><i class="fa-solid fa-passport"></i></div>
               <h4 class="text-lg font-bold text-slate-800 mb-2 relative z-10">Actionable Portfolios</h4>
-              <p class="text-sm text-slate-600 relative z-10">Generates a unified 'Talent Passport' detailing exact blind spots, allowing candidates to course-correct *before* official placement season begins.</p>
+              <p class="text-sm text-slate-600 relative z-10">Generates a unified 'Talent Passport' detailing exact blind spots, allowing candidates to course-correct before placement season begins.</p>
           </div>
       </div>
   </div>
@@ -277,7 +275,7 @@ body.ai-mode .gd-avatar { background: #334155; }
      <div class="glass-card p-6 md:p-8 rounded-2xl shadow-lg border-t-4 border-t-brand-500 hover:-translate-y-2 transition-transform duration-300">
         <div class="w-12 h-12 md:w-14 md:h-14 bg-brand-100 rounded-xl flex items-center justify-center text-brand-600 text-xl md:text-2xl mb-5 md:mb-6 shadow-inner"><i class="fa-solid fa-robot"></i></div>
         <h4 class="text-lg md:text-xl font-bold text-slate-800 mb-2 md:mb-3">AI-Powered Simulations</h4>
-        <p class="text-xs md:text-sm text-slate-600 leading-relaxed">Engage in dynamic, unscripted debates with multi-agent Groq LLMs. Test your diplomacy and critical thinking in real-time.</p>
+        <p class="text-xs md:text-sm text-slate-600 leading-relaxed">Engage in dynamic, unscripted debates with multi-agent LLMs. Test your diplomacy and critical thinking in real-time virtual boardrooms.</p>
      </div>
      <div class="glass-card p-6 md:p-8 rounded-2xl shadow-lg border-t-4 border-t-purple-500 hover:-translate-y-2 transition-transform duration-300">
         <div class="w-12 h-12 md:w-14 md:h-14 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 text-xl md:text-2xl mb-5 md:mb-6 shadow-inner"><i class="fa-solid fa-eye"></i></div>
@@ -292,7 +290,6 @@ body.ai-mode .gd-avatar { background: #334155; }
   </div>
 </section>
 
-<!-- ONBOARDING SECTION -->
 <section id="tab-onboarding" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
@@ -325,11 +322,10 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
-<!-- STAGE 1: ATS AUDIT -->
 <section id="tab-ats" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 1: Enterprise ATS Audit (TF-IDF)</h2>
-<p class="text-sm md:text-base text-slate-500 mt-1 md:mt-2">Paste a Job Description and upload your resume. Your resume will be securely uploaded to the database.</p>
+<p class="text-sm md:text-base text-slate-500 mt-1 md:mt-2">Paste a Job Description and upload your resume.</p>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
 <div class="lg:col-span-2 space-y-4 md:space-y-6">
@@ -354,7 +350,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 <span id="atsScoreDisplay" class="text-2xl md:text-3xl font-extrabold text-brand-600">0%</span>
 </div>
 <p class="text-[10px] md:text-xs font-medium text-gray-500 uppercase tracking-wide mb-4">Match Score</p>
-<p class="text-xs md:text-sm text-green-700 bg-green-500/20 p-2 rounded hidden w-full text-center mb-4" id="atsSuccessMsg"><i class="fa-solid fa-check"></i> Score & File Synced!</p>
+<p class="text-xs md:text-sm text-green-700 bg-green-500/20 p-2 rounded hidden w-full text-center mb-4" id="atsSuccessMsg"><i class="fa-solid fa-check"></i> Score synced!</p>
 <div class="w-full flex-grow overflow-y-auto pr-2 custom-scrollbar text-left text-xs md:text-sm">
 <h4 class="font-bold text-slate-700 mb-2">JD Extracted Keywords:</h4>
 <div id="keywordResults" class="space-y-2">
@@ -365,7 +361,6 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
-<!-- STAGE 2: APTITUDE TEST -->
 <section id="tab-test" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-center sm:items-start bg-red-500/10 p-4 rounded-lg border border-red-500/30 gap-4">
 <div class="text-center sm:text-left">
@@ -395,7 +390,6 @@ Submit Final Answers
 </div>
 </section>
 
-<!-- STAGE 3: ARCHETYPE ASSESSMENT -->
 <section id="tab-archetype" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 3: Archetype Assessment</h2>
@@ -412,12 +406,11 @@ Submit Archetype Answers
 </div>
 </section>
 
-<!-- STAGE 4: VIRTUAL GD -->
 <section id="tab-gd" class="tab-content">
 <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 4: Virtual Group Discussion (5 Rounds)</h2>
-<p class="text-xs md:text-sm text-slate-500 mt-1">Active Cycle: <span id="gdRoundBadge" class="font-bold text-brand-600">Pending Start</span></p>
+<p class="text-xs md:text-sm text-slate-500 mt-1">Active Cycle: <span id="gdRoundBadge" class="font-bold text-brand-600">Round 1 of 5</span></p>
 </div>
 <button id="aiVoiceBtn4" onclick="window.startAIGD()" class="w-full sm:w-auto flex bg-brand-600 hover:bg-brand-500 text-white px-4 md:px-6 py-2 rounded-full shadow-lg transition text-sm md:text-base font-bold border border-brand-400 items-center justify-center">
 <i class="fa-solid fa-users-viewfinder mr-2"></i>Initialize Virtual Agents
@@ -427,7 +420,7 @@ Submit Archetype Answers
 <div class="glass-card p-4 md:p-6 rounded-xl border-l-4 border-l-amber-500 flex flex-col min-h-[450px] md:min-h-[500px]">
 <h3 class="text-lg md:text-xl font-bold mb-2"><i class="fa-solid fa-comments text-amber-500 mr-2"></i>Active Case Study</h3>
 <p id="gd-topic-title" class="text-base md:text-lg font-bold text-brand-600 mb-1">Loading Topic...</p>
-<p id="gd-topic-desc" class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Please wait.</p>
+<p id="gd-topic-desc" class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Please initialize the agents.</p>
 <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
 <div class="gd-boardroom-container">
   <div class="gd-seat gd-seat-top-left">
@@ -480,7 +473,6 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 </div>
 </section>
 
-<!-- STAGE 5: INTERVIEW -->
 <section id="tab-interview" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 5: AI Behavioral HR Interview</h2>
@@ -521,7 +513,7 @@ Posture: <strong id="postureVal">Pending</strong>
 <button id="btnMethodGeneral" onclick="window.setInterviewMethod('general')" class="px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto">General</button>
 </div>
 </div>
-<button id="startInterviewBtn" onclick="window.startAIInterview()" class="w-full sm:w-auto flex bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-6 md:px-8 rounded-full shadow-lg transition mb-2 border border-brand-400 text-sm md:text-base items-center justify-center">
+<button id="startInterviewBtn" onclick="window.startAIInterview()" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-6 md:px-8 rounded-full shadow-lg transition mb-2 border border-brand-400 text-sm md:text-base flex items-center justify-center">
 <i class="fa-solid fa-play mr-2"></i> Initialize Protocol
 </button>
 <div id="interview-mic-zone" class="w-full flex-col items-center hidden">
@@ -540,7 +532,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
-<!-- STAGE 6: PASSPORT -->
 <section id="tab-passport" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
@@ -583,7 +574,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
-<!-- EMPLOYEE RIGHTS SECTION -->
 <section id="tab-rights" class="tab-content">
 <div class="mb-6 md:mb-8 text-center md:text-left">
   <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Employee Rights Spotlight & Masterclasses</h2>
@@ -619,7 +609,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
-<!-- ACADEMIC MODULES SECTION -->
 <section id="tab-about" class="tab-content">
   <div class="mb-8 md:mb-10 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & HR Frameworks</h2>
@@ -629,48 +618,47 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-blue-500">
       <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-microchip text-blue-500 mr-2"></i>TF-IDF Algorithm (Applicant Tracking)</h3>
-      <p class="text-sm text-slate-600 mb-4">Term Frequency-Inverse Document Frequency is a statistical measure used by enterprise ATS systems (like Workday or Taleo) to evaluate how relevant a candidate's resume is to a Job Description.</p>
+      <p class="text-sm text-slate-600 mb-4">Term Frequency-Inverse Document Frequency is a statistical measure used by enterprise ATS systems to evaluate how relevant a candidate's resume is to a Job Description.</p>
       <div class="bg-slate-900 text-green-400 font-mono p-4 rounded-lg text-xs md:text-sm mb-4 shadow-inner">
         TF = (Number of times keyword appears in resume) / (Total words in resume)<br><br>
         IDF = log_e(Total resumes in database / Number of resumes containing the keyword)
       </div>
-      <p class="text-sm text-slate-600"><strong>Key Takeaway:</strong> If you use a highly common buzzword ("team player"), the IDF score drops. If you use a rare, specific technical skill required in the JD ("Tableau Data Blending"), your ATS ranking skyrockets.</p>
+      <p class="text-sm text-slate-600"><strong>Key Takeaway:</strong> Rare, specific technical skills rank you much higher than common buzzwords.</p>
     </div>
 
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-purple-500">
       <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-sitemap text-purple-500 mr-2"></i>Tuckman's Stages of Group Development</h3>
-      <p class="text-sm text-slate-600 mb-4">A foundational framework in Organizational Behavior detailing how a team moves from strangers to a high-performing unit. Crucial for understanding Group Discussion (GD) dynamics.</p>
+      <p class="text-sm text-slate-600 mb-4">A foundational framework detailing how a team moves from strangers to a high-performing unit. Crucial for Group Discussion (GD) dynamics.</p>
       <ul class="space-y-3 text-sm text-slate-700">
-        <li><strong>1. Forming:</strong> Polite, anxious. High dependence on the leader for guidance.</li>
-        <li><strong>2. Storming:</strong> Conflict emerges. Personalities clash over power and control. (This is where most GD candidates fail by getting aggressive).</li>
-        <li><strong>3. Norming:</strong> Resolution. The team agrees on rules, roles, and respects individual strengths.</li>
-        <li><strong>4. Performing:</strong> Frictionless execution. The team acts autonomously to achieve the goal.</li>
+        <li><strong>1. Forming:</strong> Polite, anxious. High dependence on the leader.</li>
+        <li><strong>2. Storming:</strong> Conflict emerges. Personalities clash over control.</li>
+        <li><strong>3. Norming:</strong> Resolution. The team agrees on rules and roles.</li>
+        <li><strong>4. Performing:</strong> Frictionless execution toward the goal.</li>
       </ul>
     </div>
 
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-emerald-500">
       <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-money-bill-trend-up text-emerald-500 mr-2"></i>Compa-Ratio (Compensation Strategy)</h3>
-      <p class="text-sm text-slate-600 mb-4">The Compa-Ratio (Comparative Ratio) is the standard metric used by HR compensation analysts to determine if an employee is being paid fairly compared to the market rate.</p>
+      <p class="text-sm text-slate-600 mb-4">The standard metric used by HR to determine if an employee is being paid fairly compared to the market rate.</p>
       <div class="bg-slate-50 text-slate-800 border border-slate-300 font-bold p-4 rounded-lg text-center mb-4">
         Compa-Ratio = (Actual Employee Salary) / (Market Midpoint Salary)
       </div>
-      <p class="text-sm text-slate-600">A ratio of 1.0 means the employee is paid exactly at market average. A ratio of 0.8 means they are severely underpaid (high flight risk). A ratio of 1.2 means they are paid above market (usually reserved for critical top performers).</p>
+      <p class="text-sm text-slate-600">A ratio of 1.0 means market average. 0.8 means underpaid. 1.2 means paid above market.</p>
     </div>
 
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-brand-500">
       <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-star text-brand-500 mr-2"></i>The STAR Method (Interviewing)</h3>
-      <p class="text-sm text-slate-600 mb-4">The globally recognized standard for answering behavioral interview questions. It forces candidates to provide structured, evidence-based narratives instead of vague philosophies.</p>
+      <p class="text-sm text-slate-600 mb-4">The globally recognized standard for answering behavioral interview questions.</p>
       <ul class="space-y-3 text-sm text-slate-700">
-        <li><strong>S - Situation:</strong> Set the scene. What was the context or crisis? (10% of your answer)</li>
-        <li><strong>T - Task:</strong> What was your specific responsibility? (10%)</li>
-        <li><strong>A - Action:</strong> Exactly what steps did *you* (not "we") take to solve it? (60% of your answer)</li>
-        <li><strong>R - Result:</strong> The quantifiable outcome. How much money was saved? What was the percentage increase? (20% of your answer)</li>
+        <li><strong>S - Situation:</strong> Set the scene (10%).</li>
+        <li><strong>T - Task:</strong> Your specific responsibility (10%).</li>
+        <li><strong>A - Action:</strong> Exactly what steps did *you* take? (60%).</li>
+        <li><strong>R - Result:</strong> The quantifiable, numerical outcome (20%).</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- PLATFORM OVERVIEW SECTION (ABOUT) -->
 <section id="tab-overview" class="tab-content">
   <div class="mb-8 md:mb-10 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">About: The 6-Stage Assessment Gauntlet</h2>
@@ -809,11 +797,9 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- OPTIONAL PRACTICE QUIZ SECTION -->
 <section id="tab-quiz" class="tab-content">
   <div class="mb-6 md:mb-8 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Optional Practice Zone</h2>
@@ -840,17 +826,15 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
 // ==========================================
-// GROQ Llama-3 API INTEGRATION (OBFUSCATED)
-// 🚀 GROQ Llama-3 API INTEGRATION (OBFUSCATED)
+// GROQ (LLAMA-3.1) API INTEGRATION
 // ==========================================
-// We split the key so GitHub/Groq security bots don't auto-disable it!
-const part1 = "gsk_"; 
-const part2 = "i8mmL0cZCr8eL5sWN6omWGdyb3FYhGBRWSr9eFwyvAQIZxAfP6xZ"; // Do NOT include 'gsk_' in this part
-
-const GROQ_API_KEY = part1 + part2; 
+const part1 = "gsk_";
+const part2 = "i8mmL0cZCr8eL5sWN6omWGdyb3FYhGBRWSr9eFwyvAQIZxAfP6xZ";
+const GROQ_API_KEY = part1 + part2;
 
 const firebaseConfig = {
 apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
@@ -867,9 +851,6 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// ==========================================
-// NATIVE INDIAN TTS ENGINE
-// ==========================================
 class AvatarSpeechService {
   constructor() {
     this.voices = [];
@@ -878,20 +859,14 @@ class AvatarSpeechService {
       window.speechSynthesis.onvoiceschanged = this.populateVoices.bind(this);
     }
   }
-
-  populateVoices() {
-    this.voices = window.speechSynthesis.getVoices();
-  }
-
+  populateVoices() { this.voices = window.speechSynthesis.getVoices(); }
   speak(text, avatarId) {
     this.stop();
     return new Promise(resolve => {
       const utterance = new SpeechSynthesisUtterance(text);
-      
       let inVoices = this.voices.filter(v => v.lang === 'en-IN' || v.lang === 'en_IN' || v.lang.includes('India'));
       let maleVoice = null;
       let femaleVoice = null;
-
       if (inVoices.length > 0) {
         maleVoice = inVoices.find(v => v.name.toLowerCase().includes('ravi') || v.name.toLowerCase().includes('male')) || inVoices[0];
         femaleVoice = inVoices.find(v => v.name.toLowerCase().includes('heera') || v.name.toLowerCase().includes('neerja') || v.name.toLowerCase().includes('female')) || inVoices[inVoices.length - 1];
@@ -901,25 +876,18 @@ class AvatarSpeechService {
          femaleVoice = enVoices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira')) || enVoices[0];
       }
 
-      if (avatarId === 'arjun') {
-        if (maleVoice) utterance.voice = maleVoice; utterance.pitch = 0.8; utterance.rate = 0.95;
-      } else if (avatarId === 'kavya') {
-        if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 1.3; utterance.rate = 1.05;
-      } else if (avatarId === 'meera') {
-        if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 0.85; utterance.rate = 0.95;
-      } else { 
-        if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 1.0; utterance.rate = 1.0;
-      }
+      if (avatarId === 'arjun') { if (maleVoice) utterance.voice = maleVoice; utterance.pitch = 0.8; utterance.rate = 0.95; }
+      else if (avatarId === 'kavya') { if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 1.3; utterance.rate = 1.05; }
+      else if (avatarId === 'meera') { if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 0.85; utterance.rate = 0.95; }
+      else { if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 1.0; utterance.rate = 1.0; }
 
       utterance.onend = resolve;
       utterance.onerror = resolve; 
       window.speechSynthesis.speak(utterance);
     });
   }
-
   stop() { window.speechSynthesis.cancel(); }
 }
-
 const ttsService = new AvatarSpeechService();
 
 const APP_ID = 'hr-blog-app'; 
@@ -928,7 +896,6 @@ window.isAIMode = false;
 window.activeSpeaker = null; 
 window.userData = { name: "", email: "", archetype: "Not Evaluated", ats_score: 0, test_score: 0, gd_score: 0, interview_score: 0, published: false };
 let unsubscribeStudent = null;
-
 window.bioMetrics = { eyeContact: [], stress: [] };
 
 window.chairmanLaunch = function() {
@@ -937,30 +904,23 @@ window.chairmanLaunch = function() {
     const rocket = document.getElementById('rocketAsset');
     const thrust = document.getElementById('rocketThrust');
     
-    // Engine Ignition
     rocket.classList.add('rocket-shake');
     thrust.style.opacity = '1';
     
-    // Takeoff
     setTimeout(() => {
         overlay.classList.add('launching');
-        
-        // Flashbang and Satellite Morph
         setTimeout(() => {
             document.getElementById('flashBang').style.opacity = '1';
             setTimeout(() => {
                 document.getElementById('flashBang').style.opacity = '0';
                 rocket.style.display = 'none';
                 overlay.classList.add('deployed');
-                
-                // Fade out and reveal site
                 setTimeout(() => {
                     overlay.style.opacity = '0';
                     setTimeout(() => {
                         overlay.style.display = 'none';
                         overlay.classList.add('hidden');
                         sessionStorage.setItem('chairman_launched', 'true');
-                        // Ensure we are on home tab
                         const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
                         window.switchTab('tab-home', targetNavBtn);
                     }, 1500);
@@ -978,10 +938,6 @@ window.startAssessment = function() {
 
 async function callGroq(prompt, systemInstruction = "You are a professional corporate evaluator.") {
   try {
-    if (!GROQ_API_KEY || GROQ_API_KEY.includes("PASTE_YOUR")) {
-      throw new Error("Missing Groq API Key.");
-    }
-    
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -991,8 +947,8 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
       body: JSON.stringify({
         model: "llama-3.1-8b-instant",
         messages: [
-          { role: "system", "content": systemInstruction },
-          { role: "user", "content": prompt }
+          { role: "system", content: systemInstruction },
+          { role: "user", content: prompt }
         ],
         temperature: 0.7,
         max_tokens: 150
@@ -1001,12 +957,10 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
 
     const result = await response.json();
     if (!response.ok) throw new Error(result.error?.message || 'API Error');
-    
     return result.choices[0].message.content.replace(/\*/g, '').trim();
   } catch (e) {
     console.warn("API Error:", e.message);
     
-    // Strict fallback safety check
     let lastInputMatch = prompt.match(/Candidate:\s*(.*)/g);
     let lastInput = lastInputMatch ? lastInputMatch[lastInputMatch.length - 1].replace('Candidate:', '').trim() : "";
     let cleanInput = lastInput.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -1014,13 +968,10 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     if (cleanInput.length > 0 && (cleanInput.length < 5 || ['ok', 'yes', 'no', 'nothing', 'iagree', 'sure'].includes(cleanInput))) {
         return "Saying '" + lastInput + "' contributes absolutely nothing. I expect strategic, data-backed insights, not one-word answers.";
     }
-    
-    // This will now output the EXACT error on the screen so we know what's wrong!
-    return `[API ERROR DETAILS: ${e.message}]`;
+    return `[SYSTEM ERROR: ${e.message}]`;
   }
 }
 
-// ARCHETYPE QUESTIONS
 const archQ = [
   {q: "1. When starting a complex new project, your first priority is to:", o: {s: "Define clear metrics", i: "Find a unique angle", c: "Ensure the right people are assigned", e: "Set a strict timeline"}},
   {q: "2. In team meetings, you are usually the one who:", o: {s: "Points out logical flaws", i: "Pitches the big ideas", c: "Makes sure everyone speaks", e: "Pushes the meeting to end"}},
@@ -1037,14 +988,12 @@ const archQ = [
 function renderArchetypeQs() {
   const c = document.getElementById('archetypeQuestionsContainer');
   if(!c) return;
-  
   let finalHtml = '';
   archQ.forEach((item, idx) => {
     let html = `
       <div class="mb-5 bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative z-10">
         <p class="text-sm md:text-base font-bold text-slate-800 mb-4">${item.q}</p>
         <div class="space-y-3">`;
-        
     for(let key in item.o) {
       const uniqueId = `arch_${idx}_${key}`;
       html += `
@@ -1056,7 +1005,6 @@ function renderArchetypeQs() {
     html += `</div></div>`;
     finalHtml += html;
   });
-  
   c.innerHTML = finalHtml;
 }
 
@@ -1101,15 +1049,17 @@ signInAnonymously(auth).then((userCredential) => {
       if (snap.exists()) {
           const config = snap.data();
           const overlay = document.getElementById('launchOverlay');
-          if (config.launchMode === true) {
-              if (sessionStorage.getItem('chairman_launched') !== 'true') {
-                  overlay.classList.remove('hidden');
-                  overlay.style.display = 'flex';
+          if (overlay) {
+              if (config.launchMode === true) {
+                  if (sessionStorage.getItem('chairman_launched') !== 'true') {
+                      overlay.classList.remove('hidden');
+                      overlay.style.display = 'flex';
+                  }
+              } else {
+                  overlay.classList.add('hidden');
+                  overlay.style.display = 'none';
+                  sessionStorage.removeItem('chairman_launched');
               }
-          } else {
-              overlay.classList.add('hidden');
-              overlay.style.display = 'none';
-              sessionStorage.removeItem('chairman_launched'); // Reset memory so it can be launched again!
           }
       }
   });
@@ -1350,7 +1300,6 @@ window.runATS = async function() {
 
     window.userData.ats_score = Math.round((matched.length / sortedKeywords.length) * 100) || 10;
     
-    // Securely upload resume to Firebase Storage
     try {
        const storageRef = ref(storage, `artifacts/${APP_ID}/public/data/resumes/${window.candidateId}.pdf`);
        await uploadBytes(storageRef, file);
@@ -1441,26 +1390,11 @@ window.submitTest = async function() {
 };
 
 const gdTopics = [
-  {
-    title: "AI in Performance Reviews",
-    desc: "Discuss the ethical implications of replacing human managers with AI scoring systems."
-  },
-  {
-    title: "Mandatory Return to Office (RTO)",
-    desc: "Debate the long-term impact of forcing employees back to the office versus maintaining remote flexibility."
-  },
-  {
-    title: "The 4-Day Workweek",
-    desc: "Analyze the financial and operational feasibility of a 4-day workweek without reducing pay."
-  },
-  {
-    title: "Moonlighting in Corporate IT",
-    desc: "Should corporate employees be legally permitted to take up secondary jobs outside working hours?"
-  },
-  {
-    title: "Diversity Quotas vs. Pure Meritocracy",
-    desc: "Should executive boards enforce strict diversity quotas, or does it compromise pure merit-based hiring?"
-  }
+  { title: "AI in Performance Reviews", desc: "Discuss the ethical implications of replacing human managers with AI scoring systems." },
+  { title: "Mandatory Return to Office (RTO)", desc: "Debate the long-term impact of forcing employees back to the office versus maintaining remote flexibility." },
+  { title: "The 4-Day Workweek", desc: "Analyze the financial and operational feasibility of a 4-day workweek without reducing pay." },
+  { title: "Moonlighting in Corporate IT", desc: "Should corporate employees be legally permitted to take up secondary jobs outside working hours?" },
+  { title: "Diversity Quotas vs. Pure Meritocracy", desc: "Should executive boards enforce strict diversity quotas, or does it compromise pure merit-based hiring?" }
 ];
 
 let currentActiveTopic = gdTopics[0];
@@ -1490,6 +1424,12 @@ window.startAIGD = async function() {
   document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`; 
   document.getElementById('gd-transcript').innerHTML = ""; 
   gdHistory = "";
+  
+  currentActiveTopic = gdTopics[Math.floor(Math.random() * gdTopics.length)];
+  const gdTitleEl = document.getElementById('gd-topic-title');
+  const gdDescEl = document.getElementById('gd-topic-desc');
+  if (gdTitleEl) gdTitleEl.innerText = `"${currentActiveTopic.title}"`;
+  if (gdDescEl) gdDescEl.innerText = currentActiveTopic.desc;
   
   writeTranscript('gd-transcript', 'System', `Initiating 5-Round Virtual GD on: ${currentActiveTopic.title}...`);
   const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
@@ -1640,7 +1580,6 @@ function initWebcamStream() {
 }
 
 let interviewStep = 0; let intHistory = "";
-
 window.interviewMethod = 'star';
 window.setInterviewMethod = function(method) {
   window.interviewMethod = method;
@@ -1662,7 +1601,6 @@ window.startAIInterview = async function() {
   }
   
   initWebcamStream();
-
   document.getElementById('startInterviewBtn').classList.add('hidden');
   const togglePanel = document.getElementById('interviewModeToggle');
   if (togglePanel) togglePanel.classList.add('opacity-50', 'pointer-events-none');
@@ -1856,7 +1794,7 @@ window.emailDetailedReport = function() {
   b += `======================================================\n\n`;
   b += `Final Recommendation: Review your lowest-scoring stage and consult the Academic Modules on the platform to bridge the gap before official placement season begins.\n\n`;
   b += `Best regards,\n`;
-  b += `The Human Assetize AI Evaluation System\n`;
+  b += `The Assetize AI Evaluation System\n`;
 
   window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=${encodeURIComponent(b)}`, '_blank');
 };
@@ -1899,12 +1837,9 @@ const practiceQuizzes = {
 window.loadPracticeQuiz = function(category) {
   document.querySelectorAll('.quiz-btn').forEach(b => b.classList.remove('ring-4', 'ring-offset-2', 'ring-brand-500'));
   document.getElementById(`btn-quiz-${category}`).classList.add('ring-4', 'ring-offset-2', 'ring-brand-500');
-  
   const data = practiceQuizzes[category];
   const container = document.getElementById('practiceQuizContainer');
-  
   let html = `<div class="mb-6 border-b border-gray-200 pb-4"><h3 class="text-xl md:text-2xl font-bold text-slate-800"><i class="fa-solid ${data.icon} text-${data.color}-500 mr-2"></i>${data.title} Practice</h3><p class="text-xs md:text-sm text-slate-500">Select the correct answers below. Instant feedback is provided.</p></div><div class="space-y-4 md:space-y-6">`;
-  
   data.questions.forEach((item, qIndex) => {
     html += `<div class="bg-slate-50 p-4 md:p-5 rounded-xl border border-slate-200"><p class="font-bold text-sm md:text-base text-slate-800 mb-3">${qIndex + 1}. ${item.q}</p><div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3" id="quiz-opts-${category}-${qIndex}">`;
     item.options.forEach((opt, oIndex) => {
@@ -1920,9 +1855,7 @@ window.checkPracticeAnswer = function(category, qIndex, selectedOpt, correctOpt,
   const parent = document.getElementById(`quiz-opts-${category}-${qIndex}`);
   const buttons = parent.querySelectorAll('button');
   const feedback = document.getElementById(`quiz-feedback-${category}-${qIndex}`);
-   
   buttons.forEach(b => { b.disabled = true; b.classList.remove('hover:bg-brand-50', 'cursor-pointer'); b.classList.add('opacity-70', 'cursor-not-allowed'); });
-   
   if (selectedOpt === correctOpt) {
     btnEl.classList.remove('bg-white', 'border-slate-300'); btnEl.classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'ring-2', 'ring-green-500', 'opacity-100');
     feedback.innerHTML = `<i class="fa-solid fa-check-circle text-green-600 mr-1"></i> Correct!`; feedback.classList.remove('hidden', 'text-red-600'); feedback.classList.add('text-green-600');
@@ -1980,25 +1913,14 @@ function initRealisticAvatars() {
       if (!eyelids.length) return;
       if (Math.random() < 0.05) {
         eyelids.forEach(lid => lid.style.transform = 'scaleY(1)');
-        setTimeout(() => {
-          eyelids.forEach(lid => lid.style.transform = 'scaleY(0)');
-        }, 150);
+        setTimeout(() => { eyelids.forEach(lid => lid.style.transform = 'scaleY(0)'); }, 150);
       }
     });
   }, 200);
 }
 
-// RUN INITIALIZERS
 renderArchetypeQs();
 initRealisticAvatars();
-
-// Randomize GD Topic immediately on load
-currentActiveTopic = gdTopics[Math.floor(Math.random() * gdTopics.length)];
-const gdTitleEl = document.getElementById('gd-topic-title');
-const gdDescEl = document.getElementById('gd-topic-desc');
-if (gdTitleEl) gdTitleEl.innerText = `"${currentActiveTopic.title}"`;
-if (gdDescEl) gdDescEl.innerText = currentActiveTopic.desc;
-
 </script>
 </body>
 </html>
