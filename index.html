@@ -10,7 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
-<!-- Real Computer Vision Libraries for Facial Tracking -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/tracking-min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/data/face-min.js"></script>
 
@@ -63,30 +62,17 @@ body.ai-mode .gd-avatar { background: #334155; }
 .timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
 
 /* Responsive 3D Round Table GD Layout */
-.gd-boardroom-container {
-    position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem;
-}
+.gd-boardroom-container { position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem; }
 @media (min-width: 768px) { .gd-boardroom-container { min-height: 320px; } }
-
-.gd-table-oval {
-    width: 85%; height: 100px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border: 3px solid #475569; border-radius: 100px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
-}
+.gd-table-oval { width: 85%; height: 100px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border: 3px solid #475569; border-radius: 100px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
 @media (min-width: 768px) { .gd-table-oval { width: 80%; height: 140px; } }
-
 .gd-seat { position: absolute; text-align: center; }
 .gd-seat-top-left { top: 10px; left: 5%; }
 .gd-seat-top-right { top: 10px; right: 5%; }
-@media (min-width: 768px) {
-    .gd-seat-top-left { top: 15px; left: 15%; }
-    .gd-seat-top-right { top: 15px; right: 15%; }
-}
+@media (min-width: 768px) { .gd-seat-top-left { top: 15px; left: 15%; } .gd-seat-top-right { top: 15px; right: 15%; } }
 .gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 
-/* Subtle pulse for hero background */
-@keyframes slowPulse {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); }
-}
+@keyframes slowPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
 .hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
 
 /* Cinematic Space Launch Styles */
@@ -100,7 +86,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 .earth-horizon { position: absolute; bottom: -20vh; left: 50%; transform: translateX(-50%); width: 200vw; height: 50vh; background: radial-gradient(ellipse at top, #0284c7 0%, #0369a1 40%, #0f172a 100%); border-radius: 50% 50% 0 0; z-index: 2; opacity: 1; transition: all 4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 -20px 100px rgba(56, 189, 248, 0.4); }
 .warp-speed .earth-horizon { transform: translateX(-50%) translateY(100vh); opacity: 0; }
 
-/* Parallax Star Layers generated via box-shadow for ultra-high performance */
 .star-layer-1 { position: absolute; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; animation: star-drift-up 60s linear infinite; }
 .star-layer-1::after { content: ''; position: absolute; top: 100vh; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; }
 
@@ -110,8 +95,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes star-drift-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100vh); } }
 .warp-speed .star-layer-1, .warp-speed .star-layer-2 { animation-duration: 2s; }
 
-/* Rocket Physics Styles */
-.rocket-wrapper { position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); z-index: 10; transition: transform 3.5s cubic-bezier(0.5, 0, 0.1, 1); will-change: transform; width: 120px; height: 350px; }
+.rocket-wrapper { position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); z-index: 10; transition: transform 3.5s cubic-bezier(0.5, 0, 0.1, 1); will-change: transform; }
 .rocket-shake-intense { animation: shake-intense 0.05s infinite; }
 @keyframes shake-intense { 
     0% { transform: translateX(-50%) translate(3px, 3px); } 
@@ -121,7 +105,7 @@ body.ai-mode .gd-avatar { background: #334155; }
     100% { transform: translateX(-50%) translate(3px, 3px); } 
 }
 
-/* Liftoff exactly centers the rocket */
+/* Centering in space */
 .rocket-liftoff { transform: translateX(-50%) translateY(-25vh); }
 
 /* Separate Booster animation */
@@ -138,12 +122,11 @@ body.ai-mode .gd-avatar { background: #334155; }
     100% { transform: translateY(-50vh); opacity: 0; }
 }
 
-/* Fire aligned to nozzle */
 .engine-beam { transform-origin: top center; animation: engine-flicker 0.05s infinite alternate; }
-@keyframes engine-flicker { 0% { transform: scaleY(0.9); opacity: 0.8; filter: drop-shadow(0 0 15px #f97316); } 100% { transform: scaleY(1.3); opacity: 1; filter: drop-shadow(0 0 40px #ef4444); } }
+@keyframes engine-flicker { 0% { transform: scaleY(0.9); opacity: 0.8; filter: drop-shadow(0 0 10px #f97316); } 100% { transform: scaleY(1.3); opacity: 1; filter: drop-shadow(0 0 30px #ef4444); } }
 
-.smoke-cloud { position: absolute; bottom: -80px; left: 50%; width: 250px; height: 100px; background: radial-gradient(ellipse, rgba(203,213,225,0.9) 0%, rgba(148,163,184,0) 70%); filter: blur(25px); opacity: 0; transform: translateX(-50%) scale(0.5); transition: all 3s ease-out; pointer-events: none; z-index: 10; }
-.smoke-active { opacity: 1; transform: translateX(-50%) scale(4.5); }
+.smoke-cloud { position: absolute; bottom: -40px; left: 50%; width: 250px; height: 100px; background: radial-gradient(ellipse, rgba(203,213,225,0.9) 0%, rgba(148,163,184,0) 70%); filter: blur(25px); opacity: 0; transform: translateX(-50%) scale(0.5); transition: all 3s ease-out; pointer-events: none; z-index: 10; }
+.smoke-active { opacity: 1; transform: translateX(-50%) scale(4); }
 
 .shockwave { position: absolute; top: 40%; left: 50%; width: 10px; height: 10px; border-radius: 50%; background: #fff; box-shadow: 0 0 100px 50px #38bdf8, 0 0 300px 150px #fff; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 15; pointer-events: none; }
 .shockwave-fire { animation: sonic-boom 1.2s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
@@ -152,9 +135,9 @@ body.ai-mode .gd-avatar { background: #334155; }
 .flash-bang { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.8s ease-out; z-index: 10000; }
 
 /* Hidden Satellite inside the rocket */
-.satellite-payload { position: absolute; top: 120px; left: 50%; transform: translateX(-50%) scale(0.1); opacity: 0; transition: all 4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9; pointer-events: none; }
-.deployed-payload { transform: translateX(-50%) scale(1); opacity: 1; animation: orbitFloat 8s infinite alternate ease-in-out 3s; }
-@keyframes orbitFloat { 0% { transform: translateX(-50%) scale(1) rotate(-3deg); } 100% { transform: translateX(-50%) scale(1) rotate(3deg); } }
+.satellite-payload { transform: scale(0.2); opacity: 0; transition: all 3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9; pointer-events: none; }
+.deployed .satellite-payload { transform: scale(1.2); opacity: 1; animation: orbitFloat 6s infinite alternate ease-in-out 3s; }
+@keyframes orbitFloat { 0% { transform: scale(1.2) rotate(-2deg); } 100% { transform: scale(1.2) rotate(2deg); } }
 </style>
 </head>
 
@@ -173,10 +156,22 @@ body.ai-mode .gd-avatar { background: #334155; }
     <div class="shockwave" id="shockwaveEffect"></div>
     <div class="flash-bang" id="flashBang"></div>
 
-    <!-- UI / Text overlay -->
+    <!-- UI / Text overlay with Custom Logo -->
     <div id="launchBtnContainer" class="relative z-30 text-center flex flex-col items-center transition-opacity duration-1000">
         <div class="w-24 h-24 bg-brand-900 rounded-full flex items-center justify-center text-5xl mb-6 shadow-[0_0_40px_rgba(37,99,235,0.6)] border-4 border-brand-500 animate-pulse text-white">
-            <i class="fa-solid fa-power-off"></i>
+            <svg viewBox="0 0 100 100" class="w-14 h-14" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="brandGradLaunch" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#38bdf8" />
+                        <stop offset="50%" stop-color="#8b5cf6" />
+                        <stop offset="100%" stop-color="#3b82f6" />
+                    </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(59, 130, 246, 0.4)" stroke-width="4" stroke-dasharray="12 6"/>
+                <path d="M 25 75 L 50 25 L 75 75" fill="none" stroke="url(#brandGradLaunch)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M 38 55 L 62 55" fill="none" stroke="url(#brandGradLaunch)" stroke-width="8" stroke-linecap="round"/>
+                <circle cx="50" cy="25" r="8" fill="#ffffff" />
+            </svg>
         </div>
         <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-purple-400">HUMAN ASSETIZE</h1>
         <p class="text-slate-400 uppercase tracking-widest text-sm font-bold mb-10">Awaiting Executive Authorization</p>
@@ -186,144 +181,118 @@ body.ai-mode .gd-avatar { background: #334155; }
         </button>
     </div>
 
-    <!-- Premium Splittable Rocket Asset -->
-    <div id="rocketAsset" class="rocket-wrapper">
+    <!-- Multi-stage Rocket Assembly -->
+    <div id="rocketAsset" class="rocket-wrapper w-48 h-[400px] flex flex-col items-center">
         <!-- Smoke Cloud -->
         <div id="rocketSmoke" class="smoke-cloud"></div>
         
         <!-- The Satellite Payload (Hidden inside initially) -->
-        <div id="satPayload" class="satellite-payload">
-            <svg viewBox="0 0 500 400" class="w-72 md:w-96 drop-shadow-[0_0_60px_rgba(59,130,246,0.7)]">
-                <defs>
-                    <linearGradient id="solarPanel" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#1e3a8a" />
-                        <stop offset="50%" stop-color="#2563eb" />
-                        <stop offset="100%" stop-color="#0f172a" />
-                    </linearGradient>
-                    <linearGradient id="goldFoil" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#fef08a" />
-                        <stop offset="50%" stop-color="#d97706" />
-                        <stop offset="100%" stop-color="#78350f" />
-                    </linearGradient>
-                    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#60a5fa" stroke-width="1.5" opacity="0.6"/>
-                    </pattern>
-                </defs>
-                
-                <!-- Left Solar Array (Intricate Grid) -->
-                <g class="animate-[pulse_5s_infinite]">
-                    <rect x="10" y="140" width="160" height="100" fill="url(#solarPanel)" stroke="#93c5fd" stroke-width="3" rx="4"/>
-                    <rect x="10" y="140" width="160" height="100" fill="url(#grid)" rx="4"/>
-                    <!-- Panel hinges -->
-                    <rect x="50" y="135" width="10" height="10" fill="#475569"/>
-                    <rect x="110" y="135" width="10" height="10" fill="#475569"/>
-                </g>
-                
-                <!-- Right Solar Array (Intricate Grid) -->
-                <g class="animate-[pulse_5s_infinite]" style="animation-delay: 1.5s;">
-                    <rect x="330" y="140" width="160" height="100" fill="url(#solarPanel)" stroke="#93c5fd" stroke-width="3" rx="4"/>
-                    <rect x="330" y="140" width="160" height="100" fill="url(#grid)" rx="4"/>
-                    <!-- Panel hinges -->
-                    <rect x="380" y="135" width="10" height="10" fill="#475569"/>
-                    <rect x="440" y="135" width="10" height="10" fill="#475569"/>
-                </g>
-                
-                <!-- Heavy Structural Connection Arms -->
-                <rect x="170" y="180" width="40" height="20" fill="#334155" stroke="#1e293b" stroke-width="2"/>
-                <rect x="290" y="180" width="40" height="20" fill="#334155" stroke="#1e293b" stroke-width="2"/>
-                
-                <!-- Main Bus Body (Gold Foil Core) -->
-                <polygon points="210,120 290,120 310,190 290,260 210,260 190,190" fill="url(#goldFoil)" stroke="#fcd34d" stroke-width="3"/>
-                <!-- Central instrument panel -->
-                <rect x="235" y="150" width="30" height="80" fill="#1e293b" rx="5"/>
-                
-                <!-- Top Primary Dish -->
-                <path d="M 220 90 Q 250 40 280 90 Q 250 70 220 90 Z" fill="#cbd5e1" stroke="#f1f5f9" stroke-width="2"/>
-                <line x1="250" y1="80" x2="250" y2="30" stroke="#94a3b8" stroke-width="4"/>
-                <circle cx="250" cy="25" r="6" fill="#ef4444" class="animate-[ping_1.5s_infinite]"/>
-                
-                <!-- Bottom Secondary Dish -->
-                <path d="M 230 270 Q 250 300 270 270 Q 250 280 230 270 Z" fill="#94a3b8" stroke="#cbd5e1" stroke-width="2"/>
-                <line x1="250" y1="275" x2="250" y2="310" stroke="#64748b" stroke-width="3"/>
-                
-                <!-- Glowing core telemetry lens -->
-                <circle cx="250" cy="190" r="25" fill="#0f172a" stroke="#38bdf8" stroke-width="4"/>
-                <circle cx="250" cy="190" r="12" fill="#38bdf8" filter="blur(5px)" class="animate-pulse"/>
-                <circle cx="250" cy="190" r="4" fill="#ffffff"/>
-            </svg>
-            <h2 id="sysOnlineText" class="text-white text-3xl md:text-4xl font-black mt-6 tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-200">Orbital Protocol</h2>
-            <p class="text-cyan-400 font-mono mt-2 tracking-widest bg-cyan-900/40 px-4 py-1 rounded-full border border-cyan-500/40">Telemetry Acquired</p>
+        <div id="satPayloadWrapper" class="absolute top-[50px] w-full flex justify-center z-10">
+            <div id="satPayload" class="satellite-payload">
+                <svg viewBox="0 0 400 300" class="w-72 md:w-96 drop-shadow-[0_0_50px_rgba(59,130,246,0.6)]">
+                    <defs>
+                        <linearGradient id="solarPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#1e3a8a" />
+                            <stop offset="50%" stop-color="#2563eb" />
+                            <stop offset="100%" stop-color="#1e40af" />
+                        </linearGradient>
+                        <linearGradient id="goldFoil" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#fbbf24" />
+                            <stop offset="50%" stop-color="#f59e0b" />
+                            <stop offset="100%" stop-color="#b45309" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Left Solar Array -->
+                    <g class="animate-[pulse_4s_infinite]">
+                        <rect x="20" y="110" width="120" height="80" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="2"/>
+                        <line x1="50" y1="110" x2="50" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                        <line x1="80" y1="110" x2="80" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                        <line x1="110" y1="110" x2="110" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                        <line x1="20" y1="130" x2="140" y2="130" stroke="#60a5fa" stroke-width="1"/>
+                        <line x1="20" y1="150" x2="140" y2="150" stroke="#60a5fa" stroke-width="1"/>
+                        <line x1="20" y1="170" x2="140" y2="170" stroke="#60a5fa" stroke-width="1"/>
+                    </g>
+                    <!-- Right Solar Array -->
+                    <g class="animate-[pulse_4s_infinite]" style="animation-delay: 1s;">
+                        <rect x="260" y="110" width="120" height="80" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="2"/>
+                        <line x1="290" y1="110" x2="290" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                        <line x1="320" y1="110" x2="320" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                        <line x1="350" y1="110" x2="350" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                        <line x1="260" y1="130" x2="380" y2="130" stroke="#60a5fa" stroke-width="1"/>
+                        <line x1="260" y1="150" x2="380" y2="150" stroke="#60a5fa" stroke-width="1"/>
+                        <line x1="260" y1="170" x2="380" y2="170" stroke="#60a5fa" stroke-width="1"/>
+                    </g>
+                    <!-- Connection Arms -->
+                    <rect x="140" y="145" width="40" height="10" fill="#64748b"/>
+                    <rect x="220" y="145" width="40" height="10" fill="#64748b"/>
+                    <!-- Main Body (Gold Foil Core) -->
+                    <polygon points="170,100 230,100 240,150 230,200 170,200 160,150" fill="url(#goldFoil)" stroke="#fcd34d" stroke-width="2"/>
+                    <!-- Dish -->
+                    <path d="M 180 80 Q 200 40 220 80 Q 200 60 180 80 Z" fill="#cbd5e1" stroke="#f1f5f9" stroke-width="2"/>
+                    <!-- Dish Antenna -->
+                    <line x1="200" y1="70" x2="200" y2="20" stroke="#cbd5e1" stroke-width="3"/>
+                    <circle cx="200" cy="20" r="5" fill="#ef4444" class="animate-pulse"/>
+                    <!-- Glowing core lens -->
+                    <circle cx="200" cy="150" r="20" fill="#0f172a" stroke="#38bdf8" stroke-width="3"/>
+                    <circle cx="200" cy="150" r="10" fill="#38bdf8" filter="blur(4px)" class="animate-ping"/>
+                </svg>
+            </div>
         </div>
 
         <!-- Upper Stage (Fairing) -->
-        <div id="rocketUpper" class="absolute top-0 left-0 w-full h-[150px] z-20 transition-all duration-1000">
-            <svg viewBox="0 0 120 150" class="w-full h-full drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+        <div id="rocketUpper" class="absolute top-0 w-full h-[150px] z-20">
+            <svg viewBox="0 0 100 150" class="w-full h-full drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
                 <defs>
-                    <linearGradient id="fairingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <linearGradient id="fuselageTop" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stop-color="#94a3b8" />
-                        <stop offset="30%" stop-color="#ffffff" />
+                        <stop offset="30%" stop-color="#f8fafc" />
                         <stop offset="70%" stop-color="#e2e8f0" />
-                        <stop offset="100%" stop-color="#475569" />
+                        <stop offset="100%" stop-color="#64748b" />
                     </linearGradient>
                 </defs>
-                <!-- Sleek Nose Cone -->
-                <path d="M 60 10 C 75 40, 90 90, 90 150 L 30 150 C 30 90, 45 40, 60 10 Z" fill="url(#fairingGrad)"/>
-                <!-- Titanium Tip -->
-                <path d="M 60 10 C 64 20, 66 30, 67 40 L 53 40 C 54 30, 56 20, 60 10 Z" fill="#1e293b"/>
-                <!-- Vertical Split Seam -->
-                <line x1="60" y1="40" x2="60" y2="150" stroke="#cbd5e1" stroke-width="1.5" opacity="0.6"/>
+                <!-- Nose Cone -->
+                <path d="M 50 10 C 60 40, 70 80, 70 150 L 30 150 C 30 80, 40 40, 50 10 Z" fill="url(#fuselageTop)"/>
+                <!-- Seam Line -->
+                <line x1="50" y1="10" x2="50" y2="150" stroke="#64748b" stroke-width="1" opacity="0.5"/>
             </svg>
         </div>
 
-        <!-- Lower Stage (Booster & Engines) -->
-        <div id="rocketLower" class="absolute top-[150px] left-0 w-full h-[200px] z-20 transition-all duration-1000 origin-top">
-            <svg viewBox="0 0 120 350" class="w-full h-[350px] drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]" style="overflow: visible;">
+        <!-- Lower Stage (Booster & Dual Engines) -->
+        <div id="rocketLower" class="absolute top-[148px] w-full h-[220px] z-20">
+            <svg viewBox="0 0 100 220" class="w-full h-full drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
                 <defs>
-                    <linearGradient id="boosterGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <linearGradient id="fuselageBot" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stop-color="#94a3b8" />
-                        <stop offset="30%" stop-color="#ffffff" />
+                        <stop offset="30%" stop-color="#f8fafc" />
                         <stop offset="70%" stop-color="#e2e8f0" />
-                        <stop offset="100%" stop-color="#475569" />
+                        <stop offset="100%" stop-color="#64748b" />
                     </linearGradient>
-                    <!-- Intense Mach Diamond Exhaust -->
-                    <radialGradient id="machDiamond" cx="50%" cy="0%" r="100%">
+                    <radialGradient id="engineGlow" cx="50%" cy="0%" r="100%">
                         <stop offset="0%" stop-color="#ffffff" />
-                        <stop offset="15%" stop-color="#fef08a" />
-                        <stop offset="40%" stop-color="#f97316" />
-                        <stop offset="80%" stop-color="#ef4444" stop-opacity="0.8"/>
-                        <stop offset="100%" stop-color="#991b1b" stop-opacity="0" />
+                        <stop offset="20%" stop-color="#fef08a" />
+                        <stop offset="50%" stop-color="#f97316" />
+                        <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
                     </radialGradient>
                 </defs>
-                
-                <!-- Black Interstage -->
-                <rect x="30" y="0" width="60" height="20" fill="#0f172a"/>
                 <!-- Grid Fins -->
-                <line x1="15" y1="10" x2="30" y2="10" stroke="#475569" stroke-width="4"/>
-                <line x1="90" y1="10" x2="105" y2="10" stroke="#475569" stroke-width="4"/>
-                
+                <rect x="25" y="10" width="10" height="4" fill="#334155" transform="skewY(-20)"/>
+                <rect x="65" y="10" width="10" height="4" fill="#334155" transform="skewY(20)"/>
                 <!-- Central Hull -->
-                <rect x="30" y="20" width="60" height="140" fill="url(#boosterGrad)"/>
-                
+                <path d="M 30 0 L 70 0 L 70 180 L 30 180 Z" fill="url(#fuselageBot)"/>
+                <!-- Interstage Lines -->
+                <rect x="30" y="0" width="40" height="15" fill="#1e293b"/>
                 <!-- Landing Legs (Folded) -->
-                <path d="M 30 110 L 20 160 L 30 160 Z" fill="#1e293b"/>
-                <path d="M 90 110 L 100 160 L 90 160 Z" fill="#1e293b"/>
-                <path d="M 50 120 L 60 160 L 70 120 Z" fill="#334155" opacity="0.5"/>
-                
-                <!-- Booster Engine Shield -->
-                <rect x="25" y="160" width="70" height="15" rx="3" fill="#1e293b"/>
-                
+                <path d="M 30 140 L 20 185 L 30 180 Z" fill="#475569"/>
+                <path d="M 70 140 L 80 185 L 70 180 Z" fill="#475569"/>
                 <!-- Dual Engine Bells -->
-                <path d="M 35 175 L 55 175 L 50 190 L 40 190 Z" fill="#0f172a"/>
-                <path d="M 65 175 L 85 175 L 80 190 L 70 190 Z" fill="#0f172a"/>
-                
-                <!-- Massive Exhaust Fire (Aligned perfectly to the engine bells at Y=190) -->
-                <path id="svgExhaust" d="M 38 190 L 82 190 L 70 450 L 50 450 Z" fill="url(#machDiamond)" class="engine-beam" style="opacity: 0;"/>
-                
-                <!-- Decals / Fuel Lines -->
-                <line x1="45" y1="20" x2="45" y2="150" stroke="#94a3b8" stroke-width="2"/>
-                <line x1="75" y1="20" x2="75" y2="150" stroke="#94a3b8" stroke-width="2"/>
-                <!-- Logo text placeholder -->
-                <text x="60" y="85" font-family="monospace" font-size="12" font-weight="900" fill="#334155" text-anchor="middle" transform="rotate(-90 60,85)">ASSETIZE</text>
+                <path d="M 35 180 L 45 180 L 42 195 L 32 195 Z" fill="#1e293b"/>
+                <path d="M 55 180 L 65 180 L 68 195 L 58 195 Z" fill="#1e293b"/>
+                <!-- Exhaust Fire (Perfectly aligned to dual nozzles) -->
+                <g id="svgExhaust" style="opacity: 0;">
+                    <path d="M 32 195 L 42 195 L 37 350 Z" fill="url(#engineGlow)" class="engine-beam"/>
+                    <path d="M 58 195 L 68 195 L 63 350 Z" fill="url(#engineGlow)" class="engine-beam"/>
+                </g>
+                <line x1="50" y1="15" x2="50" y2="180" stroke="#cbd5e1" stroke-width="1" opacity="0.5"/>
             </svg>
         </div>
     </div>
@@ -333,9 +302,21 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-6">
 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 w-full">
 
-<!-- Responsive Title & Mobile About Button -->
 <div class="w-full lg:w-auto flex justify-between items-start">
-  <div>
+  <div class="flex items-center">
+    <svg viewBox="0 0 100 100" class="w-10 h-10 mr-3 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)] hidden sm:block" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="brandGradHeader" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#38bdf8" />
+                <stop offset="50%" stop-color="#8b5cf6" />
+                <stop offset="100%" stop-color="#3b82f6" />
+            </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255, 255, 255, 0.2)" stroke-width="4" stroke-dasharray="12 6"/>
+        <path d="M 25 75 L 50 25 L 75 75" fill="none" stroke="url(#brandGradHeader)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M 38 55 L 62 55" fill="none" stroke="url(#brandGradHeader)" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="50" cy="25" r="8" fill="#ffffff" />
+    </svg>
     <h1 class="text-2xl md:text-3xl tracking-tight flex flex-col sm:flex-row sm:items-baseline">
       <span class="font-extrabold">Human Assetize</span>
       <span class="text-brand-200 font-medium text-lg md:text-xl sm:ml-2 mt-1 sm:mt-0">- Practice-Perform-Place</span>
@@ -346,7 +327,6 @@ body.ai-mode .gd-avatar { background: #334155; }
   </button>
 </div>
 
-<!-- Desktop Controls -->
 <div class="flex flex-wrap items-center gap-3 md:gap-4 w-full lg:w-auto mt-2 lg:mt-0 flex">
   <div class="flex items-center justify-center space-x-2 bg-black/20 px-3 md:px-4 py-2 rounded-full border border-white/10">
     <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-200">Manual</span>
@@ -1225,9 +1205,6 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/1
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
-// ==========================================
-// GROQ (LLAMA-3.1) API INTEGRATION
-// ==========================================
 const part1 = "gsk_";
 const part2 = "i8mmL0cZCr8eL5sWN6omWGdyb3FYhGBRWSr9eFwyvAQIZxAfP6xZ";
 const GROQ_API_KEY = part1 + part2;
@@ -1308,56 +1285,55 @@ window.chairmanLaunch = function() {
         const shockwave = document.getElementById('shockwaveEffect');
         const flash = document.getElementById('flashBang');
         const backdrop = document.getElementById('spaceBackdrop');
+        const booster = document.getElementById('rocketLower');
+        const fairing = document.getElementById('rocketUpper');
+        const satWrapper = document.getElementById('satPayloadWrapper');
         
-        const rocketUpper = document.getElementById('rocketUpper');
-        const rocketLower = document.getElementById('rocketLower');
-        const satPayload = document.getElementById('satPayload');
-        
-        // 1. Ignition Sequence
         smoke.classList.add('smoke-active');
         engine.style.opacity = '1';
         rocket.classList.add('rocket-shake-intense');
         
         setTimeout(() => {
-            // 2. Liftoff
             backdrop.classList.add('warp-speed');
             rocket.classList.remove('rocket-shake-intense');
             rocket.classList.add('rocket-liftoff');
             
             setTimeout(() => {
-                // 3. MECO & Stage Separation
+                // MECO & Stage Separation
                 shockwave.classList.add('shockwave-fire');
-                engine.style.opacity = '0'; 
-                rocketLower.classList.add('booster-drop'); 
+                engine.style.opacity = '0';
                 
                 setTimeout(() => {
-                    // 4. Fairing Deploy & Flash
-                    flash.style.opacity = '1';
-                    rocketUpper.classList.add('fairing-deploy'); 
-                    satPayload.classList.add('deployed-payload'); 
+                    booster.classList.add('booster-drop');
                     
                     setTimeout(() => {
-                        // 5. Cleanup & Transition
-                        rocket.style.display = 'none'; 
-                        flash.style.opacity = '0'; 
-                        backdrop.classList.remove('warp-speed'); 
-                        overlay.classList.add('deployed'); 
+                        // Fairing Deploy
+                        flash.style.opacity = '1';
+                        fairing.classList.add('fairing-deploy');
+                        satWrapper.classList.add('deployed');
                         
                         setTimeout(() => {
-                            overlay.style.opacity = '0'; 
+                            rocket.style.display = 'none';
+                            flash.style.opacity = '0';
+                            backdrop.classList.remove('warp-speed');
+                            overlay.classList.add('deployed');
+                            
                             setTimeout(() => {
-                                overlay.style.display = 'none';
-                                overlay.classList.add('hidden');
-                                sessionStorage.setItem('chairman_launched', 'true');
-                                const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
-                                window.switchTab('tab-home', targetNavBtn);
-                            }, 1500);
-                        }, 4500);
-                    }, 500); 
-                }, 500); 
-            }, 1500); 
-        }, 2500); 
-    }, 1000); 
+                                overlay.style.opacity = '0';
+                                setTimeout(() => {
+                                    overlay.style.display = 'none';
+                                    overlay.classList.add('hidden');
+                                    sessionStorage.setItem('chairman_launched', 'true');
+                                    const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
+                                    window.switchTab('tab-home', targetNavBtn);
+                                }, 1500);
+                            }, 4500);
+                        }, 500);
+                    }, 800);
+                }, 200);
+            }, 2500);
+        }, 2000);
+    }, 1000);
 };
 
 const localResponses = {
@@ -1404,7 +1380,6 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     return result.choices[0].message.content.replace(/\*/g, '').trim();
   } catch (e) {
     console.warn("API Error:", e.message);
-    
     let lastInputMatch = prompt.match(/Candidate:\s*(.*)/g);
     let lastInput = lastInputMatch ? lastInputMatch[lastInputMatch.length - 1].replace('Candidate:', '').trim() : "";
     let cleanInput = lastInput.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -1418,42 +1393,6 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     localFallbackIndex++;
     return fallbackText;
   }
-}
-
-const archQ = [
-  {q: "1. When starting a complex new project, your first priority is to:", o: {s: "Define clear metrics", i: "Find a unique angle", c: "Ensure the right people are assigned", e: "Set a strict timeline"}},
-  {q: "2. In team meetings, you are usually the one who:", o: {s: "Points out logical flaws", i: "Pitches the big ideas", c: "Makes sure everyone speaks", e: "Pushes the meeting to end"}},
-  {q: "3. How do you handle sudden changes?", o: {s: "Recalculate projections", i: "Embrace it as a new methodology", c: "Check in with the team", e: "Immediately rewrite the to-do list"}},
-  {q: "4. Your preferred communication style is:", o: {s: "Detailed, data-heavy reports", i: "Visual presentations", c: "Face-to-face conversations", e: "Short, bullet-pointed emails"}},
-  {q: "5. When resolving a dispute, you:", o: {s: "Look at policy guidelines", i: "Design a completely new workflow", c: "Mediate a compromise", e: "Make a firm executive decision"}},
-  {q: "6. Your approach to corporate risk is:", o: {s: "Calculated mathematically", i: "Embraced for massive growth", c: "Shared collectively", e: "Minimized completely"}},
-  {q: "7. What motivates you the most?", o: {s: "Solving complex puzzles", i: "Groundbreaking ideas", c: "Building loyal teams", e: "Hitting targets early"}},
-  {q: "8. Under tight deadlines, you:", o: {s: "Re-evaluate the critical path", i: "Look for an automated tool", c: "Rally the team with coffee", e: "Work 14-hour days"}},
-  {q: "9. How do you track progress?", o: {s: "Complex dashboards", i: "Reviewing creative prototypes", c: "Weekly team stand-ups", e: "Crossing off tasks"}},
-  {q: "10. Your biggest pet peeve is:", o: {s: "Decisions without data", i: "Rigid adherence to tradition", c: "Lack of empathy", e: "Endless meetings"}}
-];
-
-function renderArchetypeQs() {
-  const c = document.getElementById('archetypeQuestionsContainer');
-  if(!c) return;
-  let finalHtml = '';
-  archQ.forEach((item, idx) => {
-    let html = `
-      <div class="mb-5 bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative z-10">
-        <p class="text-sm md:text-base font-bold text-slate-800 mb-4">${item.q}</p>
-        <div class="space-y-3">`;
-    for(let key in item.o) {
-      const uniqueId = `arch_${idx}_${key}`;
-      html += `
-        <div class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all duration-200" onclick="document.getElementById('${uniqueId}').checked = true;">
-          <input type="radio" id="${uniqueId}" name="arch${idx}" value="${key}" class="w-5 h-5 text-brand-600 border-gray-300 focus:ring-brand-500 cursor-pointer accent-brand-600 pointer-events-none">
-          <label for="${uniqueId}" class="ml-3 text-sm md:text-base text-slate-700 font-medium w-full cursor-pointer pointer-events-none">${item.o[key]}</label>
-        </div>`;
-    }
-    html += `</div></div>`;
-    finalHtml += html;
-  });
-  c.innerHTML = finalHtml;
 }
 
 window.switchTab = function(tabId, btn) {
@@ -1486,15 +1425,13 @@ window.showMessage = function(text, type = 'success') {
 signInAnonymously(auth).then((userCredential) => {
   window.candidateId = userCredential.user.uid;
   
+  // URL Impersonation Check for Admin Dashboard Links
   const urlParams = new URLSearchParams(window.location.search);
   const impersonateEmail = urlParams.get('email');
   
   if (impersonateEmail) {
       document.getElementById('loginEmailLookup').value = impersonateEmail;
-      window.restoreUserSession().then(() => {
-          const targetNavBtn = document.querySelector(`button[onclick*="'tab-passport'"]`);
-          if(targetNavBtn) window.switchTab('tab-passport', targetNavBtn);
-      });
+      window.restoreUserSession(true); // passing true for auto-redirect
   } else {
       const savedEmail = localStorage.getItem('hr_candidate_email');
       if(savedEmail) {
@@ -1527,7 +1464,7 @@ signInAnonymously(auth).then((userCredential) => {
   window.showMessage(`Database connection established locally.`, "success");
 });
 
-window.restoreUserSession = async function() {
+window.restoreUserSession = async function(autoRedirect = false) {
   const lookupEmail = document.getElementById('loginEmailLookup').value.trim();
   if (!lookupEmail) { window.showMessage("Enter email to restore session.", "error"); return; }
   try {
@@ -1540,8 +1477,15 @@ window.restoreUserSession = async function() {
       document.getElementById('candName').value = window.userData.name || "";
       document.getElementById('candEmail').value = window.userData.email || "";
       window.updatePassportUI();
-      window.showMessage(`Welcome back, ${window.userData.name}! Session restored.`);
       listenToStudentData();
+      
+      if (autoRedirect) {
+          window.showMessage(`Admin Override: Viewing ${window.userData.name}'s Passport`, 'success');
+          const targetNavBtn = document.querySelector(`button[onclick*="'tab-passport'"]`);
+          window.switchTab('tab-passport', targetNavBtn);
+      } else {
+          window.showMessage(`Welcome back, ${window.userData.name}! Session restored.`);
+      }
     } else { window.showMessage("No prior session found.", "error"); }
   } catch(e) { window.showMessage("Failed to lookup session.", "error"); }
 };
@@ -1580,140 +1524,6 @@ window.saveProfile = async function() {
   await syncToCloud();
   window.autoAdvanceTab('tab-onboarding', 'tab-ats', 'Registration');
 };
-
-window.submitArchetype = async function() {
-  let counts = { s:0, i:0, c:0, e:0 };
-  for(let i=0; i<10; i++) {
-    const checked = document.querySelector(`input[name="arch${i}"]:checked`);
-    if(!checked) { 
-      window.showMessage(`Please select an option for Question ${i+1}.`, "error"); 
-      const container = document.getElementById('archetypeQuestionsContainer');
-      if(container) container.scrollTop = (i * 120);
-      return; 
-    }
-    counts[checked.value]++;
-  }
-  
-  let maxVal = 0; let maxKey = 's';
-  for (let key in counts) {
-    if (counts[key] > maxVal) { maxVal = counts[key]; maxKey = key; }
-  }
-  
-  const map = { s:"Strategist", i:"Innovator", c:"Connector", e:"Executor" };
-  window.userData.archetype = map[maxKey];
-  
-  try { await syncToCloud(); } catch (e) {}
-  window.autoAdvanceTab('tab-archetype', 'tab-gd', 'Archetype Assessment');
-};
-
-window.speakAIPromise = function(text, avatarId) {
-  return new Promise(async resolve => {
-    if (!window.isAIMode) { resolve(); return; }
-    await ttsService.speak(text, avatarId);
-    resolve();
-  });
-};
-
-window.toggleAIMode = async function() {
-  window.isAIMode = document.getElementById('aiToggle').checked;
-  const body = document.body;
-  const guide = document.getElementById('global-ai-guide');
-
-  try {
-      if (window.isAIMode) {
-        body.classList.add('ai-mode');
-        const btn4 = document.getElementById('aiVoiceBtn4');
-        if (btn4) btn4.classList.remove('hidden');
-        document.getElementById('gd-arena').classList.remove('opacity-50', 'pointer-events-none');
-        document.getElementById('interview-controls').classList.remove('hidden'); 
-        document.getElementById('interview-controls').classList.add('flex');
-        document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
-        
-        if (guide) {
-            guide.classList.add('visible'); 
-            document.getElementById('guide-text').innerText = "AI Protocol Activated.";
-            window.activeSpeaker = 'guide'; 
-            const guideAv = document.getElementById('guide-avatar');
-            if (guideAv) guideAv.classList.add('avatar-talking');
-        }
-        
-        await window.speakAIPromise("AI Protocol Activated. I will guide you through this assessment.", 'guide');
-        
-        window.activeSpeaker = null; 
-        if (guide) {
-            const guideAv = document.getElementById('guide-avatar');
-            if (guideAv) guideAv.classList.remove('avatar-talking');
-            document.getElementById('guide-text').innerText = "Navigate through your assessment stages.";
-        }
-        
-        if(document.getElementById('tab-interview').classList.contains('active') || document.getElementById('tab-gd').classList.contains('active')) {
-            initWebcamStream();
-        }
-      } else {
-        body.classList.remove('ai-mode');
-        const btn4 = document.getElementById('aiVoiceBtn4');
-        if (btn4) btn4.classList.add('hidden');
-        document.getElementById('gd-arena').classList.add('opacity-50', 'pointer-events-none');
-        document.getElementById('interview-controls').classList.add('hidden'); 
-        document.getElementById('interview-controls').classList.remove('flex');
-        document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-breathing', 'avatar-talking'));
-        
-        if (guide) guide.classList.remove('visible'); 
-        ttsService.stop(); 
-        window.activeSpeaker = null;
-      }
-  } catch (err) {}
-};
-
-window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-let recognition = null;
-let activeInputBox = null;
-let activeMicBtn = null;
-let isRecording = false;
-
-if(window.SpeechRecognition) { 
-  recognition = new window.SpeechRecognition(); 
-  recognition.continuous = false; 
-  recognition.interimResults = false; 
-  recognition.lang = 'en-IN'; 
-  
-  recognition.onstart = () => {
-    isRecording = true;
-    if (activeMicBtn) {
-      activeMicBtn.classList.remove('bg-slate-700');
-      activeMicBtn.classList.add('bg-red-600', 'animate-pulse');
-    }
-    if (activeInputBox) document.getElementById(activeInputBox).placeholder = "Listening... speak clearly and pause.";
-  };
-
-  recognition.onresult = (event) => { 
-    if (activeInputBox) {
-      const transcript = event.results[0][0].transcript;
-      const box = document.getElementById(activeInputBox);
-      box.value = box.value + (box.value.length > 0 ? " " : "") + transcript;
-    }
-  };
-
-  recognition.onerror = () => {
-    if (activeInputBox) document.getElementById(activeInputBox).placeholder = "Microphone error. Please tap again or type.";
-  };
-
-  recognition.onend = () => {
-    isRecording = false;
-    if (activeMicBtn) {
-      activeMicBtn.classList.add('bg-slate-700');
-      activeMicBtn.classList.remove('bg-red-600', 'animate-pulse');
-    }
-  };
-}
-
-function writeTranscript(targetId, speaker, text) {
-  const box = document.getElementById(targetId);
-  if(!box) return;
-  const line = document.createElement('div'); line.className = "mb-3 pb-3 border-b border-slate-700/50";
-  line.innerHTML = `<span class="font-bold text-brand-400">[${speaker}]</span> <span class="text-white ml-2 md:ml-2 block sm:inline mt-1 sm:mt-0">${text}</span>`;
-  box.appendChild(line); box.scrollTop = box.scrollHeight;
-}
 
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
@@ -1913,6 +1723,67 @@ window.submitTest = async function() {
   window.userData.test_score = score; await syncToCloud();
   window.autoAdvanceTab('tab-test', 'tab-archetype', 'Cognitive Aptitude Test');
   document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
+};
+
+const archQ = [
+  {q: "1. When starting a complex new project, your first priority is to:", o: {s: "Define clear metrics", i: "Find a unique angle", c: "Ensure the right people are assigned", e: "Set a strict timeline"}},
+  {q: "2. In team meetings, you are usually the one who:", o: {s: "Points out logical flaws", i: "Pitches the big ideas", c: "Makes sure everyone speaks", e: "Pushes the meeting to end"}},
+  {q: "3. How do you handle sudden changes?", o: {s: "Recalculate projections", i: "Embrace it as a new methodology", c: "Check in with the team", e: "Immediately rewrite the to-do list"}},
+  {q: "4. Your preferred communication style is:", o: {s: "Detailed, data-heavy reports", i: "Visual presentations", c: "Face-to-face conversations", e: "Short, bullet-pointed emails"}},
+  {q: "5. When resolving a dispute, you:", o: {s: "Look at policy guidelines", i: "Design a completely new workflow", c: "Mediate a compromise", e: "Make a firm executive decision"}},
+  {q: "6. Your approach to corporate risk is:", o: {s: "Calculated mathematically", i: "Embraced for massive growth", c: "Shared collectively", e: "Minimized completely"}},
+  {q: "7. What motivates you the most?", o: {s: "Solving complex puzzles", i: "Groundbreaking ideas", c: "Building loyal teams", e: "Hitting targets early"}},
+  {q: "8. Under tight deadlines, you:", o: {s: "Re-evaluate the critical path", i: "Look for an automated tool", c: "Rally the team with coffee", e: "Work 14-hour days"}},
+  {q: "9. How do you track progress?", o: {s: "Complex dashboards", i: "Reviewing creative prototypes", c: "Weekly team stand-ups", e: "Crossing off tasks"}},
+  {q: "10. Your biggest pet peeve is:", o: {s: "Decisions without data", i: "Rigid adherence to tradition", c: "Lack of empathy", e: "Endless meetings"}}
+];
+
+function renderArchetypeQs() {
+  const c = document.getElementById('archetypeQuestionsContainer');
+  if(!c) return;
+  let finalHtml = '';
+  archQ.forEach((item, idx) => {
+    let html = `
+      <div class="mb-5 bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative z-10">
+        <p class="text-sm md:text-base font-bold text-slate-800 mb-4">${item.q}</p>
+        <div class="space-y-3">`;
+    for(let key in item.o) {
+      const uniqueId = `arch_${idx}_${key}`;
+      html += `
+        <div class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all duration-200" onclick="document.getElementById('${uniqueId}').checked = true;">
+          <input type="radio" id="${uniqueId}" name="arch${idx}" value="${key}" class="w-5 h-5 text-brand-600 border-gray-300 focus:ring-brand-500 cursor-pointer accent-brand-600 pointer-events-none">
+          <label for="${uniqueId}" class="ml-3 text-sm md:text-base text-slate-700 font-medium w-full cursor-pointer pointer-events-none">${item.o[key]}</label>
+        </div>`;
+    }
+    html += `</div></div>`;
+    finalHtml += html;
+  });
+  c.innerHTML = finalHtml;
+}
+
+window.submitArchetype = async function() {
+  let counts = { s:0, i:0, c:0, e:0 };
+  for(let i=0; i<10; i++) {
+    const checked = document.querySelector(`input[name="arch${i}"]:checked`);
+    if(!checked) { 
+      window.showMessage(`Please select an option for Question ${i+1}.`, "error"); 
+      const container = document.getElementById('archetypeQuestionsContainer');
+      if(container) container.scrollTop = (i * 120);
+      return; 
+    }
+    counts[checked.value]++;
+  }
+  
+  let maxVal = 0; let maxKey = 's';
+  for (let key in counts) {
+    if (counts[key] > maxVal) { maxVal = counts[key]; maxKey = key; }
+  }
+  
+  const map = { s:"Strategist", i:"Innovator", c:"Connector", e:"Executor" };
+  window.userData.archetype = map[maxKey];
+  
+  try { await syncToCloud(); } catch (e) {}
+  window.autoAdvanceTab('tab-archetype', 'tab-gd', 'Archetype Assessment');
 };
 
 const gdTopics = [
@@ -2146,7 +2017,7 @@ async function askNextInterviewQuestion() {
     Generate the FIRST question of the interview.
     If the requested method is STAR: Greet them professionally and ask a complex behavioral question tailored to testing the strengths or blind spots of a ${archetype}. Ask them to walk you through a specific past scenario.
     If the requested method is GENERAL: Greet them professionally and ask a deep, open-ended question about their leadership philosophy, career trajectory, or how they handle corporate politics.
-    Keep your response strictly under 2 sentences. Make it sound highly authentic and unpredictable. Do not use your own name or brackets. Method to use: ${window.interviewMethod.toUpperCase()}`;
+    Keep your response strictly under 2 sentences. Make it sound highly authentic and unpredictable. Do not use your name or brackets. Method to use: ${window.interviewMethod.toUpperCase()}`;
     
     let q = await callGroq(`Generate the FIRST question for ${firstName}.`, systemPrompt);
     intHistory += `Meera: ${q}\n`;
