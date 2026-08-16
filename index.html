@@ -101,7 +101,8 @@ body.ai-mode .gd-avatar { background: #334155; }
 .earth-drop { transform: translate(-50%, 100vh); opacity: 0; }
 
 /* Rocket Assembly & Shake */
-.rocket-assembly { position: absolute; bottom: 12vh; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; flex-direction: column; align-items: center; transition: transform 3.5s cubic-bezier(0.5, 0, 0.2, 1); }
+/* Lowered start position to 5vh to give maximum headroom */
+.rocket-assembly { position: absolute; bottom: 5vh; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; flex-direction: column; align-items: center; transition: transform 3.5s cubic-bezier(0.5, 0, 0.2, 1); }
 .rocket-shake-intense { animation: shake-intense 0.05s infinite; }
 @keyframes shake-intense { 
     0% { transform: translateX(-50%) translate(3px, 3px); } 
@@ -110,7 +111,9 @@ body.ai-mode .gd-avatar { background: #334155; }
     75% { transform: translateX(-50%) translate(3px, -3px); } 
     100% { transform: translateX(-50%) translate(3px, 3px); } 
 }
-.rocket-liftoff { transform: translate(-50%, -45vh); }
+
+/* Reduced translateY to -25vh so the rocket stops perfectly in the center of the screen */
+.rocket-liftoff { transform: translate(-50%, -25vh); }
 
 /* Stages & Detachment */
 .stage-upper { position: relative; z-index: 15; transition: transform 2.5s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -120,8 +123,8 @@ body.ai-mode .gd-avatar { background: #334155; }
 
 /* Satellite Unfolding */
 .satellite-payload { position: absolute; top: 30px; left: 50%; transform: translateX(-50%) scale(0.1); opacity: 0; z-index: 10; transition: all 3s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; }
-.satellite-deploy { transform: translateX(-50%) scale(1.1); opacity: 1; animation: orbitFloat 8s infinite alternate ease-in-out 2s; }
-@keyframes orbitFloat { 0% { transform: translate(-50%, 0) scale(1.1) rotate(-3deg); } 100% { transform: translate(-50%, -20px) scale(1.1) rotate(3deg); } }
+.satellite-deploy { transform: translateX(-50%) scale(1); opacity: 1; animation: orbitFloat 8s infinite alternate ease-in-out 2s; }
+@keyframes orbitFloat { 0% { transform: translate(-50%, 0) scale(1) rotate(-3deg); } 100% { transform: translate(-50%, -20px) scale(1) rotate(3deg); } }
 
 /* Engine Beam & Smoke */
 .engine-fire { position: absolute; top: calc(100% - 2px); left: 50%; transform: translateX(-50%); width: 70px; height: 180px; opacity: 0; transform-origin: top center; transition: opacity 0.3s; z-index: 0; pointer-events: none; }
@@ -894,73 +897,85 @@ window.userData = { name: "", email: "", archetype: "Not Evaluated", ats_score: 
 let unsubscribeStudent = null;
 window.bioMetrics = { eyeContact: [], stress: [] };
 
-// ==========================================
-// CINEMATIC SPACEX LAUNCH TIMELINE
-// ==========================================
 window.chairmanLaunch = function() {
-    // 1. Hide the launch button smoothly
-    document.getElementById('launchBtnContainer').style.display = 'none';
+    // 1. Hide Button smoothly
+    const btnContainer = document.getElementById('launchBtnContainer');
+    btnContainer.style.opacity = '0';
     
-    const overlay = document.getElementById('launchOverlay');
-    const earth = document.getElementById('earthHorizon');
-    const assembly = document.getElementById('rocketAssembly');
-    const lowerStage = document.getElementById('lowerStage');
-    const upperStage = document.getElementById('upperStage');
-    const satellite = document.getElementById('satellitePayload');
-    const engine = document.getElementById('engineFire');
-    const smoke = document.getElementById('rocketSmoke');
-    const backdrop = document.getElementById('spaceBackdrop');
-    const flash = document.getElementById('flashBang');
-
-    // 2. T+0s: Ignition Sequence
-    smoke.classList.add('smoke-active');
-    engine.classList.add('engine-ignite');
-    assembly.classList.add('rocket-shake-intense');
-
-    // 3. T+2.5s: Liftoff
     setTimeout(() => {
-        assembly.classList.remove('rocket-shake-intense'); // Smooth flight
-        assembly.classList.add('rocket-liftoff'); // Move rocket up
-        earth.classList.add('earth-drop'); // Earth falls away
-        backdrop.classList.add('warp-speed'); // Stars accelerate
-
-        // 4. T+5.5s: MECO & Stage Separation
+        btnContainer.style.display = 'none';
+        
+        const overlay = document.getElementById('launchOverlay');
+        const rocket = document.getElementById('rocketAsset');
+        const smoke = document.getElementById('rocketSmoke');
+        const engine = document.getElementById('svgExhaust');
+        const shockwave = document.getElementById('shockwaveEffect');
+        const flash = document.getElementById('flashBang');
+        const backdrop = document.getElementById('spaceBackdrop');
+        const lowerStage = document.getElementById('lowerStage');
+        const upperStage = document.getElementById('upperStage');
+        const payload = document.getElementById('satellitePayload');
+        
+        // 2. Phase 1: Ignition Sequence
+        smoke.classList.add('smoke-active');
+        engine.style.opacity = '1';
+        rocket.classList.add('rocket-shake-intense');
+        
+        // Let pressure build up for 2.5 seconds
         setTimeout(() => {
-            engine.classList.remove('engine-ignite'); // Main engine cutoff
-            engine.style.opacity = '0';
-            lowerStage.classList.add('stage-drop'); // Booster falls back to earth
-
-            // 5. T+7.0s: Fairing Deployment
+            
+            // 3. Phase 2: Liftoff
+            backdrop.classList.add('warp-speed');
+            rocket.classList.remove('rocket-shake-intense'); // Stop shaking, fly straight
+            rocket.classList.add('rocket-liftoff'); // Launch!
+            
+            // 4. Phase 3: Stage Separation (MECO)
             setTimeout(() => {
-                flash.style.opacity = '1'; // Quick flashbang
-                setTimeout(() => flash.style.opacity = '0', 200);
-
-                upperStage.classList.add('stage-shoot'); // Fairing shoots off
-                satellite.classList.add('satellite-deploy'); // Satellite emerges and scales up
-                backdrop.classList.remove('warp-speed'); // Coasting in orbit
-
-                // 6. T+11.0s: Fade out to website
+                shockwave.classList.add('shockwave-fire');
+                engine.style.opacity = '0'; // Engine cuts off
+                lowerStage.classList.add('stage-drop'); // Booster falls away
+                
+                // Flashbang hits a fraction of a second later
                 setTimeout(() => {
-                    overlay.style.opacity = '0';
+                    flash.style.opacity = '1';
+                    
+                    // 5. Phase 4: Orbital Deployment
                     setTimeout(() => {
-                        overlay.style.display = 'none';
-                        overlay.classList.add('hidden');
-                        sessionStorage.setItem('chairman_launched', 'true');
+                        upperStage.classList.add('stage-shoot'); // Fairing flies off
+                        payload.classList.add('satellite-deploy'); // Satellite expands
                         
-                        // Switch to home tab and auto-scroll to the "Why Assetize" section
-                        const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
-                        window.switchTab('tab-home', targetNavBtn);
+                        flash.style.opacity = '0'; // Fade out flash
+                        backdrop.classList.remove('warp-speed'); // Stop warp speed stars
                         
+                        // 6. Phase 5: Enter the Website
                         setTimeout(() => {
-                            const whySec = document.getElementById('why-assetize-section');
-                            if(whySec) whySec.scrollIntoView({behavior: 'smooth', block: 'start'});
-                        }, 500);
+                            overlay.style.pointerEvents = 'none'; // Drop interaction blocking
+                            overlay.style.opacity = '0'; // Fade the entire overlay to reveal the site
+                            
+                            setTimeout(() => {
+                                overlay.style.display = 'none';
+                                overlay.classList.add('hidden');
+                                sessionStorage.setItem('chairman_launched', 'true');
+                                
+                                // Direct to the homepage
+                                const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
+                                window.switchTab('tab-home', targetNavBtn);
+                                
+                                // Scroll to why assetize
+                                setTimeout(() => {
+                                    const whySec = document.getElementById('why-assetize-section');
+                                    if(whySec) whySec.scrollIntoView({behavior: 'smooth', block: 'start'});
+                                }, 500);
+                                
+                            }, 1500);
+                            
+                        }, 4500); // Give the audience 4.5 seconds to admire the satellite
                         
-                    }, 1500);
-                }, 4000); // Orbit dwell time
-            }, 1500); // Time between stage separation and fairing deploy
-        }, 3000); // Ascend time
-    }, 2500); // Ignition buildup time
+                    }, 500); // Wait for flash to hit peak brightness
+                }, 200); // Delay between shockwave start and flash
+            }, 1200); // Flight time before stage separation
+        }, 2500); // Ignition pressure build-up time
+    }, 1000); // Wait for button to fade out
 };
 
 const localResponses = {
