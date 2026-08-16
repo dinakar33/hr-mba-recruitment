@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
+<!-- Real Computer Vision Libraries for Facial Tracking -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/tracking-min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/data/face-min.js"></script>
 
@@ -62,20 +63,31 @@ body.ai-mode .gd-avatar { background: #334155; }
 .timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
 
 /* Responsive 3D Round Table GD Layout */
-.gd-boardroom-container { position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem; }
+.gd-boardroom-container {
+    position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem;
+}
 @media (min-width: 768px) { .gd-boardroom-container { min-height: 320px; } }
-.gd-table-oval { width: 85%; height: 100px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border: 3px solid #475569; border-radius: 100px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
+
+.gd-table-oval {
+    width: 85%; height: 100px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border: 3px solid #475569; border-radius: 100px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
+}
 @media (min-width: 768px) { .gd-table-oval { width: 80%; height: 140px; } }
+
 .gd-seat { position: absolute; text-align: center; }
 .gd-seat-top-left { top: 10px; left: 5%; }
 .gd-seat-top-right { top: 10px; right: 5%; }
-@media (min-width: 768px) { .gd-seat-top-left { top: 15px; left: 15%; } .gd-seat-top-right { top: 15px; right: 15%; } }
+@media (min-width: 768px) {
+    .gd-seat-top-left { top: 15px; left: 15%; }
+    .gd-seat-top-right { top: 15px; right: 15%; }
+}
 .gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 
-@keyframes slowPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
+@keyframes slowPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+}
 .hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
 
-/* Cinematic Space Launch Styles */
 #launchOverlay { position: fixed; inset: 0; background: #020617; z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out; }
 
 .space-backdrop { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
@@ -83,9 +95,9 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes nebula-drift { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
 
 /* Earth Horizon at launch */
-.earth-horizon { position: absolute; bottom: -20vh; left: 50%; transform: translateX(-50%); width: 200vw; height: 50vh; background: radial-gradient(ellipse at top, #0284c7 0%, #0369a1 40%, #0f172a 100%); border-radius: 50% 50% 0 0; z-index: 2; opacity: 1; transition: all 4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 -20px 100px rgba(56, 189, 248, 0.4); }
-.warp-speed .earth-horizon { transform: translateX(-50%) translateY(100vh); opacity: 0; }
+.earth-horizon { position: absolute; bottom: -20vh; left: 50%; transform: translateX(-50%); width: 200vw; height: 50vh; background: radial-gradient(ellipse at top, #0284c7 0%, #0369a1 40%, #0f172a 100%); border-radius: 50% 50% 0 0; z-index: 2; opacity: 1; transition: transform 4s ease-in-out, opacity 3s ease-in-out; box-shadow: 0 -20px 100px rgba(56, 189, 248, 0.4); }
 
+/* Parallax Stars */
 .star-layer-1 { position: absolute; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; animation: star-drift-up 60s linear infinite; }
 .star-layer-1::after { content: ''; position: absolute; top: 100vh; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; }
 
@@ -95,34 +107,17 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes star-drift-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100vh); } }
 .warp-speed .star-layer-1, .warp-speed .star-layer-2 { animation-duration: 2s; }
 
-.rocket-wrapper { position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); z-index: 10; transition: transform 3.5s cubic-bezier(0.5, 0, 0.1, 1); will-change: transform; }
-.rocket-shake-intense { animation: shake-intense 0.05s infinite; }
+/* Rocket Physics Styles - Fully Orchestrated */
+.rocket-shake { animation: shake-intense 0.1s infinite; }
 @keyframes shake-intense { 
-    0% { transform: translateX(-50%) translate(3px, 3px); } 
-    25% { transform: translateX(-50%) translate(-3px, -3px); } 
-    50% { transform: translateX(-50%) translate(-3px, 3px); } 
-    75% { transform: translateX(-50%) translate(3px, -3px); } 
-    100% { transform: translateX(-50%) translate(3px, 3px); } 
+    0% { transform: translate(-50%, 0) translate(3px, 3px); } 
+    25% { transform: translate(-50%, 0) translate(-3px, -3px); } 
+    50% { transform: translate(-50%, 0) translate(-3px, 3px); } 
+    75% { transform: translate(-50%, 0) translate(3px, -3px); } 
+    100% { transform: translate(-50%, 0) translate(3px, 3px); } 
 }
 
-/* Centering in space */
-.rocket-liftoff { transform: translateX(-50%) translateY(-25vh); }
-
-/* Separate Booster animation */
-.booster-drop { animation: booster-fall 3s cubic-bezier(0.4, 0, 1, 1) forwards; }
-@keyframes booster-fall {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(-15deg); opacity: 0; }
-}
-
-/* Fairing Deploy */
-.fairing-deploy { animation: fairing-shoot 1.5s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
-@keyframes fairing-shoot {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-50vh); opacity: 0; }
-}
-
-.engine-beam { transform-origin: top center; animation: engine-flicker 0.05s infinite alternate; }
+.engine-beam { transform-origin: top center; animation: engine-flicker 0.05s infinite alternate; transition: opacity 0.3s ease-out; }
 @keyframes engine-flicker { 0% { transform: scaleY(0.9); opacity: 0.8; filter: drop-shadow(0 0 10px #f97316); } 100% { transform: scaleY(1.3); opacity: 1; filter: drop-shadow(0 0 30px #ef4444); } }
 
 .smoke-cloud { position: absolute; bottom: -40px; left: 50%; width: 250px; height: 100px; background: radial-gradient(ellipse, rgba(203,213,225,0.9) 0%, rgba(148,163,184,0) 70%); filter: blur(25px); opacity: 0; transform: translateX(-50%) scale(0.5); transition: all 3s ease-out; pointer-events: none; z-index: 10; }
@@ -133,47 +128,53 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes sonic-boom { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 40% { opacity: 1; } 100% { transform: translate(-50%, -50%) scale(400); opacity: 0; } }
 
 .flash-bang { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.8s ease-out; z-index: 10000; }
-
-/* Hidden Satellite inside the rocket */
-.satellite-payload { transform: scale(0.2); opacity: 0; transition: all 3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9; pointer-events: none; }
-.deployed .satellite-payload { transform: scale(1.2); opacity: 1; animation: orbitFloat 6s infinite alternate ease-in-out 3s; }
-@keyframes orbitFloat { 0% { transform: scale(1.2) rotate(-2deg); } 100% { transform: scale(1.2) rotate(2deg); } }
 </style>
 </head>
 
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
 <div id="launchOverlay" class="hidden">
-    <!-- Cinematic Deep Space Background -->
     <div class="space-backdrop" id="spaceBackdrop">
         <div class="nebula"></div>
         <div class="star-layer-1"></div>
         <div class="star-layer-2"></div>
-        <div class="earth-horizon"></div>
+        <div class="earth-horizon" id="earthHorizon"></div>
     </div>
     
-    <!-- White Flash / Sonic Boom -->
     <div class="shockwave" id="shockwaveEffect"></div>
     <div class="flash-bang" id="flashBang"></div>
 
-    <!-- UI / Text overlay with Custom Logo -->
+    <!-- UI / Text overlay -->
     <div id="launchBtnContainer" class="relative z-30 text-center flex flex-col items-center transition-opacity duration-1000">
-        <div class="w-24 h-24 bg-brand-900 rounded-full flex items-center justify-center text-5xl mb-6 shadow-[0_0_40px_rgba(37,99,235,0.6)] border-4 border-brand-500 animate-pulse text-white">
-            <svg viewBox="0 0 100 100" class="w-14 h-14" xmlns="http://www.w3.org/2000/svg">
+        <div class="w-32 h-32 flex items-center justify-center mb-6">
+            <!-- Premium Custom Logo SVG (Large) -->
+            <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_0_30px_rgba(59,130,246,0.8)] animate-pulse" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                    <linearGradient id="brandGradLaunch" x1="0%" y1="100%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#38bdf8" />
-                        <stop offset="50%" stop-color="#8b5cf6" />
-                        <stop offset="100%" stop-color="#3b82f6" />
+                    <linearGradient id="logoGradLarge" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#93c5fd" />
+                        <stop offset="50%" stop-color="#3b82f6" />
+                        <stop offset="100%" stop-color="#1e3a8a" />
                     </linearGradient>
+                    <filter id="glowLarge" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="4" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
                 </defs>
-                <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(59, 130, 246, 0.4)" stroke-width="4" stroke-dasharray="12 6"/>
-                <path d="M 25 75 L 50 25 L 75 75" fill="none" stroke="url(#brandGradLaunch)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M 38 55 L 62 55" fill="none" stroke="url(#brandGradLaunch)" stroke-width="8" stroke-linecap="round"/>
-                <circle cx="50" cy="25" r="8" fill="#ffffff" />
+                <!-- Outer Tech Hexagon -->
+                <polygon points="50,5 90,27 90,73 50,95 10,73 10,27" fill="none" stroke="url(#logoGradLarge)" stroke-width="3" stroke-dasharray="8 4" opacity="0.8" />
+                <polygon points="50,12 80,30 80,70 50,88 20,70 20,30" fill="none" stroke="url(#logoGradLarge)" stroke-width="1.5" opacity="0.3" />
+                
+                <!-- Human 'A' Core -->
+                <circle cx="50" cy="30" r="10" fill="url(#logoGradLarge)" filter="url(#glowLarge)"/>
+                <path d="M 50 45 L 30 85 L 42 85 L 47 70 L 53 70 L 58 85 L 70 85 Z" fill="url(#logoGradLarge)" filter="url(#glowLarge)"/>
+                
+                <!-- Data Nodes -->
+                <circle cx="47" cy="70" r="2.5" fill="#ffffff" />
+                <circle cx="53" cy="70" r="2.5" fill="#ffffff" />
+                <circle cx="50" cy="45" r="2.5" fill="#ffffff" />
             </svg>
         </div>
-        <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-purple-400">HUMAN ASSETIZE</h1>
+        <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-400">HUMAN ASSETIZE</h1>
         <p class="text-slate-400 uppercase tracking-widest text-sm font-bold mb-10">Awaiting Executive Authorization</p>
         <button onclick="window.chairmanLaunch()" class="group relative px-10 py-5 bg-gradient-to-r from-red-600 to-red-800 rounded-full text-white font-black text-xl md:text-2xl uppercase tracking-widest shadow-[0_0_30px_rgba(220,38,38,0.6)] hover:shadow-[0_0_60px_rgba(220,38,38,0.9)] transition-all hover:-translate-y-1 overflow-hidden border-2 border-red-400">
             <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
@@ -181,66 +182,60 @@ body.ai-mode .gd-avatar { background: #334155; }
         </button>
     </div>
 
-    <!-- Multi-stage Rocket Assembly -->
-    <div id="rocketAsset" class="rocket-wrapper w-48 h-[400px] flex flex-col items-center">
-        <!-- Smoke Cloud -->
-        <div id="rocketSmoke" class="smoke-cloud"></div>
+    <!-- MASTER ROCKET CONTAINER -->
+    <div id="rocketContainer" class="absolute bottom-5 left-1/2 -translate-x-1/2 w-48 h-[450px] z-20 flex flex-col items-center justify-end transition-transform duration-[3000ms] ease-in-out origin-bottom">
         
-        <!-- The Satellite Payload (Hidden inside initially) -->
-        <div id="satPayloadWrapper" class="absolute top-[50px] w-full flex justify-center z-10">
-            <div id="satPayload" class="satellite-payload">
-                <svg viewBox="0 0 400 300" class="w-72 md:w-96 drop-shadow-[0_0_50px_rgba(59,130,246,0.6)]">
-                    <defs>
-                        <linearGradient id="solarPanel" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#1e3a8a" />
-                            <stop offset="50%" stop-color="#2563eb" />
-                            <stop offset="100%" stop-color="#1e40af" />
-                        </linearGradient>
-                        <linearGradient id="goldFoil" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#fbbf24" />
-                            <stop offset="50%" stop-color="#f59e0b" />
-                            <stop offset="100%" stop-color="#b45309" />
-                        </linearGradient>
-                    </defs>
-                    <!-- Left Solar Array -->
-                    <g class="animate-[pulse_4s_infinite]">
-                        <rect x="20" y="110" width="120" height="80" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="2"/>
-                        <line x1="50" y1="110" x2="50" y2="190" stroke="#60a5fa" stroke-width="1"/>
-                        <line x1="80" y1="110" x2="80" y2="190" stroke="#60a5fa" stroke-width="1"/>
-                        <line x1="110" y1="110" x2="110" y2="190" stroke="#60a5fa" stroke-width="1"/>
-                        <line x1="20" y1="130" x2="140" y2="130" stroke="#60a5fa" stroke-width="1"/>
-                        <line x1="20" y1="150" x2="140" y2="150" stroke="#60a5fa" stroke-width="1"/>
-                        <line x1="20" y1="170" x2="140" y2="170" stroke="#60a5fa" stroke-width="1"/>
-                    </g>
-                    <!-- Right Solar Array -->
-                    <g class="animate-[pulse_4s_infinite]" style="animation-delay: 1s;">
-                        <rect x="260" y="110" width="120" height="80" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="2"/>
-                        <line x1="290" y1="110" x2="290" y2="190" stroke="#60a5fa" stroke-width="1"/>
-                        <line x1="320" y1="110" x2="320" y2="190" stroke="#60a5fa" stroke-width="1"/>
-                        <line x1="350" y1="110" x2="350" y2="190" stroke="#60a5fa" stroke-width="1"/>
-                        <line x1="260" y1="130" x2="380" y2="130" stroke="#60a5fa" stroke-width="1"/>
-                        <line x1="260" y1="150" x2="380" y2="150" stroke="#60a5fa" stroke-width="1"/>
-                        <line x1="260" y1="170" x2="380" y2="170" stroke="#60a5fa" stroke-width="1"/>
-                    </g>
-                    <!-- Connection Arms -->
-                    <rect x="140" y="145" width="40" height="10" fill="#64748b"/>
-                    <rect x="220" y="145" width="40" height="10" fill="#64748b"/>
-                    <!-- Main Body (Gold Foil Core) -->
-                    <polygon points="170,100 230,100 240,150 230,200 170,200 160,150" fill="url(#goldFoil)" stroke="#fcd34d" stroke-width="2"/>
-                    <!-- Dish -->
-                    <path d="M 180 80 Q 200 40 220 80 Q 200 60 180 80 Z" fill="#cbd5e1" stroke="#f1f5f9" stroke-width="2"/>
-                    <!-- Dish Antenna -->
-                    <line x1="200" y1="70" x2="200" y2="20" stroke="#cbd5e1" stroke-width="3"/>
-                    <circle cx="200" cy="20" r="5" fill="#ef4444" class="animate-pulse"/>
-                    <!-- Glowing core lens -->
-                    <circle cx="200" cy="150" r="20" fill="#0f172a" stroke="#38bdf8" stroke-width="3"/>
-                    <circle cx="200" cy="150" r="10" fill="#38bdf8" filter="blur(4px)" class="animate-ping"/>
-                </svg>
-            </div>
+        <!-- Smoke Cloud Base -->
+        <div id="rocketSmoke" class="smoke-cloud"></div>
+
+        <!-- STAGE 3: SATELLITE (Hidden inside initially) -->
+        <div id="stage-satellite" class="absolute top-[80px] opacity-0 scale-50 transition-all duration-[2000ms] ease-out z-10 flex flex-col items-center">
+            <svg viewBox="0 0 300 200" class="w-64 h-48 drop-shadow-[0_0_40px_rgba(251,191,36,0.5)]">
+                <defs>
+                    <linearGradient id="solarPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#1e3a8a" />
+                        <stop offset="50%" stop-color="#2563eb" />
+                        <stop offset="100%" stop-color="#1e40af" />
+                    </linearGradient>
+                    <linearGradient id="goldFoil" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#fbbf24" />
+                        <stop offset="50%" stop-color="#f59e0b" />
+                        <stop offset="100%" stop-color="#b45309" />
+                    </linearGradient>
+                </defs>
+                <!-- Left Solar Array -->
+                <g class="animate-[pulse_4s_infinite]">
+                    <rect x="10" y="80" width="90" height="60" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="1.5"/>
+                    <line x1="40" y1="80" x2="40" y2="140" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="70" y1="80" x2="70" y2="140" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="10" y1="100" x2="100" y2="100" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="10" y1="120" x2="100" y2="120" stroke="#60a5fa" stroke-width="1"/>
+                </g>
+                <!-- Right Solar Array -->
+                <g class="animate-[pulse_4s_infinite]" style="animation-delay: 1s;">
+                    <rect x="200" y="80" width="90" height="60" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="1.5"/>
+                    <line x1="230" y1="80" x2="230" y2="140" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="260" y1="80" x2="260" y2="140" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="200" y1="100" x2="290" y2="100" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="200" y1="120" x2="290" y2="120" stroke="#60a5fa" stroke-width="1"/>
+                </g>
+                <!-- Connection Arms -->
+                <rect x="100" y="105" width="30" height="8" fill="#64748b"/>
+                <rect x="170" y="105" width="30" height="8" fill="#64748b"/>
+                <!-- Main Body -->
+                <polygon points="130,70 170,70 180,110 170,150 130,150 120,110" fill="url(#goldFoil)" stroke="#fcd34d" stroke-width="2"/>
+                <!-- Dish -->
+                <path d="M 135 55 Q 150 20 165 55 Q 150 40 135 55 Z" fill="#cbd5e1" stroke="#f1f5f9" stroke-width="1.5"/>
+                <line x1="150" y1="45" x2="150" y2="10" stroke="#cbd5e1" stroke-width="2"/>
+                <circle cx="150" cy="10" r="4" fill="#ef4444" class="animate-pulse"/>
+                <!-- Core lens -->
+                <circle cx="150" cy="110" r="15" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+                <circle cx="150" cy="110" r="8" fill="#38bdf8" filter="blur(3px)" class="animate-ping"/>
+            </svg>
         </div>
 
-        <!-- Upper Stage (Fairing) -->
-        <div id="rocketUpper" class="absolute top-0 w-full h-[150px] z-20">
+        <!-- STAGE 2: UPPER FAIRING -->
+        <div id="stage-fairing" class="absolute top-0 w-[120px] h-[180px] z-30 transition-transform duration-[1500ms] ease-out origin-bottom">
             <svg viewBox="0 0 100 150" class="w-full h-full drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
                 <defs>
                     <linearGradient id="fuselageTop" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -251,14 +246,14 @@ body.ai-mode .gd-avatar { background: #334155; }
                     </linearGradient>
                 </defs>
                 <!-- Nose Cone -->
-                <path d="M 50 10 C 60 40, 70 80, 70 150 L 30 150 C 30 80, 40 40, 50 10 Z" fill="url(#fuselageTop)"/>
-                <!-- Seam Line -->
-                <line x1="50" y1="10" x2="50" y2="150" stroke="#64748b" stroke-width="1" opacity="0.5"/>
+                <path d="M 50 10 C 65 40, 75 80, 75 150 L 25 150 C 25 80, 35 40, 50 10 Z" fill="url(#fuselageTop)"/>
+                <!-- Separation Seam -->
+                <line x1="50" y1="10" x2="50" y2="150" stroke="#475569" stroke-width="1" opacity="0.6"/>
             </svg>
         </div>
 
-        <!-- Lower Stage (Booster & Dual Engines) -->
-        <div id="rocketLower" class="absolute top-[148px] w-full h-[220px] z-20">
+        <!-- STAGE 1: BOOSTER -->
+        <div id="stage-booster" class="absolute top-[178px] w-[120px] h-[260px] z-20 transition-transform duration-[3000ms] ease-in origin-top">
             <svg viewBox="0 0 100 220" class="w-full h-full drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
                 <defs>
                     <linearGradient id="fuselageBot" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -267,33 +262,44 @@ body.ai-mode .gd-avatar { background: #334155; }
                         <stop offset="70%" stop-color="#e2e8f0" />
                         <stop offset="100%" stop-color="#64748b" />
                     </linearGradient>
-                    <radialGradient id="engineGlow" cx="50%" cy="0%" r="100%">
-                        <stop offset="0%" stop-color="#ffffff" />
-                        <stop offset="20%" stop-color="#fef08a" />
-                        <stop offset="50%" stop-color="#f97316" />
-                        <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
-                    </radialGradient>
+                    <linearGradient id="darkMetal" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#1e293b" />
+                        <stop offset="50%" stop-color="#475569" />
+                        <stop offset="100%" stop-color="#0f172a" />
+                    </linearGradient>
                 </defs>
                 <!-- Grid Fins -->
-                <rect x="25" y="10" width="10" height="4" fill="#334155" transform="skewY(-20)"/>
-                <rect x="65" y="10" width="10" height="4" fill="#334155" transform="skewY(20)"/>
+                <rect x="18" y="10" width="12" height="4" fill="#334155" transform="skewY(-15)"/>
+                <rect x="70" y="10" width="12" height="4" fill="#334155" transform="skewY(15)"/>
                 <!-- Central Hull -->
-                <path d="M 30 0 L 70 0 L 70 180 L 30 180 Z" fill="url(#fuselageBot)"/>
-                <!-- Interstage Lines -->
-                <rect x="30" y="0" width="40" height="15" fill="#1e293b"/>
+                <path d="M 25 0 L 75 0 L 75 180 L 25 180 Z" fill="url(#fuselageBot)"/>
                 <!-- Landing Legs (Folded) -->
-                <path d="M 30 140 L 20 185 L 30 180 Z" fill="#475569"/>
-                <path d="M 70 140 L 80 185 L 70 180 Z" fill="#475569"/>
-                <!-- Dual Engine Bells -->
-                <path d="M 35 180 L 45 180 L 42 195 L 32 195 Z" fill="#1e293b"/>
-                <path d="M 55 180 L 65 180 L 68 195 L 58 195 Z" fill="#1e293b"/>
-                <!-- Exhaust Fire (Perfectly aligned to dual nozzles) -->
-                <g id="svgExhaust" style="opacity: 0;">
-                    <path d="M 32 195 L 42 195 L 37 350 Z" fill="url(#engineGlow)" class="engine-beam"/>
-                    <path d="M 58 195 L 68 195 L 63 350 Z" fill="url(#engineGlow)" class="engine-beam"/>
-                </g>
+                <path d="M 25 140 L 15 185 L 25 180 Z" fill="url(#darkMetal)"/>
+                <path d="M 75 140 L 85 185 L 75 180 Z" fill="url(#darkMetal)"/>
+                <!-- Interstage Ring -->
+                <rect x="25" y="0" width="50" height="15" fill="url(#darkMetal)"/>
+                <!-- Engine Bells -->
+                <path d="M 30 180 L 45 180 L 42 195 L 32 195 Z" fill="#1e293b"/>
+                <path d="M 55 180 L 70 180 L 68 195 L 58 195 Z" fill="#1e293b"/>
+                <!-- Panel Lines -->
                 <line x1="50" y1="15" x2="50" y2="180" stroke="#cbd5e1" stroke-width="1" opacity="0.5"/>
             </svg>
+            
+            <!-- Dual Exhaust Fire -->
+            <div id="engine-fire" class="absolute bottom-[-140px] left-1/2 -translate-x-1/2 w-full h-[150px] opacity-0 transition-opacity duration-300">
+                <svg viewBox="0 0 100 150" class="w-full h-full">
+                    <defs>
+                        <radialGradient id="engineGlow" cx="50%" cy="0%" r="100%">
+                            <stop offset="0%" stop-color="#ffffff" />
+                            <stop offset="20%" stop-color="#fef08a" />
+                            <stop offset="50%" stop-color="#f97316" />
+                            <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
+                        </radialGradient>
+                    </defs>
+                    <path d="M 32 0 L 42 0 L 37 140 Z" fill="url(#engineGlow)" class="engine-beam"/>
+                    <path d="M 58 0 L 68 0 L 63 140 Z" fill="url(#engineGlow)" class="engine-beam"/>
+                </svg>
+            </div>
         </div>
     </div>
 </div>
@@ -302,20 +308,28 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-6">
 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 w-full">
 
+<!-- Premium SVG Logo & Title -->
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div class="flex items-center">
-    <svg viewBox="0 0 100 100" class="w-10 h-10 mr-3 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)] hidden sm:block" xmlns="http://www.w3.org/2000/svg">
+    <!-- Premium Small Logo SVG -->
+    <svg viewBox="0 0 100 100" class="w-10 h-10 mr-3 drop-shadow-lg hidden sm:block" xmlns="http://www.w3.org/2000/svg">
         <defs>
-            <linearGradient id="brandGradHeader" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#38bdf8" />
-                <stop offset="50%" stop-color="#8b5cf6" />
-                <stop offset="100%" stop-color="#3b82f6" />
+            <linearGradient id="logoGradSmall" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#60a5fa" />
+                <stop offset="50%" stop-color="#3b82f6" />
+                <stop offset="100%" stop-color="#1e3a8a" />
             </linearGradient>
+            <filter id="glowSmall" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
         </defs>
-        <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255, 255, 255, 0.2)" stroke-width="4" stroke-dasharray="12 6"/>
-        <path d="M 25 75 L 50 25 L 75 75" fill="none" stroke="url(#brandGradHeader)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M 38 55 L 62 55" fill="none" stroke="url(#brandGradHeader)" stroke-width="8" stroke-linecap="round"/>
-        <circle cx="50" cy="25" r="8" fill="#ffffff" />
+        <polygon points="50,5 90,27 90,73 50,95 10,73 10,27" fill="none" stroke="url(#logoGradSmall)" stroke-width="4" stroke-dasharray="6 3" opacity="0.8" />
+        <circle cx="50" cy="30" r="10" fill="url(#logoGradSmall)" filter="url(#glowSmall)"/>
+        <path d="M 50 45 L 30 85 L 42 85 L 47 70 L 53 70 L 58 85 L 70 85 Z" fill="url(#logoGradSmall)" filter="url(#glowSmall)"/>
+        <circle cx="47" cy="70" r="3" fill="#ffffff" />
+        <circle cx="53" cy="70" r="3" fill="#ffffff" />
+        <circle cx="50" cy="45" r="3" fill="#ffffff" />
     </svg>
     <h1 class="text-2xl md:text-3xl tracking-tight flex flex-col sm:flex-row sm:items-baseline">
       <span class="font-extrabold">Human Assetize</span>
@@ -327,6 +341,7 @@ body.ai-mode .gd-avatar { background: #334155; }
   </button>
 </div>
 
+<!-- Controls -->
 <div class="flex flex-wrap items-center gap-3 md:gap-4 w-full lg:w-auto mt-2 lg:mt-0 flex">
   <div class="flex items-center justify-center space-x-2 bg-black/20 px-3 md:px-4 py-2 rounded-full border border-white/10">
     <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-200">Manual</span>
@@ -391,7 +406,7 @@ body.ai-mode .gd-avatar { background: #334155; }
      </div>
   </div>
 
-  <div class="mb-12">
+  <div class="mb-12" id="why-required-section">
       <div class="text-center mb-8 md:mb-10">
           <h3 class="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">Why Human Assetize is Required?</h3>
           <div class="w-24 h-1.5 bg-brand-500 mx-auto mt-4 rounded-full"></div>
@@ -1035,147 +1050,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
   </div>
 </section>
 
-<section id="tab-overview" class="tab-content">
-  <div class="mb-8 md:mb-10 text-center md:text-left">
-    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">About: The 6-Stage Assessment Gauntlet</h2>
-    <p class="text-sm md:text-lg text-slate-500 mt-2">Bridging postgraduate classroom theory with real-world HR technology execution. Understand exactly how you are evaluated across all 6 stages.</p>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-file-pdf"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">1. Enterprise ATS Audit</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Strategic Talent Acquisition</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">Recruitment funnels, algorithmic screening, Term Frequency-Inverse Document Frequency (TF-IDF), and predictive validity.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Demystifies the "black box" of Fortune 500 resume screening via real-time PDF parsing and keyword density matching.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-stopwatch"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">2. Decision Velocity Assessment</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Learning & Development</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">Cognitive load theory, situational judgment testing (SJT), and decision-making under high stress/strict deadlines.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Simulates real-world management pressure with a randomized 20-question, 10-minute countdown assessment.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-sitemap"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">3. Archetype Profiling</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Organizational Behavior (OB)</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-purple-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">Big Five Personality Traits, DISC assessments, cognitive biases, and predictive workplace behavior models.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Forces candidates through a forced-choice situational matrix to mathematically determine their operational archetype before entering team dynamics.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-users"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">4. Multi-Agent Virtual GD</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Group Dynamics & Team Leadership</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-amber-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">Tuckman's stages of group development, conflict resolution modes (Thomas-Kilmann model), and consensus building.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Pits the candidate against two opposing AI personas (Analytical Arjun vs. Creative Kavya) in an interactive debate.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-red-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-red-500/10 text-red-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-microphone-lines"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">5. AI Behavioral Interview</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Executive Presence & Structuring</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-red-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">The STAR method framework, physical executive presence markers, and data-backed quantitative storytelling.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Conversational AI tracks your verbal STAR structure, while live computer vision tracks eye contact and physiological stress limits.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-emerald-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-id-card"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">6. Executive Talent Passport</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Holistic Evaluation</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-emerald-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">Multi-modal assessment weighting, predictive validity indices, and automated HR feedback loops.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Automatically decrypts and emails a comprehensive PDF dossier mapping the student's exact blind spots to correct before real placements begin.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="tab-quiz" class="tab-content">
   <div class="mb-6 md:mb-8 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Optional Practice Zone</h2>
@@ -1205,6 +1079,9 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/1
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
+// ==========================================
+// GROQ (LLAMA-3.1) API INTEGRATION
+// ==========================================
 const part1 = "gsk_";
 const part2 = "i8mmL0cZCr8eL5sWN6omWGdyb3FYhGBRWSr9eFwyvAQIZxAfP6xZ";
 const GROQ_API_KEY = part1 + part2;
@@ -1275,65 +1152,82 @@ window.chairmanLaunch = function() {
     const btnContainer = document.getElementById('launchBtnContainer');
     btnContainer.style.opacity = '0';
     
+    // Core Elements
+    const overlay = document.getElementById('launchOverlay');
+    const rocketContainer = document.getElementById('rocketContainer');
+    const booster = document.getElementById('stage-booster');
+    const fairing = document.getElementById('stage-fairing');
+    const satellite = document.getElementById('stage-satellite');
+    const fire = document.getElementById('engine-fire');
+    const earth = document.getElementById('earthHorizon');
+    const backdrop = document.getElementById('spaceBackdrop');
+    const shockwave = document.getElementById('shockwaveEffect');
+    const flash = document.getElementById('flashBang');
+    const sysOnlineText = document.getElementById('sysOnlineText');
+
     setTimeout(() => {
         btnContainer.style.display = 'none';
         
-        const overlay = document.getElementById('launchOverlay');
-        const rocket = document.getElementById('rocketAsset');
-        const smoke = document.getElementById('rocketSmoke');
-        const engine = document.getElementById('svgExhaust');
-        const shockwave = document.getElementById('shockwaveEffect');
-        const flash = document.getElementById('flashBang');
-        const backdrop = document.getElementById('spaceBackdrop');
-        const booster = document.getElementById('rocketLower');
-        const fairing = document.getElementById('rocketUpper');
-        const satWrapper = document.getElementById('satPayloadWrapper');
-        
-        smoke.classList.add('smoke-active');
-        engine.style.opacity = '1';
-        rocket.classList.add('rocket-shake-intense');
+        // 1. IGNITION
+        fire.style.opacity = '1';
+        rocketContainer.classList.add('rocket-shake');
         
         setTimeout(() => {
+            // 2. LIFTOFF (Rocket moves up, Earth drops down)
+            rocketContainer.classList.remove('rocket-shake');
+            rocketContainer.style.transform = 'translateX(-50%) translateY(-20vh)';
+            
+            earth.style.transform = 'translateX(-50%) translateY(100vh)';
+            earth.style.opacity = '0';
             backdrop.classList.add('warp-speed');
-            rocket.classList.remove('rocket-shake-intense');
-            rocket.classList.add('rocket-liftoff');
             
             setTimeout(() => {
-                // MECO & Stage Separation
+                // 3. MECO (Main Engine Cut Off) & SHOCKWAVE
+                fire.style.opacity = '0';
                 shockwave.classList.add('shockwave-fire');
-                engine.style.opacity = '0';
                 
                 setTimeout(() => {
-                    booster.classList.add('booster-drop');
+                    // 4. STAGE 1 SEPARATION (Booster falls back)
+                    booster.style.transform = 'translateY(100vh) rotate(-10deg)';
+                    booster.style.opacity = '0';
                     
                     setTimeout(() => {
-                        // Fairing Deploy
+                        // 5. FAIRING DEPLOYMENT
                         flash.style.opacity = '1';
-                        fairing.classList.add('fairing-deploy');
-                        satWrapper.classList.add('deployed');
+                        fairing.style.transform = 'translateY(-100vh)';
+                        fairing.style.opacity = '0';
+                        
+                        // Reveal Satellite
+                        rocketContainer.classList.add('deployed');
+                        sysOnlineText.style.opacity = '1';
                         
                         setTimeout(() => {
-                            rocket.style.display = 'none';
                             flash.style.opacity = '0';
-                            backdrop.classList.remove('warp-speed');
-                            overlay.classList.add('deployed');
                             
+                            // 6. FADE OUT OVERLAY
                             setTimeout(() => {
                                 overlay.style.opacity = '0';
+                                backdrop.classList.remove('warp-speed');
+                                
                                 setTimeout(() => {
                                     overlay.style.display = 'none';
                                     overlay.classList.add('hidden');
                                     sessionStorage.setItem('chairman_launched', 'true');
+                                    
+                                    // Smoothly scroll to "Why Required" section
                                     const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
                                     window.switchTab('tab-home', targetNavBtn);
+                                    setTimeout(() => {
+                                        document.getElementById('why-required-section').scrollIntoView({ behavior: 'smooth' });
+                                    }, 100);
                                 }, 1500);
-                            }, 4500);
-                        }, 500);
-                    }, 800);
-                }, 200);
-            }, 2500);
-        }, 2000);
-    }, 1000);
+                            }, 3500); // Admire satellite in orbit
+                        }, 500); // Flash duration
+                    }, 800); // Wait after booster drops
+                }, 500); // Wait after MECO
+            }, 3000); // Flight Time
+        }, 1500); // Ignition Time
+    }, 800); // Initial delay
 };
 
 const localResponses = {
@@ -1380,6 +1274,7 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     return result.choices[0].message.content.replace(/\*/g, '').trim();
   } catch (e) {
     console.warn("API Error:", e.message);
+    
     let lastInputMatch = prompt.match(/Candidate:\s*(.*)/g);
     let lastInput = lastInputMatch ? lastInputMatch[lastInputMatch.length - 1].replace('Candidate:', '').trim() : "";
     let cleanInput = lastInput.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -1393,6 +1288,42 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     localFallbackIndex++;
     return fallbackText;
   }
+}
+
+const archQ = [
+  {q: "1. When starting a complex new project, your first priority is to:", o: {s: "Define clear metrics", i: "Find a unique angle", c: "Ensure the right people are assigned", e: "Set a strict timeline"}},
+  {q: "2. In team meetings, you are usually the one who:", o: {s: "Points out logical flaws", i: "Pitches the big ideas", c: "Makes sure everyone speaks", e: "Pushes the meeting to end"}},
+  {q: "3. How do you handle sudden changes?", o: {s: "Recalculate projections", i: "Embrace it as a new methodology", c: "Check in with the team", e: "Immediately rewrite the to-do list"}},
+  {q: "4. Your preferred communication style is:", o: {s: "Detailed, data-heavy reports", i: "Visual presentations", c: "Face-to-face conversations", e: "Short, bullet-pointed emails"}},
+  {q: "5. When resolving a dispute, you:", o: {s: "Look at policy guidelines", i: "Design a completely new workflow", c: "Mediate a compromise", e: "Make a firm executive decision"}},
+  {q: "6. Your approach to corporate risk is:", o: {s: "Calculated mathematically", i: "Embraced for massive growth", c: "Shared collectively", e: "Minimized completely"}},
+  {q: "7. What motivates you the most?", o: {s: "Solving complex puzzles", i: "Groundbreaking ideas", c: "Building loyal teams", e: "Hitting targets early"}},
+  {q: "8. Under tight deadlines, you:", o: {s: "Re-evaluate the critical path", i: "Look for an automated tool", c: "Rally the team with coffee", e: "Work 14-hour days"}},
+  {q: "9. How do you track progress?", o: {s: "Complex dashboards", i: "Reviewing creative prototypes", c: "Weekly team stand-ups", e: "Crossing off tasks"}},
+  {q: "10. Your biggest pet peeve is:", o: {s: "Decisions without data", i: "Rigid adherence to tradition", c: "Lack of empathy", e: "Endless meetings"}}
+];
+
+function renderArchetypeQs() {
+  const c = document.getElementById('archetypeQuestionsContainer');
+  if(!c) return;
+  let finalHtml = '';
+  archQ.forEach((item, idx) => {
+    let html = `
+      <div class="mb-5 bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative z-10">
+        <p class="text-sm md:text-base font-bold text-slate-800 mb-4">${item.q}</p>
+        <div class="space-y-3">`;
+    for(let key in item.o) {
+      const uniqueId = `arch_${idx}_${key}`;
+      html += `
+        <div class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all duration-200" onclick="document.getElementById('${uniqueId}').checked = true;">
+          <input type="radio" id="${uniqueId}" name="arch${idx}" value="${key}" class="w-5 h-5 text-brand-600 border-gray-300 focus:ring-brand-500 cursor-pointer accent-brand-600 pointer-events-none">
+          <label for="${uniqueId}" class="ml-3 text-sm md:text-base text-slate-700 font-medium w-full cursor-pointer pointer-events-none">${item.o[key]}</label>
+        </div>`;
+    }
+    html += `</div></div>`;
+    finalHtml += html;
+  });
+  c.innerHTML = finalHtml;
 }
 
 window.switchTab = function(tabId, btn) {
@@ -1524,6 +1455,140 @@ window.saveProfile = async function() {
   await syncToCloud();
   window.autoAdvanceTab('tab-onboarding', 'tab-ats', 'Registration');
 };
+
+window.submitArchetype = async function() {
+  let counts = { s:0, i:0, c:0, e:0 };
+  for(let i=0; i<10; i++) {
+    const checked = document.querySelector(`input[name="arch${i}"]:checked`);
+    if(!checked) { 
+      window.showMessage(`Please select an option for Question ${i+1}.`, "error"); 
+      const container = document.getElementById('archetypeQuestionsContainer');
+      if(container) container.scrollTop = (i * 120);
+      return; 
+    }
+    counts[checked.value]++;
+  }
+  
+  let maxVal = 0; let maxKey = 's';
+  for (let key in counts) {
+    if (counts[key] > maxVal) { maxVal = counts[key]; maxKey = key; }
+  }
+  
+  const map = { s:"Strategist", i:"Innovator", c:"Connector", e:"Executor" };
+  window.userData.archetype = map[maxKey];
+  
+  try { await syncToCloud(); } catch (e) {}
+  window.autoAdvanceTab('tab-archetype', 'tab-gd', 'Archetype Assessment');
+};
+
+window.speakAIPromise = function(text, avatarId) {
+  return new Promise(async resolve => {
+    if (!window.isAIMode) { resolve(); return; }
+    await ttsService.speak(text, avatarId);
+    resolve();
+  });
+};
+
+window.toggleAIMode = async function() {
+  window.isAIMode = document.getElementById('aiToggle').checked;
+  const body = document.body;
+  const guide = document.getElementById('global-ai-guide');
+
+  try {
+      if (window.isAIMode) {
+        body.classList.add('ai-mode');
+        const btn4 = document.getElementById('aiVoiceBtn4');
+        if (btn4) btn4.classList.remove('hidden');
+        document.getElementById('gd-arena').classList.remove('opacity-50', 'pointer-events-none');
+        document.getElementById('interview-controls').classList.remove('hidden'); 
+        document.getElementById('interview-controls').classList.add('flex');
+        document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
+        
+        if (guide) {
+            guide.classList.add('visible'); 
+            document.getElementById('guide-text').innerText = "AI Protocol Activated.";
+            window.activeSpeaker = 'guide'; 
+            const guideAv = document.getElementById('guide-avatar');
+            if (guideAv) guideAv.classList.add('avatar-talking');
+        }
+        
+        await window.speakAIPromise("AI Protocol Activated. I will guide you through this assessment.", 'guide');
+        
+        window.activeSpeaker = null; 
+        if (guide) {
+            const guideAv = document.getElementById('guide-avatar');
+            if (guideAv) guideAv.classList.remove('avatar-talking');
+            document.getElementById('guide-text').innerText = "Navigate through your assessment stages.";
+        }
+        
+        if(document.getElementById('tab-interview').classList.contains('active') || document.getElementById('tab-gd').classList.contains('active')) {
+            initWebcamStream();
+        }
+      } else {
+        body.classList.remove('ai-mode');
+        const btn4 = document.getElementById('aiVoiceBtn4');
+        if (btn4) btn4.classList.add('hidden');
+        document.getElementById('gd-arena').classList.add('opacity-50', 'pointer-events-none');
+        document.getElementById('interview-controls').classList.add('hidden'); 
+        document.getElementById('interview-controls').classList.remove('flex');
+        document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-breathing', 'avatar-talking'));
+        
+        if (guide) guide.classList.remove('visible'); 
+        ttsService.stop(); 
+        window.activeSpeaker = null;
+      }
+  } catch (err) {}
+};
+
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition = null;
+let activeInputBox = null;
+let activeMicBtn = null;
+let isRecording = false;
+
+if(window.SpeechRecognition) { 
+  recognition = new window.SpeechRecognition(); 
+  recognition.continuous = false; 
+  recognition.interimResults = false; 
+  recognition.lang = 'en-IN'; 
+  
+  recognition.onstart = () => {
+    isRecording = true;
+    if (activeMicBtn) {
+      activeMicBtn.classList.remove('bg-slate-700');
+      activeMicBtn.classList.add('bg-red-600', 'animate-pulse');
+    }
+    if (activeInputBox) document.getElementById(activeInputBox).placeholder = "Listening... speak clearly and pause.";
+  };
+
+  recognition.onresult = (event) => { 
+    if (activeInputBox) {
+      const transcript = event.results[0][0].transcript;
+      const box = document.getElementById(activeInputBox);
+      box.value = box.value + (box.value.length > 0 ? " " : "") + transcript;
+    }
+  };
+
+  recognition.onerror = () => {
+    if (activeInputBox) document.getElementById(activeInputBox).placeholder = "Microphone error. Please tap again or type.";
+  };
+
+  recognition.onend = () => {
+    isRecording = false;
+    if (activeMicBtn) {
+      activeMicBtn.classList.add('bg-slate-700');
+      activeMicBtn.classList.remove('bg-red-600', 'animate-pulse');
+    }
+  };
+}
+
+function writeTranscript(targetId, speaker, text) {
+  const box = document.getElementById(targetId);
+  if(!box) return;
+  const line = document.createElement('div'); line.className = "mb-3 pb-3 border-b border-slate-700/50";
+  line.innerHTML = `<span class="font-bold text-brand-400">[${speaker}]</span> <span class="text-white ml-2 md:ml-2 block sm:inline mt-1 sm:mt-0">${text}</span>`;
+  box.appendChild(line); box.scrollTop = box.scrollHeight;
+}
 
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
@@ -1723,67 +1788,6 @@ window.submitTest = async function() {
   window.userData.test_score = score; await syncToCloud();
   window.autoAdvanceTab('tab-test', 'tab-archetype', 'Cognitive Aptitude Test');
   document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
-};
-
-const archQ = [
-  {q: "1. When starting a complex new project, your first priority is to:", o: {s: "Define clear metrics", i: "Find a unique angle", c: "Ensure the right people are assigned", e: "Set a strict timeline"}},
-  {q: "2. In team meetings, you are usually the one who:", o: {s: "Points out logical flaws", i: "Pitches the big ideas", c: "Makes sure everyone speaks", e: "Pushes the meeting to end"}},
-  {q: "3. How do you handle sudden changes?", o: {s: "Recalculate projections", i: "Embrace it as a new methodology", c: "Check in with the team", e: "Immediately rewrite the to-do list"}},
-  {q: "4. Your preferred communication style is:", o: {s: "Detailed, data-heavy reports", i: "Visual presentations", c: "Face-to-face conversations", e: "Short, bullet-pointed emails"}},
-  {q: "5. When resolving a dispute, you:", o: {s: "Look at policy guidelines", i: "Design a completely new workflow", c: "Mediate a compromise", e: "Make a firm executive decision"}},
-  {q: "6. Your approach to corporate risk is:", o: {s: "Calculated mathematically", i: "Embraced for massive growth", c: "Shared collectively", e: "Minimized completely"}},
-  {q: "7. What motivates you the most?", o: {s: "Solving complex puzzles", i: "Groundbreaking ideas", c: "Building loyal teams", e: "Hitting targets early"}},
-  {q: "8. Under tight deadlines, you:", o: {s: "Re-evaluate the critical path", i: "Look for an automated tool", c: "Rally the team with coffee", e: "Work 14-hour days"}},
-  {q: "9. How do you track progress?", o: {s: "Complex dashboards", i: "Reviewing creative prototypes", c: "Weekly team stand-ups", e: "Crossing off tasks"}},
-  {q: "10. Your biggest pet peeve is:", o: {s: "Decisions without data", i: "Rigid adherence to tradition", c: "Lack of empathy", e: "Endless meetings"}}
-];
-
-function renderArchetypeQs() {
-  const c = document.getElementById('archetypeQuestionsContainer');
-  if(!c) return;
-  let finalHtml = '';
-  archQ.forEach((item, idx) => {
-    let html = `
-      <div class="mb-5 bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative z-10">
-        <p class="text-sm md:text-base font-bold text-slate-800 mb-4">${item.q}</p>
-        <div class="space-y-3">`;
-    for(let key in item.o) {
-      const uniqueId = `arch_${idx}_${key}`;
-      html += `
-        <div class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all duration-200" onclick="document.getElementById('${uniqueId}').checked = true;">
-          <input type="radio" id="${uniqueId}" name="arch${idx}" value="${key}" class="w-5 h-5 text-brand-600 border-gray-300 focus:ring-brand-500 cursor-pointer accent-brand-600 pointer-events-none">
-          <label for="${uniqueId}" class="ml-3 text-sm md:text-base text-slate-700 font-medium w-full cursor-pointer pointer-events-none">${item.o[key]}</label>
-        </div>`;
-    }
-    html += `</div></div>`;
-    finalHtml += html;
-  });
-  c.innerHTML = finalHtml;
-}
-
-window.submitArchetype = async function() {
-  let counts = { s:0, i:0, c:0, e:0 };
-  for(let i=0; i<10; i++) {
-    const checked = document.querySelector(`input[name="arch${i}"]:checked`);
-    if(!checked) { 
-      window.showMessage(`Please select an option for Question ${i+1}.`, "error"); 
-      const container = document.getElementById('archetypeQuestionsContainer');
-      if(container) container.scrollTop = (i * 120);
-      return; 
-    }
-    counts[checked.value]++;
-  }
-  
-  let maxVal = 0; let maxKey = 's';
-  for (let key in counts) {
-    if (counts[key] > maxVal) { maxVal = counts[key]; maxKey = key; }
-  }
-  
-  const map = { s:"Strategist", i:"Innovator", c:"Connector", e:"Executor" };
-  window.userData.archetype = map[maxKey];
-  
-  try { await syncToCloud(); } catch (e) {}
-  window.autoAdvanceTab('tab-archetype', 'tab-gd', 'Archetype Assessment');
 };
 
 const gdTopics = [
@@ -2017,7 +2021,7 @@ async function askNextInterviewQuestion() {
     Generate the FIRST question of the interview.
     If the requested method is STAR: Greet them professionally and ask a complex behavioral question tailored to testing the strengths or blind spots of a ${archetype}. Ask them to walk you through a specific past scenario.
     If the requested method is GENERAL: Greet them professionally and ask a deep, open-ended question about their leadership philosophy, career trajectory, or how they handle corporate politics.
-    Keep your response strictly under 2 sentences. Make it sound highly authentic and unpredictable. Do not use your name or brackets. Method to use: ${window.interviewMethod.toUpperCase()}`;
+    Keep your response strictly under 2 sentences. Make it sound highly authentic and unpredictable. Do not use your own name or brackets. Method to use: ${window.interviewMethod.toUpperCase()}`;
     
     let q = await callGroq(`Generate the FIRST question for ${firstName}.`, systemPrompt);
     intHistory += `Meera: ${q}\n`;
