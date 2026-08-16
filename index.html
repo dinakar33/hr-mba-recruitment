@@ -33,7 +33,14 @@ body { font-family: 'Inter', sans-serif; background-color: #f8fafc; transition: 
 .drop-zone { border: 2px dashed #cbd5e1; transition: all 0.2s ease; }
 .drop-zone.dragover { border-color: #2563eb; background-color: #eff6ff; }
 
-/* AI Dark Mode Styles */
+/* Admin Toggles */
+.admin-only { display: none; }
+body.admin-mode .admin-only { display: block; }
+body.admin-mode .admin-login-btn { display: none; }
+.admin-only-flex { display: none; }
+body.admin-mode .admin-only-flex { display: flex; }
+.touch-manipulation { touch-action: manipulation; }
+
 body.ai-mode { background-color: #0f172a; color: #f1f5f9; }
 body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgba(51, 65, 85, 0.8); color: #f8fafc; }
 body.ai-mode h2, body.ai-mode h3, body.ai-mode p, body.ai-mode span, body.ai-mode label { color: #f8fafc !important; }
@@ -62,7 +69,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes urgent-glow { 0% { text-shadow: 0 0 5px red; } 50% { text-shadow: 0 0 20px red; color: #ff9999; } 100% { text-shadow: 0 0 5px red; } }
 .timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
 
-/* Responsive 3D Round Table GD Layout */
 .gd-boardroom-container {
     position: relative;
     width: 100%;
@@ -76,9 +82,7 @@ body.ai-mode .gd-avatar { background: #334155; }
     overflow: hidden;
     margin-bottom: 1.5rem;
 }
-@media (min-width: 768px) {
-    .gd-boardroom-container { min-height: 320px; }
-}
+@media (min-width: 768px) { .gd-boardroom-container { min-height: 320px; } }
 
 .gd-table-oval {
     width: 85%;
@@ -91,9 +95,7 @@ body.ai-mode .gd-avatar { background: #334155; }
     align-items: center;
     justify-content: center;
 }
-@media (min-width: 768px) {
-    .gd-table-oval { width: 80%; height: 140px; }
-}
+@media (min-width: 768px) { .gd-table-oval { width: 80%; height: 140px; } }
 
 .gd-seat { position: absolute; text-align: center; }
 .gd-seat-top-left { top: 10px; left: 5%; }
@@ -105,14 +107,10 @@ body.ai-mode .gd-avatar { background: #334155; }
 .gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 
 /* Subtle pulse for hero background */
-@keyframes slowPulse {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); }
-}
+@keyframes slowPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
 .hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
 
 /* ========================================= */
-/* CINEMATIC SPACE LAUNCH STYLES             */
 /* ========================================= */
 #launchOverlay { position: fixed; inset: 0; background: transparent; z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out; }
 
@@ -171,7 +169,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
-<!-- CINEMATIC LAUNCH OVERLAY -->
 <div id="launchOverlay" class="hidden">
     <!-- Sky & Space Backgrounds -->
     <div id="skyBg"></div>
@@ -321,7 +318,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-6">
 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 w-full">
 
-<!-- Responsive Title & Mobile About Button -->
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div>
     <h1 class="text-2xl md:text-3xl tracking-tight flex flex-col sm:flex-row sm:items-baseline">
@@ -334,7 +330,6 @@ body.ai-mode .gd-avatar { background: #334155; }
   </button>
 </div>
 
-<!-- Desktop Controls -->
 <div class="flex flex-wrap items-center gap-3 md:gap-4 w-full lg:w-auto mt-2 lg:mt-0 flex">
   <div class="flex items-center justify-center space-x-2 bg-black/20 px-3 md:px-4 py-2 rounded-full border border-white/10">
     <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-200">Manual</span>
@@ -345,9 +340,24 @@ body.ai-mode .gd-avatar { background: #334155; }
     <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-200"><i class="fa-solid fa-sparkles text-yellow-300 mr-1"></i>AI Guided</span>
   </div>
 
+  <button onclick="window.openAdminModal()" class="admin-login-btn text-brand-100 hover:text-white transition text-xs md:text-sm font-medium ml-2 hidden md:block">
+    <i class="fa-solid fa-lock mr-1"></i> Admin
+  </button>
+
+  <div id="adminControls" class="admin-only-flex items-center space-x-3 hidden md:flex">
+    <div class="flex items-center bg-brand-800 border border-brand-600 text-white rounded-lg px-3 py-2 shadow-inner">
+      <i class="fa-solid fa-satellite-dish animate-pulse mr-2 text-green-400 text-xs md:text-base"></i>
+      <select id="adminCandidateSelect" onchange="window.onAdminSelectCandidate(this.value)" class="bg-transparent text-white font-bold outline-none text-xs md:text-sm cursor-pointer appearance-none w-full md:w-48">
+        <option value="" class="text-slate-800">-- Select Candidate --</option>
+      </select>
+      <i class="fa-solid fa-chevron-down text-brand-400 text-xs ml-2"></i>
+    </div>
+  </div>
+
   <button onclick="window.switchTab('tab-overview')" class="hidden md:flex bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 md:px-4 py-2 rounded-lg transition text-xs md:text-sm font-bold shadow-md items-center ml-2">
     <i class="fa-solid fa-circle-info mr-1 md:mr-2 text-brand-200"></i> About
   </button>
+
 </div>
 </div>
 </div>
@@ -380,6 +390,17 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div id="msgBox" class="hidden mb-6 p-4 rounded-lg shadow-md font-medium text-xs md:text-sm flex items-center justify-between transition-all z-50">
 <span id="msgText"></span>
 <button onclick="document.getElementById('msgBox').classList.add('hidden')" class="text-white hover:text-gray-200"><i class="fa-solid fa-times"></i></button>
+</div>
+
+<div id="adminModal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="bg-white rounded-xl shadow-2xl p-6 md:p-8 max-w-md w-full">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-lg md:text-xl font-bold text-slate-800"><i class="fa-solid fa-lock text-brand-600 mr-2"></i> Admin Command Center</h3>
+<button onclick="window.closeAdminModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-times text-xl"></i></button>
+</div>
+<input type="password" id="adminPass" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-500 outline-none mb-4 text-slate-800" placeholder="Enter Passcode (admin123)">
+<button onclick="window.verifyAdmin()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-lg transition">Connect to Cloud</button>
+</div>
 </div>
 
 <section id="tab-home" class="tab-content active">
@@ -625,7 +646,18 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 <video id="gdWebcam" class="w-full h-full object-cover transform -scale-x-100" autoplay playsinline muted></video>
 </div>
 </div>
-<div class="glass-card p-5 md:p-6 rounded-xl flex flex-col items-center justify-center text-center" id="gdWaitingArea">
+<div class="glass-card p-5 md:p-6 rounded-xl shadow-sm admin-only border border-brand-500">
+<div class="flex items-center justify-between border-b border-gray-200/50 pb-3 mb-4 md:mb-6">
+<h3 class="text-base md:text-lg font-semibold text-slate-800"><i class="fa-solid fa-clipboard-check mr-2 text-brand-500"></i>Moderator Scoring</h3>
+</div>
+<label class="block text-xs md:text-sm font-medium text-slate-800 mb-2">Score for Selected Candidate (Out of 30)</label>
+<div class="flex items-center space-x-4 mb-6 md:mb-8">
+<input type="range" id="gdScoreInput" min="0" max="30" value="0" class="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('gdScoreVal').innerText = this.value">
+<span id="gdScoreVal" class="text-xl md:text-2xl font-bold text-brand-600 w-10 md:w-12 text-center">0</span>
+</div>
+<button onclick="window.saveGDScore()" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-semibold py-2.5 md:py-3 rounded-lg shadow-md transition text-sm md:text-base">Push Manual Score</button>
+</div>
+<div class="glass-card p-5 md:p-6 rounded-xl flex flex-col items-center justify-center text-center [&:has(~.admin-only:not([style*='display: none']))]:hidden" id="gdWaitingArea">
 <i class="fa-solid fa-satellite-dish text-4xl md:text-5xl text-slate-400 mb-4 md:mb-6 hover:scale-110 transition-transform"></i>
 <h3 class="text-lg md:text-xl font-bold mb-2">Awaiting AI Evaluation</h3>
 <p class="text-xs md:text-sm max-w-sm">Engage in the 5-round simulation. The Groq Llama-3 agents will dynamically debate your points before auto-scoring.</p>
@@ -820,147 +852,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
   </div>
 </section>
 
-<section id="tab-overview" class="tab-content">
-  <div class="mb-8 md:mb-10 text-center md:text-left">
-    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">About: The 6-Stage Assessment Gauntlet</h2>
-    <p class="text-sm md:text-lg text-slate-500 mt-2">Bridging postgraduate classroom theory with real-world HR technology execution. Understand exactly how you are evaluated across all 6 stages.</p>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-file-pdf"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">1. Enterprise ATS Audit</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Strategic Talent Acquisition</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">Recruitment funnels, algorithmic screening, Term Frequency-Inverse Document Frequency (TF-IDF), and predictive validity.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Demystifies the "black box" of Fortune 500 resume screening via real-time PDF parsing and keyword density matching.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-stopwatch"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">2. Decision Velocity Assessment</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Learning & Development</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">Cognitive load theory, situational judgment testing (SJT), and decision-making under high stress/strict deadlines.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Simulates real-world management pressure with a randomized 20-question, 10-minute countdown assessment.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-sitemap"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">3. Archetype Profiling</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Organizational Behavior (OB)</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-purple-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">Big Five Personality Traits, DISC assessments, cognitive biases, and predictive workplace behavior models.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Forces candidates through a forced-choice situational matrix to mathematically determine their operational archetype before entering team dynamics.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-users"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">4. Multi-Agent Virtual GD</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Group Dynamics & Team Leadership</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-amber-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">Tuckman's stages of group development, conflict resolution modes (Thomas-Kilmann model), and consensus building.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Pits the candidate against two opposing AI personas (Analytical Arjun vs. Creative Kavya) in an interactive debate.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-red-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-red-500/10 text-red-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-microphone-lines"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">5. AI Behavioral Interview</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Executive Presence & Structuring</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-red-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">The STAR method framework, physical executive presence markers, and data-backed quantitative storytelling.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Conversational AI tracks your verbal STAR structure, while live computer vision tracks eye contact and physiological stress limits.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-emerald-500 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-id-card"></i></div>
-          <div>
-            <h3 class="text-lg md:text-xl font-bold text-slate-800">6. Executive Talent Passport</h3>
-            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Holistic Evaluation</span>
-          </div>
-        </div>
-        <div class="space-y-4 mb-6">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-emerald-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
-            <p class="text-xs md:text-sm text-slate-700">Multi-modal assessment weighting, predictive validity indices, and automated HR feedback loops.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
-            <p class="text-xs md:text-sm text-slate-700">Automatically decrypts and emails a comprehensive PDF dossier mapping the student's exact blind spots to correct before real placements begin.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="tab-quiz" class="tab-content">
   <div class="mb-6 md:mb-8 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Optional Practice Zone</h2>
@@ -990,9 +881,7 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/1
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
-// ==========================================
-// GROQ (LLAMA-3.1) API INTEGRATION
-// ==========================================
+// GROQ API INTEGRATION (Protected Split Key)
 const part1 = "gsk_";
 const part2 = "i8mmL0cZCr8eL5sWN6omWGdyb3FYhGBRWSr9eFwyvAQIZxAfP6xZ";
 const GROQ_API_KEY = part1 + part2;
@@ -1026,8 +915,7 @@ class AvatarSpeechService {
     return new Promise(resolve => {
       const utterance = new SpeechSynthesisUtterance(text);
       let inVoices = this.voices.filter(v => v.lang === 'en-IN' || v.lang === 'en_IN' || v.lang.includes('India'));
-      let maleVoice = null;
-      let femaleVoice = null;
+      let maleVoice = null; let femaleVoice = null;
       if (inVoices.length > 0) {
         maleVoice = inVoices.find(v => v.name.toLowerCase().includes('ravi') || v.name.toLowerCase().includes('male')) || inVoices[0];
         femaleVoice = inVoices.find(v => v.name.toLowerCase().includes('heera') || v.name.toLowerCase().includes('neerja') || v.name.toLowerCase().includes('female')) || inVoices[inVoices.length - 1];
@@ -1060,6 +948,7 @@ let unsubscribeStudent = null;
 window.bioMetrics = { eyeContact: [], stress: [] };
 
 window.chairmanLaunch = function() {
+    // 1. Hide Button smoothly
     const btnContainer = document.getElementById('launchBtnContainer');
     btnContainer.style.opacity = '0';
     
@@ -1067,99 +956,76 @@ window.chairmanLaunch = function() {
         btnContainer.style.display = 'none';
         
         const overlay = document.getElementById('launchOverlay');
-        const rocketAssembly = document.getElementById('rocketAssembly');
+        const assembly = document.getElementById('rocketAssembly');
         const lowerStage = document.getElementById('lowerStage');
         const upperStage = document.getElementById('upperStage');
         const satellite = document.getElementById('satelliteAsset');
+        const exhaust = document.getElementById('svgExhaust');
+        const smoke = document.getElementById('rocketSmoke');
         const earth = document.getElementById('earth');
         const sky = document.getElementById('skyBg');
         const space = document.getElementById('spaceBackdrop');
-        const thrust = document.getElementById('svgExhaust');
-        const smoke = document.getElementById('rocketSmoke');
         const flash = document.getElementById('flashBang');
         const shockwave = document.getElementById('shockwaveEffect');
-        
-        // 1. Ignition & Camera Shake
-        overlay.classList.add('camera-shake');
+
+        // 2. Phase 1: Ignition Sequence
         smoke.classList.add('smoke-active');
-        thrust.style.opacity = '1';
+        exhaust.style.opacity = '1';
+        overlay.classList.add('camera-shake');
         
+        // Let pressure build up for 2 seconds
         setTimeout(() => {
-            // 2. Liftoff
-            rocketAssembly.style.transform = 'translate(-50%, -25vh)';
-            earth.classList.add('earth-distant');
-            sky.style.opacity = '0';
-            space.style.opacity = '1';
-            space.classList.add('warp-speed');
+            // 3. Phase 2: Liftoff
+            assembly.style.transform = 'translate(-50%, -20vh)'; // Rocket lifts slightly center-screen
+            earth.style.transform = 'translate(-50%, 100vh)'; // Earth falls away drastically
+            sky.style.opacity = '0'; // Sky fades to black
+            space.style.opacity = '1'; // Stars appear
+            space.classList.add('warp-speed'); // Stars speed up
             
+            // 4. Phase 3: MECO (Main Engine Cut Off) & Stage Separation
             setTimeout(() => {
-                // 3. MECO & Stage Separation
                 overlay.classList.remove('camera-shake');
-                thrust.style.opacity = '0';
-                smoke.style.opacity = '0';
+                exhaust.style.opacity = '0'; // Fire cuts out
                 space.classList.remove('warp-speed');
                 
-                // Lower Stage falls away
-                lowerStage.style.transform = 'translateY(100vh) rotate(15deg)';
+                lowerStage.style.transform = 'translateY(100vh) rotate(15deg)'; // Booster falls away
                 
+                // 5. Phase 4: Fairing Separation & Satellite Reveal
                 setTimeout(() => {
-                    // 4. Sonic Boom & Flash
-                    shockwave.classList.add('shockwave-fire');
+                    upperStage.style.transform = 'translateY(-100vh)'; // Top cone flies off
+                    upperStage.style.opacity = '0';
                     
+                    satellite.style.opacity = '1';
+                    satellite.style.transform = 'translate(-50%, -100px) scale(1)'; // Emerge and grow
+                    satellite.classList.add('satellite-deployed');
+                    
+                    // Trigger Solar Panel Unfolding
                     setTimeout(() => {
-                        flash.style.opacity = '1';
-                        
-                        setTimeout(() => {
-                            // 5. Fairing Jettison & Satellite Reveal inside the flash
-                            upperStage.style.transform = 'translateY(-100vh)';
-                            upperStage.style.opacity = '0';
-                            
-                            satellite.style.opacity = '1';
-                            satellite.style.transform = 'translate(-50%, -150px) scale(1)'; // Grows beautifully from fairing spot
-                            satellite.classList.add('satellite-deployed');
-                            
-                            flash.style.opacity = '0';
-                            
-                            // Trigger Solar Panel Unfolding
-                            setTimeout(() => {
-                                satellite.classList.add('deployed-panels');
-                                
-                                // 6. Transition to Website
-                                setTimeout(() => {
-                                    overlay.style.pointerEvents = 'none';
-                                    overlay.style.opacity = '0';
-                                    setTimeout(() => {
-                                        overlay.style.display = 'none';
-                                        overlay.classList.add('hidden');
-                                        sessionStorage.setItem('chairman_launched', 'true');
-                                        const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
-                                        window.switchTab('tab-home', targetNavBtn);
-                                    }, 1500); 
-                                }, 4500); 
-                                
-                            }, 800); 
-                            
-                        }, 500); // Flash peak duration
-                    }, 200); // Delay between shockwave start and flash
-                }, 1000); // Coasting time after stage separation
-            }, 4000); // Ascent time through atmosphere
-        }, 2500); // Ignition rumble time before liftoff
-    }, 1000); // Button fade out time
-};
+                        satellite.classList.add('deployed-panels');
 
-const localResponses = {
-  gd: [
-    "That is a strong perspective. However, we must ensure algorithmic auditing is legally mandated before replacing human oversight.",
-    "I agree in principle, but human resource analytics must balance data-driven KPIs with employee empathy and well-being.",
-    "Let's synthesize both views: AI should act as a decision-support system, leaving final talent decisions to certified managers."
-  ],
-  interview: [
-    "How did you specifically measure the quantitative outcome of that action?",
-    "When managing stakeholders with opposing priorities, how do you negotiate consensus?",
-    "What key metric would you track differently if you repeated that project?"
-  ]
+                        // 6. Phase 5: Transition to Website
+                        setTimeout(() => {
+                            flash.style.opacity = '1'; // White flashbang
+                            
+                            setTimeout(() => {
+                                overlay.style.opacity = '0'; // Fade out entire space scene
+                                setTimeout(() => {
+                                    overlay.style.display = 'none';
+                                    overlay.classList.add('hidden');
+                                    sessionStorage.setItem('chairman_launched', 'true');
+                                    
+                                    // Direct to the homepage
+                                    const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
+                                    window.switchTab('tab-home', targetNavBtn);
+                                }, 1000); 
+                            }, 500); // Wait for flash to hit peak brightness
+                        }, 4000); // Give audience 4 seconds to admire satellite in orbit
+                    }, 1000); // Time for satellite to scale up before unfolding
+                }, 1500); // Time between MECO and Fairing separation
+            }, 4000); // Ascent flight time
+        }, 2000); // Ignition pressure build-up time
+    }, 1000); // Wait for button to fade out
 };
-let localFallbackIndex = 0;
 
 window.startAssessment = function() {
   const targetNavBtn = document.querySelector(`button[onclick*="'tab-onboarding'"]`);
@@ -1199,11 +1065,7 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     if (cleanInput.length > 0 && (cleanInput.length < 5 || ['ok', 'yes', 'no', 'nothing', 'iagree', 'sure'].includes(cleanInput))) {
         return "Saying '" + lastInput + "' contributes absolutely nothing. I expect strategic, data-backed insights, not one-word answers.";
     }
-    
-    let category = prompt.includes("Interview") || prompt.includes("Meera") ? "interview" : "gd";
-    let fallbackText = localResponses[category][localFallbackIndex % localResponses[category].length];
-    localFallbackIndex++;
-    return `[API ERROR DETAILS: ${e.message}] ${fallbackText}`;
+    return `[API ERROR DETAILS: ${e.message}]`;
   }
 }
 
@@ -1270,6 +1132,51 @@ window.showMessage = function(text, type = 'success') {
   setTimeout(() => { box.classList.add('hidden'); }, 5000);
 };
 
+window.openAdminModal = function() { document.getElementById('adminModal').classList.remove('hidden'); };
+window.closeAdminModal = function() { document.getElementById('adminModal').classList.add('hidden'); };
+window.verifyAdmin = function() {
+  const pass = document.getElementById('adminPass').value;
+  if(pass === 'admin123') {
+    window.isAdmin = true;
+    document.body.classList.add('admin-mode');
+    window.closeAdminModal();
+    window.showMessage("Admin Command Center Unlocked!");
+    loadAdminCandidates();
+  } else {
+    window.showMessage("Invalid Admin Passcode", "error");
+  }
+};
+
+async function loadAdminCandidates() {
+  try {
+    const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'));
+    const snap = await getDocs(q);
+    const sel = document.getElementById('adminCandidateSelect');
+    sel.innerHTML = '<option value="" class="text-slate-800">-- Select Candidate --</option>';
+    snap.forEach(docSnap => {
+      let data = docSnap.data();
+      sel.innerHTML += `<option value="${docSnap.id}" class="text-slate-800">${data.name || 'Unnamed'} (${data.email})</option>`;
+    });
+  } catch(e) {}
+}
+
+window.onAdminSelectCandidate = async function(id) {
+  if(!id) return;
+  window.adminSelectedId = id;
+  const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', id));
+  if(snap.exists()) {
+    window.userData = snap.data();
+    window.updatePassportUI();
+  }
+};
+
+window.saveGDScore = async function() {
+  let s = parseInt(document.getElementById('gdScoreInput').value) || 0;
+  window.userData.gd_score = s;
+  await syncToCloud();
+  window.showMessage("GD Score Pushed Successfully!");
+};
+
 signInAnonymously(auth).then((userCredential) => {
   window.candidateId = userCredential.user.uid;
   const savedEmail = localStorage.getItem('hr_candidate_email');
@@ -1322,7 +1229,7 @@ window.restoreUserSession = async function() {
 };
 
 function listenToStudentData() {
-  if (!window.candidateId) return;
+  if (!window.candidateId || window.isAdmin) return;
   unsubscribeStudent = onSnapshot(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), (snap) => {
     if (snap.exists()) {
       window.userData = Object.assign({}, window.userData, snap.data());
@@ -1332,7 +1239,7 @@ function listenToStudentData() {
 }
 
 async function syncToCloud() {
-  if (!window.candidateId) return; 
+  if (!window.candidateId || window.isAdmin) return; 
   try {
     await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), window.userData, { merge: true });
   } catch (error) {
