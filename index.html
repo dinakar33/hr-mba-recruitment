@@ -188,6 +188,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
+<!-- CINEMATIC LAUNCH OVERLAY -->
 <div id="launchOverlay" class="hidden">
     <!-- Sky & Space Backgrounds -->
     <div id="skyBg"></div>
@@ -214,7 +215,7 @@ body.ai-mode .gd-avatar { background: #334155; }
     </div>
 
     <!-- Multi-Stage Rocket Assembly -->
-    <div id="rocketAssembly" class="absolute bottom-[20vw] left-1/2 transform -translate-x-1/2 flex flex-col items-center z-20 transition-all duration-[5s] cubic-bezier(0.5, 0, 0.1, 1)">
+    <div id="rocketAssembly" class="absolute bottom-[20vw] left-1/2 transform -translate-x-1/2 flex flex-col items-center z-20 transition-all duration-[4s] cubic-bezier(0.5, 0, 0.1, 1)">
         
         <!-- UPPER STAGE (Fairing) -->
         <div id="upperStage" class="relative z-20 transition-all duration-[2.5s] ease-in">
@@ -243,7 +244,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 
         <!-- LOWER STAGE (Boosters & Main Engine) -->
         <div id="lowerStage" class="relative z-10 -mt-1 transition-all duration-[3s] ease-in">
-            <svg viewBox="0 0 120 200" class="w-24 md:w-32 drop-shadow-xl relative z-10">
+            <svg viewBox="0 0 120 200" class="w-24 md:w-32 drop-shadow-xl relative z-10 block m-0">
                 <defs>
                     <linearGradient id="fuselage2" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stop-color="#94a3b8" />
@@ -256,11 +257,6 @@ body.ai-mode .gd-avatar { background: #334155; }
                         <stop offset="50%" stop-color="#475569" />
                         <stop offset="100%" stop-color="#0f172a" />
                     </linearGradient>
-                    <radialGradient id="engineGlow" cx="50%" cy="0%" r="100%">
-                        <stop offset="0%" stop-color="#fef08a" />
-                        <stop offset="40%" stop-color="#f97316" />
-                        <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
-                    </radialGradient>
                 </defs>
                 <!-- Main Body -->
                 <path d="M 30 0 L 90 0 L 90 130 L 30 130 Z" fill="url(#fuselage2)"/>
@@ -270,13 +266,15 @@ body.ai-mode .gd-avatar { background: #334155; }
                 <!-- Booster ring -->
                 <rect x="28" y="130" width="64" height="15" rx="2" fill="url(#darkMetal2)"/>
                 <!-- Main Engine Base -->
+                <!-- Nozzle width is from x=45 to x=75 (width = 30 out of 120, which is 25% of SVG width) -->
                 <path d="M 40 145 L 80 145 L 75 160 L 45 160 Z" fill="#334155"/>
             </svg>
             
-            <!-- Engine Thrust Beam with Mach Diamonds -->
-            <div id="svgExhaust" class="absolute top-[80%] left-1/2 transform -translate-x-1/2 w-8 h-48 bg-gradient-to-b from-white via-yellow-300 to-red-600 opacity-0 transition-opacity duration-300 blur-[2px] rounded-b-full engine-beam z-0">
+            <!-- Engine Thrust Beam with Mach Diamonds - Mathematically aligned to nozzle -->
+            <div id="svgExhaust" class="absolute top-[calc(100%-8px)] left-1/2 transform -translate-x-1/2 w-[25%] h-48 bg-gradient-to-b from-white via-yellow-300 to-red-600 opacity-0 transition-opacity duration-300 blur-[2px] rounded-b-full engine-beam z-0">
                 <div class="absolute inset-0 mach-diamonds rounded-b-full"></div>
             </div>
+            
             <!-- Launch Smoke -->
             <div id="rocketSmoke" class="smoke-cloud"></div>
         </div>
@@ -387,6 +385,11 @@ body.ai-mode .gd-avatar { background: #334155; }
 </div>
 </header>
 
+<div id="global-ai-guide" class="fixed bottom-4 md:bottom-6 right-4 md:right-6 z-50 flex items-center space-x-4 bg-slate-900 text-white p-3 md:p-4 rounded-full shadow-2xl border-2 md:border-4 border-brand-400">
+<div class="text-xs md:text-sm font-bold w-32 md:w-48 text-right hidden sm:block" id="guide-text">Systems initializing...</div>
+<div id="guide-avatar" class="gd-avatar avatar-breathing w-12 h-12 md:w-16 md:h-16"></div>
+</div>
+
 <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 w-full relative">
 <div id="msgBox" class="hidden mb-6 p-4 rounded-lg shadow-md font-medium text-xs md:text-sm flex items-center justify-between transition-all z-50">
 <span id="msgText"></span>
@@ -462,7 +465,6 @@ body.ai-mode .gd-avatar { background: #334155; }
   </div>
 </section>
 
-<!-- ... Core Setup Tabs ... -->
 <section id="tab-onboarding" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
@@ -495,7 +497,6 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
-<!-- ... ATS, Test, Archetype Tabs ... -->
 <section id="tab-ats" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 1: Enterprise ATS Audit (TF-IDF)</h2>
@@ -706,7 +707,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
-<!-- ... Remaining Informational Tabs ... -->
 <section id="tab-passport" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
@@ -1083,15 +1083,15 @@ window.chairmanLaunch = function() {
         const overlay = document.getElementById('launchOverlay');
         const rocketAssembly = document.getElementById('rocketAssembly');
         const lowerStage = document.getElementById('lowerStage');
-        const fairing = document.getElementById('upperStage');
+        const upperStage = document.getElementById('upperStage');
         const satellite = document.getElementById('satelliteAsset');
         const earth = document.getElementById('earth');
         const sky = document.getElementById('skyBg');
         const space = document.getElementById('spaceBackdrop');
         const thrust = document.getElementById('svgExhaust');
         const smoke = document.getElementById('rocketSmoke');
-        const shockwave = document.getElementById('shockwaveEffect');
         const flash = document.getElementById('flashBang');
+        const shockwave = document.getElementById('shockwaveEffect');
         
         // 1. Ignition & Camera Shake
         overlay.classList.add('camera-shake');
@@ -1100,21 +1100,20 @@ window.chairmanLaunch = function() {
         
         setTimeout(() => {
             // 2. Liftoff & Climb
-            rocketAssembly.style.bottom = '35%'; // Rocket climbs up screen
+            rocketAssembly.style.transform = 'translate(-50%, -40vh)'; // Rocket climbs up
             earth.classList.add('earth-distant'); // Earth shrinks away
-            sky.style.opacity = '0';
-            space.style.opacity = '1';
-            space.classList.add('warp-speed');
+            sky.style.opacity = '0'; // Sky fades
+            space.style.opacity = '1'; // Space appears
+            space.classList.add('warp-speed'); // Stars blur
             
             setTimeout(() => {
-                // 3. MECO (Main Engine Cut Off) & Space Transition
-                overlay.classList.remove('camera-shake'); // Smooth space flight
-                thrust.style.opacity = '0';
+                // 3. MECO & Stage Separation
+                overlay.classList.remove('camera-shake'); // Smooth ride now
+                thrust.style.opacity = '0'; // Engine cuts
                 smoke.style.opacity = '0';
                 
-                // Lower Stage separation
-                lowerStage.style.transform = 'translateY(150vh) rotate(15deg)';
-                lowerStage.style.opacity = '0';
+                // Lower Stage falls away back to earth
+                lowerStage.style.transform = 'translateY(100vh) rotate(10deg)';
                 
                 setTimeout(() => {
                     // 4. Sonic Boom & Flash
@@ -1124,36 +1123,42 @@ window.chairmanLaunch = function() {
                         flash.style.opacity = '1';
                         
                         setTimeout(() => {
-                            // 5. Fairing Jettison & Satellite Reveal
-                            rocketAssembly.style.display = 'none'; // Hide empty rocket wrapper
+                            // 5. Fairing Jettison & Satellite Reveal inside the flash
+                            upperStage.style.transform = 'translateY(-100vh)'; // Fairing shoots away
+                            upperStage.style.opacity = '0';
+                            
+                            satellite.style.opacity = '1';
+                            satellite.style.transform = 'translate(-50%, -50%) scale(1)'; // Satellite pops in
+                            satellite.classList.add('satellite-deployed'); // Starts floating
+                            
                             flash.style.opacity = '0';
                             space.classList.remove('warp-speed');
-                            
-                            // Make Satellite visible and trigger CSS orbit
-                            overlay.classList.add('deployed'); 
                             
                             // Trigger Solar Panel Unfolding
                             setTimeout(() => {
                                 satellite.classList.add('deployed-panels');
-                            }, 500);
-
-                            // 6. Transition to Website
-                            setTimeout(() => {
-                                overlay.style.opacity = '0';
+                                
+                                // 6. Transition to Website
                                 setTimeout(() => {
-                                    overlay.style.display = 'none';
-                                    overlay.classList.add('hidden');
-                                    sessionStorage.setItem('chairman_launched', 'true');
-                                    const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
-                                    window.switchTab('tab-home', targetNavBtn);
-                                }, 1500);
-                            }, 5000); // 5 seconds to admire deployed satellite
+                                    overlay.style.pointerEvents = 'none'; // CRITICAL: Stop blocking clicks while fading
+                                    overlay.style.opacity = '0';
+                                    setTimeout(() => {
+                                        overlay.style.display = 'none';
+                                        overlay.classList.add('hidden');
+                                        rocketAssembly.style.display = 'none'; // cleanup
+                                        sessionStorage.setItem('chairman_launched', 'true');
+                                        const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
+                                        window.switchTab('tab-home', targetNavBtn);
+                                    }, 1500); // Wait for opacity transition
+                                }, 5000); // Admire satellite time
+                                
+                            }, 500); // Panel unfold delay
                             
                         }, 500); // Flash peak duration
                     }, 200); // Delay between shockwave start and flash
-                }, 1500); // Flight time after MECO before Boom
-            }, 4000); // Ascent time through atmosphere
-        }, 3000); // Ignition rumble time before liftoff
+                }, 1000); // Coasting time after stage separation
+            }, 3000); // Ascent time through atmosphere
+        }, 2500); // Ignition rumble time before liftoff
     }, 1000); // Button fade out time
 };
 
@@ -1195,7 +1200,7 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     if (cleanInput.length > 0 && (cleanInput.length < 5 || ['ok', 'yes', 'no', 'nothing', 'iagree', 'sure'].includes(cleanInput))) {
         return "Saying '" + lastInput + "' contributes absolutely nothing. I expect strategic, data-backed insights, not one-word answers.";
     }
-    return `[SYSTEM ERROR: ${e.message}]`;
+    return `[API ERROR DETAILS: ${e.message}]`;
   }
 }
 
