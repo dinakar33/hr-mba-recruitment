@@ -111,25 +111,49 @@ body.ai-mode .gd-avatar { background: #334155; }
 }
 .hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
 
-/* Cinematic Space Launch Styles */
-#launchOverlay { position: fixed; inset: 0; background: #020617; z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out; }
+/* ========================================= */
+/* CINEMATIC SPACE LAUNCH STYLES             */
+/* ========================================= */
+#launchOverlay { position: fixed; inset: 0; background: transparent; z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out; }
 
-.space-backdrop { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
+/* Sky to Space Transitions */
+#skyBg { position: absolute; inset: 0; background: linear-gradient(to top, #7dd3fc, #2563eb); transition: opacity 4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 0; }
+.space-backdrop { position: absolute; inset: 0; background: #020617; overflow: hidden; z-index: 1; opacity: 0; transition: opacity 4s cubic-bezier(0.4, 0, 0.2, 1); }
+
 .nebula { position: absolute; inset: 0; background: radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.4) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.4) 0%, transparent 40%); filter: blur(60px); animation: nebula-drift 20s infinite alternate ease-in-out; }
 @keyframes nebula-drift { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
 
-/* Parallax Star Layers generated via box-shadow for ultra-high performance */
+/* Parallax Stars */
 .star-layer-1 { position: absolute; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; animation: star-drift-up 60s linear infinite; }
 .star-layer-1::after { content: ''; position: absolute; top: 100vh; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; }
-
 .star-layer-2 { position: absolute; width: 3px; height: 3px; background: transparent; box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd; border-radius: 50%; animation: star-drift-up 40s linear infinite; opacity: 0.8; filter: blur(1px); }
 .star-layer-2::after { content: ''; position: absolute; top: 100vh; width: 3px; height: 3px; background: transparent; box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd; border-radius: 50%; filter: blur(1px); }
-
 @keyframes star-drift-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100vh); } }
-.warp-speed .star-layer-1, .warp-speed .star-layer-2 { animation-duration: 2s; } /* Triggered during liftoff */
+.warp-speed .star-layer-1, .warp-speed .star-layer-2 { animation-duration: 1.5s; } 
 
-/* Rocket Physics Styles */
-.rocket-wrapper { position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); z-index: 10; transition: transform 2.5s cubic-bezier(0.5, 0, 0.1, 1); will-change: transform; }
+/* Earth Mechanics */
+.earth-base {
+    position: absolute;
+    bottom: -280vw;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300vw;
+    height: 300vw;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 5%, #60a5fa 0%, #1e3a8a 30%, #020617 80%);
+    box-shadow: 0 -5px 60px rgba(96, 165, 250, 0.4), inset 0 20px 80px rgba(255,255,255,0.2);
+    transition: all 5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+}
+.earth-distant {
+    bottom: -60vw;
+    width: 80vw;
+    height: 80vw;
+    background: radial-gradient(circle at 50% 15%, #3b82f6 0%, #1e3a8a 50%, #020617 90%);
+    box-shadow: 0 -5px 50px rgba(59, 130, 246, 0.8), inset 0 10px 40px rgba(255,255,255,0.4);
+}
+
+/* Rocket Mechanics */
 .rocket-shake-intense { animation: shake-intense 0.05s infinite; }
 @keyframes shake-intense { 
     0% { transform: translateX(-50%) translate(3px, 3px); } 
@@ -139,91 +163,122 @@ body.ai-mode .gd-avatar { background: #334155; }
     100% { transform: translateX(-50%) translate(3px, 3px); } 
 }
 
-.rocket-liftoff { transform: translateX(-50%) translateY(-150vh); }
-
 .engine-beam { transform-origin: top center; animation: engine-flicker 0.05s infinite alternate; }
 @keyframes engine-flicker { 0% { transform: scaleY(0.9); opacity: 0.8; filter: drop-shadow(0 0 10px #f97316); } 100% { transform: scaleY(1.3); opacity: 1; filter: drop-shadow(0 0 30px #ef4444); } }
 
-.smoke-cloud { position: absolute; bottom: -60px; left: 50%; width: 250px; height: 100px; background: radial-gradient(ellipse, rgba(203,213,225,0.9) 0%, rgba(148,163,184,0) 70%); filter: blur(25px); opacity: 0; transform: translateX(-50%) scale(0.5); transition: all 3s ease-out; pointer-events: none; z-index: 10; }
-.smoke-active { opacity: 1; transform: translateX(-50%) scale(4); }
+.smoke-cloud { position: absolute; top: 100%; left: 50%; width: 300px; height: 150px; background: radial-gradient(ellipse, rgba(255,255,255,0.9) 0%, rgba(203,213,225,0) 70%); filter: blur(20px); opacity: 0; transform: translateX(-50%) scale(0.5); transition: all 3s ease-out; pointer-events: none; z-index: 10; }
+.smoke-active { opacity: 1; transform: translateX(-50%) scale(5); }
 
-.shockwave { position: absolute; top: 50%; left: 50%; width: 10px; height: 10px; border-radius: 50%; background: #fff; box-shadow: 0 0 100px 50px #38bdf8, 0 0 300px 150px #fff; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 15; pointer-events: none; }
-.shockwave-fire { animation: sonic-boom 1.2s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
-@keyframes sonic-boom { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 40% { opacity: 1; } 100% { transform: translate(-50%, -50%) scale(400); opacity: 0; } }
+/* Orbit Mechanics */
+.satellite-deployed {
+    opacity: 1 !important;
+    animation: majesticFloat 6s ease-in-out infinite alternate;
+}
+@keyframes majesticFloat {
+    0% { transform: translate(-50%, -50%) scale(1) rotate(-5deg); }
+    100% { transform: translate(-50%, -60%) scale(1) rotate(5deg); }
+}
 
-.flash-bang { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.8s ease-out; z-index: 10000; }
-
-.satellite-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5); opacity: 0; transition: all 3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10; pointer-events: none; }
-.deployed .satellite-container { transform: translate(-50%, -50%) scale(1); opacity: 1; animation: orbitFloat 6s infinite alternate ease-in-out 3s; }
-@keyframes orbitFloat { 0% { transform: translate(-50%, -50%) scale(1) rotate(-2deg); } 100% { transform: translate(-50%, -55%) scale(1) rotate(2deg); } }
 </style>
 </head>
 
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
 <div id="launchOverlay" class="hidden">
-    <!-- Cinematic Deep Space Background -->
+    <!-- Sky & Space Backgrounds -->
+    <div id="skyBg"></div>
     <div class="space-backdrop" id="spaceBackdrop">
         <div class="nebula"></div>
         <div class="star-layer-1"></div>
         <div class="star-layer-2"></div>
     </div>
     
-    <!-- White Flash / Sonic Boom -->
-    <div class="shockwave" id="shockwaveEffect"></div>
-    <div class="flash-bang" id="flashBang"></div>
+    <!-- Curved Earth Horizon -->
+    <div id="earth" class="earth-base"></div>
 
     <!-- UI / Text overlay -->
-    <div id="launchBtnContainer" class="relative z-20 text-center flex flex-col items-center transition-opacity duration-1000">
+    <div id="launchBtnContainer" class="relative z-30 text-center flex flex-col items-center transition-opacity duration-1000 mt-[-20vh]">
         <div class="w-24 h-24 bg-brand-900 rounded-full flex items-center justify-center text-5xl mb-6 shadow-[0_0_40px_rgba(37,99,235,0.6)] border-4 border-brand-500 animate-pulse text-white">
             <i class="fa-solid fa-power-off"></i>
         </div>
         <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-purple-400">HUMAN ASSETIZE</h1>
-        <p class="text-slate-400 uppercase tracking-widest text-sm font-bold mb-10">Awaiting Executive Authorization</p>
+        <p class="text-slate-200 uppercase tracking-widest text-sm font-bold mb-10">Awaiting Executive Authorization</p>
         <button onclick="window.chairmanLaunch()" class="group relative px-10 py-5 bg-gradient-to-r from-red-600 to-red-800 rounded-full text-white font-black text-xl md:text-2xl uppercase tracking-widest shadow-[0_0_30px_rgba(220,38,38,0.6)] hover:shadow-[0_0_60px_rgba(220,38,38,0.9)] transition-all hover:-translate-y-1 overflow-hidden border-2 border-red-400">
             <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
             Initiate Launch Sequence
         </button>
     </div>
 
-    <!-- Premium Rocket Asset -->
-    <div id="rocketAsset" class="rocket-wrapper">
-        <div id="rocketSmoke" class="smoke-cloud"></div>
-        <svg viewBox="0 0 120 350" class="w-32 md:w-48 drop-shadow-[0_0_20px_rgba(148,163,184,0.3)] relative z-20">
-            <defs>
-                <linearGradient id="fuselage" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#94a3b8" />
-                    <stop offset="30%" stop-color="#f8fafc" />
-                    <stop offset="70%" stop-color="#e2e8f0" />
-                    <stop offset="100%" stop-color="#64748b" />
-                </linearGradient>
-                <linearGradient id="darkMetal" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#1e293b" />
-                    <stop offset="50%" stop-color="#475569" />
-                    <stop offset="100%" stop-color="#0f172a" />
-                </linearGradient>
-                <radialGradient id="engineGlow" cx="50%" cy="0%" r="100%">
-                    <stop offset="0%" stop-color="#fef08a" />
-                    <stop offset="40%" stop-color="#f97316" />
-                    <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
-                </radialGradient>
-            </defs>
-            <path d="M 30 220 C 5 250, 5 280, 5 300 L 30 280 Z" fill="url(#darkMetal)"/>
-            <path d="M 90 220 C 115 250, 115 280, 115 300 L 90 280 Z" fill="url(#darkMetal)"/>
-            <path d="M 60 10 C 80 40, 90 100, 90 280 L 30 280 C 30 100, 40 40, 60 10 Z" fill="url(#fuselage)"/>
-            <path d="M 60 10 C 65 20, 68 30, 70 40 L 50 40 C 52 30, 55 20, 60 10 Z" fill="url(#darkMetal)"/>
-            <rect x="28" y="280" width="64" height="15" rx="2" fill="url(#darkMetal)"/>
-            <path d="M 40 295 L 80 295 L 75 310 L 45 310 Z" fill="#334155"/>
-            <path id="svgExhaust" d="M 45 310 L 75 310 L 60 450 Z" fill="url(#engineGlow)" class="engine-beam" style="opacity: 0;"/>
-            <line x1="60" y1="50" x2="60" y2="250" stroke="#cbd5e1" stroke-width="1" opacity="0.5"/>
-            <circle cx="60" cy="90" r="10" fill="#020617" stroke="#38bdf8" stroke-width="2"/>
-            <circle cx="60" cy="90" r="6" fill="#38bdf8" class="animate-pulse" filter="blur(2px)"/>
-        </svg>
+    <!-- Multi-Stage Rocket Assembly -->
+    <div id="rocketAssembly" class="absolute bottom-[20vw] left-1/2 transform -translate-x-1/2 flex flex-col items-center z-20 transition-all duration-[4s] cubic-bezier(0.5, 0, 0.1, 1)">
+        
+        <!-- UPPER STAGE (Fairing) -->
+        <div id="upperStage" class="relative z-20 transition-all duration-[2s] ease-in">
+            <svg viewBox="0 0 120 150" class="w-24 md:w-32 drop-shadow-xl relative z-20">
+                <defs>
+                    <linearGradient id="fuselage" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#94a3b8" />
+                        <stop offset="30%" stop-color="#f8fafc" />
+                        <stop offset="70%" stop-color="#e2e8f0" />
+                        <stop offset="100%" stop-color="#64748b" />
+                    </linearGradient>
+                    <linearGradient id="darkMetal" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#1e293b" />
+                        <stop offset="50%" stop-color="#475569" />
+                        <stop offset="100%" stop-color="#0f172a" />
+                    </linearGradient>
+                </defs>
+                <!-- Nose + Payload Hull -->
+                <path d="M 60 10 C 80 40, 90 80, 90 150 L 30 150 C 30 80, 40 40, 60 10 Z" fill="url(#fuselage)"/>
+                <path d="M 60 10 C 65 20, 68 30, 70 40 L 50 40 C 52 30, 55 20, 60 10 Z" fill="url(#darkMetal)"/>
+                <circle cx="60" cy="90" r="10" fill="#020617" stroke="#38bdf8" stroke-width="2"/>
+                <circle cx="60" cy="90" r="6" fill="#38bdf8" class="animate-pulse" filter="blur(2px)"/>
+                <line x1="60" y1="50" x2="60" y2="150" stroke="#cbd5e1" stroke-width="1" opacity="0.5"/>
+            </svg>
+        </div>
+
+        <!-- LOWER STAGE (Boosters & Main Engine) -->
+        <div id="lowerStage" class="relative z-10 -mt-1 transition-all duration-[2s] ease-in">
+            <svg viewBox="0 0 120 200" class="w-24 md:w-32 drop-shadow-xl relative z-10">
+                <defs>
+                    <linearGradient id="fuselage2" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#94a3b8" />
+                        <stop offset="30%" stop-color="#f8fafc" />
+                        <stop offset="70%" stop-color="#e2e8f0" />
+                        <stop offset="100%" stop-color="#64748b" />
+                    </linearGradient>
+                    <linearGradient id="darkMetal2" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#1e293b" />
+                        <stop offset="50%" stop-color="#475569" />
+                        <stop offset="100%" stop-color="#0f172a" />
+                    </linearGradient>
+                    <radialGradient id="engineGlow" cx="50%" cy="0%" r="100%">
+                        <stop offset="0%" stop-color="#fef08a" />
+                        <stop offset="40%" stop-color="#f97316" />
+                        <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
+                    </radialGradient>
+                </defs>
+                <!-- Main Body -->
+                <path d="M 30 0 L 90 0 L 90 130 L 30 130 Z" fill="url(#fuselage2)"/>
+                <!-- Fins -->
+                <path d="M 30 70 C 5 100, 5 130, 5 150 L 30 130 Z" fill="url(#darkMetal2)"/>
+                <path d="M 90 70 C 115 100, 115 130, 115 150 L 90 130 Z" fill="url(#darkMetal2)"/>
+                <!-- Booster ring -->
+                <rect x="28" y="130" width="64" height="15" rx="2" fill="url(#darkMetal2)"/>
+                <!-- Main Engine Base -->
+                <path d="M 40 145 L 80 145 L 75 160 L 45 160 Z" fill="#334155"/>
+                <!-- Engine Thrust Beam -->
+                <path id="svgExhaust" d="M 45 160 L 75 160 L 60 300 Z" fill="url(#engineGlow)" class="engine-beam" style="opacity: 0;"/>
+                <line x1="60" y1="0" x2="60" y2="100" stroke="#cbd5e1" stroke-width="1" opacity="0.5"/>
+            </svg>
+            <!-- Launch Smoke -->
+            <div id="rocketSmoke" class="smoke-cloud"></div>
+        </div>
     </div>
 
-    <!-- Premium Satellite Asset -->
-    <div class="satellite-container flex flex-col items-center text-center">
-        <svg viewBox="0 0 400 300" class="w-72 md:w-96 drop-shadow-[0_0_50px_rgba(59,130,246,0.6)]">
+    <!-- Hidden Payload Satellite (Revealed in Orbit) -->
+    <div id="satelliteAsset" class="absolute top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 scale-50 opacity-0 z-30 transition-all duration-[2s] ease-out pointer-events-none flex flex-col items-center">
+        <svg viewBox="0 0 400 300" class="w-72 md:w-96 drop-shadow-[0_0_50px_rgba(59,130,246,0.8)]">
             <defs>
                 <linearGradient id="solarPanel" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stop-color="#1e3a8a" />
@@ -263,8 +318,8 @@ body.ai-mode .gd-avatar { background: #334155; }
             <circle cx="200" cy="150" r="20" fill="#0f172a" stroke="#38bdf8" stroke-width="3"/>
             <circle cx="200" cy="150" r="10" fill="#38bdf8" filter="blur(4px)" class="animate-ping"/>
         </svg>
-        <h2 class="text-white text-3xl md:text-5xl font-black mt-8 tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-200">Systems Online</h2>
-        <p class="text-cyan-400 font-mono mt-3 tracking-widest bg-cyan-900/30 px-4 py-1 rounded-full border border-cyan-500/30">Deploying Executive Mainframe...</p>
+        <h2 class="text-white text-3xl md:text-5xl font-black mt-8 tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-200">Orbit Established</h2>
+        <p class="text-cyan-400 font-mono mt-3 tracking-widest bg-cyan-900/30 px-4 py-1 rounded-full border border-cyan-500/30">System Handover Complete</p>
     </div>
 </div>
 
@@ -1011,7 +1066,6 @@ let unsubscribeStudent = null;
 window.bioMetrics = { eyeContact: [], stress: [] };
 
 window.chairmanLaunch = function() {
-    // 1. Hide Button smoothly
     const btnContainer = document.getElementById('launchBtnContainer');
     btnContainer.style.opacity = '0';
     
@@ -1019,62 +1073,69 @@ window.chairmanLaunch = function() {
         btnContainer.style.display = 'none';
         
         const overlay = document.getElementById('launchOverlay');
-        const rocket = document.getElementById('rocketAsset');
+        const rocketAssembly = document.getElementById('rocketAssembly');
+        const lowerStage = document.getElementById('lowerStage');
+        const upperStage = document.getElementById('upperStage');
+        const satellite = document.getElementById('satelliteAsset');
+        const earth = document.getElementById('earth');
+        const sky = document.getElementById('skyBg');
+        const space = document.getElementById('spaceBackdrop');
+        const thrust = document.getElementById('svgExhaust');
         const smoke = document.getElementById('rocketSmoke');
-        const engine = document.getElementById('svgExhaust');
-        const shockwave = document.getElementById('shockwaveEffect');
-        const flash = document.getElementById('flashBang');
-        const backdrop = document.getElementById('spaceBackdrop');
         
-        // 2. Phase 1: Ignition Sequence
+        // 1. Ignition (Fire and Smoke)
+        rocketAssembly.classList.add('rocket-shake-intense');
+        thrust.style.opacity = '1';
         smoke.classList.add('smoke-active');
-        engine.style.opacity = '1';
-        rocket.classList.add('rocket-shake-intense');
         
-        // Let pressure build up for 2.5 seconds
         setTimeout(() => {
+            // 2. Liftoff & Sky to Space Transition
+            rocketAssembly.classList.remove('rocket-shake-intense');
             
-            // 3. Phase 2: Liftoff
-            backdrop.classList.add('warp-speed');
-            rocket.classList.remove('rocket-shake-intense'); // Stop shaking, fly straight
-            rocket.classList.add('rocket-liftoff'); // Launch!
+            // Move rocket to center screen
+            rocketAssembly.style.bottom = '45%';
             
-            // 4. Phase 3: Sonic Boom Mid-Flight
+            // Earth shrinks and moves down to simulate massive altitude
+            earth.classList.add('earth-distant');
+            
+            // Sky fades, Deep Space appears
+            sky.style.opacity = '0';
+            space.style.opacity = '1';
+            space.classList.add('warp-speed');
+            
             setTimeout(() => {
-                shockwave.classList.add('shockwave-fire');
+                // 3. Stage Separation (Engines cut and drop away)
+                thrust.style.opacity = '0';
+                smoke.style.opacity = '0';
+                lowerStage.style.transform = 'translateY(100vh) rotate(15deg)';
+                lowerStage.style.opacity = '0';
                 
-                // Flashbang hits a fraction of a second later
                 setTimeout(() => {
-                    flash.style.opacity = '1';
+                    // 4. Satellite Deployment (Fairing pushes forward and fades)
+                    upperStage.style.transform = 'translateY(-50vh) scale(0.5)';
+                    upperStage.style.opacity = '0';
                     
-                    // 5. Phase 4: Orbital Deployment
+                    // Golden Satellite reveals and starts orbiting
+                    satellite.classList.add('satellite-deployed');
+                    space.classList.remove('warp-speed'); // Calm space down
+                    
                     setTimeout(() => {
-                        rocket.style.display = 'none'; // Rocket vanishes
-                        flash.style.opacity = '0'; // Fade out flash
-                        backdrop.classList.remove('warp-speed'); // Stop warp speed stars
-                        
-                        overlay.classList.add('deployed'); // Bring in the satellite
-                        
-                        // 6. Phase 5: Enter the Website
+                        // 5. Fade to Website
+                        overlay.style.opacity = '0';
                         setTimeout(() => {
-                            overlay.style.opacity = '0'; // Fade the entire overlay to reveal the site
+                            overlay.style.display = 'none';
+                            overlay.classList.add('hidden');
+                            sessionStorage.setItem('chairman_launched', 'true');
                             
-                            setTimeout(() => {
-                                overlay.style.display = 'none';
-                                overlay.classList.add('hidden');
-                                sessionStorage.setItem('chairman_launched', 'true');
-                                
-                                // Direct to the homepage
-                                const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
-                                window.switchTab('tab-home', targetNavBtn);
-                            }, 1500);
-                            
-                        }, 4500); // Give the audience 4.5 seconds to admire the satellite
+                            // Navigate strictly to Home page
+                            const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
+                            window.switchTab('tab-home', targetNavBtn);
+                        }, 1500);
                         
-                    }, 500); // Wait for flash to hit peak brightness
-                }, 200); // Delay between shockwave start and flash
-            }, 1200); // Flight time before breaking sound barrier
-        }, 2500); // Ignition pressure build-up time
+                    }, 4000); // Admire satellite in orbit for 4 seconds
+                }, 1500); // Wait 1.5s after stage separation
+            }, 3500); // Wait 3.5s for liftoff climb
+        }, 2500); // 2.5s ignition sequence
     }, 1000); // Wait for button to fade out
 };
 
@@ -1118,10 +1179,13 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     });
 
     const result = await response.json();
-    if (!response.ok) throw new Error(result.error?.message || 'API Error');
+    if (!response.ok) {
+       console.error("Groq API Error Details:", result);
+       throw new Error(result.error?.message || 'API Error');
+    }
     return result.choices[0].message.content.replace(/\*/g, '').trim();
   } catch (e) {
-    console.warn("API Error:", e.message);
+    console.warn("API Error intercepted:", e.message);
     
     let lastInputMatch = prompt.match(/Candidate:\s*(.*)/g);
     let lastInput = lastInputMatch ? lastInputMatch[lastInputMatch.length - 1].replace('Candidate:', '').trim() : "";
@@ -1130,7 +1194,7 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     if (cleanInput.length > 0 && (cleanInput.length < 5 || ['ok', 'yes', 'no', 'nothing', 'iagree', 'sure'].includes(cleanInput))) {
         return "Saying '" + lastInput + "' contributes absolutely nothing. I expect strategic, data-backed insights, not one-word answers.";
     }
-    return `[SYSTEM ERROR: ${e.message}]`;
+    return `[API ERROR DETAILS: ${e.message}]`;
   }
 }
 
