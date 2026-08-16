@@ -111,27 +111,70 @@ body.ai-mode .gd-avatar { background: #334155; }
 }
 .hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
 
-#launchOverlay { position: fixed; inset: 0; background: radial-gradient(circle, #1e293b 0%, #020617 100%); z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out; }
-.stars-bg { position: absolute; inset: 0; background-image: radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 50px 160px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 130px 80px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 160px 120px, #ffffff, rgba(0,0,0,0)); background-repeat: repeat; background-size: 200px 200px; animation: twinkle 4s infinite; opacity: 0.5; }
-@keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
-.rocket-container { position: absolute; bottom: -150px; transition: transform 2s cubic-bezier(0.5, 0, 0.2, 1); z-index: 10; }
-.rocket-shake { animation: shake 0.5s infinite; }
-@keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-3px) rotate(-1deg); } 50% { transform: translateX(0); } 75% { transform: translateX(3px) rotate(1deg); } 100% { transform: translateX(0); } }
-.satellite-container { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) scale(0); opacity: 0; transition: all 2s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10; filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.8)); }
-.launching .rocket-container { transform: translateY(-150vh); }
-.deployed .satellite-container { transform: translate(-50%, -50%) scale(1.2); opacity: 1; animation: orbitFloat 4s infinite alternate ease-in-out; }
-@keyframes orbitFloat { 0% { transform: translate(-50%, -50%) scale(1.2) rotate(-5deg); } 100% { transform: translate(-50%, -55%) scale(1.2) rotate(5deg); } }
-.flash-bang { position: absolute; inset: 0; background: white; opacity: 0; pointer-events: none; transition: opacity 0.2s ease-out; z-index: 10000; }
+/* Cinematic Space Launch Styles */
+#launchOverlay { position: fixed; inset: 0; background: #020617; z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out; }
+
+.space-backdrop { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
+.nebula { position: absolute; inset: 0; background: radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.4) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.4) 0%, transparent 40%); filter: blur(60px); animation: nebula-drift 20s infinite alternate ease-in-out; }
+@keyframes nebula-drift { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
+
+/* Parallax Star Layers generated via box-shadow for ultra-high performance */
+.star-layer-1 { position: absolute; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; animation: star-drift-up 60s linear infinite; }
+.star-layer-1::after { content: ''; position: absolute; top: 100vh; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; }
+
+.star-layer-2 { position: absolute; width: 3px; height: 3px; background: transparent; box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd; border-radius: 50%; animation: star-drift-up 40s linear infinite; opacity: 0.8; filter: blur(1px); }
+.star-layer-2::after { content: ''; position: absolute; top: 100vh; width: 3px; height: 3px; background: transparent; box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd; border-radius: 50%; filter: blur(1px); }
+
+@keyframes star-drift-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100vh); } }
+.warp-speed .star-layer-1, .warp-speed .star-layer-2 { animation-duration: 2s; } /* Triggered during liftoff */
+
+/* Rocket Physics Styles */
+.rocket-wrapper { position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); z-index: 10; transition: transform 2.5s cubic-bezier(0.5, 0, 0.1, 1); will-change: transform; }
+.rocket-shake-intense { animation: shake-intense 0.05s infinite; }
+@keyframes shake-intense { 
+    0% { transform: translateX(-50%) translate(3px, 3px); } 
+    25% { transform: translateX(-50%) translate(-3px, -3px); } 
+    50% { transform: translateX(-50%) translate(-3px, 3px); } 
+    75% { transform: translateX(-50%) translate(3px, -3px); } 
+    100% { transform: translateX(-50%) translate(3px, 3px); } 
+}
+
+.rocket-liftoff { transform: translateX(-50%) translateY(-150vh); }
+
+.engine-beam { transform-origin: top center; animation: engine-flicker 0.05s infinite alternate; }
+@keyframes engine-flicker { 0% { transform: scaleY(0.9); opacity: 0.8; filter: drop-shadow(0 0 10px #f97316); } 100% { transform: scaleY(1.3); opacity: 1; filter: drop-shadow(0 0 30px #ef4444); } }
+
+.smoke-cloud { position: absolute; bottom: -60px; left: 50%; width: 250px; height: 100px; background: radial-gradient(ellipse, rgba(203,213,225,0.9) 0%, rgba(148,163,184,0) 70%); filter: blur(25px); opacity: 0; transform: translateX(-50%) scale(0.5); transition: all 3s ease-out; pointer-events: none; z-index: 10; }
+.smoke-active { opacity: 1; transform: translateX(-50%) scale(4); }
+
+.shockwave { position: absolute; top: 50%; left: 50%; width: 10px; height: 10px; border-radius: 50%; background: #fff; box-shadow: 0 0 100px 50px #38bdf8, 0 0 300px 150px #fff; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 15; pointer-events: none; }
+.shockwave-fire { animation: sonic-boom 1.2s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
+@keyframes sonic-boom { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 40% { opacity: 1; } 100% { transform: translate(-50%, -50%) scale(400); opacity: 0; } }
+
+.flash-bang { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.8s ease-out; z-index: 10000; }
+
+.satellite-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5); opacity: 0; transition: all 3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10; pointer-events: none; }
+.deployed .satellite-container { transform: translate(-50%, -50%) scale(1); opacity: 1; animation: orbitFloat 6s infinite alternate ease-in-out 3s; }
+@keyframes orbitFloat { 0% { transform: translate(-50%, -50%) scale(1) rotate(-2deg); } 100% { transform: translate(-50%, -55%) scale(1) rotate(2deg); } }
 </style>
 </head>
 
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
 <div id="launchOverlay" class="hidden">
-    <div class="stars-bg"></div>
-    <div class="flash-bang" id="flashBang"></div>
+    <!-- Cinematic Deep Space Background -->
+    <div class="space-backdrop" id="spaceBackdrop">
+        <div class="nebula"></div>
+        <div class="star-layer-1"></div>
+        <div class="star-layer-2"></div>
+    </div>
     
-    <div id="launchBtnContainer" class="relative z-20 text-center flex flex-col items-center">
+    <!-- White Flash / Sonic Boom -->
+    <div class="shockwave" id="shockwaveEffect"></div>
+    <div class="flash-bang" id="flashBang"></div>
+
+    <!-- UI / Text overlay -->
+    <div id="launchBtnContainer" class="relative z-20 text-center flex flex-col items-center transition-opacity duration-1000">
         <div class="w-24 h-24 bg-brand-900 rounded-full flex items-center justify-center text-5xl mb-6 shadow-[0_0_40px_rgba(37,99,235,0.6)] border-4 border-brand-500 animate-pulse text-white">
             <i class="fa-solid fa-power-off"></i>
         </div>
@@ -143,15 +186,100 @@ body.ai-mode .gd-avatar { background: #334155; }
         </button>
     </div>
 
-    <div id="rocketAsset" class="rocket-container">
-        <i class="fa-solid fa-rocket text-8xl text-white transform -rotate-45 drop-shadow-[0_20px_20px_rgba(239,68,68,0.8)]"></i>
-        <div class="w-10 h-32 bg-gradient-to-b from-orange-400 via-red-500 to-transparent mx-auto mt-[-20px] rounded-full opacity-0 transition-opacity" id="rocketThrust"></div>
+    <!-- Premium Rocket Asset -->
+    <div id="rocketAsset" class="rocket-wrapper">
+        <div id="rocketSmoke" class="smoke-cloud"></div>
+        <svg viewBox="0 0 120 350" class="w-32 md:w-48 drop-shadow-[0_0_20px_rgba(148,163,184,0.3)] relative z-20">
+            <defs>
+                <linearGradient id="fuselage" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#94a3b8" />
+                    <stop offset="30%" stop-color="#f8fafc" />
+                    <stop offset="70%" stop-color="#e2e8f0" />
+                    <stop offset="100%" stop-color="#64748b" />
+                </linearGradient>
+                <linearGradient id="darkMetal" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#1e293b" />
+                    <stop offset="50%" stop-color="#475569" />
+                    <stop offset="100%" stop-color="#0f172a" />
+                </linearGradient>
+                <radialGradient id="engineGlow" cx="50%" cy="0%" r="100%">
+                    <stop offset="0%" stop-color="#fef08a" />
+                    <stop offset="40%" stop-color="#f97316" />
+                    <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
+                </radialGradient>
+            </defs>
+            <!-- Fins -->
+            <path d="M 30 220 C 5 250, 5 280, 5 300 L 30 280 Z" fill="url(#darkMetal)"/>
+            <path d="M 90 220 C 115 250, 115 280, 115 300 L 90 280 Z" fill="url(#darkMetal)"/>
+            <!-- Central Hull -->
+            <path d="M 60 10 C 80 40, 90 100, 90 280 L 30 280 C 30 100, 40 40, 60 10 Z" fill="url(#fuselage)"/>
+            <!-- Nose cone tip -->
+            <path d="M 60 10 C 65 20, 68 30, 70 40 L 50 40 C 52 30, 55 20, 60 10 Z" fill="url(#darkMetal)"/>
+            <!-- Booster ring -->
+            <rect x="28" y="280" width="64" height="15" rx="2" fill="url(#darkMetal)"/>
+            <!-- Main Engine -->
+            <path d="M 40 295 L 80 295 L 75 310 L 45 310 Z" fill="#334155"/>
+            <!-- Engine Beam (Invisible until ignition) -->
+            <path id="svgExhaust" d="M 45 310 L 75 310 L 60 450 Z" fill="url(#engineGlow)" class="engine-beam" style="opacity: 0;"/>
+            <!-- Decals / Lines -->
+            <line x1="60" y1="50" x2="60" y2="250" stroke="#cbd5e1" stroke-width="1" opacity="0.5"/>
+            <!-- Window -->
+            <circle cx="60" cy="90" r="10" fill="#020617" stroke="#38bdf8" stroke-width="2"/>
+            <circle cx="60" cy="90" r="6" fill="#38bdf8" class="animate-pulse" filter="blur(2px)"/>
+        </svg>
     </div>
 
+    <!-- Premium Satellite Asset -->
     <div class="satellite-container flex flex-col items-center text-center">
-        <i class="fa-solid fa-satellite text-9xl text-brand-300 drop-shadow-[0_0_40px_rgba(96,165,250,1)]"></i>
-        <h2 class="text-white text-3xl font-black mt-6 tracking-widest uppercase">Systems Online</h2>
-        <p class="text-brand-300 font-mono mt-2">Deploying Mainframe...</p>
+        <svg viewBox="0 0 400 300" class="w-72 md:w-96 drop-shadow-[0_0_50px_rgba(59,130,246,0.6)]">
+            <defs>
+                <linearGradient id="solarPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#1e3a8a" />
+                    <stop offset="50%" stop-color="#2563eb" />
+                    <stop offset="100%" stop-color="#1e40af" />
+                </linearGradient>
+                <linearGradient id="goldFoil" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#fbbf24" />
+                    <stop offset="50%" stop-color="#f59e0b" />
+                    <stop offset="100%" stop-color="#b45309" />
+                </linearGradient>
+            </defs>
+            <!-- Left Solar Array -->
+            <g class="animate-[pulse_4s_infinite]">
+                <rect x="20" y="110" width="120" height="80" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="2"/>
+                <line x1="50" y1="110" x2="50" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                <line x1="80" y1="110" x2="80" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                <line x1="110" y1="110" x2="110" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                <line x1="20" y1="130" x2="140" y2="130" stroke="#60a5fa" stroke-width="1"/>
+                <line x1="20" y1="150" x2="140" y2="150" stroke="#60a5fa" stroke-width="1"/>
+                <line x1="20" y1="170" x2="140" y2="170" stroke="#60a5fa" stroke-width="1"/>
+            </g>
+            <!-- Right Solar Array -->
+            <g class="animate-[pulse_4s_infinite]" style="animation-delay: 1s;">
+                <rect x="260" y="110" width="120" height="80" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="2"/>
+                <line x1="290" y1="110" x2="290" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                <line x1="320" y1="110" x2="320" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                <line x1="350" y1="110" x2="350" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                <line x1="260" y1="130" x2="380" y2="130" stroke="#60a5fa" stroke-width="1"/>
+                <line x1="260" y1="150" x2="380" y2="150" stroke="#60a5fa" stroke-width="1"/>
+                <line x1="260" y1="170" x2="380" y2="170" stroke="#60a5fa" stroke-width="1"/>
+            </g>
+            <!-- Connection Arms -->
+            <rect x="140" y="145" width="40" height="10" fill="#64748b"/>
+            <rect x="220" y="145" width="40" height="10" fill="#64748b"/>
+            <!-- Main Body (Gold Foil Core) -->
+            <polygon points="170,100 230,100 240,150 230,200 170,200 160,150" fill="url(#goldFoil)" stroke="#fcd34d" stroke-width="2"/>
+            <!-- Dish -->
+            <path d="M 180 80 Q 200 40 220 80 Q 200 60 180 80 Z" fill="#cbd5e1" stroke="#f1f5f9" stroke-width="2"/>
+            <!-- Dish Antenna -->
+            <line x1="200" y1="70" x2="200" y2="20" stroke="#cbd5e1" stroke-width="3"/>
+            <circle cx="200" cy="20" r="5" fill="#ef4444" class="animate-pulse"/>
+            <!-- Glowing core lens -->
+            <circle cx="200" cy="150" r="20" fill="#0f172a" stroke="#38bdf8" stroke-width="3"/>
+            <circle cx="200" cy="150" r="10" fill="#38bdf8" filter="blur(4px)" class="animate-ping"/>
+        </svg>
+        <h2 class="text-white text-3xl md:text-5xl font-black mt-8 tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-200">Systems Online</h2>
+        <p class="text-cyan-400 font-mono mt-3 tracking-widest bg-cyan-900/30 px-4 py-1 rounded-full border border-cyan-500/30">Deploying Executive Mainframe...</p>
     </div>
 </div>
 
@@ -899,36 +1027,74 @@ let unsubscribeStudent = null;
 window.bioMetrics = { eyeContact: [], stress: [] };
 
 window.chairmanLaunch = function() {
-    document.getElementById('launchBtnContainer').style.display = 'none';
-    const overlay = document.getElementById('launchOverlay');
-    const rocket = document.getElementById('rocketAsset');
-    const thrust = document.getElementById('rocketThrust');
-    
-    rocket.classList.add('rocket-shake');
-    thrust.style.opacity = '1';
+    // 1. Hide Button smoothly
+    const btnContainer = document.getElementById('launchBtnContainer');
+    btnContainer.style.opacity = '0';
     
     setTimeout(() => {
-        overlay.classList.add('launching');
+        btnContainer.style.display = 'none';
+        
+        const overlay = document.getElementById('launchOverlay');
+        const rocket = document.getElementById('rocketAsset');
+        const smoke = document.getElementById('rocketSmoke');
+        const engine = document.getElementById('svgExhaust');
+        const shockwave = document.getElementById('shockwaveEffect');
+        const flash = document.getElementById('flashBang');
+        const backdrop = document.getElementById('spaceBackdrop');
+        
+        // 2. Phase 1: Ignition Sequence
+        smoke.classList.add('smoke-active');
+        engine.style.opacity = '1';
+        rocket.classList.add('rocket-shake-intense');
+        
+        // Let pressure build up for 2.5 seconds
         setTimeout(() => {
-            document.getElementById('flashBang').style.opacity = '1';
+            
+            // 3. Phase 2: Liftoff
+            backdrop.classList.add('warp-speed');
+            rocket.classList.remove('rocket-shake-intense'); // Stop shaking, fly straight
+            rocket.classList.add('rocket-liftoff'); // Launch!
+            
+            // 4. Phase 3: Sonic Boom Mid-Flight
             setTimeout(() => {
-                document.getElementById('flashBang').style.opacity = '0';
-                rocket.style.display = 'none';
-                overlay.classList.add('deployed');
+                shockwave.classList.add('shockwave-fire');
+                
+                // Flashbang hits a fraction of a second later
                 setTimeout(() => {
-                    overlay.style.opacity = '0';
+                    flash.style.opacity = '1';
+                    
+                    // 5. Phase 4: Orbital Deployment
                     setTimeout(() => {
-                        overlay.style.display = 'none';
-                        overlay.classList.add('hidden');
-                        sessionStorage.setItem('chairman_launched', 'true');
-                        const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
-                        window.switchTab('tab-home', targetNavBtn);
-                    }, 1500);
-                }, 3000);
-            }, 300);
-        }, 1500);
-    }, 1000);
+                        rocket.style.display = 'none'; // Rocket vanishes
+                        flash.style.opacity = '0'; // Fade out flash
+                        backdrop.classList.remove('warp-speed'); // Stop warp speed stars
+                        
+                        overlay.classList.add('deployed'); // Bring in the satellite
+                        
+                        // 6. Phase 5: Enter the Website
+                        setTimeout(() => {
+                            overlay.style.opacity = '0'; // Fade the entire overlay to reveal the site
+                            
+                            setTimeout(() => {
+                                overlay.style.display = 'none';
+                                overlay.classList.add('hidden');
+                                sessionStorage.setItem('chairman_launched', 'true');
+                                
+                                // Direct to the homepage
+                                const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
+                                window.switchTab('tab-home', targetNavBtn);
+                            }, 1500);
+                            
+                        }, 4500); // Give the audience 4.5 seconds to admire the satellite
+                        
+                    }, 500); // Wait for flash to hit peak brightness
+                }, 200); // Delay between shockwave start and flash
+            }, 1200); // Flight time before breaking sound barrier
+        }, 2500); // Ignition pressure build-up time
+    }, 1000); // Wait for button to fade out
 };
+
+const localResponses = {
 
 window.startAssessment = function() {
   const targetNavBtn = document.querySelector(`button[onclick*="'tab-onboarding'"]`);
