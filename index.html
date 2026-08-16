@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Assetize - Practice-Perform-Place</title>
+<title>Human Assetize - Practice-Perform-Place</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -98,7 +98,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 
 /* Earth Horizon at launch */
 .earth-horizon { position: absolute; bottom: -20vh; left: 50%; transform: translateX(-50%); width: 200vw; height: 50vh; background: radial-gradient(ellipse at top, #0284c7 0%, #0369a1 40%, #0f172a 100%); border-radius: 50% 50% 0 0; z-index: 2; opacity: 1; transition: all 4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 -20px 100px rgba(56, 189, 248, 0.4); }
-.warp-speed .earth-horizon { transform: translateX(-50%) translateY(100vh); opacity: 0; } /* Drops away during liftoff */
+.warp-speed .earth-horizon { transform: translateX(-50%) translateY(100vh); opacity: 0; }
 
 /* Parallax Star Layers generated via box-shadow for ultra-high performance */
 .star-layer-1 { position: absolute; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; animation: star-drift-up 60s linear infinite; }
@@ -108,7 +108,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 .star-layer-2::after { content: ''; position: absolute; top: 100vh; width: 3px; height: 3px; background: transparent; box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd; border-radius: 50%; filter: blur(1px); }
 
 @keyframes star-drift-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100vh); } }
-.warp-speed .star-layer-1, .warp-speed .star-layer-2 { animation-duration: 2s; } /* Triggered during liftoff */
+.warp-speed .star-layer-1, .warp-speed .star-layer-2 { animation-duration: 2s; }
 
 /* Rocket Physics Styles */
 .rocket-wrapper { position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); z-index: 10; transition: transform 2.5s cubic-bezier(0.5, 0, 0.1, 1); will-change: transform; }
@@ -121,7 +121,7 @@ body.ai-mode .gd-avatar { background: #334155; }
     100% { transform: translateX(-50%) translate(3px, 3px); } 
 }
 
-/* Moves the rocket to center of screen during flight */
+/* Perfect centering during flight */
 .rocket-liftoff { transform: translateX(-50%) translateY(-25vh); }
 
 /* Separate Booster animation */
@@ -469,8 +469,8 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 
 <section id="tab-ats" class="tab-content">
 <div class="mb-6 md:mb-8">
-<h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 1: Enterprise ATS Audit (TF-IDF)</h2>
-<p class="text-sm md:text-base text-slate-500 mt-1 md:mt-2">Paste a Job Description and upload your resume.</p>
+<h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 1: Enterprise ATS Audit (Dynamic Parse)</h2>
+<p class="text-sm md:text-base text-slate-500 mt-1 md:mt-2">Paste a Job Description and upload your resume. The system will dynamically parse against your registered specialization and check for Google XYZ metrics.</p>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
 <div class="lg:col-span-2 space-y-4 md:space-y-6">
@@ -612,7 +612,7 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 <div class="glass-card p-5 md:p-6 rounded-xl flex flex-col items-center justify-center text-center" id="gdWaitingArea">
 <i class="fa-solid fa-satellite-dish text-4xl md:text-5xl text-slate-400 mb-4 md:mb-6 hover:scale-110 transition-transform"></i>
 <h3 class="text-lg md:text-xl font-bold mb-2">Awaiting AI Evaluation</h3>
-<p class="text-xs md:text-sm max-w-sm">Engage in the 5-round simulation. The Groq Llama-3.1 agents will dynamically debate your points before auto-scoring.</p>
+<p class="text-xs md:text-sm max-w-sm">Engage in the 5-round simulation. The Groq Llama-3 agents will dynamically debate your points before auto-scoring.</p>
 </div>
 </div>
 </div>
@@ -1273,72 +1273,43 @@ window.chairmanLaunch = function() {
         btnContainer.style.display = 'none';
         
         const overlay = document.getElementById('launchOverlay');
-        const rocketWrapper = document.getElementById('rocketAsset');
+        const rocket = document.getElementById('rocketAsset');
         const smoke = document.getElementById('rocketSmoke');
         const engine = document.getElementById('svgExhaust');
         const shockwave = document.getElementById('shockwaveEffect');
         const flash = document.getElementById('flashBang');
         const backdrop = document.getElementById('spaceBackdrop');
-        const upperStage = document.getElementById('rocketUpper');
-        const lowerStage = document.getElementById('rocketLower');
-        const satPayload = document.getElementById('satPayload');
-        const sysOnline = document.getElementById('sysOnlineText');
         
-        // 1. Ignition
         smoke.classList.add('smoke-active');
         engine.style.opacity = '1';
-        rocketWrapper.classList.add('rocket-shake-intense');
+        rocket.classList.add('rocket-shake-intense');
         
         setTimeout(() => {
-            // 2. Liftoff
             backdrop.classList.add('warp-speed');
-            rocketWrapper.classList.remove('rocket-shake-intense');
-            rocketWrapper.classList.add('rocket-liftoff');
+            rocket.classList.remove('rocket-shake-intense');
+            rocket.classList.add('rocket-liftoff');
             
             setTimeout(() => {
-                // 3. Sonic Boom & MECO (Main Engine Cut Off)
                 shockwave.classList.add('shockwave-fire');
-                engine.style.opacity = '0'; 
-                
                 setTimeout(() => {
-                    // 4. Stage Separation (Booster falls away)
-                    lowerStage.classList.add('booster-drop');
-                    
+                    flash.style.opacity = '1';
                     setTimeout(() => {
-                        // 5. Flash & Fairing Deploy
-                        flash.style.opacity = '1';
+                        rocket.style.display = 'none';
+                        flash.style.opacity = '0';
+                        backdrop.classList.remove('warp-speed');
+                        overlay.classList.add('deployed');
                         
                         setTimeout(() => {
-                            upperStage.classList.add('fairing-deploy');
-                            
+                            overlay.style.opacity = '0';
                             setTimeout(() => {
-                                // 6. Orbit & Satellite Reveal
-                                backdrop.classList.remove('warp-speed');
-                                flash.style.opacity = '0';
-                                
-                                overlay.classList.add('deployed');
-                                sysOnline.style.opacity = '1';
-                                
-                                setTimeout(() => {
-                                    // 7. Transition to Homepage
-                                    overlay.style.opacity = '0';
-                                    overlay.style.pointerEvents = 'none';
-                                    
-                                    setTimeout(() => {
-                                        overlay.style.display = 'none';
-                                        overlay.classList.add('hidden');
-                                        sessionStorage.setItem('chairman_launched', 'true');
-                                        
-                                        const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
-                                        window.switchTab('tab-home', targetNavBtn);
-                                        
-                                        // Auto scroll down to Why Assetize
-                                        window.scrollTo({ top: 500, behavior: 'smooth' });
-                                    }, 1500);
-                                }, 5000); // Orbit time
-                            }, 500);
-                        }, 100);
-                    }, 1000);
+                                overlay.style.display = 'none';
+                                overlay.classList.add('hidden');
+                                sessionStorage.setItem('chairman_launched', 'true');
+                                const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
+                                window.switchTab('tab-home', targetNavBtn);
+                            }, 1500);
+                        }, 4500);
+                    }, 500);
                 }, 200);
             }, 1200);
         }, 2500);
@@ -1389,6 +1360,14 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     return result.choices[0].message.content.replace(/\*/g, '').trim();
   } catch (e) {
     console.warn("API Error:", e.message);
+    
+    let lastInputMatch = prompt.match(/Candidate:\s*(.*)/g);
+    let lastInput = lastInputMatch ? lastInputMatch[lastInputMatch.length - 1].replace('Candidate:', '').trim() : "";
+    let cleanInput = lastInput.toLowerCase().replace(/[^a-z0-9]/g, '');
+    
+    if (cleanInput.length > 0 && (cleanInput.length < 5 || ['ok', 'yes', 'no', 'nothing', 'iagree', 'sure'].includes(cleanInput))) {
+        return "Saying '" + lastInput + "' contributes absolutely nothing. I expect strategic, data-backed insights, not one-word answers.";
+    }
     
     let category = prompt.includes("Meera") || prompt.includes("Interview") ? "interview" : "gd";
     let fallbackText = localResponses[category][localFallbackIndex % localResponses[category].length];
@@ -1695,6 +1674,7 @@ const STOP_WORDS = new Set(['the', 'and', 'is', 'of', 'to', 'in', 'a', 'for', 'w
 window.runATS = async function() {
   const btn = document.getElementById('btnRunATS');
   const jdText = document.getElementById('jdInput').value.trim();
+  const spec = document.getElementById('candSpec').value || "MBA - Human Resources";
 
   if (!jdText) { window.showMessage("Please paste a Job Description first.", "error"); return; }
   if (!fileInput.files.length) { window.showMessage("Please upload a PDF resume.", "error"); return; }
@@ -1703,27 +1683,86 @@ window.runATS = async function() {
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing & Uploading...'; btn.disabled = true;
 
   try {
+    const taxonomy = {
+        "MBA - Human Resources": {
+            skills: ["workday", "bamboo hr", "sql", "excel", "tableau", "ats", "hirs", "payroll", "sourcing"],
+            methods: ["talent acquisition", "engagement", "performance management", "succession planning", "attrition modeling", "onboarding"],
+            metrics: ["turnover", "time-to-fill", "retention", "engagement score", "cost per hire"]
+        },
+        "MBA - Finance": {
+            skills: ["financial modeling", "advanced excel", "dcf valuation", "sql", "power bi", "tableau", "bloomberg terminal"],
+            methods: ["variance analysis", "cost-benefit analysis", "budget forecasting", "cash flow projections", "risk modeling", "npv", "irr"],
+            metrics: ["portfolio", "margin", "break-even", "runway", "ebitda", "reduced"]
+        },
+        "MBA - Marketing": {
+            skills: ["google analytics", "sql", "excel", "python", "meta ads", "hubspot", "mixpanel", "seo"],
+            methods: ["customer churn", "a/b testing", "funnel optimization", "clv", "cac", "cohort analysis"],
+            metrics: ["conversion", "retention", "ctr", "organic traffic", "roas", "churn"]
+        },
+        "MBA - Supply Chain": {
+            skills: ["advanced excel", "sql", "vlookup", "pivot tables", "sap", "erp", "python", "power bi"],
+            methods: ["route optimization", "inventory replenishment", "cold chain", "root cause analysis", "warehouse management", "procurement"],
+            metrics: ["transit delay", "stockouts", "overhead", "lead time", "turnaround", "routes"]
+        }
+    };
+
+    const specTax = taxonomy[spec] || taxonomy["MBA - Human Resources"];
+    const jdLower = jdText.toLowerCase();
+    let targetKw = [];
+    
+    [...specTax.skills, ...specTax.methods].forEach(term => {
+        if(jdLower.includes(term)) targetKw.push(term);
+    });
+    
+    if(targetKw.length === 0) targetKw = specTax.skills;
+
     const words = jdText.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 3 && !STOP_WORDS.has(w));
     const freq = {}; words.forEach(w => freq[w] = (freq[w] || 0) + 1);
-    const sortedKeywords = Object.keys(freq).sort((a,b) => freq[b] - freq[a]).slice(0, 15);
+    const tfidfKw = Object.keys(freq).sort((a,b) => freq[b] - freq[a]).slice(0, 5);
+    
+    targetKw = [...new Set([...targetKw, ...tfidfKw])]; 
 
     const file = fileInput.files[0];
     const arrayBuffer = await file.arrayBuffer(); 
     const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise; 
     let resumeText = '';
+    
     for(let i = 1; i <= pdf.numPages; i++) { 
       const page = await pdf.getPage(i); 
       const content = await page.getTextContent(); 
-      resumeText += content.items.map(item => item.str).join(' ').toLowerCase(); 
+      resumeText += content.items.map(item => item.str).join(' ').toLowerCase() + ' '; 
     }
 
+    const bullets = resumeText.split(/\.|\u2022|\-|\*/).map(s => s.trim()).filter(s => s.length > 10);
+    let xyzMatches = [];
+    const actionRegex = /\b(built|designed|optimized|reduced|increased|developed|automated|analyzed|led|executed|managed|created|spearheaded|improved)\b/i;
+    const metricRegex = /\b\d+[%kK]?\b|₹|\$|hours|days|top \d+%/i;
+
+    bullets.forEach(bp => {
+        const hasAction = actionRegex.test(bp);
+        const hasMetric = metricRegex.test(bp);
+        const hasTool = specTax.skills.some(tool => bp.includes(tool));
+        if (hasAction && hasMetric && hasTool) {
+            xyzMatches.push(bp);
+        }
+    });
+
+    const xyzComplianceRate = bullets.length > 0 ? Math.round((xyzMatches.length / bullets.length) * 100) : 0;
+    window.userData.ats_xyz_rate = xyzComplianceRate;
+
     let matched = []; let missing = [];
-    sortedKeywords.forEach(kw => {
+    targetKw.forEach(kw => {
       if(resumeText.includes(kw)) matched.push(kw);
       else missing.push(kw);
     });
 
-    window.userData.ats_score = Math.round((matched.length / sortedKeywords.length) * 100) || 10;
+    const keywordMatchRate = targetKw.length > 0 ? (matched.length / targetKw.length) : 0;
+    
+    const formatScore = 40.0;
+    const keywordScore = keywordMatchRate * 40.0;
+    const xyzScore = (xyzComplianceRate / 100.0) * 20.0;
+
+    window.userData.ats_score = Math.round(formatScore + keywordScore + xyzScore) || 10;
     
     try {
        const storageRef = ref(storage, `artifacts/${APP_ID}/public/data/resumes/${window.candidateId}.pdf`);
@@ -1737,9 +1776,15 @@ window.runATS = async function() {
     document.getElementById('atsScoreDisplay').innerText = `${window.userData.ats_score}%`;
     document.getElementById('atsSuccessMsg').classList.remove('hidden');
 
-    let resHtml = '';
-    matched.forEach(w => resHtml += `<div class="flex justify-between items-center bg-green-50 p-2 rounded text-green-700 border border-green-200"><span class="capitalize text-xs md:text-sm">${w}</span><i class="fa-solid fa-check text-xs md:text-sm"></i></div>`);
-    missing.forEach(w => resHtml += `<div class="flex justify-between items-center bg-red-50 p-2 rounded text-red-700 border border-red-200"><span class="capitalize text-xs md:text-sm">${w}</span><i class="fa-solid fa-times text-xs md:text-sm"></i></div>`);
+    let resHtml = `<div class="mb-4 p-3 bg-indigo-900/20 border border-indigo-500/30 rounded-lg text-indigo-300 text-xs md:text-sm shadow-inner">
+        <strong class="text-indigo-200 uppercase tracking-widest text-[10px] block mb-1">Google XYZ Formula Audit</strong>
+        Compliance Rate: <span class="font-bold text-white">${xyzComplianceRate}%</span> 
+        <br><span class="text-[10px] text-indigo-400 mt-1 block">(Action + Metric + Tool in Bullet Points)</span>
+    </div>`;
+    
+    matched.forEach(w => resHtml += `<div class="flex justify-between items-center bg-green-50 p-2 rounded text-green-700 border border-green-200 mb-2"><span class="capitalize text-xs md:text-sm">${w}</span><i class="fa-solid fa-check text-xs md:text-sm"></i></div>`);
+    missing.forEach(w => resHtml += `<div class="flex justify-between items-center bg-red-50 p-2 rounded text-red-700 border border-red-200 mb-2"><span class="capitalize text-xs md:text-sm">${w}</span><i class="fa-solid fa-times text-xs md:text-sm"></i></div>`);
+    
     document.getElementById('keywordResults').innerHTML = resHtml;
 
     await syncToCloud();
@@ -2195,12 +2240,13 @@ window.emailDetailedReport = function() {
 
   const myArch = archDetails[window.userData.archetype] || archDetails["Not Evaluated"];
 
-  // --- PROFESSOR'S DIAGNOSTIC REFERENCE RANGES (CLINICAL BLOOD-REPORT) ---
+  let xyzRateVal = window.userData.ats_xyz_rate !== undefined ? window.userData.ats_xyz_rate : Math.min(100, window.userData.ats_score + 18);
+
   const labRanges = {
       "Facial Identity Confidence": { val: 98.4, min: 85.0, max: 100.0, unit: "%", low: "Possible proxy / poor lighting", high: "N/A", norm: "Identity confirmed" },
       "Proctoring Integrity Index": { val: Math.max(90, 100 - (avgStress / 5)), min: 90.0, max: 100.0, unit: "%", low: "Excessive gaze shift / tab switches", high: "N/A", norm: "Clean assessment environment" },
       "Keyword Match Density": { val: window.userData.ats_score, min: 70.0, max: 95.0, unit: "%", low: "Missing essential technical tools", high: "Keyword stuffing / spam risk", norm: "Optimal ATS parsing match" },
-      "Google XYZ Bullet Compliance": { val: Math.min(100, window.userData.ats_score + 18), min: 60.0, max: 100.0, unit: "%", low: "Passive tasks lacking metrics", high: "N/A", norm: "Metric-backed accomplishment syntax" },
+      "Google XYZ Bullet Compliance": { val: xyzRateVal, min: 60.0, max: 100.0, unit: "%", low: "Passive tasks lacking metrics", high: "N/A", norm: "Metric-backed accomplishment syntax" },
       "Cognitive Decision Velocity": { val: Math.round(15 + (100 - window.userData.test_score) * 0.4), min: 15.0, max: 45.0, unit: " sec/item", low: "Hasty / impulsive guessing", high: "Cognitive freezing / indecision", norm: "Balanced cognitive agility" },
       "Compensation Literacy Score": { val: window.userData.test_score, min: 75.0, max: 100.0, unit: "%", low: "High risk of contract / CTC misunderstanding", high: "N/A", norm: "Corporate compensation ready" },
       "GD Speaking Pacing": { val: 125, min: 110.0, max: 140.0, unit: " WPM", low: "Lethargic delivery / hesitation", high: "Rushing / nervous speech spike", norm: "Optimal 0.75x executive cadence" },
@@ -2233,58 +2279,30 @@ window.emailDetailedReport = function() {
       labReportText += `  Status Flag: ${badge}\n`;
       labReportText += `  Clinical Interpretation: ${interpretation}\n\n`;
   }
-  // -----------------------------------------------------------------------
 
   let b = `Dear ${window.userData.name || 'Candidate'},\n\n`;
-  b += `Thank you for completing the 6-Stage HR Executive Assessment Gauntlet. This document serves as your official, comprehensive Talent Passport. It has been generated by evaluating your quantitative knowledge, psychometric archetype, and biometric executive presence.\n\n`;
-  
+  b += `Thank you for completing the 6-Stage HR Executive Assessment Gauntlet. This document serves as your official, comprehensive Talent Passport.\n\n`;
   b += `======================================================\n`;
   b += `🏆 OVERALL EXECUTIVE READINESS INDEX: ${total}\n`;
   b += `🧬 PRIMARY WORKPLACE ARCHETYPE: ${window.userData.archetype.toUpperCase()}\n`;
   b += `======================================================\n\n`;
-  
   b += `[ PART 1: STAGE-BY-STAGE QUANTITATIVE ANALYSIS ]\n\n`;
-  
-  b += `1. Enterprise ATS Audit (Resume Parsing & TF-IDF)\n`;
-  b += `   >> Score: ${window.userData.ats_score}/100\n`;
-  b += `   >> Insight: Measures how effectively your resume's keyword density aligns with Fortune 500 algorithmic screening parameters. A score below 75 indicates a high probability of automated rejection before a human recruiter sees your profile.\n\n`;
-  
-  b += `2. Cognitive Aptitude & Decision Velocity\n`;
-  b += `   >> Score: ${window.userData.test_score}/100\n`;
-  b += `   >> Insight: Evaluates your theoretical HR knowledge (OB, TA, L&D, Compensation) under a strict time constraint. This reflects your ability to recall and apply labor laws and corporate frameworks under pressure.\n\n`;
-  
-  b += `3. Multi-Agent Virtual Group Discussion (GD)\n`;
-  b += `   >> Score: ${window.userData.gd_score}/30\n`;
-  b += `   >> Tier Breakdown: 1-10 (Basic), 11-20 (Competent), 21-30 (Exceptional)\n`;
-  b += `   >> Insight: Scored via multi-dimensional rubric evaluating Content Substance, Articulation, and Group Dynamics.\n\n`;
-  
-  b += `4. AI Behavioral HR Interview (${window.interviewMethod.toUpperCase()} Mode)\n`;
-  b += `   >> Score: ${window.userData.interview_score}/100\n`;
-  b += `   >> Tier Breakdown: 0-40 (Unsatisfactory), 41-70 (Proficient), 71-100 (Exemplary)\n`;
-  b += `   >> Insight: Measures technical depth, STAR structural integrity, verbal fluency, and executive composure.\n\n`;
-  
+  b += `1. Enterprise ATS Audit (Resume Parsing & TF-IDF)\n   >> Score: ${window.userData.ats_score}/100\n   >> Insight: ${atsFeedback}\n\n`;
+  b += `2. Cognitive Aptitude & Decision Velocity\n   >> Score: ${window.userData.test_score}/100\n   >> Insight: ${aptitudeFeedback}\n\n`;
+  b += `3. Multi-Agent Virtual Group Discussion (GD)\n   >> Score: ${window.userData.gd_score}/30\n   >> Insight: ${gdFeedback}\n\n`;
+  b += `4. AI Behavioral HR Interview (${window.interviewMethod.toUpperCase()} Mode)\n   >> Score: ${window.userData.interview_score}/100\n   >> Insight: ${interviewFeedback}\n\n`;
   b += `------------------------------------------------------\n\n`;
-  
   b += `[ PART 2: REAL-TIME BIOMETRIC & NON-VERBAL ANALYTICS ]\n\n`;
-  b += `During Stage 5, our computer vision algorithms tracked your micro-expressions and physical composure.\n\n`;
-  b += `* Visual Focus & Eye Contact Index: ${avgEye}%\n`;
-  b += `  (Target: 70-85%. Maintaining eye contact signals confidence and active listening.)\n\n`;
-  b += `* Cognitive Stress & Movement Index: ${avgStress}%\n`;
-  b += `  (Target: <30%. Elevated movement or shifting posture indicates pressure fatigue.)\n\n`;
-  
+  b += `* Visual Focus & Eye Contact Index: ${avgEye}%\n  (Target: 70-85%. Maintaining eye contact signals confidence and active listening.)\n\n`;
+  b += `* Cognitive Stress & Movement Index: ${avgStress}%\n  (Target: <30%. Elevated movement or shifting posture indicates pressure fatigue.)\n\n`;
   b += `------------------------------------------------------\n\n`;
-
   b += `[ PART 3: PSYCHOMETRIC ARCHETYPE DEEP-DIVE: ${window.userData.archetype.toUpperCase()} ]\n\n`;
-  b += `Based on your Stage 3 forced-choice situational matrix, you operate primarily as a ${window.userData.archetype}.\n\n`;
   b += `* Profile Overview: \n  ${myArch.profile}\n\n`;
   b += `* Core Executive Strengths: \n  ${myArch.strengths}\n\n`;
   b += `* Critical Blind Spots: \n  ${myArch.blindSpots}\n\n`;
   b += `* INTERVIEW & PLACEMENT STRATEGY:\n  ${myArch.actionPlan}\n\n`;
   b += `------------------------------------------------------\n\n`;
-
-  // Inject Part 4 smoothly before the end
   b += labReportText;
-
   b += `======================================================\n\n`;
   b += `Final Recommendation: Review your lowest-scoring parameters from the Lab Report above and consult the Academic Modules on the platform to bridge the gap before official placement season begins.\n\n`;
   b += `Best regards,\n`;
