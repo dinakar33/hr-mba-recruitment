@@ -104,7 +104,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 }
 .gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 
-#launchOverlay { position: fixed; inset: 0; background: radial-gradient(circle, #1e293b 0%, #020617 100%); z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out; }
+#launchOverlay { position: fixed; inset: 0; background: radial-gradient(circle, #1e293b 0%, #020617 100%); z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out; }
 .stars-bg { position: absolute; inset: 0; background-image: radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 50px 160px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 130px 80px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 160px 120px, #ffffff, rgba(0,0,0,0)); background-repeat: repeat; background-size: 200px 200px; animation: twinkle 4s infinite; opacity: 0.5; }
 @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
 .rocket-container { position: absolute; bottom: -150px; transition: transform 2s cubic-bezier(0.5, 0, 0.2, 1); z-index: 10; }
@@ -957,7 +957,7 @@ window.chairmanLaunch = function() {
                 setTimeout(() => {
                     overlay.style.opacity = '0';
                     setTimeout(() => {
-                        overlay.classList.add('hidden');
+                        overlay.style.display = 'none';
                         sessionStorage.setItem('chairman_launched', 'true');
                         // Ensure we are on home tab
                         const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
@@ -1100,9 +1100,9 @@ signInAnonymously(auth).then((userCredential) => {
       if (snap.exists()) {
           const config = snap.data();
           if (config.launchMode === true && sessionStorage.getItem('chairman_launched') !== 'true') {
-              document.getElementById('launchOverlay').classList.remove('hidden');
+              document.getElementById('launchOverlay').style.display = 'flex';
           } else {
-              document.getElementById('launchOverlay').classList.add('hidden');
+              document.getElementById('launchOverlay').style.display = 'none';
           }
       }
   });
