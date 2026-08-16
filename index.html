@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Assetize - Practice-Perform-Place</title>
+<title>Human Assetize - Practice-Perform-Place</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -131,7 +131,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes star-drift-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100vh); } }
 .warp-speed .star-layer-1, .warp-speed .star-layer-2 { animation-duration: 1.5s; } 
 
-/* Earth Mechanics */
+/* High-Res Earth Mechanics */
 .earth-base {
     position: absolute;
     bottom: -280vw;
@@ -142,29 +142,29 @@ body.ai-mode .gd-avatar { background: #334155; }
     border-radius: 50%;
     background: radial-gradient(circle at 50% 5%, #60a5fa 0%, #1e3a8a 30%, #020617 80%);
     box-shadow: 0 -5px 60px rgba(96, 165, 250, 0.4), inset 0 20px 80px rgba(255,255,255,0.2);
-    transition: all 5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 6s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 2;
 }
 .earth-distant {
-    bottom: -60vw;
-    width: 80vw;
-    height: 80vw;
+    bottom: -290vw; /* Shrink earth away */
     background: radial-gradient(circle at 50% 15%, #3b82f6 0%, #1e3a8a 50%, #020617 90%);
-    box-shadow: 0 -5px 50px rgba(59, 130, 246, 0.8), inset 0 10px 40px rgba(255,255,255,0.4);
+    box-shadow: 0 -2px 30px rgba(59, 130, 246, 0.6), inset 0 10px 40px rgba(255,255,255,0.2);
 }
 
-/* Rocket Mechanics */
-.rocket-shake-intense { animation: shake-intense 0.05s infinite; }
-@keyframes shake-intense { 
-    0% { transform: translateX(-50%) translate(3px, 3px); } 
-    25% { transform: translateX(-50%) translate(-3px, -3px); } 
-    50% { transform: translateX(-50%) translate(-3px, 3px); } 
-    75% { transform: translateX(-50%) translate(3px, -3px); } 
-    100% { transform: translateX(-50%) translate(3px, 3px); } 
+/* Rocket Camera Physics */
+.camera-shake { animation: cam-shake 0.3s cubic-bezier(.36,.07,.19,.97) infinite; }
+@keyframes cam-shake {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(3px, 3px) rotate(0.5deg); }
+    50% { transform: translate(0, 0) rotate(0deg); }
+    75% { transform: translate(-3px, 3px) rotate(-0.5deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
 }
 
+/* Mach Diamonds & Exhaust */
+.mach-diamonds { background: repeating-linear-gradient(to bottom, transparent, transparent 10px, rgba(255, 255, 255, 0.9) 15px, transparent 20px); opacity: 0.9; }
 .engine-beam { transform-origin: top center; animation: engine-flicker 0.05s infinite alternate; }
-@keyframes engine-flicker { 0% { transform: scaleY(0.9); opacity: 0.8; filter: drop-shadow(0 0 10px #f97316); } 100% { transform: scaleY(1.3); opacity: 1; filter: drop-shadow(0 0 30px #ef4444); } }
+@keyframes engine-flicker { 0% { transform: scaleY(0.9); opacity: 0.8; } 100% { transform: scaleY(1.2); opacity: 1; filter: brightness(1.5); } }
 
 .smoke-cloud { position: absolute; top: 100%; left: 50%; width: 300px; height: 150px; background: radial-gradient(ellipse, rgba(255,255,255,0.9) 0%, rgba(203,213,225,0) 70%); filter: blur(20px); opacity: 0; transform: translateX(-50%) scale(0.5); transition: all 3s ease-out; pointer-events: none; z-index: 10; }
 .smoke-active { opacity: 1; transform: translateX(-50%) scale(5); }
@@ -175,9 +175,13 @@ body.ai-mode .gd-avatar { background: #334155; }
     animation: majesticFloat 6s ease-in-out infinite alternate;
 }
 @keyframes majesticFloat {
-    0% { transform: translate(-50%, -50%) scale(1) rotate(-5deg); }
-    100% { transform: translate(-50%, -60%) scale(1) rotate(5deg); }
+    0% { transform: translate(-50%, -50%) scale(1) rotate(-2deg); }
+    100% { transform: translate(-50%, -55%) scale(1) rotate(2deg); }
 }
+.solar-panel-unfold { transform: scaleX(0); transition: transform 2.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.deployed-panels .solar-panel-unfold { transform: scaleX(1); }
+.origin-right { transform-origin: right center; }
+.origin-left { transform-origin: left center; }
 
 </style>
 </head>
@@ -210,10 +214,10 @@ body.ai-mode .gd-avatar { background: #334155; }
     </div>
 
     <!-- Multi-Stage Rocket Assembly -->
-    <div id="rocketAssembly" class="absolute bottom-[20vw] left-1/2 transform -translate-x-1/2 flex flex-col items-center z-20 transition-all duration-[4s] cubic-bezier(0.5, 0, 0.1, 1)">
+    <div id="rocketAssembly" class="absolute bottom-[20vw] left-1/2 transform -translate-x-1/2 flex flex-col items-center z-20 transition-all duration-[5s] cubic-bezier(0.5, 0, 0.1, 1)">
         
         <!-- UPPER STAGE (Fairing) -->
-        <div id="upperStage" class="relative z-20 transition-all duration-[2s] ease-in">
+        <div id="upperStage" class="relative z-20 transition-all duration-[2.5s] ease-in">
             <svg viewBox="0 0 120 150" class="w-24 md:w-32 drop-shadow-xl relative z-20">
                 <defs>
                     <linearGradient id="fuselage" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -238,7 +242,7 @@ body.ai-mode .gd-avatar { background: #334155; }
         </div>
 
         <!-- LOWER STAGE (Boosters & Main Engine) -->
-        <div id="lowerStage" class="relative z-10 -mt-1 transition-all duration-[2s] ease-in">
+        <div id="lowerStage" class="relative z-10 -mt-1 transition-all duration-[3s] ease-in">
             <svg viewBox="0 0 120 200" class="w-24 md:w-32 drop-shadow-xl relative z-10">
                 <defs>
                     <linearGradient id="fuselage2" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -267,17 +271,19 @@ body.ai-mode .gd-avatar { background: #334155; }
                 <rect x="28" y="130" width="64" height="15" rx="2" fill="url(#darkMetal2)"/>
                 <!-- Main Engine Base -->
                 <path d="M 40 145 L 80 145 L 75 160 L 45 160 Z" fill="#334155"/>
-                <!-- Engine Thrust Beam -->
-                <path id="svgExhaust" d="M 45 160 L 75 160 L 60 300 Z" fill="url(#engineGlow)" class="engine-beam" style="opacity: 0;"/>
-                <line x1="60" y1="0" x2="60" y2="100" stroke="#cbd5e1" stroke-width="1" opacity="0.5"/>
             </svg>
+            
+            <!-- Engine Thrust Beam with Mach Diamonds -->
+            <div id="svgExhaust" class="absolute top-[80%] left-1/2 transform -translate-x-1/2 w-8 h-48 bg-gradient-to-b from-white via-yellow-300 to-red-600 opacity-0 transition-opacity duration-300 blur-[2px] rounded-b-full engine-beam z-0">
+                <div class="absolute inset-0 mach-diamonds rounded-b-full"></div>
+            </div>
             <!-- Launch Smoke -->
             <div id="rocketSmoke" class="smoke-cloud"></div>
         </div>
     </div>
 
     <!-- Hidden Payload Satellite (Revealed in Orbit) -->
-    <div id="satelliteAsset" class="absolute top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 scale-50 opacity-0 z-30 transition-all duration-[2s] ease-out pointer-events-none flex flex-col items-center">
+    <div id="satelliteAsset" class="absolute top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 scale-50 opacity-0 z-30 transition-all duration-[3s] ease-out pointer-events-none flex flex-col items-center">
         <svg viewBox="0 0 400 300" class="w-72 md:w-96 drop-shadow-[0_0_50px_rgba(59,130,246,0.8)]">
             <defs>
                 <linearGradient id="solarPanel" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -291,7 +297,8 @@ body.ai-mode .gd-avatar { background: #334155; }
                     <stop offset="100%" stop-color="#b45309" />
                 </linearGradient>
             </defs>
-            <g class="animate-[pulse_4s_infinite]">
+            <!-- Left Solar Array (Folds out) -->
+            <g class="solar-panel-unfold origin-right">
                 <rect x="20" y="110" width="120" height="80" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="2"/>
                 <line x1="50" y1="110" x2="50" y2="190" stroke="#60a5fa" stroke-width="1"/>
                 <line x1="80" y1="110" x2="80" y2="190" stroke="#60a5fa" stroke-width="1"/>
@@ -300,7 +307,8 @@ body.ai-mode .gd-avatar { background: #334155; }
                 <line x1="20" y1="150" x2="140" y2="150" stroke="#60a5fa" stroke-width="1"/>
                 <line x1="20" y1="170" x2="140" y2="170" stroke="#60a5fa" stroke-width="1"/>
             </g>
-            <g class="animate-[pulse_4s_infinite]" style="animation-delay: 1s;">
+            <!-- Right Solar Array (Folds out) -->
+            <g class="solar-panel-unfold origin-left">
                 <rect x="260" y="110" width="120" height="80" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="2"/>
                 <line x1="290" y1="110" x2="290" y2="190" stroke="#60a5fa" stroke-width="1"/>
                 <line x1="320" y1="110" x2="320" y2="190" stroke="#60a5fa" stroke-width="1"/>
@@ -309,8 +317,10 @@ body.ai-mode .gd-avatar { background: #334155; }
                 <line x1="260" y1="150" x2="380" y2="150" stroke="#60a5fa" stroke-width="1"/>
                 <line x1="260" y1="170" x2="380" y2="170" stroke="#60a5fa" stroke-width="1"/>
             </g>
+            <!-- Connection Arms -->
             <rect x="140" y="145" width="40" height="10" fill="#64748b"/>
             <rect x="220" y="145" width="40" height="10" fill="#64748b"/>
+            <!-- Main Body (Gold Foil Core) -->
             <polygon points="170,100 230,100 240,150 230,200 170,200 160,150" fill="url(#goldFoil)" stroke="#fcd34d" stroke-width="2"/>
             <path d="M 180 80 Q 200 40 220 80 Q 200 60 180 80 Z" fill="#cbd5e1" stroke="#f1f5f9" stroke-width="2"/>
             <line x1="200" y1="70" x2="200" y2="20" stroke="#cbd5e1" stroke-width="3"/>
@@ -331,7 +341,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div>
     <h1 class="text-2xl md:text-3xl tracking-tight flex flex-col sm:flex-row sm:items-baseline">
-      <span class="font-extrabold">Assetize</span>
+      <span class="font-extrabold">Human Assetize</span>
       <span class="text-brand-200 font-medium text-lg md:text-xl sm:ml-2 mt-1 sm:mt-0">- Practice-Perform-Place</span>
     </h1>
   </div>
@@ -377,11 +387,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 </div>
 </header>
 
-<div id="global-ai-guide" class="fixed bottom-4 md:bottom-6 right-4 md:right-6 z-50 flex items-center space-x-4 bg-slate-900 text-white p-3 md:p-4 rounded-full shadow-2xl border-2 md:border-4 border-brand-400">
-<div class="text-xs md:text-sm font-bold w-32 md:w-48 text-right hidden sm:block" id="guide-text">Systems initializing...</div>
-<div id="guide-avatar" class="gd-avatar avatar-breathing w-12 h-12 md:w-16 md:h-16"></div>
-</div>
-
 <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 w-full relative">
 <div id="msgBox" class="hidden mb-6 p-4 rounded-lg shadow-md font-medium text-xs md:text-sm flex items-center justify-between transition-all z-50">
 <span id="msgText"></span>
@@ -406,7 +411,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 
   <div class="mb-12">
       <div class="text-center mb-8 md:mb-10">
-          <h3 class="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">Why Assetize is Required?</h3>
+          <h3 class="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">Why Human Assetize is Required?</h3>
           <div class="w-24 h-1.5 bg-brand-500 mx-auto mt-4 rounded-full"></div>
       </div>
       
@@ -457,6 +462,7 @@ body.ai-mode .gd-avatar { background: #334155; }
   </div>
 </section>
 
+<!-- ... Core Setup Tabs ... -->
 <section id="tab-onboarding" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
@@ -489,6 +495,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
+<!-- ... ATS, Test, Archetype Tabs ... -->
 <section id="tab-ats" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 1: Enterprise ATS Audit (TF-IDF)</h2>
@@ -699,6 +706,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
+<!-- ... Remaining Informational Tabs ... -->
 <section id="tab-passport" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 <div>
@@ -1075,83 +1083,79 @@ window.chairmanLaunch = function() {
         const overlay = document.getElementById('launchOverlay');
         const rocketAssembly = document.getElementById('rocketAssembly');
         const lowerStage = document.getElementById('lowerStage');
-        const upperStage = document.getElementById('upperStage');
+        const fairing = document.getElementById('upperStage');
         const satellite = document.getElementById('satelliteAsset');
         const earth = document.getElementById('earth');
         const sky = document.getElementById('skyBg');
         const space = document.getElementById('spaceBackdrop');
         const thrust = document.getElementById('svgExhaust');
         const smoke = document.getElementById('rocketSmoke');
+        const shockwave = document.getElementById('shockwaveEffect');
+        const flash = document.getElementById('flashBang');
         
-        // 1. Ignition (Fire and Smoke)
-        rocketAssembly.classList.add('rocket-shake-intense');
-        thrust.style.opacity = '1';
+        // 1. Ignition & Camera Shake
+        overlay.classList.add('camera-shake');
         smoke.classList.add('smoke-active');
+        thrust.style.opacity = '1';
         
         setTimeout(() => {
-            // 2. Liftoff & Sky to Space Transition
-            rocketAssembly.classList.remove('rocket-shake-intense');
-            
-            // Move rocket to center screen
-            rocketAssembly.style.bottom = '45%';
-            
-            // Earth shrinks and moves down to simulate massive altitude
-            earth.classList.add('earth-distant');
-            
-            // Sky fades, Deep Space appears
+            // 2. Liftoff & Climb
+            rocketAssembly.style.bottom = '35%'; // Rocket climbs up screen
+            earth.classList.add('earth-distant'); // Earth shrinks away
             sky.style.opacity = '0';
             space.style.opacity = '1';
             space.classList.add('warp-speed');
             
             setTimeout(() => {
-                // 3. Stage Separation (Engines cut and drop away)
+                // 3. MECO (Main Engine Cut Off) & Space Transition
+                overlay.classList.remove('camera-shake'); // Smooth space flight
                 thrust.style.opacity = '0';
                 smoke.style.opacity = '0';
-                lowerStage.style.transform = 'translateY(100vh) rotate(15deg)';
+                
+                // Lower Stage separation
+                lowerStage.style.transform = 'translateY(150vh) rotate(15deg)';
                 lowerStage.style.opacity = '0';
                 
                 setTimeout(() => {
-                    // 4. Satellite Deployment (Fairing pushes forward and fades)
-                    upperStage.style.transform = 'translateY(-50vh) scale(0.5)';
-                    upperStage.style.opacity = '0';
-                    
-                    // Golden Satellite reveals and starts orbiting
-                    satellite.classList.add('satellite-deployed');
-                    space.classList.remove('warp-speed'); // Calm space down
+                    // 4. Sonic Boom & Flash
+                    shockwave.classList.add('shockwave-fire');
                     
                     setTimeout(() => {
-                        // 5. Fade to Website
-                        overlay.style.opacity = '0';
-                        setTimeout(() => {
-                            overlay.style.display = 'none';
-                            overlay.classList.add('hidden');
-                            sessionStorage.setItem('chairman_launched', 'true');
-                            
-                            // Navigate strictly to Home page
-                            const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
-                            window.switchTab('tab-home', targetNavBtn);
-                        }, 1500);
+                        flash.style.opacity = '1';
                         
-                    }, 4000); // Admire satellite in orbit for 4 seconds
-                }, 1500); // Wait 1.5s after stage separation
-            }, 3500); // Wait 3.5s for liftoff climb
-        }, 2500); // 2.5s ignition sequence
-    }, 1000); // Wait for button to fade out
-};
+                        setTimeout(() => {
+                            // 5. Fairing Jettison & Satellite Reveal
+                            rocketAssembly.style.display = 'none'; // Hide empty rocket wrapper
+                            flash.style.opacity = '0';
+                            space.classList.remove('warp-speed');
+                            
+                            // Make Satellite visible and trigger CSS orbit
+                            overlay.classList.add('deployed'); 
+                            
+                            // Trigger Solar Panel Unfolding
+                            setTimeout(() => {
+                                satellite.classList.add('deployed-panels');
+                            }, 500);
 
-const localResponses = {
-  gd: [
-    "That is a strong perspective. However, we must ensure algorithmic auditing is legally mandated before replacing human oversight.",
-    "I agree in principle, but human resource analytics must balance data-driven KPIs with employee empathy and well-being.",
-    "Let's synthesize both views: AI should act as a decision-support system, leaving final talent decisions to certified managers."
-  ],
-  interview: [
-    "How did you specifically measure the quantitative outcome of that action?",
-    "When managing stakeholders with opposing priorities, how do you negotiate consensus?",
-    "What key metric would you track differently if you repeated that project?"
-  ]
+                            // 6. Transition to Website
+                            setTimeout(() => {
+                                overlay.style.opacity = '0';
+                                setTimeout(() => {
+                                    overlay.style.display = 'none';
+                                    overlay.classList.add('hidden');
+                                    sessionStorage.setItem('chairman_launched', 'true');
+                                    const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
+                                    window.switchTab('tab-home', targetNavBtn);
+                                }, 1500);
+                            }, 5000); // 5 seconds to admire deployed satellite
+                            
+                        }, 500); // Flash peak duration
+                    }, 200); // Delay between shockwave start and flash
+                }, 1500); // Flight time after MECO before Boom
+            }, 4000); // Ascent time through atmosphere
+        }, 3000); // Ignition rumble time before liftoff
+    }, 1000); // Button fade out time
 };
-let localFallbackIndex = 0;
 
 window.startAssessment = function() {
   const targetNavBtn = document.querySelector(`button[onclick*="'tab-onboarding'"]`);
@@ -1179,13 +1183,10 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     });
 
     const result = await response.json();
-    if (!response.ok) {
-       console.error("Groq API Error Details:", result);
-       throw new Error(result.error?.message || 'API Error');
-    }
+    if (!response.ok) throw new Error(result.error?.message || 'API Error');
     return result.choices[0].message.content.replace(/\*/g, '').trim();
   } catch (e) {
-    console.warn("API Error intercepted:", e.message);
+    console.warn("API Error:", e.message);
     
     let lastInputMatch = prompt.match(/Candidate:\s*(.*)/g);
     let lastInput = lastInputMatch ? lastInputMatch[lastInputMatch.length - 1].replace('Candidate:', '').trim() : "";
@@ -1194,7 +1195,7 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     if (cleanInput.length > 0 && (cleanInput.length < 5 || ['ok', 'yes', 'no', 'nothing', 'iagree', 'sure'].includes(cleanInput))) {
         return "Saying '" + lastInput + "' contributes absolutely nothing. I expect strategic, data-backed insights, not one-word answers.";
     }
-    return `[API ERROR DETAILS: ${e.message}]`;
+    return `[SYSTEM ERROR: ${e.message}]`;
   }
 }
 
