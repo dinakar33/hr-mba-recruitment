@@ -958,6 +958,7 @@ window.chairmanLaunch = function() {
                     overlay.style.opacity = '0';
                     setTimeout(() => {
                         overlay.style.display = 'none';
+                        overlay.classList.add('hidden');
                         sessionStorage.setItem('chairman_launched', 'true');
                         // Ensure we are on home tab
                         const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
@@ -1099,10 +1100,13 @@ signInAnonymously(auth).then((userCredential) => {
   onSnapshot(doc(db, 'artifacts', APP_ID, 'public', 'data', 'config', 'siteConfig'), (snap) => {
       if (snap.exists()) {
           const config = snap.data();
+          const overlay = document.getElementById('launchOverlay');
           if (config.launchMode === true && sessionStorage.getItem('chairman_launched') !== 'true') {
-              document.getElementById('launchOverlay').style.display = 'flex';
+              overlay.classList.remove('hidden');
+              overlay.style.display = 'flex';
           } else {
-              document.getElementById('launchOverlay').style.display = 'none';
+              overlay.classList.add('hidden');
+              overlay.style.display = 'none';
           }
       }
   });
