@@ -101,7 +101,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 .earth-drop { transform: translate(-50%, 100vh); opacity: 0; }
 
 /* Rocket Assembly & Shake */
-/* Lowered start position to 5vh to give maximum headroom */
 .rocket-assembly { position: absolute; bottom: 5vh; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; flex-direction: column; align-items: center; transition: transform 3.5s cubic-bezier(0.5, 0, 0.2, 1); }
 .rocket-shake-intense { animation: shake-intense 0.05s infinite; }
 @keyframes shake-intense { 
@@ -112,7 +111,7 @@ body.ai-mode .gd-avatar { background: #334155; }
     100% { transform: translateX(-50%) translate(3px, 3px); } 
 }
 
-/* Reduced translateY to -25vh so the rocket stops perfectly in the center of the screen */
+/* Perfect centering transition during liftoff */
 .rocket-liftoff { transform: translate(-50%, -25vh); }
 
 /* Stages & Detachment */
@@ -194,7 +193,6 @@ body.ai-mode .gd-avatar { background: #334155; }
                         <stop offset="100%" stop-color="#b45309" />
                     </linearGradient>
                 </defs>
-                <!-- Left Solar Array -->
                 <g class="animate-[pulse_4s_infinite]">
                     <rect x="20" y="110" width="120" height="80" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="2"/>
                     <line x1="50" y1="110" x2="50" y2="190" stroke="#60a5fa" stroke-width="1"/>
@@ -204,7 +202,6 @@ body.ai-mode .gd-avatar { background: #334155; }
                     <line x1="20" y1="150" x2="140" y2="150" stroke="#60a5fa" stroke-width="1"/>
                     <line x1="20" y1="170" x2="140" y2="170" stroke="#60a5fa" stroke-width="1"/>
                 </g>
-                <!-- Right Solar Array -->
                 <g class="animate-[pulse_4s_infinite]" style="animation-delay: 1s;">
                     <rect x="260" y="110" width="120" height="80" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="2"/>
                     <line x1="290" y1="110" x2="290" y2="190" stroke="#60a5fa" stroke-width="1"/>
@@ -216,7 +213,6 @@ body.ai-mode .gd-avatar { background: #334155; }
                 </g>
                 <rect x="140" y="145" width="40" height="10" fill="#64748b"/>
                 <rect x="220" y="145" width="40" height="10" fill="#64748b"/>
-                <!-- Main Body -->
                 <polygon points="170,100 230,100 240,150 230,200 170,200 160,150" fill="url(#goldFoil)" stroke="#fcd34d" stroke-width="2"/>
                 <path d="M 180 80 Q 200 40 220 80 Q 200 60 180 80 Z" fill="#cbd5e1" stroke="#f1f5f9" stroke-width="2"/>
                 <line x1="200" y1="70" x2="200" y2="20" stroke="#cbd5e1" stroke-width="3"/>
@@ -264,6 +260,7 @@ body.ai-mode .gd-avatar { background: #334155; }
                 <rect x="85" y="10" width="10" height="4" fill="#475569" rx="1"/>
                 <path d="M 15 120 L 5 170 L 15 170 Z" fill="url(#darkMetal)"/>
                 <path d="M 85 120 L 95 170 L 85 170 Z" fill="url(#darkMetal)"/>
+                <!-- Nozzle perfectly ending at Y=200 -->
                 <path d="M 25 170 L 75 170 L 85 200 L 15 200 Z" fill="url(#darkMetal)"/>
                 <rect x="15" y="165" width="70" height="5" fill="#0f172a"/>
                 <rect x="45" y="50" width="10" height="80" fill="#e2e8f0" rx="5" opacity="0.5"/>
@@ -828,9 +825,6 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/1
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
-// ==========================================
-// GROQ (LLAMA-3.1) API INTEGRATION
-// ==========================================
 const part1 = "gsk_";
 const part2 = "i8mmL0cZCr8eL5sWN6omWGdyb3FYhGBRWSr9eFwyvAQIZxAfP6xZ";
 const GROQ_API_KEY = part1 + part2;
@@ -898,84 +892,73 @@ let unsubscribeStudent = null;
 window.bioMetrics = { eyeContact: [], stress: [] };
 
 window.chairmanLaunch = function() {
-    // 1. Hide Button smoothly
-    const btnContainer = document.getElementById('launchBtnContainer');
-    btnContainer.style.opacity = '0';
+    document.getElementById('launchBtnContainer').style.opacity = '0';
     
     setTimeout(() => {
-        btnContainer.style.display = 'none';
+        document.getElementById('launchBtnContainer').style.display = 'none';
         
         const overlay = document.getElementById('launchOverlay');
-        const rocket = document.getElementById('rocketAsset');
+        const rocket = document.getElementById('rocketAssembly');
         const smoke = document.getElementById('rocketSmoke');
-        const engine = document.getElementById('svgExhaust');
+        const engine = document.getElementById('engineFire');
         const shockwave = document.getElementById('shockwaveEffect');
         const flash = document.getElementById('flashBang');
         const backdrop = document.getElementById('spaceBackdrop');
+        const earth = document.getElementById('earthHorizon');
         const lowerStage = document.getElementById('lowerStage');
         const upperStage = document.getElementById('upperStage');
         const payload = document.getElementById('satellitePayload');
         
-        // 2. Phase 1: Ignition Sequence
+        // 1. Ignition
         smoke.classList.add('smoke-active');
-        engine.style.opacity = '1';
+        engine.classList.add('engine-ignite');
         rocket.classList.add('rocket-shake-intense');
         
-        // Let pressure build up for 2.5 seconds
         setTimeout(() => {
-            
-            // 3. Phase 2: Liftoff
+            // 2. Liftoff
             backdrop.classList.add('warp-speed');
-            rocket.classList.remove('rocket-shake-intense'); // Stop shaking, fly straight
-            rocket.classList.add('rocket-liftoff'); // Launch!
+            rocket.classList.remove('rocket-shake-intense');
+            rocket.classList.add('rocket-liftoff');
+            earth.classList.add('earth-drop');
             
-            // 4. Phase 3: Stage Separation (MECO)
             setTimeout(() => {
+                // 3. MECO & Stage 1 Separation
                 shockwave.classList.add('shockwave-fire');
-                engine.style.opacity = '0'; // Engine cuts off
-                lowerStage.classList.add('stage-drop'); // Booster falls away
+                engine.classList.remove('engine-ignite');
+                lowerStage.classList.add('stage-drop');
                 
-                // Flashbang hits a fraction of a second later
                 setTimeout(() => {
                     flash.style.opacity = '1';
                     
-                    // 5. Phase 4: Orbital Deployment
                     setTimeout(() => {
-                        upperStage.classList.add('stage-shoot'); // Fairing flies off
-                        payload.classList.add('satellite-deploy'); // Satellite expands
+                        // 4. Fairing Deploy & Satellite Reveal
+                        flash.style.opacity = '0';
+                        backdrop.classList.remove('warp-speed');
+                        upperStage.classList.add('stage-shoot');
+                        payload.classList.add('satellite-deploy');
                         
-                        flash.style.opacity = '0'; // Fade out flash
-                        backdrop.classList.remove('warp-speed'); // Stop warp speed stars
-                        
-                        // 6. Phase 5: Enter the Website
                         setTimeout(() => {
-                            overlay.style.pointerEvents = 'none'; // Drop interaction blocking
-                            overlay.style.opacity = '0'; // Fade the entire overlay to reveal the site
+                            // 5. Enter Website & Scroll
+                            overlay.style.opacity = '0';
                             
                             setTimeout(() => {
                                 overlay.style.display = 'none';
                                 overlay.classList.add('hidden');
                                 sessionStorage.setItem('chairman_launched', 'true');
                                 
-                                // Direct to the homepage
                                 const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
                                 window.switchTab('tab-home', targetNavBtn);
                                 
-                                // Scroll to why assetize
-                                setTimeout(() => {
-                                    const whySec = document.getElementById('why-assetize-section');
-                                    if(whySec) whySec.scrollIntoView({behavior: 'smooth', block: 'start'});
-                                }, 500);
+                                const whySec = document.getElementById('why-assetize-section');
+                                if(whySec) whySec.scrollIntoView({behavior: 'smooth', block: 'start'});
                                 
                             }, 1500);
-                            
-                        }, 4500); // Give the audience 4.5 seconds to admire the satellite
-                        
-                    }, 500); // Wait for flash to hit peak brightness
-                }, 200); // Delay between shockwave start and flash
-            }, 1200); // Flight time before stage separation
-        }, 2500); // Ignition pressure build-up time
-    }, 1000); // Wait for button to fade out
+                        }, 4500);
+                    }, 500);
+                }, 200);
+            }, 3500);
+        }, 2500);
+    }, 1000);
 };
 
 const localResponses = {
