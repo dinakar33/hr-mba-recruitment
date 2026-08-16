@@ -1,395 +1,417 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Human Assetize - Admin Dashboard</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<script>
-tailwind.config = {
-theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { brand: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' } } } }
-}
-</script>
-<style>
-body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; }
-.glass-panel { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(51, 65, 85, 0.5); }
-.glass-card { background: linear-gradient(145deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%); backdrop-filter: blur(12px); border: 1px solid rgba(71, 85, 105, 0.4); }
-.custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
-.custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; border-radius: 4px; }
-.custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; border: 2px solid #0f172a; }
-.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
-</style>
-</head>
-<body class="min-h-screen flex flex-col relative overflow-hidden selection:bg-brand-500 selection:text-white">
-
-<div class="fixed top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-    <div class="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] bg-brand-600/10 blur-[120px] rounded-full mix-blend-screen"></div>
-    <div class="absolute bottom-[10%] -right-[10%] w-[50%] h-[50%] bg-purple-600/10 blur-[120px] rounded-full mix-blend-screen"></div>
-    <div class="absolute top-[40%] left-[40%] w-[30%] h-[30%] bg-emerald-600/5 blur-[100px] rounded-full mix-blend-screen"></div>
-    <!-- Subtle Grid overlay -->
-    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CjxwYXRoIGQ9Ik00MCAwaC00MHY0MGg0MHpNMzkgMThWMkgydjE2aDM3em0wIDIwdjE2SDJWMzhkMzN6TTIgMjB2MTZoMzdWMjBIMnoiIGZpbGw9IiMzMzQxNTUiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPgo8L3N2Zz4=')] opacity-50"></div>
-</div>
-
-<div id="loginScreen" class="absolute inset-0 z-50 flex items-center justify-center bg-[#020617] transition-all duration-500">
-    <div class="w-full max-w-md p-8 md:p-10 glass-card rounded-2xl shadow-2xl text-center mx-4 relative overflow-hidden border-t-4 border-t-brand-500">
-        <div class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-inner border border-slate-700">
-            <i class="fa-solid fa-user-shield text-brand-400"></i>
-        </div>
-        <h2 class="text-3xl font-extrabold mb-2 tracking-tight">Admin Portal</h2>
-        <p class="text-slate-400 text-sm mb-8">Enter executive passcode to access secure telemetry.</p>
-        
-        <input type="password" id="adminPass" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-4 text-white focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none mb-6 text-center tracking-widest text-lg shadow-inner placeholder-slate-600 transition-all" placeholder="••••••••">
-        
-        <button onclick="login()" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold py-4 rounded-xl shadow-[0_0_15px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)] transition-all flex items-center justify-center text-lg">
-            Decrypt & Enter <i class="fa-solid fa-fingerprint ml-2"></i>
-        </button>
-        <p id="errorMsg" class="text-red-400 text-sm mt-4 hidden font-medium"><i class="fa-solid fa-circle-exclamation mr-1"></i> Access Denied. Invalid passcode.</p>
-    </div>
-</div>
-
-<div id="dashboardScreen" class="relative z-10 w-full flex-grow flex-col hidden h-screen overflow-hidden">
-    
-    <!-- Top Navbar -->
-    <nav class="glass-panel border-b border-slate-800 px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-md flex-shrink-0 z-20">
-        <div class="flex items-center space-x-4">
-            <div class="w-10 h-10 bg-brand-600 rounded-lg flex items-center justify-center text-white shadow-lg">
-                <i class="fa-solid fa-chart-network"></i>
-            </div>
-            <div>
-                <h1 class="text-xl font-bold tracking-tight text-white leading-tight">Human Assetize</h1>
-                <p class="text-[10px] uppercase tracking-widest text-brand-400 font-semibold"><i class="fa-solid fa-circle-dot animate-pulse mr-1 text-green-400"></i> Secure Terminal Active</p>
-            </div>
-        </div>
-        <div class="flex items-center space-x-4 w-full sm:w-auto">
-            <div class="flex items-center space-x-3 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700 shadow-inner">
-                <span class="text-[10px] font-bold uppercase tracking-widest text-brand-300"><i class="fa-solid fa-rocket mr-1"></i> Launch</span>
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" id="launchModeToggle" onchange="window.toggleLaunchMode(this.checked)" class="sr-only peer">
-                    <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500 border border-slate-600"></div>
-                </label>
-            </div>
-            
-            <div class="relative w-full sm:w-64">
-                <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500"></i>
-                <input type="text" id="searchInput" onkeyup="filterCandidates()" placeholder="Search candidates..." class="w-full bg-slate-900 border border-slate-700 text-sm rounded-full pl-9 pr-4 py-2 focus:ring-2 focus:ring-brand-500 outline-none text-slate-200 placeholder-slate-500 transition-all">
-            </div>
-            <button onclick="location.reload()" class="bg-slate-800 hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/50 text-slate-300 border border-slate-700 w-10 h-10 rounded-full flex items-center justify-center transition-all flex-shrink-0" title="Lock Terminal">
-                <i class="fa-solid fa-power-off"></i>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Main Content Area -->
-    <main class="flex-grow p-4 sm:p-6 lg:p-8 overflow-y-auto custom-scrollbar flex flex-col space-y-6">
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 flex-shrink-0">
-            <div class="glass-card p-6 rounded-2xl flex items-center justify-between border-l-4 border-l-blue-500 relative overflow-hidden group">
-                <div class="absolute -right-6 -top-6 text-blue-500/10 text-8xl transition-transform group-hover:scale-110 group-hover:rotate-12 duration-500"><i class="fa-solid fa-users"></i></div>
-                <div class="relative z-10">
-                    <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Global Database</p>
-                    <h3 class="text-4xl font-black text-white flex items-baseline"><span id="statTotal">0</span> <span class="text-sm font-medium text-slate-500 ml-2">Candidates</span></h3>
-                </div>
-                <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl relative z-10 shadow-inner border border-blue-500/30"><i class="fa-solid fa-users"></i></div>
-            </div>
-            
-            <div class="glass-card p-6 rounded-2xl flex items-center justify-between border-l-4 border-l-emerald-500 relative overflow-hidden group">
-                <div class="absolute -right-6 -top-6 text-emerald-500/10 text-8xl transition-transform group-hover:scale-110 group-hover:-rotate-12 duration-500"><i class="fa-solid fa-chart-line-up"></i></div>
-                <div class="relative z-10">
-                    <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Global Index Avg</p>
-                    <h3 class="text-4xl font-black text-white flex items-baseline"><span id="statInt">0</span><span class="text-xl text-emerald-400 ml-1">%</span></h3>
-                </div>
-                <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl relative z-10 shadow-inner border border-emerald-500/30"><i class="fa-solid fa-check-double"></i></div>
-            </div>
-            
-            <div class="glass-card p-6 rounded-2xl flex items-center justify-between border-l-4 border-l-purple-500 relative overflow-hidden group">
-                <div class="absolute -right-6 -top-6 text-purple-500/10 text-8xl transition-transform group-hover:scale-110 duration-500"><i class="fa-solid fa-dna"></i></div>
-                <div class="relative z-10">
-                    <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Primary Archetype</p>
-                    <h3 id="statArch" class="text-2xl font-black text-white mt-1">Evaluating...</h3>
-                </div>
-                <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl relative z-10 shadow-inner border border-purple-500/30"><i class="fa-solid fa-dna"></i></div>
-            </div>
-        </div>
-
-        <div class="glass-card rounded-2xl flex-grow flex flex-col overflow-hidden shadow-2xl border border-slate-700/60">
-            <div class="p-5 border-b border-slate-700/60 bg-slate-800/40 flex justify-between items-center">
-                <h3 class="font-bold text-lg text-white"><i class="fa-solid fa-table-list mr-2 text-brand-400"></i> Executive Roster</h3>
-                <button onclick="fetchData()" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-white transition"><i class="fa-solid fa-rotate-right mr-1"></i> Sync</button>
-            </div>
-            
-            <div class="overflow-x-auto overflow-y-auto flex-grow custom-scrollbar">
-                <table class="w-full text-left text-sm whitespace-nowrap min-w-[1000px]">
-                    <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-bold tracking-wider sticky top-0 z-10 shadow-md backdrop-blur-md">
-                        <tr>
-                            <th class="px-6 py-4 border-b border-slate-700">Candidate Identity</th>
-                            <th class="px-6 py-4 text-center border-b border-slate-700">ATS</th>
-                            <th class="px-6 py-4 text-center border-b border-slate-700">Aptitude</th>
-                            <th class="px-6 py-4 text-center border-b border-slate-700">V-GD</th>
-                            <th class="px-6 py-4 text-center border-b border-slate-700">Interview</th>
-                            <th class="px-6 py-4 text-center border-b border-slate-700">Archetype</th>
-                            <th class="px-6 py-4 border-b border-slate-700 w-48">Readiness Index</th>
-                            <th class="px-6 py-4 text-center border-b border-slate-700 bg-slate-900/90">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="candidateTableBody" class="divide-y divide-slate-800/50">
-                        <tr><td colspan="8" class="px-6 py-16 text-center text-slate-500"><i class="fa-solid fa-spinner fa-spin mr-2 text-brand-500 text-2xl"></i><br><span class="block mt-2 font-medium">Establishing Secure Uplink...</span></td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </main>
-</div>
-
-<div id="deleteModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 items-center justify-center p-4 transition-opacity">
-    <div class="bg-[#0f172a] border border-slate-700 rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center transform transition-all scale-100 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
-        <div class="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center text-red-500 text-3xl mx-auto mb-4 border border-red-500/20">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-2">Confirm Deletion</h3>
-        <p class="text-slate-400 text-sm mb-6">Are you absolutely sure you want to permanently delete the records for <strong id="deleteCandidateName" class="text-white"></strong>? This action cannot be undone.</p>
-        
-        <div class="flex space-x-3">
-            <button onclick="closeDeleteModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl transition border border-slate-600">Cancel</button>
-            <button onclick="confirmDelete()" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-xl transition shadow-[0_0_15px_rgba(220,38,38,0.4)]">Delete Record</button>
-        </div>
-    </div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, collection, onSnapshot, doc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
-    authDomain: "hr-blog-app.firebaseapp.com",
-    databaseURL: "https://hr-blog-app-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "hr-blog-app",
-    storageBucket: "hr-blog-app.firebasestorage.app",
-    messagingSenderId: "622131978390",
-    appId: "1:622131978390:web:ae9ae697d7c84dea9a22b7"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const APP_ID = 'hr-blog-app'; 
-
-let candidateToDeleteId = null;
-let unsubscribeFirebase = null;
-let unsubscribeConfig = null;
-
-window.toggleLaunchMode = async function(isActive) {
-    try {
-        const docRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'config', 'siteConfig');
-        await setDoc(docRef, { launchMode: isActive }, { merge: true });
-    } catch (error) {
-        console.error("Error setting launch mode: ", error);
-    }
-};
-
-window.login = function() {
-    const pass = document.getElementById('adminPass').value;
-    if(pass === 'admin123') { // Replace with a strong password in production
-        document.getElementById('loginScreen').classList.add('opacity-0', 'pointer-events-none');
-        setTimeout(() => {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('dashboardScreen').classList.remove('hidden');
-            document.getElementById('dashboardScreen').classList.add('flex');
-            initDatabase();
-        }, 500);
-    } else {
-        const err = document.getElementById('errorMsg');
-        err.classList.remove('hidden');
-        document.getElementById('adminPass').value = '';
-        setTimeout(() => err.classList.add('hidden'), 3000);
-    }
-}
-
-window.fetchData = function() {
-    // Allows manual re-trigger if needed
-    if(unsubscribeFirebase) unsubscribeFirebase();
-    initDatabase();
-};
-
-function initDatabase() {
-    signInAnonymously(auth).then(() => {
-        unsubscribeConfig = onSnapshot(doc(db, 'artifacts', APP_ID, 'public', 'data', 'config', 'siteConfig'), (docSnap) => {
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                document.getElementById('launchModeToggle').checked = data.launchMode === true;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Assetize - Executive Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { brand: { 500: '#3b82f6', 600: '#2563eb', 900: '#1e3a8a' } }
+                }
             }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f1f5f9; }
+        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(51, 65, 85, 0.8); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        
+        /* Toggle Switch CSS */
+        .toggle-checkbox:checked { right: 0; border-color: #ef4444; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #ef4444; }
+        .toggle-checkbox:checked + .toggle-label + .toggle-text { color: #ef4444; text-shadow: 0 0 10px rgba(239,68,68,0.5); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-900">
+        <div class="glass-panel p-8 rounded-2xl w-full max-w-md text-center shadow-2xl border-t-4 border-t-brand-500">
+            <div class="w-16 h-16 bg-brand-900 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 border-2 border-brand-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                <i class="fa-solid fa-user-shield text-brand-400"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-2">Executive Admin</h2>
+            <p class="text-slate-400 text-sm mb-6">Enter master passcode to access candidate dossiers.</p>
+            <input type="password" id="passcodeInput" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-brand-500 outline-none text-center tracking-[0.5em] mb-4" placeholder="••••••••">
+            <button onclick="window.checkPasscode()" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 rounded-lg transition shadow-lg">Authenticate</button>
+            <p id="loginError" class="text-red-400 text-sm mt-3 hidden font-medium">Invalid Passcode.</p>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD (HIDDEN INITIALLY) -->
+    <div id="dashboardScreen" class="hidden flex-col min-h-screen">
+        
+        <!-- HEADER -->
+        <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 shadow-md">
+            <div class="max-w-screen-2xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-brand-900 rounded-lg flex items-center justify-center text-brand-400 text-xl mr-3 border border-brand-500/30">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg md:text-xl font-bold text-white tracking-tight">Human Assetize</h1>
+                        <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Admin Control Center</span>
+                    </div>
+                </div>
+                
+                <!-- MASTER LAUNCH TOGGLE -->
+                <div class="flex items-center bg-slate-800 px-4 py-2 rounded-xl border border-slate-700">
+                    <i class="fa-solid fa-rocket text-slate-400 mr-3"></i>
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-300 mr-3">Cinematic Launch Sequence</span>
+                    <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                        <input type="checkbox" name="toggle" id="launchToggleBtn" onchange="window.toggleMasterLaunch(this.checked)" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-transform duration-200 ease-in-out top-0 bottom-0 m-auto z-10"/>
+                        <label for="launchToggleBtn" class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-600 cursor-pointer"></label>
+                    </div>
+                    <span id="launchStatusText" class="text-[10px] font-black uppercase tracking-widest text-slate-500 w-16">Standby</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-grow max-w-screen-2xl mx-auto w-full px-4 md:px-6 py-8">
+            
+            <!-- ANALYTICS CARDS -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-blue-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Total Candidates</p>
+                            <h3 id="statTotal" class="text-4xl font-black text-white">0</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 text-xl"><i class="fa-solid fa-users"></i></div>
+                    </div>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-emerald-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Global Average Index</p>
+                            <h3 id="statAvg" class="text-4xl font-black text-emerald-400">0%</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-xl"><i class="fa-solid fa-chart-pie"></i></div>
+                    </div>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-purple-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Dominant Archetype</p>
+                            <h3 id="statArch" class="text-2xl font-bold text-purple-400 mt-2 truncate max-w-[150px]">N/A</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 text-xl"><i class="fa-solid fa-dna"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CANDIDATE DATA TABLE -->
+            <div class="glass-panel rounded-2xl overflow-hidden shadow-xl flex flex-col h-[600px]">
+                <div class="p-4 md:p-6 border-b border-slate-700/50 flex justify-between items-center bg-slate-900/50">
+                    <h2 class="text-lg font-bold"><i class="fa-solid fa-database text-brand-500 mr-2"></i>Live Candidate Registry</h2>
+                    <div class="relative">
+                        <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500"></i>
+                        <input type="text" id="searchInput" onkeyup="window.filterTable()" placeholder="Search by name or email..." class="bg-slate-800 border border-slate-600 rounded-lg pl-10 pr-4 py-2 text-sm text-white focus:outline-none focus:border-brand-500 w-64 transition-all">
+                    </div>
+                </div>
+                <div class="overflow-x-auto flex-grow custom-scrollbar">
+                    <table class="w-full text-left border-collapse" id="candidateTable">
+                        <thead class="bg-slate-800/80 text-xs uppercase font-bold tracking-wider text-slate-400 sticky top-0 z-10">
+                            <tr>
+                                <th class="px-6 py-4 border-b border-slate-700">Candidate Info</th>
+                                <th class="px-6 py-4 border-b border-slate-700">Archetype</th>
+                                <th class="px-6 py-4 border-b border-slate-700 text-center">ATS</th>
+                                <th class="px-6 py-4 border-b border-slate-700 text-center">Aptitude</th>
+                                <th class="px-6 py-4 border-b border-slate-700 text-center">GD (30)</th>
+                                <th class="px-6 py-4 border-b border-slate-700 text-center">Interview</th>
+                                <th class="px-6 py-4 border-b border-slate-700">Readiness Index</th>
+                                <th class="px-6 py-4 border-b border-slate-700 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" class="text-sm divide-y divide-slate-800/50">
+                            <tr><td colspan="8" class="text-center py-10 text-slate-500"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading live data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- DELETE CONFIRMATION MODAL -->
+    <div id="deleteModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel p-6 md:p-8 rounded-2xl shadow-2xl max-w-sm w-full text-center border-t-4 border-t-red-500 transform scale-95 transition-transform duration-300" id="deleteModalContent">
+            <div class="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center text-red-500 text-3xl mx-auto mb-4">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Delete Candidate?</h3>
+            <p class="text-sm text-slate-400 mb-6">Are you sure you want to permanently delete <strong id="deleteCandidateName" class="text-white"></strong>? This action cannot be undone and will wipe all their assessment scores.</p>
+            <div class="flex space-x-3">
+                <button onclick="window.closeDeleteModal()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-2.5 rounded-lg transition">Cancel</button>
+                <button id="confirmDeleteBtn" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-2.5 rounded-lg transition shadow-[0_0_15px_rgba(220,38,38,0.4)]">Delete Data</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, onSnapshot, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // FIREBASE CONFIGURATION (Matches Main Website)
+        const firebaseConfig = {
+            apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
+            authDomain: "hr-blog-app.firebaseapp.com",
+            databaseURL: "https://hr-blog-app-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "hr-blog-app",
+            storageBucket: "hr-blog-app.firebasestorage.app",
+            messagingSenderId: "622131978390",
+            appId: "1:622131978390:web:ae9ae697d7c84dea9a22b7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const APP_ID = 'hr-blog-app';
+
+        let candidateCache = [];
+        let configDocRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'config', 'siteConfig');
+
+        // PASSCODE PROTECTION
+        window.checkPasscode = function() {
+            const input = document.getElementById('passcodeInput').value;
+            if(input === 'admin123') {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('dashboardScreen').classList.remove('hidden');
+                document.getElementById('dashboardScreen').classList.add('flex');
+                initAdminDashboard();
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+                document.getElementById('passcodeInput').value = '';
+            }
+        };
+
+        // BIND ENTER KEY TO LOGIN
+        document.getElementById('passcodeInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') window.checkPasscode();
         });
 
-        const queryCol = collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates');
-        
-        unsubscribeFirebase = onSnapshot(queryCol, (snapshot) => {
-            const tbody = document.getElementById('candidateTableBody');
-            tbody.innerHTML = '';
-            
-            let totalOverallScore = 0;
-            let archCounts = {};
-            let validCandidatesCount = 0;
-            
-            if (snapshot.empty) {
-                tbody.innerHTML = '<tr><td colspan="8" class="px-6 py-16 text-center text-slate-500"><i class="fa-solid fa-folder-open text-4xl mb-4 block opacity-50"></i><p class="text-lg">No candidates registered.</p></td></tr>';
-                document.getElementById('statTotal').innerText = "0";
-                document.getElementById('statInt').innerText = "0";
-                document.getElementById('statArch').innerText = "N/A";
-                return;
-            }
-
-            snapshot.forEach((docSnap) => {
-                const data = docSnap.data();
-                const name = data.name || 'Anonymous Candidate';
-                const email = data.email || 'No Email Provided';
-                const arch = data.archetype || 'Not Evaluated';
-                const ats = data.ats_score || 0;
-                const test = data.test_score || 0;
-                const gd = data.gd_score || 0;
-                const int = data.interview_score || 0;
-                const resumeUrl = data.resume_url || null;
-                
-                let readiness = Math.round((ats + test + ((gd/30)*100) + int) / 4) || 0;
-                
-                totalOverallScore += readiness;
-                validCandidatesCount++;
-                
-                if(arch !== 'Not Evaluated') {
-                    archCounts[arch] = (archCounts[arch] || 0) + 1;
+        function initAdminDashboard() {
+            // 1. Listen for Master Config (Launch Switch)
+            onSnapshot(configDocRef, (snap) => {
+                const toggle = document.getElementById('launchToggleBtn');
+                const statusTxt = document.getElementById('launchStatusText');
+                if(snap.exists()) {
+                    const data = snap.data();
+                    toggle.checked = data.launchMode === true;
+                } else {
+                    toggle.checked = false;
                 }
-
-                // Color coding based on score tiers
-                const getScoreColor = (score, max) => {
-                    const percent = (score / max) * 100;
-                    if (percent >= 71) return 'text-emerald-400';
-                    if (percent >= 41) return 'text-amber-400';
-                    return 'text-red-400';
-                };
                 
-                const getArchColor = (a) => {
-                    if(a === 'Strategist') return 'text-blue-300 border-blue-500/30 bg-blue-500/10';
-                    if(a === 'Innovator') return 'text-purple-300 border-purple-500/30 bg-purple-500/10';
-                    if(a === 'Connector') return 'text-pink-300 border-pink-500/30 bg-pink-500/10';
-                    if(a === 'Executor') return 'text-amber-300 border-amber-500/30 bg-amber-500/10';
-                    return 'text-slate-400 border-slate-600 bg-slate-800';
+                if(toggle.checked) {
+                    statusTxt.innerText = "ACTIVE";
+                    statusTxt.classList.remove('text-slate-500');
+                    statusTxt.classList.add('text-red-400');
+                } else {
+                    statusTxt.innerText = "STANDBY";
+                    statusTxt.classList.remove('text-red-400');
+                    statusTxt.classList.add('text-slate-500');
                 }
-
-                // Download Button Logic
-                const downloadBtn = resumeUrl 
-                    ? `<a href="${resumeUrl}" target="_blank" class="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400 hover:bg-blue-500 hover:text-white flex items-center justify-center transition-all tooltip-trigger border border-blue-500/30" title="Download Resume"><i class="fa-solid fa-file-pdf"></i></a>`
-                    : `<button disabled class="w-8 h-8 rounded-lg bg-slate-800 text-slate-600 flex items-center justify-center cursor-not-allowed border border-slate-700" title="No Resume"><i class="fa-solid fa-file-pdf"></i></button>`;
-
-                let row = `
-                <tr class="hover:bg-slate-800/40 transition-colors group">
-                    <td class="px-6 py-4">
-                        <div class="flex items-center">
-                            <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-300 mr-3 border border-slate-600">${name.charAt(0).toUpperCase()}</div>
-                            <div>
-                                <div class="font-bold text-white group-hover:text-brand-300 transition-colors">${name}</div>
-                                <div class="text-[11px] text-slate-400">${email}</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 text-center font-mono text-sm font-bold ${getScoreColor(ats, 100)}">${ats}</td>
-                    <td class="px-6 py-4 text-center font-mono text-sm font-bold ${getScoreColor(test, 100)}">${test}</td>
-                    <td class="px-6 py-4 text-center font-mono text-sm font-bold ${getScoreColor(gd, 30)}">${gd}</td>
-                    <td class="px-6 py-4 text-center font-mono text-sm font-bold ${getScoreColor(int, 100)}">${int}</td>
-                    <td class="px-6 py-4 text-center">
-                        <span class="px-2.5 py-1 rounded border text-[10px] uppercase font-bold tracking-wider ${getArchColor(arch)}">${arch}</span>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex items-center w-full">
-                            <span class="w-8 font-mono text-xs font-bold mr-2 text-right ${getScoreColor(readiness, 100)}">${readiness}%</span>
-                            <div class="w-full bg-slate-800 rounded-full h-1.5 border border-slate-700 overflow-hidden">
-                                <div class="${getScoreColor(readiness, 100).replace('text-', 'bg-')} h-full transition-all duration-1000" style="width: ${readiness}%"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 text-center bg-slate-900/50 group-hover:bg-slate-800/80 transition-colors border-l border-slate-800">
-                        <div class="flex items-center justify-center space-x-2">
-                            ${downloadBtn}
-                            <button onclick="window.showDeleteModal('${docSnap.id}', '${name.replace(/'/g, "\\'")}')" class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all border border-red-500/20" title="Delete Candidate">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>`;
-                tbody.innerHTML += row;
             });
 
-            // Update Top Stats
-            document.getElementById('statTotal').innerText = snapshot.size;
-            document.getElementById('statInt').innerText = validCandidatesCount > 0 ? Math.round(totalOverallScore / validCandidatesCount) : 0;
-            
-            let domArch = "Evaluating...";
-            let maxCount = 0;
-            for (let a in archCounts) {
-                if (archCounts[a] > maxCount) {
-                    maxCount = archCounts[a];
-                    domArch = a;
+            // 2. Listen for Candidates
+            const candidatesRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates');
+            onSnapshot(candidatesRef, (snapshot) => {
+                candidateCache = [];
+                let totalReadiness = 0;
+                let archCounts = {};
+
+                const tbody = document.getElementById('tableBody');
+                tbody.innerHTML = '';
+
+                if (snapshot.empty) {
+                    tbody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-slate-500">No candidates registered yet.</td></tr>`;
+                    updateStats(0, 0, 'N/A');
+                    return;
                 }
-            }
-            document.getElementById('statArch').innerText = domArch;
+
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const name = data.name || 'Unknown';
+                    const email = data.email || 'No Email';
+                    const spec = data.specialization || 'Not Specified';
+                    const arch = data.archetype && data.archetype !== "Not Evaluated" ? data.archetype : 'Pending';
+                    const ats = data.ats_score || 0;
+                    const test = data.test_score || 0;
+                    const gd = data.gd_score || 0;
+                    const interview = data.interview_score || 0;
+                    const resumeUrl = data.resume_url || '';
+
+                    // Calculate Readiness Index exactly like main app
+                    const readiness = Math.round((ats + test + ((gd / 30) * 100) + interview) / 4) || 0;
+                    totalReadiness += readiness;
+
+                    // Track Archetypes
+                    if (arch !== 'Pending') {
+                        archCounts[arch] = (archCounts[arch] || 0) + 1;
+                    }
+
+                    // Cache for searching
+                    candidateCache.push({ id: docSnap.id, name, email, html: '' });
+
+                    // Coloring logic
+                    const getScoreColor = (score, max) => {
+                        const pct = (score / max) * 100;
+                        if(pct >= 75) return 'text-green-400';
+                        if(pct >= 50) return 'text-amber-400';
+                        return 'text-red-400';
+                    }
+
+                    const getArchColor = (a) => {
+                        if(a === 'Strategist') return 'text-blue-300 border-blue-500/30 bg-blue-500/10';
+                        if(a === 'Innovator') return 'text-purple-300 border-purple-500/30 bg-purple-500/10';
+                        if(a === 'Connector') return 'text-pink-300 border-pink-500/30 bg-pink-500/10';
+                        if(a === 'Executor') return 'text-amber-300 border-amber-500/30 bg-amber-500/10';
+                        return 'text-slate-400 border-slate-600 bg-slate-800';
+                    }
+
+                    // Action Buttons
+                    const downloadBtn = resumeUrl 
+                        ? `<a href="${resumeUrl}" target="_blank" class="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400 hover:bg-blue-500 hover:text-white flex items-center justify-center transition-all tooltip-trigger border border-blue-500/30" title="Download Resume"><i class="fa-solid fa-file-pdf"></i></a>`
+                        : `<button disabled class="w-8 h-8 rounded-lg bg-slate-800 text-slate-600 flex items-center justify-center cursor-not-allowed border border-slate-700" title="No Resume"><i class="fa-solid fa-file-pdf"></i></button>`;
+
+                    const impersonateBtn = `<a href="index.html?email=${encodeURIComponent(email)}" target="_blank" class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 hover:bg-purple-500 hover:text-white flex items-center justify-center transition-all border border-purple-500/20" title="Login as Candidate"><i class="fa-solid fa-user-secret"></i></a>`;
+
+                    let row = `
+                    <tr class="hover:bg-slate-800/40 transition-colors group">
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-white">${name}</div>
+                            <div class="text-xs text-slate-400">${email}</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border ${getArchColor(arch)}">
+                                ${arch}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-center font-mono font-bold ${getScoreColor(ats, 100)}">${ats}</td>
+                        <td class="px-6 py-4 text-center font-mono font-bold ${getScoreColor(test, 100)}">${test}</td>
+                        <td class="px-6 py-4 text-center font-mono font-bold ${getScoreColor(gd, 30)}">${gd}</td>
+                        <td class="px-6 py-4 text-center font-mono font-bold ${getScoreColor(interview, 100)}">${interview}</td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center w-full">
+                                <span class="w-8 font-mono text-xs font-bold mr-2 text-right ${getScoreColor(readiness, 100)}">${readiness}%</span>
+                                <div class="w-full bg-slate-800 rounded-full h-1.5 border border-slate-700 overflow-hidden">
+                                    <div class="${getScoreColor(readiness, 100).replace('text-', 'bg-')} h-full transition-all duration-1000" style="width: ${readiness}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center bg-slate-900/50 group-hover:bg-slate-800/80 transition-colors border-l border-slate-800">
+                            <div class="flex items-center justify-center space-x-2">
+                                ${impersonateBtn}
+                                ${downloadBtn}
+                                <button onclick="window.showDeleteModal('${docSnap.id}', '${name.replace(/'/g, "\\'")}')" class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all border border-red-500/20" title="Delete Candidate">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>`;
+                    
+                    candidateCache[candidateCache.length - 1].html = row;
+                    tbody.innerHTML += row;
+                });
+
+                // Calculate Dominant Archetype
+                let domArch = 'N/A';
+                let maxCount = 0;
+                for (let key in archCounts) {
+                    if (archCounts[key] > maxCount) {
+                        maxCount = archCounts[key];
+                        domArch = key;
+                    }
+                }
+
+                const avgReadiness = snapshot.size > 0 ? Math.round(totalReadiness / snapshot.size) : 0;
+                updateStats(snapshot.size, avgReadiness, domArch);
+            });
+        }
+
+        function updateStats(total, avg, arch) {
+            document.getElementById('statTotal').innerText = total;
+            document.getElementById('statAvg').innerText = `${avg}%`;
+            document.getElementById('statArch').innerText = arch;
+        }
+
+        window.filterTable = function() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
             
-            // Re-apply filter if text is in search box
-            window.filterCandidates();
+            let matchCount = 0;
+            candidateCache.forEach(cand => {
+                if (cand.name.toLowerCase().includes(query) || cand.email.toLowerCase().includes(query)) {
+                    tbody.innerHTML += cand.html;
+                    matchCount++;
+                }
+            });
 
-        }, (error) => {
-            console.error("Firebase Read Error: ", error);
-            document.getElementById('candidateTableBody').innerHTML = `<tr><td colspan="8" class="px-6 py-12 text-center text-red-400 bg-red-500/10"><i class="fa-solid fa-triangle-exclamation mr-2"></i> Database connection failed. Please check permissions.</td></tr>`;
-        });
-    });
-}
+            if (matchCount === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-slate-500">No candidates match your search.</td></tr>`;
+            }
+        };
 
-window.filterCandidates = function() {
-    const term = document.getElementById('searchInput').value.toLowerCase();
-    const rows = document.querySelectorAll('#candidateTableBody tr');
-    
-    // Skip if it's the loading or empty state row
-    if(rows.length === 1 && rows[0].innerText.includes('Secure Uplink') || rows[0].innerText.includes('No candidates')) return;
+        // Master Launch Switch
+        window.toggleMasterLaunch = async function(isActive) {
+            try {
+                await setDoc(configDocRef, { launchMode: isActive }, { merge: true });
+                console.log("Launch state updated to:", isActive);
+            } catch (e) {
+                alert("Failed to sync launch sequence to server.");
+            }
+        };
 
-    rows.forEach(row => {
-        const textContent = row.innerText.toLowerCase();
-        row.style.display = textContent.includes(term) ? '' : 'none';
-    });
-}
+        // Delete Modal Logic
+        let candidateToDelete = null;
+        
+        window.showDeleteModal = function(id, name) {
+            candidateToDelete = id;
+            document.getElementById('deleteCandidateName').innerText = name;
+            const modal = document.getElementById('deleteModal');
+            const content = document.getElementById('deleteModalContent');
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
 
-window.showDeleteModal = function(id, name) {
-    candidateToDeleteId = id;
-    document.getElementById('deleteCandidateName').innerText = name;
-    document.getElementById('deleteModal').classList.remove('hidden');
-    document.getElementById('deleteModal').classList.add('flex');
-    // slight delay to trigger css transition if needed
-};
+            document.getElementById('confirmDeleteBtn').onclick = async function() {
+                const btn = this;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Deleting...';
+                btn.disabled = true;
+                
+                try {
+                    await deleteDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', candidateToDelete));
+                    window.closeDeleteModal();
+                } catch(e) {
+                    alert("Error deleting candidate.");
+                } finally {
+                    btn.innerHTML = 'Delete Data';
+                    btn.disabled = false;
+                }
+            };
+        };
 
-window.closeDeleteModal = function() {
-    candidateToDeleteId = null;
-    document.getElementById('deleteModal').classList.add('hidden');
-    document.getElementById('deleteModal').classList.remove('flex');
-};
-
-window.confirmDelete = async function() {
-    if(!candidateToDeleteId) return;
-    
-    try {
-        const docRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', candidateToDeleteId);
-        await deleteDoc(docRef);
-        window.closeDeleteModal();
-        // Since we are using onSnapshot, the table will automatically update itself and remove the row!
-    } catch (error) {
-        console.error("Error deleting document: ", error);
-        alert("Failed to delete record. Check console for details.");
-    }
-};
-
-// Allow Enter key to login easily
-document.getElementById('adminPass').addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') window.login();
-});
-</script>
+        window.closeDeleteModal = function() {
+            const modal = document.getElementById('deleteModal');
+            const content = document.getElementById('deleteModalContent');
+            
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                candidateToDelete = null;
+            }, 300);
+        };
+    </script>
 </body>
 </html>
