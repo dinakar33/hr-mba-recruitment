@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Human Assetize - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { brand: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' } } } }
+}
+</script>
+<style>
+body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
+.glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(51, 65, 85, 0.8); }
+.custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+</style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+
+<!-- Background Glow -->
+<div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+    <div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-brand-600/20 blur-[100px] rounded-full"></div>
+    <div class="absolute bottom-[20%] -right-[10%] w-[40%] h-[50%] bg-purple-600/20 blur-[100px] rounded-full"></div>
+</div>
+
+<!-- Login Screen -->
+<div id="loginScreen" class="z-10 w-full max-w-md p-8 glass-panel rounded-2xl shadow-2xl text-center transition-all duration-500 mx-4">
+    <div class="w-16 h-16 bg-brand-500/20 text-brand-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-6 border border-brand-500/50">
+        <i class="fa-solid fa-shield-halved"></i>
+    </div>
+    <h2 class="text-2xl font-bold mb-2">Admin Command Center</h2>
+    <p class="text-slate-400 text-sm mb-8">Enter executive passcode to view candidate telemetry.</p>
+    
+    <input type="password" id="adminPass" class="w-full bg-slate-900 border border-slate-600 rounded-xl p-4 text-white focus:ring-2 focus:ring-brand-500 outline-none mb-6 text-center tracking-widest text-lg shadow-inner" placeholder="••••••••">
+    
+    <button onclick="login()" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold py-4 rounded-xl shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all flex items-center justify-center">
+        Access Database <i class="fa-solid fa-arrow-right-to-bracket ml-2"></i>
+    </button>
+    <p id="errorMsg" class="text-red-400 text-sm mt-4 hidden"><i class="fa-solid fa-circle-exclamation mr-1"></i> Invalid passcode.</p>
+</div>
+
+<!-- Dashboard Screen -->
+<div id="dashboardScreen" class="z-10 w-full max-w-7xl p-4 sm:p-6 lg:p-8 hidden flex-col h-screen absolute inset-0 bg-[#0f172a] overflow-y-auto custom-scrollbar">
+    
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 flex-shrink-0">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">Human Assetize Analytics</h1>
+            <p class="text-sm text-slate-400 mt-1"><i class="fa-solid fa-satellite-dish text-green-400 animate-pulse mr-1"></i> Live Firebase Connection Active</p>
+        </div>
+        <button onclick="location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg border border-slate-600 text-sm font-semibold transition shadow-md">
+            <i class="fa-solid fa-lock mr-2"></i> Lock Terminal
+        </button>
+    </header>
+
+    <!-- Stats Row -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 flex-shrink-0">
+        <div class="glass-panel p-6 rounded-xl flex items-center shadow-lg border-t-4 border-t-blue-500">
+            <div class="w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl mr-4"><i class="fa-solid fa-users"></i></div>
+            <div>
+                <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Total Candidates</p>
+                <h3 id="statTotal" class="text-3xl font-black mt-1">0</h3>
+            </div>
+        </div>
+        <div class="glass-panel p-6 rounded-xl flex items-center shadow-lg border-t-4 border-t-emerald-500">
+            <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl mr-4"><i class="fa-solid fa-check-double"></i></div>
+            <div>
+                <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Avg Interview Score</p>
+                <h3 id="statInt" class="text-3xl font-black mt-1">0</h3>
+            </div>
+        </div>
+        <div class="glass-panel p-6 rounded-xl flex items-center shadow-lg border-t-4 border-t-purple-500">
+            <div class="w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl mr-4"><i class="fa-solid fa-dna"></i></div>
+            <div>
+                <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Dominant Archetype</p>
+                <h3 id="statArch" class="text-xl font-bold mt-1 text-purple-300">Evaluating...</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="glass-panel rounded-2xl flex-grow flex flex-col overflow-hidden shadow-xl mb-4">
+        <div class="p-4 border-b border-slate-700 bg-slate-800/80 flex justify-between items-center">
+            <h3 class="font-bold text-lg"><i class="fa-solid fa-table-list mr-2 text-brand-400"></i> Global Talent Roster</h3>
+            <span class="bg-green-500/20 text-green-400 text-[10px] font-bold uppercase px-2 py-1 rounded border border-green-500/30"><i class="fa-solid fa-bolt mr-1"></i> Real-Time Sync</span>
+        </div>
+        
+        <div class="overflow-x-auto overflow-y-auto flex-grow custom-scrollbar bg-slate-900/50">
+            <table class="w-full text-left text-sm whitespace-nowrap min-w-[800px]">
+                <thead class="bg-slate-900 text-slate-400 uppercase text-[10px] font-bold tracking-wider sticky top-0 z-10 shadow-md">
+                    <tr>
+                        <th class="px-6 py-4 border-b border-slate-700">Candidate Identity</th>
+                        <th class="px-6 py-4 text-center border-b border-slate-700">ATS Audit</th>
+                        <th class="px-6 py-4 text-center border-b border-slate-700">Aptitude</th>
+                        <th class="px-6 py-4 text-center border-b border-slate-700">Virtual GD</th>
+                        <th class="px-6 py-4 text-center border-b border-slate-700">AI Interview</th>
+                        <th class="px-6 py-4 text-center border-b border-slate-700">Archetype</th>
+                        <th class="px-6 py-4 text-center border-b border-slate-700">Total Readiness</th>
+                    </tr>
+                </thead>
+                <tbody id="candidateTableBody" class="divide-y divide-slate-800">
+                    <tr><td colspan="7" class="px-6 py-12 text-center text-slate-500"><i class="fa-solid fa-spinner fa-spin mr-2 text-brand-500"></i> Waiting for Secure Connection...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
+    authDomain: "hr-blog-app.firebaseapp.com",
+    databaseURL: "https://hr-blog-app-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "hr-blog-app",
+    storageBucket: "hr-blog-app.firebasestorage.app",
+    messagingSenderId: "622131978390",
+    appId: "1:622131978390:web:ae9ae697d7c84dea9a22b7"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const APP_ID = 'hr-blog-app'; 
+
+window.login = function() {
+    const pass = document.getElementById('adminPass').value;
+    if(pass === 'admin123') { // Replace with a strong password in production
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('dashboardScreen').classList.remove('hidden');
+        document.getElementById('dashboardScreen').classList.add('flex');
+        initDatabase();
+    } else {
+        document.getElementById('errorMsg').classList.remove('hidden');
+        setTimeout(() => document.getElementById('errorMsg').classList.add('hidden'), 3000);
+    }
+}
+
+function initDatabase() {
+    signInAnonymously(auth).then(() => {
+        const queryCol = collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates');
+        
+        onSnapshot(queryCol, (snapshot) => {
+            const tbody = document.getElementById('candidateTableBody');
+            tbody.innerHTML = '';
+            
+            let totalIntScore = 0;
+            let archCounts = {};
+            
+            if (snapshot.empty) {
+                tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-12 text-center text-slate-500"><i class="fa-solid fa-folder-open text-2xl mb-2 block opacity-50"></i>No candidates have registered in the database yet.</td></tr>';
+                document.getElementById('statTotal').innerText = "0";
+                document.getElementById('statInt').innerText = "0";
+                document.getElementById('statArch').innerText = "N/A";
+                return;
+            }
+
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const name = data.name || 'Anonymous Candidate';
+                const email = data.email || 'No Email Provided';
+                const arch = data.archetype || 'Not Evaluated';
+                const ats = data.ats_score || 0;
+                const test = data.test_score || 0;
+                const gd = data.gd_score || 0;
+                const int = data.interview_score || 0;
+                
+                totalIntScore += int;
+                archCounts[arch] = (archCounts[arch] || 0) + 1;
+
+                let readiness = Math.round((ats + test + ((gd/30)*100) + int) / 4) || 0;
+                
+                // Color coding based on score tiers
+                const getScoreColor = (score, max) => {
+                    const percent = (score / max) * 100;
+                    if (percent >= 71) return 'text-green-400';
+                    if (percent >= 41) return 'text-amber-400';
+                    return 'text-red-400';
+                };
+
+                let row = `
+                <tr class="hover:bg-slate-800/60 transition-colors">
+                    <td class="px-6 py-4">
+                        <div class="font-bold text-white">${name}</div>
+                        <div class="text-xs text-slate-400">${email}</div>
+                    </td>
+                    <td class="px-6 py-4 text-center font-mono text-sm font-bold ${getScoreColor(ats, 100)}">${ats}/100</td>
+                    <td class="px-6 py-4 text-center font-mono text-sm font-bold ${getScoreColor(test, 100)}">${test}/100</td>
+                    <td class="px-6 py-4 text-center font-mono text-sm font-bold ${getScoreColor(gd, 30)}">${gd}/30</td>
+                    <td class="px-6 py-4 text-center font-mono text-sm font-bold ${getScoreColor(int, 100)}">${int}/100</td>
+                    <td class="px-6 py-4 text-center">
+                        <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-600 text-[10px] uppercase font-bold text-brand-300 shadow-sm">${arch}</span>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <div class="w-full bg-slate-800 rounded-full h-2 mt-1 border border-slate-700">
+                            <div class="${getScoreColor(readiness, 100).replace('text-', 'bg-')} h-2 rounded-full transition-all duration-1000" style="width: ${readiness}%"></div>
+                        </div>
+                        <span class="text-[11px] font-bold text-slate-300 mt-1.5 block">${readiness}%</span>
+                    </td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+
+            // Update Top Stats dynamically
+            document.getElementById('statTotal').innerText = snapshot.size;
+            document.getElementById('statInt').innerText = Math.round(totalIntScore / snapshot.size) || 0;
+            
+            let domArch = "Evaluating...";
+            let maxCount = 0;
+            for (let a in archCounts) {
+                if (a !== 'Not Evaluated' && archCounts[a] > maxCount) {
+                    maxCount = archCounts[a];
+                    domArch = a;
+                }
+            }
+            document.getElementById('statArch').innerText = domArch;
+
+        }, (error) => {
+            console.error("Firebase Read Error: ", error);
+            document.getElementById('candidateTableBody').innerHTML = `<tr><td colspan="7" class="px-6 py-8 text-center text-red-400"><i class="fa-solid fa-triangle-exclamation mr-2"></i> Database connection failed. Please check permissions.</td></tr>`;
+        });
+    });
+}
+
+// Allow Enter key to login easily
+document.getElementById('adminPass').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') window.login();
+});
+</script>
+</body>
+</html>
