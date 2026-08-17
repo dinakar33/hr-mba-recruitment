@@ -2176,11 +2176,9 @@ async function askNextInterviewQuestion() {
     
     writeTranscript('interview-transcript', 'System', 'Meera is analyzing your profile and generating a custom question...');
     
-    let systemPrompt = `You are Meera, a seasoned, strict Fortune 500 HR Director. You are interviewing a candidate named ${firstName}, whose psychometric archetype is evaluated as '${archetype}'.
-    Generate the FIRST question of the interview.
-    If the requested method is STAR: Greet them professionally and ask a complex behavioral question tailored to testing the strengths or blind spots of a ${archetype}. Ask them to walk you through a specific past scenario.
-    If the requested method is GENERAL: Greet them professionally and ask a deep, open-ended question about their leadership philosophy, career trajectory, or how they handle corporate politics.
-    Keep your response strictly under 2 sentences. Make it sound highly authentic and unpredictable. Do not use your own name or brackets. Method to use: ${window.interviewMethod.toUpperCase()}`;
+    let systemPrompt = window.interviewMethod === 'star'
+      ? `You are Meera, a seasoned, strict Fortune 500 HR Director. You are conducting a Behavioral (STAR method) interview with a candidate named ${firstName}, whose psychometric archetype is evaluated as '${archetype}'. Generate the FIRST question of the interview. Greet them professionally and ask a complex behavioral question requiring them to walk you through a specific past scenario that tests their strengths or blind spots. Keep your response strictly under 2 sentences. Do not use your own name or brackets.`
+      : `You are Meera, a seasoned, strict Fortune 500 HR Director. You are conducting a General corporate interview with a candidate named ${firstName}, whose psychometric archetype is evaluated as '${archetype}'. Generate the FIRST question of the interview. Greet them professionally and ask a deep, open-ended general question about their leadership philosophy, career trajectory, strengths, weaknesses, or how they handle corporate politics. DO NOT ask for a specific past scenario. Keep your response strictly under 2 sentences. Do not use your own name or brackets.`;
     
     let q = await callGroq(`Generate the FIRST question for ${firstName}.`, systemPrompt);
     intHistory += `Meera: ${q}\n`;
@@ -2221,9 +2219,9 @@ window.processInterviewSpeech = async function(candidateResponse) {
     
     let systemPrompt = window.interviewMethod === 'star'
       ? `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: 
-      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a hard, relevant follow-up question using the STAR method based on their answer. DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`
+      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a hard, relevant follow-up question using the STAR method based on their answer (asking for a specific past scenario). DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`
       : `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: 
-      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a broad, open-ended follow-up question. DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`;
+      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a broad, open-ended follow-up question about their goals, opinions, or a hypothetical strategy. DO NOT ask them to describe a specific past scenario (No STAR questions). DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`;
     
     let meeraReply = await callGroq(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
     intHistory += `Meera: ${meeraReply}\n`;
