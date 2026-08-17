@@ -1785,13 +1785,18 @@ window.runATS = async function() {
     const file = fileInput.files[0];
     const arrayBuffer = await file.arrayBuffer(); 
     
-    if (!pdfJS) throw new Error("PDF Library failed to load.");
+    // Safely load PDF.js
+    if (!window.pdfjsLib && !window['pdfjs-dist/build/pdf']) {
+        throw new Error("PDF Library failed to load from CDN.");
+    }
+    const pdfJS = window.pdfjsLib || window['pdfjs-dist/build/pdf'];
+    pdfJS.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-    // PDF Parsing with 8-second safety timeout so it NEVER hangs
+    // PDF Parsing with absolute 5-second timeout to prevent hangs
     const pdfTask = pdfJS.getDocument({data: new Uint8Array(arrayBuffer)}).promise;
     const pdf = await Promise.race([
         pdfTask,
-        new Promise((_, reject) => setTimeout(() => reject(new Error("PDF Parsing Timeout")), 8000))
+        new Promise((_, reject) => setTimeout(() => reject(new Error("PDF Parsing Timeout")), 5000))
     ]);
     
     let resumeText = '';
@@ -1832,13 +1837,19 @@ window.runATS = async function() {
 
     window.userData.ats_score = Math.round(formatScore + keywordScore + xyzScore) || 10;
     
+    // FIREBASE UPLOAD - THE HANG FIX
+    // Wraps the upload in a strict 3-second timeout so the presentation never freezes
     try {
        const storageRef = ref(storage, `artifacts/${APP_ID}/public/data/resumes/${window.candidateId}.pdf`);
-       await uploadBytes(storageRef, file);
+       const uploadPromise = uploadBytes(storageRef, file);
+       const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Upload Timeout")), 3000));
+       
+       await Promise.race([uploadPromise, timeoutPromise]);
+       
        const dlUrl = await getDownloadURL(storageRef);
        window.userData.resume_url = dlUrl;
     } catch(uploadErr) {
-       console.warn("Storage upload failed, proceeding without file link", uploadErr);
+       console.warn("Storage upload timed out or failed. Bypassing safely.", uploadErr);
     }
 
     document.getElementById('atsScoreDisplay').innerText = `${window.userData.ats_score}%`;
@@ -1860,7 +1871,7 @@ window.runATS = async function() {
 
   } catch (err) { 
       console.error("ATS Error:", err);
-      window.showMessage("PDF Parse Error. Ensure the file is not corrupted or password protected.", "error"); 
+      window.showMessage("PDF Parse Error: " + err.message, "error"); 
   } finally { 
       btn.innerHTML = '<i class="fa-solid fa-microchip mr-2"></i> Extract Keywords & Run Scan'; 
       btn.disabled = false; 
@@ -2540,4 +2551,3 @@ initRealisticAvatars();
 </script>
 </body>
 </html>
-```eof
