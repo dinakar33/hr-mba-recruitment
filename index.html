@@ -72,14 +72,13 @@ body.ai-mode .text-amber-700 { color: #fcd34d !important; }
 .toggle-checkbox:checked { right: 0; border-color: #68D391; }
 .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
 
-@keyframes talk-bounce { 0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); } 100% { box-shadow: 0 0 35px rgba(59, 130, 246, 1); border-color: #60a5fa; } }
-.is-talking { animation: talk-bounce 0.4s ease-in-out infinite alternate !important; border: 4px solid #60a5fa !important; }
+@keyframes talk-bounce { 0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); transform: scale(1) translateY(0); } 100% { box-shadow: 0 0 35px rgba(59, 130, 246, 1); border-color: #60a5fa; transform: scale(1.05) translateY(-4px); } }
+.is-talking, .avatar-talking { animation: talk-bounce 0.3s ease-in-out infinite alternate !important; border-color: #60a5fa !important; }
 
-@keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+@keyframes breathe { 0%, 100% { transform: scale(1) translateY(0); } 50% { transform: scale(1.02) translateY(-2px); } }
 .gd-avatar { border-radius: 50%; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; }
 body.ai-mode .gd-avatar { background: #334155; }
 .avatar-breathing { animation: breathe 4s infinite ease-in-out; }
-.avatar-talking { border-color: #60a5fa; }
 
 #global-ai-guide { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateX(200%); }
 #global-ai-guide.visible { transform: translateX(0); }
@@ -87,101 +86,63 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes urgent-glow { 0% { text-shadow: 0 0 5px red; } 50% { text-shadow: 0 0 20px red; color: #ff9999; } 100% { text-shadow: 0 0 5px red; } }
 .timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
 
-.gd-boardroom-container {
-    position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem;
-}
+.gd-boardroom-container { position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem; }
 @media (min-width: 768px) { .gd-boardroom-container { min-height: 320px; } }
-
-.gd-table-oval {
-    width: 85%; height: 100px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border: 3px solid #475569; border-radius: 100px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
-}
+.gd-table-oval { width: 85%; height: 100px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border: 3px solid #475569; border-radius: 100px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
 @media (min-width: 768px) { .gd-table-oval { width: 80%; height: 140px; } }
-
 .gd-seat { position: absolute; text-align: center; }
 .gd-seat-top-left { top: 10px; left: 5%; }
 .gd-seat-top-right { top: 10px; right: 5%; }
-@media (min-width: 768px) {
-    .gd-seat-top-left { top: 15px; left: 15%; }
-    .gd-seat-top-right { top: 15px; right: 15%; }
-}
+@media (min-width: 768px) { .gd-seat-top-left { top: 15px; left: 15%; } .gd-seat-top-right { top: 15px; right: 15%; } }
 .gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 
-@keyframes slowPulse {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); }
-}
+@keyframes slowPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
 .hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
 
-/* Cinematic Space Launch Styles */
+/* The Launch Authentication Overlay Background */
 #launchOverlay { position: fixed; inset: 0; background: #020617; z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out; }
 .space-backdrop { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
 .nebula { position: absolute; inset: 0; background: radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.4) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.4) 0%, transparent 40%); filter: blur(60px); animation: nebula-drift 20s infinite alternate ease-in-out; }
 @keyframes nebula-drift { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
-.earth-horizon { position: absolute; bottom: -20vh; left: 50%; transform: translateX(-50%); width: 200vw; height: 50vh; background: radial-gradient(ellipse at top, #0284c7 0%, #0369a1 40%, #0f172a 100%); border-radius: 50% 50% 0 0; z-index: 2; opacity: 1; transition: all 4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 -20px 100px rgba(56, 189, 248, 0.4); }
-.warp-speed .earth-horizon { transform: translateX(-50%) translateY(100vh); opacity: 0; }
-.star-layer-1 { position: absolute; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; animation: star-drift-up 60s linear infinite; }
-.star-layer-1::after { content: ''; position: absolute; top: 100vh; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; }
-.star-layer-2 { position: absolute; width: 3px; height: 3px; background: transparent; box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd; border-radius: 50%; animation: star-drift-up 40s linear infinite; opacity: 0.8; filter: blur(1px); }
-.star-layer-2::after { content: ''; position: absolute; top: 100vh; width: 3px; height: 3px; background: transparent; box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd; border-radius: 50%; filter: blur(1px); }
-@keyframes star-drift-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100vh); } }
-.warp-speed .star-layer-1, .warp-speed .star-layer-2 { animation-duration: 2s; }
 
-.rocket-wrapper { position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); z-index: 10; transition: transform 2.5s cubic-bezier(0.5, 0, 0.1, 1); will-change: transform; }
-.rocket-shake-intense { animation: shake-intense 0.05s infinite; }
-@keyframes shake-intense { 
-    0% { transform: translateX(-50%) translate(3px, 3px); } 
-    25% { transform: translateX(-50%) translate(-3px, -3px); } 
-    50% { transform: translateX(-50%) translate(-3px, 3px); } 
-    75% { transform: translateX(-50%) translate(3px, -3px); } 
-    100% { transform: translateX(-50%) translate(3px, 3px); } 
+/* STAGE AVATAR ANIMATIONS */
+.stage-avatar { position: absolute; bottom: 20px; left: -100px; opacity: 0; transition: transform 0.3s; z-index: 20; }
+@keyframes walkToCenter {
+    0% { transform: translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    50% { transform: translateX(calc(50vw - 40px)); opacity: 1; } /* Reach Button */
+    100% { transform: translateX(calc(50vw - 40px)); opacity: 1; }
 }
-.rocket-liftoff { transform: translateX(-50%) translateY(-25vh); }
-.booster-drop { animation: booster-fall 3s cubic-bezier(0.4, 0, 1, 1) forwards; }
-@keyframes booster-fall { 
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; } 
-    100% { transform: translateY(100vh) rotate(-15deg); opacity: 0; } 
+@keyframes walkToVIP {
+    0% { transform: translateX(calc(50vw - 40px)); opacity: 1; }
+    100% { transform: translateX(calc(85vw - 40px)); opacity: 0.6; } /* VIP Gallery */
 }
-.fairing-deploy { animation: fairing-shoot 1.5s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
-@keyframes fairing-shoot { 
-    0% { transform: translateY(0); opacity: 1; } 
-    100% { transform: translateY(-50vh); opacity: 0; } 
-}
-.engine-beam { transform-origin: top center; animation: engine-flicker 0.05s infinite alternate; }
-@keyframes engine-flicker { 
-    0% { transform: scaleY(0.9); opacity: 0.8; filter: drop-shadow(0 0 10px #f97316); } 
-    100% { transform: scaleY(1.3); opacity: 1; filter: drop-shadow(0 0 30px #ef4444); } 
-}
-.smoke-cloud { position: absolute; bottom: -40px; left: 50%; width: 250px; height: 100px; background: radial-gradient(ellipse, rgba(203,213,225,0.9) 0%, rgba(148,163,184,0) 70%); filter: blur(25px); opacity: 0; transform: translateX(-50%) scale(0.5); transition: all 3s ease-out; pointer-events: none; z-index: 10; }
-.smoke-active { opacity: 1; transform: translateX(-50%) scale(4); }
-.shockwave { position: absolute; top: 40%; left: 50%; width: 10px; height: 10px; border-radius: 50%; background: #fff; box-shadow: 0 0 100px 50px #38bdf8, 0 0 300px 150px #fff; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 15; pointer-events: none; }
-.shockwave-fire { animation: sonic-boom 1.2s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
-@keyframes sonic-boom { 
-    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 
-    40% { opacity: 1; } 
-    100% { transform: translate(-50%, -50%) scale(400); opacity: 0; } 
-}
-.flash-bang { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.8s ease-out; z-index: 10000; }
-.satellite-payload { position: absolute; top: 80px; left: 50%; transform: translateX(-50%) scale(0.2); opacity: 0; transition: all 3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9; pointer-events: none; }
-.deployed .satellite-payload { transform: translateX(-50%) scale(1); opacity: 1; animation: orbitFloat 6s infinite alternate ease-in-out 3s; }
-@keyframes orbitFloat { 0% { transform: translateX(-50%) scale(1) rotate(-2deg); } 100% { transform: translateX(-50%) scale(1) rotate(2deg); } }
+.anim-walk-center { animation: walkToCenter 3s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; }
+.anim-walk-vip { animation: walkToVIP 2.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; }
+
+.launch-pedestal { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 60px; background: #1e293b; border: 2px solid #334155; border-bottom: none; border-radius: 10px 10px 0 0; z-index: 15; display: flex; align-items: flex-start; justify-content: center; padding-top: 10px; }
+.master-button { width: 40px; height: 20px; background: #ef4444; border-radius: 5px; box-shadow: 0 5px 0 #991b1b, 0 0 20px rgba(239, 68, 68, 0.6); transition: all 0.1s; }
+.master-button.pressed { transform: translateY(5px); box-shadow: 0 0 0 #991b1b, 0 0 40px rgba(239, 68, 68, 1); background: #f87171; }
 </style>
 </head>
 
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
-<!-- LAUNCH OVERLAY -->
+<!-- CINEMATIC VIDEO OVERLAY (Hidden initially) -->
+<div id="cinematic-video-container" class="fixed inset-0 z-[100000] bg-black hidden flex-col items-center justify-center opacity-0 transition-opacity duration-1000">
+    <video id="launchVideo" class="w-full h-full object-cover" preload="auto" playsinline>
+        <source src="launch-movie1.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+</div>
+
+<!-- PRE-LAUNCH AUTHENTICATION OVERLAY -->
 <div id="launchOverlay" class="hidden">
     <div class="space-backdrop" id="spaceBackdrop">
         <div class="nebula"></div>
-        <div class="star-layer-1"></div>
-        <div class="star-layer-2"></div>
-        <div class="earth-horizon"></div>
     </div>
     
-    <div class="shockwave" id="shockwaveEffect"></div>
-    <div class="flash-bang" id="flashBang"></div>
-
-    <div id="launchBtnContainer" class="relative z-30 text-center flex flex-col items-center transition-opacity duration-1000">
+    <div id="launchBtnContainer" class="relative z-30 text-center flex flex-col items-center transition-opacity duration-1000 w-full px-4 pt-10">
         
         <!-- Premium Corporate SVG Logo -->
         <div class="w-32 h-32 mb-6">
@@ -191,10 +152,6 @@ body.ai-mode .gd-avatar { background: #334155; }
                         <stop offset="0%" stop-color="#60a5fa" />
                         <stop offset="100%" stop-color="#1d4ed8" />
                     </linearGradient>
-                    <linearGradient id="corpAccentLarge" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#c084fc" />
-                        <stop offset="100%" stop-color="#7e22ce" />
-                    </linearGradient>
                 </defs>
                 <circle cx="50" cy="50" r="45" fill="none" stroke="url(#corpBlueLarge)" stroke-width="2" stroke-dasharray="10, 5" opacity="0.5"/>
                 <polygon points="50,15 85,85 15,85" fill="none" stroke="url(#corpBlueLarge)" stroke-width="8" stroke-linejoin="round"/>
@@ -203,88 +160,81 @@ body.ai-mode .gd-avatar { background: #334155; }
             </svg>
         </div>
 
-        <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-purple-400">HUMAN ASSETIZE</h1>
-        <p class="text-slate-400 uppercase tracking-widest text-sm font-bold mb-10">Awaiting Executive Authorization</p>
-        <button onclick="window.chairmanLaunch()" class="group relative px-10 py-5 bg-gradient-to-r from-brand-600 to-brand-800 rounded-full text-white font-black text-xl md:text-2xl uppercase tracking-widest shadow-[0_0_30px_rgba(59,130,246,0.6)] hover:shadow-[0_0_60px_rgba(59,130,246,0.9)] transition-all hover:-translate-y-1 overflow-hidden border-2 border-brand-400">
-            <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
-            Initiate Launch Sequence
-        </button>
+        <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight mb-2 text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-purple-400">HUMAN ASSETIZE</h1>
+        <p class="text-slate-400 uppercase tracking-widest text-xs font-bold mb-8">Executive Launch Protocol: <span id="auth-counter" class="text-brand-400 font-black">0</span>/7 Authenticated</p>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl mx-auto">
+            <button id="auth-btn-1" onclick="window.authenticateLaunch(this, 1, 'Dr Sunil Kumar M S')" class="px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white font-bold text-sm hover:bg-slate-700 transition shadow-lg truncate">Authenticate: Dr Sunil</button>
+            <button id="auth-btn-2" onclick="window.authenticateLaunch(this, 2, 'Dr Nirmala J')" class="px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white font-bold text-sm hover:bg-slate-700 transition shadow-lg truncate">Authenticate: Dr Nirmala</button>
+            <button id="auth-btn-3" onclick="window.authenticateLaunch(this, 3, 'Dr Ravinarayana K.S.')" class="px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white font-bold text-sm hover:bg-slate-700 transition shadow-lg truncate">Authenticate: Dr Ravi</button>
+            <button id="auth-btn-4" onclick="window.authenticateLaunch(this, 4, 'Dr G Arun Kumar')" class="px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white font-bold text-sm hover:bg-slate-700 transition shadow-lg truncate">Authenticate: Dr Arun</button>
+            <button id="auth-btn-5" onclick="window.authenticateLaunch(this, 5, 'Dr K C Prashanth')" class="px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white font-bold text-sm hover:bg-slate-700 transition shadow-lg truncate">Authenticate: Dr Prashanth</button>
+            <button id="auth-btn-6" onclick="window.authenticateLaunch(this, 6, 'Dr Archana H N')" class="px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white font-bold text-sm hover:bg-slate-700 transition shadow-lg truncate">Authenticate: Dr Archana</button>
+            <button id="auth-btn-7" onclick="window.authenticateLaunch(this, 7, 'Chairman: Dr Dinesh Prasad')" class="col-span-2 md:col-span-2 px-4 py-3 bg-brand-700 border border-brand-500 rounded-lg text-white font-black uppercase tracking-widest text-sm hover:bg-brand-600 transition shadow-[0_0_15px_rgba(59,130,246,0.5)] truncate">Final Authorization: Chairman</button>
+        </div>
     </div>
 
-    <!-- Multi-Stage Rocket -->
-    <div id="rocketAsset" class="rocket-wrapper w-48 h-96 flex flex-col items-center">
-        <div id="rocketSmoke" class="smoke-cloud"></div>
-        <div id="satPayload" class="satellite-payload">
-            <svg viewBox="0 0 400 300" class="w-72 md:w-96 drop-shadow-[0_0_50px_rgba(59,130,246,0.6)]">
-                <defs>
-                    <linearGradient id="solarPanel" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#1e3a8a" /><stop offset="50%" stop-color="#2563eb" /><stop offset="100%" stop-color="#1e40af" />
-                    </linearGradient>
-                    <linearGradient id="goldFoil" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#fbbf24" /><stop offset="50%" stop-color="#f59e0b" /><stop offset="100%" stop-color="#b45309" />
-                    </linearGradient>
-                </defs>
-                <g class="animate-[pulse_4s_infinite]">
-                    <rect x="20" y="110" width="120" height="80" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="2"/>
-                    <line x1="50" y1="110" x2="50" y2="190" stroke="#60a5fa" stroke-width="1"/>
-                    <line x1="80" y1="110" x2="80" y2="190" stroke="#60a5fa" stroke-width="1"/>
-                    <line x1="110" y1="110" x2="110" y2="190" stroke="#60a5fa" stroke-width="1"/>
-                    <line x1="20" y1="130" x2="140" y2="130" stroke="#60a5fa" stroke-width="1"/>
-                    <line x1="20" y1="150" x2="140" y2="150" stroke="#60a5fa" stroke-width="1"/>
-                    <line x1="20" y1="170" x2="140" y2="170" stroke="#60a5fa" stroke-width="1"/>
-                </g>
-                <g class="animate-[pulse_4s_infinite]" style="animation-delay: 1s;">
-                    <rect x="260" y="110" width="120" height="80" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="2"/>
-                    <line x1="290" y1="110" x2="290" y2="190" stroke="#60a5fa" stroke-width="1"/>
-                    <line x1="320" y1="110" x2="320" y2="190" stroke="#60a5fa" stroke-width="1"/>
-                    <line x1="350" y1="110" x2="350" y2="190" stroke="#60a5fa" stroke-width="1"/>
-                    <line x1="260" y1="130" x2="380" y2="130" stroke="#60a5fa" stroke-width="1"/>
-                    <line x1="260" y1="150" x2="380" y2="150" stroke="#60a5fa" stroke-width="1"/>
-                    <line x1="260" y1="170" x2="380" y2="170" stroke="#60a5fa" stroke-width="1"/>
-                </g>
-                <rect x="140" y="145" width="40" height="10" fill="#64748b"/>
-                <rect x="220" y="145" width="40" height="10" fill="#64748b"/>
-                <polygon points="170,100 230,100 240,150 230,200 170,200 160,150" fill="url(#goldFoil)" stroke="#fcd34d" stroke-width="2"/>
-                <path d="M 180 80 Q 200 40 220 80 Q 200 60 180 80 Z" fill="#cbd5e1" stroke="#f1f5f9" stroke-width="2"/>
-                <line x1="200" y1="70" x2="200" y2="20" stroke="#cbd5e1" stroke-width="3"/>
-                <circle cx="200" cy="20" r="5" fill="#ef4444" class="animate-pulse"/>
-                <circle cx="200" cy="150" r="20" fill="#0f172a" stroke="#38bdf8" stroke-width="3"/>
-                <circle cx="200" cy="150" r="10" fill="#38bdf8" filter="blur(4px)" class="animate-ping"/>
-            </svg>
-            <h2 id="sysOnlineText" class="text-white text-2xl font-black mt-4 tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-cyan-200 opacity-0 transition-opacity duration-1000 text-center">Systems Online</h2>
-        </div>
-        <div id="rocketUpper" class="absolute top-0 w-full h-[150px] z-20">
-            <svg viewBox="0 0 100 150" class="w-full h-full drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
-                <defs>
-                    <linearGradient id="fuselageTop" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#94a3b8" /><stop offset="30%" stop-color="#f8fafc" /><stop offset="70%" stop-color="#e2e8f0" /><stop offset="100%" stop-color="#64748b" />
-                    </linearGradient>
-                    <linearGradient id="darkMetal" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#1e293b" /><stop offset="50%" stop-color="#475569" /><stop offset="100%" stop-color="#0f172a" />
-                    </linearGradient>
-                </defs>
-                <path d="M 50 10 C 60 40, 70 80, 70 150 L 30 150 C 30 80, 40 40, 50 10 Z" fill="url(#fuselageTop)"/>
-                <path d="M 50 10 C 53 20, 55 30, 56 40 L 44 40 C 45 30, 47 20, 50 10 Z" fill="url(#darkMetal)"/>
-            </svg>
-        </div>
-        <div id="rocketLower" class="absolute top-[150px] w-full h-[200px] z-20">
-            <svg viewBox="0 0 100 200" class="w-full h-full drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
-                <defs>
-                    <linearGradient id="fuselageBot" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#94a3b8" /><stop offset="30%" stop-color="#f8fafc" /><stop offset="70%" stop-color="#e2e8f0" /><stop offset="100%" stop-color="#64748b" />
-                    </linearGradient>
-                    <radialGradient id="engineGlow" cx="50%" cy="0%" r="100%">
-                        <stop offset="0%" stop-color="#ffffff" /><stop offset="20%" stop-color="#fef08a" /><stop offset="50%" stop-color="#f97316" /><stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
-                    </radialGradient>
-                </defs>
-                <path d="M 30 0 L 70 0 L 70 160 L 30 160 Z" fill="url(#fuselageBot)"/>
-                <path d="M 30 120 C 15 140, 10 160, 10 180 L 30 160 Z" fill="url(#darkMetal)"/>
-                <path d="M 70 120 C 85 140, 90 160, 90 180 L 70 160 Z" fill="url(#darkMetal)"/>
-                <rect x="28" y="160" width="44" height="10" rx="2" fill="url(#darkMetal)"/>
-                <path d="M 35 170 L 65 170 L 60 180 L 40 180 Z" fill="#334155"/>
-                <path id="svgExhaust" d="M 40 180 L 60 180 L 50 350 Z" fill="url(#engineGlow)" class="engine-beam" style="opacity: 0;"/>
-                <line x1="50" y1="0" x2="50" y2="160" stroke="#cbd5e1" stroke-width="1" opacity="0.5"/>
-            </svg>
+    <!-- THE STAGE & AVATARS -->
+    <div id="launch-stage" class="absolute bottom-0 w-full h-32 z-20">
+        <div class="launch-pedestal"><div id="master-launch-btn" class="master-button"></div></div>
+        <div id="avatar-container">
+            
+            <!-- 1. Dr Sunil Kumar -->
+            <div id="launch-avatar-1" class="stage-avatar flex flex-col items-center justify-end w-[80px]">
+                <div class="w-14 h-14 rounded-full border-2 border-brand-400 p-0.5 shadow-[0_0_15px_rgba(59,130,246,0.6)] bg-slate-900 overflow-hidden relative group">
+                    <img src="avatar-sunil.jpg.png" class="w-full h-full object-cover rounded-full" alt="Dr Sunil" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Sunil&background=1e3a8a&color=fff&bold=true'">
+                </div>
+                <span class="mt-2 text-[9px] font-black text-white bg-slate-900/80 border border-slate-700 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-wider">DR SUNIL</span>
+            </div>
+
+            <!-- 2. Dr Nirmala J -->
+            <div id="launch-avatar-2" class="stage-avatar flex flex-col items-center justify-end w-[80px]">
+                <div class="w-14 h-14 rounded-full border-2 border-brand-400 p-0.5 shadow-[0_0_15px_rgba(59,130,246,0.6)] bg-slate-900 overflow-hidden relative group">
+                    <img src="avatar-nirmala.jpg.png" class="w-full h-full object-cover rounded-full" alt="Dr Nirmala" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Nirmala&background=1e3a8a&color=fff&bold=true'">
+                </div>
+                <span class="mt-2 text-[9px] font-black text-white bg-slate-900/80 border border-slate-700 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-wider">DR NIRMALA</span>
+            </div>
+
+            <!-- 3. Dr Ravinarayana -->
+            <div id="launch-avatar-3" class="stage-avatar flex flex-col items-center justify-end w-[80px]">
+                <div class="w-14 h-14 rounded-full border-2 border-brand-400 p-0.5 shadow-[0_0_15px_rgba(59,130,246,0.6)] bg-slate-900 overflow-hidden relative group">
+                    <img src="avatar-ravi.jpg.png" class="w-full h-full object-cover rounded-full" alt="Dr Ravi" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Ravi&background=1e3a8a&color=fff&bold=true'">
+                </div>
+                <span class="mt-2 text-[9px] font-black text-white bg-slate-900/80 border border-slate-700 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-wider">DR RAVI</span>
+            </div>
+
+            <!-- 4. Dr G Arun Kumar -->
+            <div id="launch-avatar-4" class="stage-avatar flex flex-col items-center justify-end w-[80px]">
+                <div class="w-14 h-14 rounded-full border-2 border-brand-400 p-0.5 shadow-[0_0_15px_rgba(59,130,246,0.6)] bg-slate-900 overflow-hidden relative group">
+                    <img src="avatar-arun.jpg.png" class="w-full h-full object-cover rounded-full" alt="Dr Arun" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Arun&background=1e3a8a&color=fff&bold=true'">
+                </div>
+                <span class="mt-2 text-[9px] font-black text-white bg-slate-900/80 border border-slate-700 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-wider">DR ARUN</span>
+            </div>
+
+            <!-- 5. Dr K C Prashanth -->
+            <div id="launch-avatar-5" class="stage-avatar flex flex-col items-center justify-end w-[80px]">
+                <div class="w-14 h-14 rounded-full border-2 border-brand-400 p-0.5 shadow-[0_0_15px_rgba(59,130,246,0.6)] bg-slate-900 overflow-hidden relative group">
+                    <img src="avatar-prashanth.jpg.png" class="w-full h-full object-cover rounded-full" alt="Dr Prashanth" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Prashanth&background=1e3a8a&color=fff&bold=true'">
+                </div>
+                <span class="mt-2 text-[9px] font-black text-white bg-slate-900/80 border border-slate-700 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-wider">DR PRASHANTH</span>
+            </div>
+
+            <!-- 6. Dr Archana H N -->
+            <div id="launch-avatar-6" class="stage-avatar flex flex-col items-center justify-end w-[80px]">
+                <div class="w-14 h-14 rounded-full border-2 border-brand-400 p-0.5 shadow-[0_0_15px_rgba(59,130,246,0.6)] bg-slate-900 overflow-hidden relative group">
+                    <img src="avatar-archana.jpg.png" class="w-full h-full object-cover rounded-full" alt="Dr Archana" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Archana&background=1e3a8a&color=fff&bold=true'">
+                </div>
+                <span class="mt-2 text-[9px] font-black text-white bg-slate-900/80 border border-slate-700 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-wider">DR ARCHANA</span>
+            </div>
+
+            <!-- 7. Chairman Dr Dinesh Prasad -->
+            <div id="launch-avatar-7" class="stage-avatar flex flex-col items-center justify-end w-[90px]">
+                <div class="w-16 h-16 rounded-full border-2 border-purple-500 p-0.5 shadow-[0_0_25px_rgba(168,85,247,0.8)] bg-slate-900 overflow-hidden relative group">
+                    <img src="avatar-dinesh.jpg.png" class="w-full h-full object-cover rounded-full" alt="Chairman">
+                </div>
+                <span class="mt-2 text-[9px] font-black text-white bg-purple-900/90 border border-purple-500 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-widest uppercase">CHAIRMAN</span>
+            </div>
+            
         </div>
     </div>
 </div>
@@ -295,7 +245,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div class="flex items-center">
-    
     <!-- The Premium Corporate Logo in Header -->
     <svg viewBox="0 0 100 100" class="w-10 h-10 mr-3 drop-shadow-md hidden sm:block" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -666,7 +615,7 @@ Posture: <strong id="postureVal">Pending</strong>
 <div id="interview-mic-zone" class="w-full flex-col items-center hidden">
 <textarea id="interviewTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-2.5 md:p-3 mb-2 md:mb-3 text-xs md:text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
 <div class="flex items-center justify-center space-x-3 md:space-x-4 w-full">
-<button id="interviewMicBtn" onclick="window.toggleInterviewRecording(event)" class="bg-slate-700 hover:bg-slate-600 text-white rounded-full w-12 h-12 md:w-14 md:h-14 shadow-lg transition flex items-center justify-center border border-slate-50 flex-shrink-0">
+<button id="interviewMicBtn" onclick="window.toggleInterviewRecording(event)" class="bg-slate-700 hover:bg-slate-600 text-white rounded-full w-12 h-12 md:w-14 md:h-14 shadow-lg transition flex items-center justify-center border border-slate-500 flex-shrink-0">
 <i class="fa-solid fa-microphone text-lg md:text-xl pointer-events-none" id="interviewMicIcon"></i>
 </button>
 <button onclick="window.submitInterviewAnswer()" class="flex-grow bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-4 md:px-8 rounded-full shadow-lg transition border border-brand-400 text-xs md:text-sm flex items-center justify-center">
@@ -1199,7 +1148,7 @@ import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
 // ==========================================
-// GROQ API INTEGRATION
+// GROQ API INTEGRATION (GPT-OSS-20B)
 // ==========================================
 const part1 = "gsk_";
 const part2 = "CEzKM02REgAivZZbdg2VWGdyb3FYO4MUxuIVnCB9goq0wb23geoa";
@@ -1282,68 +1231,92 @@ window.userData = { name: "", email: "", archetype: "Not Evaluated", ats_score: 
 let unsubscribeStudent = null;
 window.bioMetrics = { eyeContact: [], stress: [] };
 
-window.chairmanLaunch = function() {
+// THE NEW MASTER LAUNCH LOGIC
+window.authCount = 0;
+
+window.authenticateLaunch = function(btn, index, name) {
+    if (btn.disabled) return;
+    
+    // Disable and style button
+    btn.disabled = true;
+    btn.classList.replace('bg-slate-800', 'bg-green-600');
+    btn.classList.replace('border-slate-600', 'border-green-400');
+    btn.innerHTML = `<i class="fa-solid fa-check"></i> ${name}`;
+    
+    // Animate the avatar
+    const avatar = document.getElementById('launch-avatar-' + index);
+    if(avatar) {
+        avatar.style.opacity = '1';
+        avatar.classList.add('anim-walk-center');
+        
+        // Wait for it to reach center
+        setTimeout(() => {
+            // Press the master button
+            const masterBtn = document.getElementById('master-launch-btn');
+            masterBtn.classList.add('pressed');
+            setTimeout(() => { masterBtn.classList.remove('pressed'); }, 150);
+            
+            // Walk to VIP area
+            avatar.classList.replace('anim-walk-center', 'anim-walk-vip');
+            
+            // Update Auth Counter
+            window.authCount++;
+            document.getElementById('auth-counter').innerText = window.authCount;
+            
+            // If it's the Chairman (7th button), trigger the launch
+            if(window.authCount === 7) {
+                setTimeout(() => {
+                    window.executeMasterLaunch();
+                }, 800);
+            }
+        }, 3000); // 3 seconds matching the CSS animation duration
+    }
+};
+
+window.executeMasterLaunch = function() {
     const btnContainer = document.getElementById('launchBtnContainer');
+    const stage = document.getElementById('launch-stage');
+    
+    // Fade out the 7 buttons and stage
     btnContainer.style.opacity = '0';
+    stage.style.opacity = '0';
     
     setTimeout(() => {
+        // Hide the old UI
         btnContainer.style.display = 'none';
+        stage.style.display = 'none';
         
-        const overlay = document.getElementById('launchOverlay');
-        const rocket = document.getElementById('rocketAsset');
-        const smoke = document.getElementById('rocketSmoke');
-        const engine = document.getElementById('svgExhaust');
-        const shockwave = document.getElementById('shockwaveEffect');
-        const flash = document.getElementById('flashBang');
-        const backdrop = document.getElementById('spaceBackdrop');
-        const booster = document.getElementById('rocketLower');
-        const fairing = document.getElementById('rocketUpper');
-        const sysOnline = document.getElementById('sysOnlineText');
+        // Show and fade in the Video Container
+        const videoContainer = document.getElementById('cinematic-video-container');
+        const video = document.getElementById('launchVideo');
         
-        // Ignition Phase
-        smoke.classList.add('smoke-active');
-        engine.style.opacity = '1';
-        rocket.classList.add('rocket-shake-intense');
+        videoContainer.classList.remove('hidden');
+        videoContainer.style.display = 'flex';
         
-        setTimeout(() => {
-            // Liftoff Phase
-            backdrop.classList.add('warp-speed');
-            rocket.classList.remove('rocket-shake-intense');
-            rocket.classList.add('rocket-liftoff');
+        // Trigger reflow to ensure the fade-in works
+        void videoContainer.offsetWidth; 
+        videoContainer.style.opacity = '1';
+        
+        // Play the movie!
+        video.play().catch(e => console.error("Video autoplay blocked. Ensure user interacted with the page first.", e));
+        
+        // When the movie finishes playing...
+        video.onended = function() {
+            // Fade out the video
+            videoContainer.style.opacity = '0';
             
             setTimeout(() => {
-                // MECO and Stage Separation
-                shockwave.classList.add('shockwave-fire');
-                engine.style.opacity = '0';
-                booster.classList.add('booster-drop');
+                // Hide video and entire launch overlay
+                videoContainer.style.display = 'none';
+                document.getElementById('launchOverlay').style.display = 'none';
                 
-                setTimeout(() => {
-                    // Fairing Separation
-                    flash.style.opacity = '1';
-                    fairing.classList.add('fairing-deploy');
-                    
-                    setTimeout(() => {
-                        // Orbital Deployment
-                        flash.style.opacity = '0';
-                        backdrop.classList.remove('warp-speed');
-                        overlay.classList.add('deployed');
-                        if (sysOnline) sysOnline.style.opacity = '1';
-                        
-                        setTimeout(() => {
-                            // Fade out to home screen
-                            overlay.style.opacity = '0';
-                            setTimeout(() => {
-                                overlay.style.display = 'none';
-                                overlay.classList.add('hidden');
-                                sessionStorage.setItem('chairman_launched', 'true');
-                                const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
-                                window.switchTab('tab-home', targetNavBtn);
-                            }, 1500);
-                        }, 4500);
-                    }, 500);
-                }, 800);
-            }, 1200);
-        }, 2500);
+                // Mark as launched and show the dashboard
+                sessionStorage.setItem('chairman_launched', 'true');
+                const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
+                window.switchTab('tab-home', targetNavBtn);
+            }, 1000); // Wait 1 second for the fade out
+        };
+        
     }, 1000);
 };
 
@@ -1362,7 +1335,7 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: "openai/gpt-oss-20b",
+        model: "llama-3.1-8b-instant",
         messages: [
           { role: "system", content: systemInstruction },
           { role: "user", content: prompt }
