@@ -29,13 +29,17 @@ body { font-family: 'Inter', sans-serif; background-color: #f8fafc; transition: 
 .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(226, 232, 240, 0.8); transition: all 0.3s ease; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+
+/* Custom Scrollbar for Desktop Navigation */
+.custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-.custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; transition: background 0.3s; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.4); }
 
 .drop-zone { border: 2px dashed #cbd5e1; transition: all 0.2s ease; }
 .drop-zone.dragover { border-color: #2563eb; background-color: #eff6ff; }
 
+/* AI Dark Mode Styles */
 body.ai-mode { background-color: #0f172a; color: #f1f5f9; }
 body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgba(51, 65, 85, 0.8); color: #f8fafc; }
 body.ai-mode h2, body.ai-mode h3, body.ai-mode p, body.ai-mode span, body.ai-mode label, body.ai-mode li { color: #f8fafc !important; }
@@ -46,7 +50,7 @@ body.ai-mode .bg-slate-50 { background-color: rgba(255, 255, 255, 0.05) !importa
 body.ai-mode .border-gray-300, body.ai-mode .border { border-color: #475569 !important; }
 body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode input[type="tel"], body.ai-mode input[type="url"], body.ai-mode input[type="password"], body.ai-mode select, body.ai-mode textarea { background-color: #334155; color: #f8fafc; border-color: #475569; }
 
-/* NEW FIX: Adapting Resource Library Pastel Cards for Dark Mode Visibility */
+/* FIX: Resource Library Pastel Cards for Dark Mode Visibility */
 body.ai-mode .bg-red-50 { background-color: rgba(239, 68, 68, 0.15) !important; border-color: rgba(239, 68, 68, 0.3) !important; }
 body.ai-mode .bg-green-50 { background-color: rgba(34, 197, 94, 0.15) !important; border-color: rgba(34, 197, 94, 0.3) !important; }
 body.ai-mode .bg-indigo-50 { background-color: rgba(99, 102, 241, 0.15) !important; border-color: rgba(99, 102, 241, 0.3) !important; }
@@ -76,6 +80,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes urgent-glow { 0% { text-shadow: 0 0 5px red; } 50% { text-shadow: 0 0 20px red; color: #ff9999; } 100% { text-shadow: 0 0 5px red; } }
 .timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
 
+/* Responsive 3D Round Table GD Layout */
 .gd-boardroom-container {
     position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem;
 }
@@ -102,6 +107,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 }
 .hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
 
+/* Cinematic Space Launch Styles */
 #launchOverlay { position: fixed; inset: 0; background: #020617; z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out; }
 
 .space-backdrop { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
@@ -109,10 +115,10 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes nebula-drift { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
 
 /* Earth Horizon at launch */
-.earth-horizon { position: absolute; bottom: -20vh; left: 50%; transform: translateX(-50%); width: 200vw; height: 50vh; background: radial-gradient(ellipse at top, #0284c7 0%, #0369a1 40%, #0f172a 100%); border-radius: 50% 50% 0 0; z-index: 2; opacity: 1; transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1), opacity 4s; box-shadow: 0 -20px 100px rgba(56, 189, 248, 0.4); }
+.earth-horizon { position: absolute; bottom: -20vh; left: 50%; transform: translateX(-50%); width: 200vw; height: 50vh; background: radial-gradient(ellipse at top, #0284c7 0%, #0369a1 40%, #0f172a 100%); border-radius: 50% 50% 0 0; z-index: 2; opacity: 1; transition: all 4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 -20px 100px rgba(56, 189, 248, 0.4); }
 .warp-speed .earth-horizon { transform: translateX(-50%) translateY(100vh); opacity: 0; }
 
-/* Parallax Star Layers */
+/* Parallax Star Layers generated via box-shadow for ultra-high performance */
 .star-layer-1 { position: absolute; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; animation: star-drift-up 60s linear infinite; }
 .star-layer-1::after { content: ''; position: absolute; top: 100vh; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; }
 
@@ -162,6 +168,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 
 .flash-bang { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.8s ease-out; z-index: 10000; }
 
+/* Hidden Satellite inside the rocket */
 .satellite-payload { position: absolute; top: 80px; left: 50%; transform: translateX(-50%) scale(0.2); opacity: 0; transition: all 3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9; pointer-events: none; }
 .deployed .satellite-payload { transform: translateX(-50%) scale(1); opacity: 1; animation: orbitFloat 6s infinite alternate ease-in-out 3s; }
 @keyframes orbitFloat { 0% { transform: translateX(-50%) scale(1) rotate(-2deg); } 100% { transform: translateX(-50%) scale(1) rotate(2deg); } }
@@ -176,6 +183,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
 <div id="launchOverlay" class="hidden">
+    <!-- Cinematic Deep Space Background -->
     <div class="space-backdrop" id="spaceBackdrop">
         <div class="nebula"></div>
         <div class="star-layer-1"></div>
@@ -183,9 +191,11 @@ body.ai-mode .gd-avatar { background: #334155; }
         <div class="earth-horizon"></div>
     </div>
     
+    <!-- White Flash / Sonic Boom -->
     <div class="shockwave" id="shockwaveEffect"></div>
     <div class="flash-bang" id="flashBang"></div>
 
+    <!-- UI / Text overlay -->
     <div id="launchBtnContainer" class="relative z-30 text-center flex flex-col items-center transition-opacity duration-1000">
         
         <!-- Large Premium SVG Logo -->
@@ -224,6 +234,7 @@ body.ai-mode .gd-avatar { background: #334155; }
         </button>
     </div>
 
+    <!-- Premium Rocket Asset -->
     <div id="rocketAsset" class="rocket-wrapper w-48 h-96 flex flex-col items-center">
         <!-- Smoke Cloud -->
         <div id="rocketSmoke" class="smoke-cloud"></div>
@@ -342,6 +353,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-6">
 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 w-full">
 
+<!-- Responsive Title & Mobile About Button -->
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div class="flex items-center">
     <!-- Small Premium SVG Logo -->
@@ -390,7 +402,8 @@ body.ai-mode .gd-avatar { background: #334155; }
 </div>
 </div>
 
-<div class="bg-brand-800 overflow-x-auto no-scrollbar">
+<!-- DESKTOP SCROLL FIX IMPLEMENTED HERE -->
+<div class="bg-brand-800 overflow-x-auto custom-scrollbar cursor-grab" id="navContainer" style="padding-bottom: 4px;">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <nav class="flex space-x-1 py-2" id="tabNav">
 <button onclick="window.switchTab('tab-home', this)" class="nav-btn active bg-brand-700 text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap transition"><i class="fa-solid fa-house mr-1 md:mr-2"></i>Home</button>
@@ -809,6 +822,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
+<!-- MASTER RESOURCE LIBRARY SECTION -->
 <section id="tab-resources" class="tab-content">
   <div class="mb-8 md:mb-10 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Master Resource Library</h2>
@@ -1250,6 +1264,9 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/1
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
+// ==========================================
+// GROQ (LLAMA-3.1) API INTEGRATION
+// ==========================================
 const part1 = "gsk_";
 const part2 = "i8mmL0cZCr8eL5sWN6omWGdyb3FYhGBRWSr9eFwyvAQIZxAfP6xZ";
 const GROQ_API_KEY = part1 + part2;
@@ -2502,6 +2519,37 @@ function initRealisticAvatars() {
       }
     });
   }, 200);
+}
+
+// Drag-to-Scroll Physics for Desktop Navigation
+const slider = document.getElementById('navContainer');
+let isDown = false; let startX; let scrollLeft;
+
+if(slider) {
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    slider.classList.add('cursor-grabbing');
+    slider.classList.remove('cursor-grab');
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('cursor-grabbing');
+    slider.classList.add('cursor-grab');
+  });
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('cursor-grabbing');
+    slider.classList.add('cursor-grab');
+  });
+  slider.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 2; // Scroll-fast multiplier
+    slider.scrollLeft = scrollLeft - walk;
+  });
 }
 
 renderArchetypeQs();
