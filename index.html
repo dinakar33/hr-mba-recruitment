@@ -29,6 +29,10 @@ body { font-family: 'Inter', sans-serif; background-color: #f8fafc; transition: 
 .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(226, 232, 240, 0.8); transition: all 0.3s ease; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+
 .drop-zone { border: 2px dashed #cbd5e1; transition: all 0.2s ease; }
 .drop-zone.dragover { border-color: #2563eb; background-color: #eff6ff; }
 
@@ -41,13 +45,14 @@ body.ai-mode .text-slate-700, body.ai-mode .text-slate-800 { color: #f8fafc !imp
 body.ai-mode .bg-white { background-color: #1e293b !important; }
 body.ai-mode .bg-slate-50 { background-color: rgba(255, 255, 255, 0.05) !important; }
 body.ai-mode .border-gray-300, body.ai-mode .border { border-color: #475569 !important; }
-body.ai-mode input, body.ai-mode select, body.ai-mode textarea { background-color: #334155; color: #f8fafc; border-color: #475569; }
+body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode input[type="tel"], body.ai-mode input[type="url"], body.ai-mode input[type="password"], body.ai-mode select, body.ai-mode textarea { background-color: #334155; color: #f8fafc; border-color: #475569; }
 
 .toggle-checkbox:checked { right: 0; border-color: #68D391; }
 .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
 
 @keyframes talk-bounce { 0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); } 100% { box-shadow: 0 0 35px rgba(59, 130, 246, 1); border-color: #60a5fa; } }
 .is-talking { animation: talk-bounce 0.4s ease-in-out infinite alternate !important; border: 4px solid #60a5fa !important; }
+
 @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
 .gd-avatar { border-radius: 50%; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; }
 body.ai-mode .gd-avatar { background: #334155; }
@@ -57,44 +62,58 @@ body.ai-mode .gd-avatar { background: #334155; }
 #global-ai-guide { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateX(200%); }
 #global-ai-guide.visible { transform: translateX(0); }
 
-/* Responsive GD Arena */
-.gd-boardroom-container { position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem; }
+@keyframes urgent-glow { 0% { text-shadow: 0 0 5px red; } 50% { text-shadow: 0 0 20px red; color: #ff9999; } 100% { text-shadow: 0 0 5px red; } }
+.timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
+
+/* Responsive 3D Round Table GD Layout */
+.gd-boardroom-container {
+    position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem;
+}
 @media (min-width: 768px) { .gd-boardroom-container { min-height: 320px; } }
-.gd-table-oval { width: 85%; height: 100px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border: 3px solid #475569; border-radius: 100px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
+
+.gd-table-oval {
+    width: 85%; height: 100px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border: 3px solid #475569; border-radius: 100px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
+}
 @media (min-width: 768px) { .gd-table-oval { width: 80%; height: 140px; } }
+
 .gd-seat { position: absolute; text-align: center; }
 .gd-seat-top-left { top: 10px; left: 5%; }
 .gd-seat-top-right { top: 10px; right: 5%; }
-@media (min-width: 768px) { .gd-seat-top-left { top: 15px; left: 15%; } .gd-seat-top-right { top: 15px; right: 15%; } }
+@media (min-width: 768px) {
+    .gd-seat-top-left { top: 15px; left: 15%; }
+    .gd-seat-top-right { top: 15px; right: 15%; }
+}
 .gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 
-@keyframes slowPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
+/* Subtle pulse for hero background */
+@keyframes slowPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+}
 .hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
 
-/* -------------------------------------------------------------
-   CRASH-PROOF CINEMATIC SPACEX LAUNCH PHYSICS 
-   ------------------------------------------------------------- */
 #launchOverlay { position: fixed; inset: 0; background: #020617; z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out; }
 
 .space-backdrop { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
 .nebula { position: absolute; inset: 0; background: radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.4) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.4) 0%, transparent 40%); filter: blur(60px); animation: nebula-drift 20s infinite alternate ease-in-out; }
 @keyframes nebula-drift { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
 
-/* Earth Horizon */
-.earth-horizon { position: absolute; bottom: -20vh; left: 50%; transform: translateX(-50%) translateY(0); width: 200vw; height: 50vh; background: radial-gradient(ellipse at top, #0284c7 0%, #0369a1 40%, #0f172a 100%); border-radius: 50% 50% 0 0; z-index: 2; opacity: 1; transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1), opacity 4s; box-shadow: 0 -20px 100px rgba(56, 189, 248, 0.4); }
+/* Earth Horizon at launch */
+.earth-horizon { position: absolute; bottom: -20vh; left: 50%; transform: translateX(-50%); width: 200vw; height: 50vh; background: radial-gradient(ellipse at top, #0284c7 0%, #0369a1 40%, #0f172a 100%); border-radius: 50% 50% 0 0; z-index: 2; opacity: 1; transition: all 4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 -20px 100px rgba(56, 189, 248, 0.4); }
+.warp-speed .earth-horizon { transform: translateX(-50%) translateY(100vh); opacity: 0; }
 
-/* Star Layers */
+/* Parallax Star Layers generated via box-shadow for ultra-high performance */
 .star-layer-1 { position: absolute; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; animation: star-drift-up 60s linear infinite; }
 .star-layer-1::after { content: ''; position: absolute; top: 100vh; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; }
+
 .star-layer-2 { position: absolute; width: 3px; height: 3px; background: transparent; box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd; border-radius: 50%; animation: star-drift-up 40s linear infinite; opacity: 0.8; filter: blur(1px); }
 .star-layer-2::after { content: ''; position: absolute; top: 100vh; width: 3px; height: 3px; background: transparent; box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd; border-radius: 50%; filter: blur(1px); }
+
 @keyframes star-drift-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100vh); } }
 .warp-speed .star-layer-1, .warp-speed .star-layer-2 { animation-duration: 2s; }
 
-/* Rocket Master Wrapper */
-.rocket-wrapper { position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%) translateY(0); z-index: 10; transition: transform 3s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; width: 140px; height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
-
-/* Dynamic Animations via Class Addition */
+/* Rocket Physics Styles */
+.rocket-wrapper { position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); z-index: 10; transition: transform 2.5s cubic-bezier(0.5, 0, 0.1, 1); will-change: transform; }
 .rocket-shake-intense { animation: shake-intense 0.05s infinite; }
 @keyframes shake-intense { 
     0% { transform: translateX(-50%) translate(3px, 3px); } 
@@ -104,25 +123,26 @@ body.ai-mode .gd-avatar { background: #334155; }
     100% { transform: translateX(-50%) translate(3px, 3px); } 
 }
 
-/* Transitions */
-.rocket-liftoff { transform: translateX(-50%) translateY(-35vh) !important; }
+/* Perfect centering during flight */
+.rocket-liftoff { transform: translateX(-50%) translateY(-25vh); }
 
-/* Partitioned Stages */
-.rocket-booster { position: absolute; bottom: 0; width: 100%; height: 200px; transition: transform 3s cubic-bezier(0.4, 0, 1, 1), opacity 3s; opacity: 1; z-index: 20; transform-origin: top center; }
-.booster-drop { transform: translateY(100vh) rotate(-15deg) !important; opacity: 0 !important; }
+/* Separate Booster and Fairing animations */
+.booster-drop { animation: booster-fall 3s cubic-bezier(0.4, 0, 1, 1) forwards; }
+@keyframes booster-fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(-15deg); opacity: 0; }
+}
 
-.rocket-fairing { position: absolute; top: 0; width: 100%; height: 160px; transition: transform 1.5s cubic-bezier(0.1, 0.8, 0.2, 1), opacity 1.5s; opacity: 1; z-index: 30; }
-.fairing-shoot { transform: translateY(-100vh) !important; opacity: 0 !important; }
+.fairing-deploy { animation: fairing-shoot 1.5s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
+@keyframes fairing-shoot {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-50vh); opacity: 0; }
+}
 
-.satellite-payload { position: absolute; top: 120px; left: 50%; transform: translateX(-50%) scale(0.2); opacity: 0; transition: all 2s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 25; pointer-events: none; }
-.satellite-deploy { transform: translateX(-50%) scale(1.2) !important; opacity: 1 !important; animation: orbitFloat 6s infinite alternate ease-in-out 2s; }
-@keyframes orbitFloat { 0% { transform: translateX(-50%) scale(1.2) rotate(-2deg); } 100% { transform: translateX(-50%) scale(1.2) rotate(2deg); } }
+.engine-beam { transform-origin: top center; animation: engine-flicker 0.05s infinite alternate; }
+@keyframes engine-flicker { 0% { transform: scaleY(0.9); opacity: 0.8; filter: drop-shadow(0 0 10px #f97316); } 100% { transform: scaleY(1.3); opacity: 1; filter: drop-shadow(0 0 30px #ef4444); } }
 
-/* Engine Effects */
-.engine-fire { position: absolute; bottom: -140px; left: 50%; transform: translateX(-50%); width: 80px; height: 150px; opacity: 0; transition: opacity 0.3s; z-index: 15; transform-origin: top center; animation: engine-flicker 0.05s infinite alternate; }
-@keyframes engine-flicker { 0% { transform: translateX(-50%) scaleY(0.9); filter: drop-shadow(0 0 10px #f97316); } 100% { transform: translateX(-50%) scaleY(1.3); filter: drop-shadow(0 0 30px #ef4444); } }
-
-.smoke-cloud { position: absolute; bottom: -40px; left: 50%; width: 250px; height: 100px; background: radial-gradient(ellipse, rgba(203,213,225,0.9) 0%, rgba(148,163,184,0) 70%); filter: blur(25px); opacity: 0; transform: translateX(-50%) scale(0.5); transition: all 3s ease-out; pointer-events: none; z-index: 5; }
+.smoke-cloud { position: absolute; bottom: -40px; left: 50%; width: 250px; height: 100px; background: radial-gradient(ellipse, rgba(203,213,225,0.9) 0%, rgba(148,163,184,0) 70%); filter: blur(25px); opacity: 0; transform: translateX(-50%) scale(0.5); transition: all 3s ease-out; pointer-events: none; z-index: 10; }
 .smoke-active { opacity: 1; transform: translateX(-50%) scale(4); }
 
 .shockwave { position: absolute; top: 40%; left: 50%; width: 10px; height: 10px; border-radius: 50%; background: #fff; box-shadow: 0 0 100px 50px #38bdf8, 0 0 300px 150px #fff; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 15; pointer-events: none; }
@@ -130,26 +150,31 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes sonic-boom { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 40% { opacity: 1; } 100% { transform: translate(-50%, -50%) scale(400); opacity: 0; } }
 
 .flash-bang { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.8s ease-out; z-index: 10000; }
+
+/* Hidden Satellite inside the rocket */
+.satellite-payload { position: absolute; top: 80px; left: 50%; transform: translateX(-50%) scale(0.2); opacity: 0; transition: all 3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9; pointer-events: none; }
+.deployed-state { transform: translateX(-50%) scale(1) !important; opacity: 1 !important; animation: orbitFloat 6s infinite alternate ease-in-out 3s; }
+@keyframes orbitFloat { 0% { transform: translateX(-50%) scale(1) rotate(-2deg); } 100% { transform: translateX(-50%) scale(1) rotate(2deg); } }
 </style>
 </head>
 
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
 <div id="launchOverlay" class="hidden">
-    <!-- Space Background & Earth Horizon -->
+    <!-- Cinematic Deep Space Background -->
     <div class="space-backdrop" id="spaceBackdrop">
         <div class="nebula"></div>
         <div class="star-layer-1"></div>
         <div class="star-layer-2"></div>
-        <div id="earthHorizon" class="earth-horizon"></div>
+        <div class="earth-horizon"></div>
     </div>
     
-    <!-- Sonic Boom Flash -->
-    <div id="shockwaveEffect" class="shockwave"></div>
-    <div id="flashBang" class="flash-bang"></div>
+    <!-- White Flash / Sonic Boom -->
+    <div class="shockwave" id="shockwaveEffect"></div>
+    <div class="flash-bang" id="flashBang"></div>
 
-    <!-- Center Launch UI -->
-    <div id="launchBtnContainer" class="relative z-40 text-center flex flex-col items-center transition-opacity duration-1000">
+    <!-- UI / Text overlay -->
+    <div id="launchBtnContainer" class="relative z-30 text-center flex flex-col items-center transition-opacity duration-1000">
         <!-- Premium Custom Logo SVG (Large) -->
         <div class="w-32 h-32 mb-6">
             <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_0_30px_rgba(59,130,246,0.8)] animate-pulse" xmlns="http://www.w3.org/2000/svg">
@@ -174,7 +199,7 @@ body.ai-mode .gd-avatar { background: #334155; }
                 <circle cx="50" cy="48" r="3.5" fill="#ffffff" />
             </svg>
         </div>
-        <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-400">HUMAN ASSETIZE</h1>
+        <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-purple-400">HUMAN ASSETIZE</h1>
         <p class="text-slate-400 uppercase tracking-widest text-sm font-bold mb-10">Awaiting Executive Authorization</p>
         <button onclick="window.chairmanLaunch()" class="group relative px-10 py-5 bg-gradient-to-r from-red-600 to-red-800 rounded-full text-white font-black text-xl md:text-2xl uppercase tracking-widest shadow-[0_0_30px_rgba(220,38,38,0.6)] hover:shadow-[0_0_60px_rgba(220,38,38,0.9)] transition-all hover:-translate-y-1 overflow-hidden border-2 border-red-400 cursor-pointer pointer-events-auto">
             <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
@@ -182,97 +207,122 @@ body.ai-mode .gd-avatar { background: #334155; }
         </button>
     </div>
 
-    <div id="masterRocket" class="rocket-wrapper">
-        <!-- 1. Pad Smoke -->
+    <!-- Premium Rocket Asset -->
+    <div id="rocketAsset" class="rocket-wrapper w-48 h-96 flex flex-col items-center">
+        <!-- Smoke Cloud -->
         <div id="rocketSmoke" class="smoke-cloud"></div>
-
-        <!-- 2. Satellite Payload (Hidden inside initially) -->
-        <div id="payloadSatellite" class="satellite-payload">
-            <svg viewBox="0 0 300 200" class="w-64 h-48 drop-shadow-[0_0_40px_rgba(251,191,36,0.5)]">
+        
+        <!-- The Satellite Payload (Hidden inside initially) -->
+        <div id="satPayload" class="satellite-payload">
+            <svg viewBox="0 0 400 300" class="w-72 md:w-96 drop-shadow-[0_0_50px_rgba(59,130,246,0.6)]">
                 <defs>
                     <linearGradient id="solarPanel" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#1e3a8a" /><stop offset="50%" stop-color="#2563eb" /><stop offset="100%" stop-color="#1e40af" />
+                        <stop offset="0%" stop-color="#1e3a8a" />
+                        <stop offset="50%" stop-color="#2563eb" />
+                        <stop offset="100%" stop-color="#1e40af" />
                     </linearGradient>
                     <linearGradient id="goldFoil" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#fbbf24" /><stop offset="50%" stop-color="#f59e0b" /><stop offset="100%" stop-color="#b45309" />
+                        <stop offset="0%" stop-color="#fbbf24" />
+                        <stop offset="50%" stop-color="#f59e0b" />
+                        <stop offset="100%" stop-color="#b45309" />
                     </linearGradient>
                 </defs>
+                <!-- Left Solar Array -->
                 <g class="animate-[pulse_4s_infinite]">
-                    <rect x="10" y="80" width="90" height="60" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="1.5"/>
-                    <line x1="40" y1="80" x2="40" y2="140" stroke="#60a5fa" stroke-width="1"/><line x1="70" y1="80" x2="70" y2="140" stroke="#60a5fa" stroke-width="1"/>
-                    <line x1="10" y1="100" x2="100" y2="100" stroke="#60a5fa" stroke-width="1"/><line x1="10" y1="120" x2="100" y2="120" stroke="#60a5fa" stroke-width="1"/>
+                    <rect x="20" y="110" width="120" height="80" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="2"/>
+                    <line x1="50" y1="110" x2="50" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="80" y1="110" x2="80" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="110" y1="110" x2="110" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="20" y1="130" x2="140" y2="130" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="20" y1="150" x2="140" y2="150" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="20" y1="170" x2="140" y2="170" stroke="#60a5fa" stroke-width="1"/>
                 </g>
+                <!-- Right Solar Array -->
                 <g class="animate-[pulse_4s_infinite]" style="animation-delay: 1s;">
-                    <rect x="200" y="80" width="90" height="60" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="1.5"/>
-                    <line x1="230" y1="80" x2="230" y2="140" stroke="#60a5fa" stroke-width="1"/><line x1="260" y1="80" x2="260" y2="140" stroke="#60a5fa" stroke-width="1"/>
-                    <line x1="200" y1="100" x2="290" y2="100" stroke="#60a5fa" stroke-width="1"/><line x1="200" y1="120" x2="290" y2="120" stroke="#60a5fa" stroke-width="1"/>
+                    <rect x="260" y="110" width="120" height="80" fill="url(#solarPanel)" stroke="#60a5fa" stroke-width="2"/>
+                    <line x1="290" y1="110" x2="290" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="320" y1="110" x2="320" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="350" y1="110" x2="350" y2="190" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="260" y1="130" x2="380" y2="130" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="260" y1="150" x2="380" y2="150" stroke="#60a5fa" stroke-width="1"/>
+                    <line x1="260" y1="170" x2="380" y2="170" stroke="#60a5fa" stroke-width="1"/>
                 </g>
-                <rect x="100" y="105" width="30" height="8" fill="#64748b"/>
-                <rect x="170" y="105" width="30" height="8" fill="#64748b"/>
-                <polygon points="130,70 170,70 180,110 170,150 130,150 120,110" fill="url(#goldFoil)" stroke="#fcd34d" stroke-width="2"/>
-                <path d="M 135 55 Q 150 20 165 55 Q 150 40 135 55 Z" fill="#cbd5e1" stroke="#f1f5f9" stroke-width="1.5"/>
-                <line x1="150" y1="45" x2="150" y2="10" stroke="#cbd5e1" stroke-width="2"/>
-                <circle cx="150" cy="10" r="4" fill="#ef4444" class="animate-pulse"/>
-                <circle cx="150" cy="110" r="15" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
-                <circle cx="150" cy="110" r="8" fill="#38bdf8" filter="blur(3px)" class="animate-ping"/>
+                <!-- Connection Arms -->
+                <rect x="140" y="145" width="40" height="10" fill="#64748b"/>
+                <rect x="220" y="145" width="40" height="10" fill="#64748b"/>
+                <!-- Main Body (Gold Foil Core) -->
+                <polygon points="170,100 230,100 240,150 230,200 170,200 160,150" fill="url(#goldFoil)" stroke="#fcd34d" stroke-width="2"/>
+                <!-- Dish -->
+                <path d="M 180 80 Q 200 40 220 80 Q 200 60 180 80 Z" fill="#cbd5e1" stroke="#f1f5f9" stroke-width="2"/>
+                <!-- Dish Antenna -->
+                <line x1="200" y1="70" x2="200" y2="20" stroke="#cbd5e1" stroke-width="3"/>
+                <circle cx="200" cy="20" r="5" fill="#ef4444" class="animate-pulse"/>
+                <!-- Glowing core lens -->
+                <circle cx="200" cy="150" r="20" fill="#0f172a" stroke="#38bdf8" stroke-width="3"/>
+                <circle cx="200" cy="150" r="10" fill="#38bdf8" filter="blur(4px)" class="animate-ping"/>
             </svg>
-            <h2 id="sysOnlineText" class="text-white text-xl md:text-2xl font-black mt-2 tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-200 opacity-0 transition-opacity duration-1000 text-center">Systems Online</h2>
+            <h2 id="sysOnlineText" class="text-white text-2xl font-black mt-4 tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-200 opacity-0 transition-opacity duration-1000">Systems Online</h2>
         </div>
 
-        <!-- 3. Upper Fairing (Nose Cone) -->
-        <div id="stageFairing" class="rocket-fairing">
-            <svg viewBox="0 0 100 160" class="w-full h-full drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+        <!-- Upper Stage (Fairing) -->
+        <div id="rocketUpper" class="absolute top-0 w-full h-[150px] z-20 transition-all duration-[1500ms]">
+            <svg viewBox="0 0 100 150" class="w-full h-full drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
                 <defs>
                     <linearGradient id="fuselageTop" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#94a3b8" /><stop offset="30%" stop-color="#f8fafc" /><stop offset="70%" stop-color="#e2e8f0" /><stop offset="100%" stop-color="#64748b" />
+                        <stop offset="0%" stop-color="#94a3b8" />
+                        <stop offset="30%" stop-color="#f8fafc" />
+                        <stop offset="70%" stop-color="#e2e8f0" />
+                        <stop offset="100%" stop-color="#64748b" />
+                    </linearGradient>
+                    <linearGradient id="darkMetalTop" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#1e293b" />
+                        <stop offset="50%" stop-color="#475569" />
+                        <stop offset="100%" stop-color="#0f172a" />
                     </linearGradient>
                 </defs>
-                <path d="M 50 10 C 65 40, 75 80, 75 160 L 25 160 C 25 80, 35 40, 50 10 Z" fill="url(#fuselageTop)"/>
-                <line x1="50" y1="10" x2="50" y2="160" stroke="#475569" stroke-width="1.5" opacity="0.6"/>
+                <!-- Nose Cone -->
+                <path d="M 50 10 C 60 40, 70 80, 70 150 L 30 150 C 30 80, 40 40, 50 10 Z" fill="url(#fuselageTop)"/>
+                <!-- Tip -->
+                <path d="M 50 10 C 53 20, 55 30, 56 40 L 44 40 C 45 30, 47 20, 50 10 Z" fill="url(#darkMetalTop)"/>
             </svg>
         </div>
 
-        <!-- 4. Lower Booster & Grid Fins -->
-        <div id="stageBooster" class="rocket-booster">
+        <!-- Lower Stage (Booster & Engines) -->
+        <div id="rocketLower" class="absolute top-[150px] w-full h-[200px] z-20 transition-all duration-[3000ms]">
             <svg viewBox="0 0 100 200" class="w-full h-full drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
                 <defs>
                     <linearGradient id="fuselageBot" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#94a3b8" /><stop offset="30%" stop-color="#f8fafc" /><stop offset="70%" stop-color="#e2e8f0" /><stop offset="100%" stop-color="#64748b" />
+                        <stop offset="0%" stop-color="#94a3b8" />
+                        <stop offset="30%" stop-color="#f8fafc" />
+                        <stop offset="70%" stop-color="#e2e8f0" />
+                        <stop offset="100%" stop-color="#64748b" />
                     </linearGradient>
-                    <linearGradient id="darkMetal" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#1e293b" /><stop offset="50%" stop-color="#475569" /><stop offset="100%" stop-color="#0f172a" />
+                    <linearGradient id="darkMetalBot" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#1e293b" />
+                        <stop offset="50%" stop-color="#475569" />
+                        <stop offset="100%" stop-color="#0f172a" />
                     </linearGradient>
+                    <radialGradient id="engineGlow" cx="50%" cy="0%" r="100%">
+                        <stop offset="0%" stop-color="#ffffff" />
+                        <stop offset="20%" stop-color="#fef08a" />
+                        <stop offset="50%" stop-color="#f97316" />
+                        <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
+                    </radialGradient>
                 </defs>
-                <!-- Grid Fins -->
-                <rect x="18" y="10" width="12" height="4" fill="#334155" transform="skewY(-15)"/>
-                <rect x="70" y="10" width="12" height="4" fill="#334155" transform="skewY(15)"/>
-                <!-- Hull -->
-                <path d="M 25 0 L 75 0 L 75 180 L 25 180 Z" fill="url(#fuselageBot)"/>
-                <!-- Landing Legs (Folded) -->
-                <path d="M 25 140 L 15 185 L 25 180 Z" fill="url(#darkMetal)"/>
-                <path d="M 75 140 L 85 185 L 75 180 Z" fill="url(#darkMetal)"/>
-                <rect x="25" y="0" width="50" height="15" fill="url(#darkMetal)"/>
-                <!-- Dual Engine Bells -->
-                <path d="M 30 180 L 45 180 L 42 195 L 32 195 Z" fill="#1e293b"/>
-                <path d="M 55 180 L 70 180 L 68 195 L 58 195 Z" fill="#1e293b"/>
-                <line x1="50" y1="15" x2="50" y2="180" stroke="#cbd5e1" stroke-width="1" opacity="0.5"/>
+                <!-- Central Hull -->
+                <path d="M 30 0 L 70 0 L 70 160 L 30 160 Z" fill="url(#fuselageBot)"/>
+                <!-- Fins -->
+                <path d="M 30 120 C 15 140, 10 160, 10 180 L 30 160 Z" fill="url(#darkMetalBot)"/>
+                <path d="M 70 120 C 85 140, 90 160, 90 180 L 70 160 Z" fill="url(#darkMetalBot)"/>
+                <!-- Booster Base -->
+                <rect x="28" y="160" width="44" height="10" rx="2" fill="url(#darkMetalBot)"/>
+                <!-- Main Engine Nozzle -->
+                <path d="M 35 170 L 65 170 L 60 180 L 40 180 Z" fill="#334155"/>
+                <!-- Exhaust Fire (Perfectly aligned to nozzle) -->
+                <path id="svgExhaust" d="M 40 180 L 60 180 L 50 350 Z" fill="url(#engineGlow)" class="engine-beam" style="opacity: 0;"/>
+                <!-- Decals / Lines -->
+                <line x1="50" y1="0" x2="50" y2="160" stroke="#cbd5e1" stroke-width="1" opacity="0.5"/>
             </svg>
-            
-            <!-- 5. Engine Exhaust Plasma -->
-            <div id="engineFire" class="engine-fire">
-                <svg viewBox="0 0 100 150" class="w-full h-full">
-                    <defs>
-                        <radialGradient id="engineGlow" cx="50%" cy="0%" r="100%">
-                            <stop offset="0%" stop-color="#ffffff" />
-                            <stop offset="20%" stop-color="#fef08a" />
-                            <stop offset="50%" stop-color="#f97316" />
-                            <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
-                        </radialGradient>
-                    </defs>
-                    <path d="M 15 0 L 35 0 L 25 140 Z" fill="url(#engineGlow)"/>
-                    <path d="M 65 0 L 85 0 L 75 140 Z" fill="url(#engineGlow)"/>
-                </svg>
-            </div>
         </div>
     </div>
 </div>
@@ -281,7 +331,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-6">
 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 w-full">
 
-<!-- Responsive Title & Logo -->
+<!-- Responsive Title & Mobile About Button -->
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div class="flex items-center">
     <!-- Premium Small Logo SVG -->
@@ -312,7 +362,7 @@ body.ai-mode .gd-avatar { background: #334155; }
   </button>
 </div>
 
-<!-- Mode Toggles -->
+<!-- Desktop Controls -->
 <div class="flex flex-wrap items-center gap-3 md:gap-4 w-full lg:w-auto mt-2 lg:mt-0 flex">
   <div class="flex items-center justify-center space-x-2 bg-black/20 px-3 md:px-4 py-2 rounded-full border border-white/10">
     <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-200">Manual</span>
@@ -350,6 +400,11 @@ body.ai-mode .gd-avatar { background: #334155; }
 </div>
 </header>
 
+<div id="global-ai-guide" class="fixed bottom-4 md:bottom-6 right-4 md:right-6 z-50 flex items-center space-x-4 bg-slate-900 text-white p-3 md:p-4 rounded-full shadow-2xl border-2 md:border-4 border-brand-400">
+<div class="text-xs md:text-sm font-bold w-32 md:w-48 text-right hidden sm:block" id="guide-text">Systems initializing...</div>
+<div id="guide-avatar" class="gd-avatar avatar-breathing w-12 h-12 md:w-16 md:h-16"></div>
+</div>
+
 <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 w-full relative">
 <div id="msgBox" class="hidden mb-6 p-4 rounded-lg shadow-md font-medium text-xs md:text-sm flex items-center justify-between transition-all z-50">
 <span id="msgText"></span>
@@ -372,7 +427,7 @@ body.ai-mode .gd-avatar { background: #334155; }
      </div>
   </div>
 
-  <div class="mb-12" id="why-required-section">
+  <div class="mb-12">
       <div class="text-center mb-8 md:mb-10">
           <h3 class="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">Why Human Assetize is Required?</h3>
           <div class="w-24 h-1.5 bg-brand-500 mx-auto mt-4 rounded-full"></div>
@@ -404,6 +459,24 @@ body.ai-mode .gd-avatar { background: #334155; }
               <p class="text-sm text-slate-600 relative z-10">Generates a unified 'Talent Passport' detailing exact blind spots, allowing candidates to course-correct before placement season begins.</p>
           </div>
       </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8">
+     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-lg border-t-4 border-t-brand-500 hover:-translate-y-2 transition-transform duration-300">
+        <div class="w-12 h-12 md:w-14 md:h-14 bg-brand-100 rounded-xl flex items-center justify-center text-brand-600 text-xl md:text-2xl mb-5 md:mb-6 shadow-inner"><i class="fa-solid fa-robot"></i></div>
+        <h4 class="text-lg md:text-xl font-bold text-slate-800 mb-2 md:mb-3">AI-Powered Simulations</h4>
+        <p class="text-xs md:text-sm text-slate-600 leading-relaxed">Engage in dynamic, unscripted debates with multi-agent LLMs. Test your diplomacy and critical thinking in real-time virtual boardrooms.</p>
+     </div>
+     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-lg border-t-4 border-t-purple-500 hover:-translate-y-2 transition-transform duration-300">
+        <div class="w-12 h-12 md:w-14 md:h-14 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 text-xl md:text-2xl mb-5 md:mb-6 shadow-inner"><i class="fa-solid fa-eye"></i></div>
+        <h4 class="text-lg md:text-xl font-bold text-slate-800 mb-2 md:mb-3">Real-Time Biometrics</h4>
+        <p class="text-xs md:text-sm text-slate-600 leading-relaxed">Our computer vision algorithms track your visual focus, eye contact, and physical stress indicators during the live video interview phase.</p>
+     </div>
+     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-lg border-t-4 border-t-emerald-500 hover:-translate-y-2 transition-transform duration-300">
+        <div class="w-12 h-12 md:w-14 md:h-14 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 text-xl md:text-2xl mb-5 md:mb-6 shadow-inner"><i class="fa-solid fa-chart-pie"></i></div>
+        <h4 class="text-lg md:text-xl font-bold text-slate-800 mb-2 md:mb-3">Actionable Analytics</h4>
+        <p class="text-xs md:text-sm text-slate-600 leading-relaxed">Receive a comprehensive 'Talent Passport' detailing your quantitative readiness index and qualitative archetype feedback to course-correct instantly.</p>
+     </div>
   </div>
 </section>
 
@@ -439,7 +512,6 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
-<!-- ATS Section -->
 <section id="tab-ats" class="tab-content">
 <div class="mb-6 md:mb-8">
 <h2 class="text-xl md:text-2xl font-bold text-slate-800">Stage 1: Enterprise ATS Audit (Dynamic Parse)</h2>
@@ -479,7 +551,6 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 </div>
 </section>
 
-<!-- Aptitude, Archetype, GD, Interview Sections -->
 <section id="tab-test" class="tab-content">
 <div class="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-center sm:items-start bg-red-500/10 p-4 rounded-lg border border-red-500/30 gap-4">
 <div class="text-center sm:text-left">
@@ -515,7 +586,8 @@ Submit Final Answers
 <p class="text-sm md:text-base text-slate-500 mt-1 md:mt-2">Answer the following 10 scenarios to determine your dominant workplace behavioral archetype.</p>
 </div>
 <div class="glass-card p-5 md:p-8 rounded-xl shadow-sm max-w-4xl mx-auto">
-<div class="space-y-6 max-h-[600px] overflow-y-auto pr-4 custom-scrollbar" id="archetypeQuestionsContainer"></div>
+<div class="space-y-6 max-h-[600px] overflow-y-auto pr-4 custom-scrollbar" id="archetypeQuestionsContainer">
+</div>
 <div class="mt-8 pt-6 border-t border-gray-200/50 flex justify-center">
 <button onclick="window.submitArchetype()" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 md:py-4 px-8 md:px-12 rounded-full shadow-lg transition transform hover:-translate-y-1 text-sm md:text-base">
 Submit Archetype Answers
@@ -692,27 +764,37 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
-<!-- Remaining Info Sections -->
 <section id="tab-rights" class="tab-content">
 <div class="mb-6 md:mb-8 text-center md:text-left">
   <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Employee Rights Spotlight & Masterclasses</h2>
   <p class="text-sm md:text-base text-slate-500 mt-2">Essential regulatory knowledge every postgraduate professional must master before signing an offer letter.</p>
 </div>
+
 <div class="grid grid-cols-1 gap-8 md:gap-10">
 <div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-blue-500">
 <h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-coins mr-2 text-blue-500"></i>1. Compensation & CTC Breakdowns</h3>
 <p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>Base vs. Variable Pay:</strong> Never evaluate a job offer purely on "CTC" (Cost to Company). Base pay is fixed and guaranteed. Variable pay is contingent on company profits and individual performance.</p>
+<p class="text-xs md:text-sm mb-4 md:mb-6 text-slate-600"><strong>Provident Fund & Gratuity:</strong> In India, PF (12% of Basic) is deducted from your salary but matched by the employer. Gratuity is paid after 5 years of continuous service.</p>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-<div class="aspect-video w-full rounded-lg shadow overflow-hidden"><iframe class="w-full h-full" src="https://www.youtube.com/embed/Qz1VhbNjboE" title="YouTube video" frameborder="0" allowfullscreen></iframe></div>
-<div class="aspect-video w-full rounded-lg shadow overflow-hidden"><iframe class="w-full h-full" src="https://www.youtube.com/embed/UqjZEC2Ykb4" title="YouTube video" frameborder="0" allowfullscreen></iframe></div>
+<div class="aspect-video w-full rounded-lg shadow overflow-hidden"><iframe class="w-full h-full" src="https://www.youtube.com/embed/Qz1VhbNjboE?si=WqFq057njlqp0ocb" title="YouTube video player" frameborder="0" allowfullscreen></iframe></div>
+<div class="aspect-video w-full rounded-lg shadow overflow-hidden"><iframe class="w-full h-full" src="https://www.youtube.com/embed/UqjZEC2Ykb4?si=5Yf-fGJ-eAXGg-Ou" title="YouTube video player" frameborder="0" allowfullscreen></iframe></div>
 </div>
 </div>
+
 <div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-pink-500">
 <h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-shield-halved mr-2 text-pink-500"></i>2. Prevention of Sexual Harassment (POSH)</h3>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-4">
-<div class="aspect-video w-full rounded-lg shadow overflow-hidden"><iframe class="w-full h-full" src="https://www.youtube.com/embed/M8C2B949BqA" title="YouTube video" frameborder="0" allowfullscreen></iframe></div>
-<div class="aspect-video w-full rounded-lg shadow overflow-hidden"><iframe class="w-full h-full" src="https://www.youtube.com/embed/tEulz5dqQL4" title="YouTube video" frameborder="0" allowfullscreen></iframe></div>
+<p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>The 2013 Act & Vishakha Guidelines:</strong> Every organization with 10 or more employees is legally mandated to constitute an Internal Complaints Committee (ICC).</p>
+<p class="text-xs md:text-sm mb-4 md:mb-6 text-slate-600"><strong>Zero Tolerance Policies:</strong> Harassment includes implied requests for favors, sexually colored remarks, and creating a hostile work environment.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+<div class="aspect-video w-full rounded-lg shadow overflow-hidden"><iframe class="w-full h-full" src="https://www.youtube.com/embed/M8C2B949BqA?si=DXddUt1YXOrBTig0" title="YouTube video player" frameborder="0" allowfullscreen></iframe></div>
+<div class="aspect-video w-full rounded-lg shadow overflow-hidden"><iframe class="w-full h-full" src="https://www.youtube.com/embed/tEulz5dqQL4?si=LH05s_AwAX2m2P2M" title="YouTube video player" frameborder="0" allowfullscreen></iframe></div>
 </div>
+</div>
+
+<div class="glass-card p-5 md:p-8 rounded-xl shadow-lg border-t-4 border-t-emerald-500">
+<h3 class="font-bold text-lg md:text-xl mb-2 text-slate-800"><i class="fa-solid fa-file-contract mr-2 text-emerald-500"></i>3. Employment Contracts & Notice Periods</h3>
+<p class="text-xs md:text-sm mb-3 md:mb-4 text-slate-600"><strong>Non-Compete Clauses:</strong> Under Section 27 of the Indian Contract Act, post-employment non-compete clauses are generally void and unenforceable.</p>
+<p class="text-xs md:text-sm mb-4 md:mb-6 text-slate-600"><strong>Notice Period Buyouts:</strong> Notice periods are contractual. New employers can "buy out" notice periods by paying the basic salary for unserved days.</p>
 </div>
 </div>
 </section>
@@ -722,68 +804,219 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Master Resource Library</h2>
     <p class="text-sm md:text-lg text-slate-500 mt-2">Comprehensive frameworks, identified gaps, core strengths, and model Q&As for each evaluation vertical.</p>
   </div>
+
   <div class="space-y-8">
-    <!-- ATS -->
+    
+    <!-- VERTICAL 1: ATS AUDIT -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-file-pdf text-blue-500 mr-2"></i>Vertical 1: Enterprise ATS Audit</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-red-50 p-4 rounded-xl border border-red-100">
           <h4 class="font-bold text-red-700 mb-2"><i class="fa-solid fa-circle-exclamation mr-1"></i> Identified Gaps</h4>
-          <ul class="list-disc list-inside text-sm text-slate-700 space-y-1 ml-2"><li>Zero parsing visibility for candidates.</li><li>Formatting fragmentation and keyword mismatch.</li></ul>
+          <ul class="list-disc list-inside text-sm text-slate-700 space-y-1 ml-2">
+            <li>Zero parsing visibility for candidates.</li>
+            <li>Formatting fragmentation and keyword mismatch.</li>
+            <li>Lack of ATS compliance awareness.</li>
+          </ul>
+          <h4 class="font-bold text-orange-700 mt-4 mb-1"><i class="fa-solid fa-diagram-project mr-1"></i> Root Cause</h4>
+          <p class="text-sm text-slate-700">No independent testing benchmark to pre-screen and validate resumes prior to submission.</p>
         </div>
         <div class="bg-green-50 p-4 rounded-xl border border-green-100">
           <h4 class="font-bold text-green-700 mb-2"><i class="fa-solid fa-lightbulb mr-1"></i> Solutions & Methodology</h4>
-          <ul class="list-disc list-inside text-sm text-slate-700 space-y-1 ml-2"><li>Multi-parser simulation: Semantic Entity Extraction.</li><li>Objective match scoring.</li></ul>
+          <ul class="list-disc list-inside text-sm text-slate-700 space-y-1 ml-2">
+            <li><strong>Multi-parser simulation:</strong> Semantic Entity Extraction & Vector Matching.</li>
+            <li><strong>Live syntax auditing:</strong> Standardized Algorithmic Formatting Audit.</li>
+            <li><strong>Objective match scoring:</strong> Layout Syntax & Semantic Density Tracking.</li>
+          </ul>
+          <h4 class="font-bold text-brand-700 mt-4 mb-1"><i class="fa-solid fa-shield-halved mr-1"></i> Core Strengths</h4>
+          <p class="text-sm text-slate-700">Automated JD-Resume Alignment, 100% Objective Compliance Evaluation, and Dual-Layer Parser Assessment.</p>
         </div>
       </div>
     </div>
-    <!-- Aptitude -->
+
+    <!-- VERTICAL 2: APTITUDE TEST -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-stopwatch text-indigo-500 mr-2"></i>Vertical 2: Cognitive Aptitude</h3>
+      <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 mb-6">
+        <h4 class="font-bold text-indigo-700 mb-2"><i class="fa-solid fa-dumbbell mr-1"></i> Strengths of Aptitude Test</h4>
+        <div class="flex flex-wrap gap-2">
+          <span class="bg-white text-indigo-700 border border-indigo-200 px-3 py-1 rounded-full text-xs font-bold shadow-sm">1. Problem-Solving Ability</span>
+          <span class="bg-white text-indigo-700 border border-indigo-200 px-3 py-1 rounded-full text-xs font-bold shadow-sm">2. Logical & Analytical Thinking</span>
+          <span class="bg-white text-indigo-700 border border-indigo-200 px-3 py-1 rounded-full text-xs font-bold shadow-sm">3. Objective Evaluation</span>
+          <span class="bg-white text-indigo-700 border border-indigo-200 px-3 py-1 rounded-full text-xs font-bold shadow-sm">4. Time Management</span>
+          <span class="bg-white text-indigo-700 border border-indigo-200 px-3 py-1 rounded-full text-xs font-bold shadow-sm">5. Decision-Making Ability</span>
+        </div>
+      </div>
+      <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-file-circle-check text-slate-400 mr-1"></i> Model Q&A Bank</h4>
       <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 max-h-64 overflow-y-auto custom-scrollbar">
         <div class="space-y-3 text-sm text-slate-700">
-          <p><strong>1.</strong> If 5 workers complete a task in 10 days, how many days will 10 workers take? <br><span class="text-brand-600 font-medium">A: 5 days.</span></p>
+          <p><strong>1.</strong> If 5 workers can complete a task in 10 days, how many days will 10 workers take? <br><span class="text-brand-600 font-medium">A: 5 days.</span></p>
           <p><strong>2.</strong> Find the next number: 2, 6, 12, 20, 30, ? <br><span class="text-brand-600 font-medium">A: 42.</span></p>
           <p><strong>3.</strong> A candidate scores 70, 80, 60 and 90. What is the average? <br><span class="text-brand-600 font-medium">A: 75.</span></p>
+          <p><strong>4.</strong> If all managers are employees and some employees are graduates, can we conclude that all managers are graduates? <br><span class="text-brand-600 font-medium">A: No.</span></p>
+          <p><strong>5.</strong> A candidate has 10 minutes to answer 20 questions. What is the average time per question? <br><span class="text-brand-600 font-medium">A: 30 seconds.</span></p>
+          <p><strong>6.</strong> A shirt costs ₹800 and is sold at a 10% discount. What is the selling price? <br><span class="text-brand-600 font-medium">A: ₹720.</span></p>
+          <p><strong>7.</strong> Find the odd one out: 3, 5, 7, 9, 11. <br><span class="text-brand-600 font-medium">A: 9.</span></p>
+          <p><strong>8.</strong> If 3 books cost ₹450, what is the cost of 5 books at the same rate? <br><span class="text-brand-600 font-medium">A: ₹750.</span></p>
+          <p><strong>9.</strong> A train travels 120 km in 2 hours. What is its average speed? <br><span class="text-brand-600 font-medium">A: 60 km/h.</span></p>
+          <p><strong>10.</strong> Complete the analogy: Book : Reading :: Pen : ? <br><span class="text-brand-600 font-medium">A: Writing.</span></p>
+          <p><strong>11.</strong> If today is Monday, what day will it be after 10 days? <br><span class="text-brand-600 font-medium">A: Thursday.</span></p>
+          <p><strong>12.</strong> A number is increased from 200 to 250. What is the percentage increase? <br><span class="text-brand-600 font-medium">A: 25%.</span></p>
+          <p><strong>13.</strong> Find the missing number: 4, 8, 16, 32, ? <br><span class="text-brand-600 font-medium">A: 64.</span></p>
+          <p><strong>14.</strong> A team has 24 candidates. If 1/3 are selected, how many candidates are selected? <br><span class="text-brand-600 font-medium">A: 8 candidates.</span></p>
+          <p><strong>15.</strong> If all roses are flowers and some flowers are red, can we say all roses are red? <br><span class="text-brand-600 font-medium">A: No.</span></p>
+          <p><strong>16.</strong> A candidate answers 18 out of 20 questions correctly. What is the accuracy percentage? <br><span class="text-brand-600 font-medium">A: 90%.</span></p>
+          <p><strong>17.</strong> Find the next letter: A, C, E, G, ? <br><span class="text-brand-600 font-medium">A: I.</span></p>
+          <p><strong>18.</strong> If ₹1,000 earns ₹100 interest, what is the interest rate? <br><span class="text-brand-600 font-medium">A: 10%.</span></p>
+          <p><strong>19.</strong> A candidate must answer 25 questions in 10 minutes. Which approach is most suitable? <br><span class="text-brand-600 font-medium">A: Manage time by answering easier questions first and returning to difficult ones.</span></p>
+          <p><strong>20.</strong> A candidate receives two possible solutions to a problem. What should they do before selecting one? <br><span class="text-brand-600 font-medium">A: Compare the options using the available facts and choose the solution best supported by evidence.</span></p>
         </div>
       </div>
     </div>
-    <!-- Archetype -->
+
+    <!-- VERTICAL 3: ARCHETYPE ASSESSMENT -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-puzzle-piece text-purple-500 mr-2"></i>Vertical 3: Archetype Profiling</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-red-50 p-4 rounded-xl border border-red-100">
+          <h4 class="font-bold text-red-700 mb-2"><i class="fa-solid fa-circle-exclamation mr-1"></i> Identified Gaps</h4>
+          <ul class="list-disc list-inside text-sm text-slate-700 space-y-1 ml-2">
+            <li>Unaware of personality type.</li>
+            <li>Trying for mismatching job roles.</li>
+            <li>Trying to secure unrelated skills.</li>
+          </ul>
+          <h4 class="font-bold text-orange-700 mt-4 mb-1"><i class="fa-solid fa-diagram-project mr-1"></i> Root Cause</h4>
+          <p class="text-sm text-slate-700">Neglecting personality knowledge by both educators & learners.</p>
+        </div>
+        <div class="bg-purple-50 p-4 rounded-xl border border-purple-100">
+          <h4 class="font-bold text-purple-700 mb-2"><i class="fa-solid fa-lightbulb mr-1"></i> Solution</h4>
+          <p class="text-sm text-slate-700">AI Based situation Quiz with no neutral options.</p>
+          <h4 class="font-bold text-brand-700 mt-4 mb-1"><i class="fa-solid fa-shield-halved mr-1"></i> Strength of Archetype</h4>
+          <ul class="list-disc list-inside text-sm text-slate-700 space-y-1 ml-2">
+            <li>It replaces guesswork with self-awareness.</li>
+            <li>The profile reflects genuine behavior, not performance.</li>
+          </ul>
+        </div>
+      </div>
+      <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-file-circle-check text-slate-400 mr-1"></i> Model Q&A Bank</h4>
       <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 max-h-64 overflow-y-auto custom-scrollbar">
         <div class="space-y-3 text-sm text-slate-700">
-          <p><strong>Q1:</strong> What is the main purpose of the Archetype Assessment?<br><span class="text-brand-600 font-medium">A: It acts as a mirror to help candidates understand their natural working style.</span></p>
+          <p><strong>Q1:</strong> What is the main purpose of the Archetype Assessment?<br><span class="text-brand-600 font-medium">A: It acts as a mirror to help candidates understand their natural working style and behavior under pressure before an interview.</span></p>
+          <p><strong>Q2:</strong> When do candidates take the Archetype Assessment?<br><span class="text-brand-600 font-medium">A: It is taken right at the beginning of the process during the registration and onboarding stage.</span></p>
+          <p><strong>Q3:</strong> How many questions are in the assessment?<br><span class="text-brand-600 font-medium">A: There are 10 scenario-based questions.</span></p>
+          <p><strong>Q4:</strong> What kind of test format does it use?<br><span class="text-brand-600 font-medium">A: It uses a forced-choice format with no neutral answers, requiring candidates to pick one priority over another.</span></p>
           <p><strong>Q5:</strong> What are the four core behavioral archetypes?<br><span class="text-brand-600 font-medium">A: The Strategist, the Innovator, the Connector, and the Executor.</span></p>
+          <p><strong>Q6:</strong> How does a Strategist behave?<br><span class="text-brand-600 font-medium">A: They are analytical, rely on data and frameworks, and like to assess risks before taking action.</span></p>
+          <p><strong>Q7:</strong> What is a key sign of an Innovator in meetings?<br><span class="text-brand-600 font-medium">A: They use fast speech with big gestures, challenge old rules, and push for bold, new solutions.</span></p>
+          <p><strong>Q8:</strong> What is the main focus of a Connector?<br><span class="text-brand-600 font-medium">A: They focus on building team agreement, creating a safe space for people, and resolving conflicts.</span></p>
+          <p><strong>Q9:</strong> How do you identify an Executor?<br><span class="text-brand-600 font-medium">A: They are focused on the clock, use direct speech, and push hard for clear deadlines and action items.</span></p>
+          <p><strong>Q10:</strong> What does the "Versatility Score" measure?<br><span class="text-brand-600 font-medium">A: It measures how evenly a person's choices spread across all four traits, showing how adaptable they are.</span></p>
+          <p><strong>Q11:</strong> What is a "Blind-Spot Risk"?<br><span class="text-brand-600 font-medium">A: It happens when over 80% of a person's answers cluster into just one trait, creating extreme habits like analysis paralysis.</span></p>
+          <p><strong>Q12:</strong> Why doesn't the system use Myers-Briggs (MBTI) directly?<br><span class="text-brand-600 font-medium">A: MBTI is broad and meant for general reflection, making it too slow and complex for fast hiring decisions.</span></p>
+          <p><strong>Q13:</strong> Which older framework is part of the background for this model?<br><span class="text-brand-600 font-medium">A: The DISC model and Big Five trait thinking serve as its foundation.</span></p>
+          <p><strong>Q14:</strong> How does the system stop candidates from cheating or guessing the right answers?<br><span class="text-brand-600 font-medium">A: Every answer option is written to sound equally impressive, so candidates cannot easily fake a "perfect" profile.</span></p>
+          <p><strong>Q15:</strong> What is the "Perfect Profile" trap?<br><span class="text-brand-600 font-medium">A: It is the mistake of trying to guess what HR wants and picking answers that sound ideal instead of answering honestly.</span></p>
+          <p><strong>Q16:</strong> Why is ignoring your blind spot dangerous?<br><span class="text-brand-600 font-medium">A: Interviewers often probe into weak areas, and candidates get caught off guard if they only focus on their strengths.</span></p>
+          <p><strong>Q17:</strong> How can candidates fix a lack of professional vocabulary?<br><span class="text-brand-600 font-medium">A: They can learn and practice specific workplace terms tied to their archetype, like "operational efficiency" or "consensus-building".</span></p>
+          <p><strong>Q18:</strong> What happens to the test results after a candidate finishes?<br><span class="text-brand-600 font-medium">A: They sync instantly to the cloud and guide the rest of the journey, including group discussions and AI interviews.</span></p>
+          <p><strong>Q19:</strong> Is the archetype assessment a test that you can pass or fail?<br><span class="text-brand-600 font-medium">A: No, it is not a graded test; it is designed purely as a self-awareness tool or mirror.</span></p>
+          <p><strong>Q20:</strong> What is the ultimate takeaway tagline of the seminar script?<br><span class="text-brand-600 font-medium">A: "Crack the Code."</span></p>
         </div>
       </div>
     </div>
-    <!-- GD -->
+
+    <!-- VERTICAL 4: VIRTUAL GD -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-users text-amber-500 mr-2"></i>Vertical 4: Virtual Group Discussion</h3>
+      <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-file-circle-check text-slate-400 mr-1"></i> Model GD Topics & Perspectives</h4>
       <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 max-h-64 overflow-y-auto custom-scrollbar">
         <div class="space-y-4 text-sm text-slate-700">
-          <div><p class="font-bold text-slate-900">1. Is Artificial Intelligence a Boon or a Threat to Jobs?</p><p class="mt-1"><span class="text-brand-600 font-medium">Model Perspective:</span> AI is both an opportunity and a challenge. It requires reskilling.</p></div>
+          <div>
+            <p class="font-bold text-slate-900">1. Is Artificial Intelligence a Boon or a Threat to Jobs?</p>
+            <p class="mt-1"><span class="text-brand-600 font-medium">Model Perspective:</span> Artificial Intelligence is both an opportunity and a challenge. It may replace repetitive and routine jobs, but at the same time it creates new roles in areas such as AI management, data analysis and automation. The real issue is not AI taking all jobs, but whether people are ready to reskill and adapt. Therefore, AI should be seen as a technology that changes the nature of jobs rather than simply destroying them.</p>
+          </div>
+          <hr class="border-gray-200">
+          <div>
+            <p class="font-bold text-slate-900">2. Is Work From Home Better Than Work From Office?</p>
+            <p class="mt-1"><span class="text-brand-600 font-medium">Model Perspective:</span> Work from home provides flexibility, saves commuting time and can improve work-life balance. However, working from the office encourages collaboration, networking and better team interaction. There is no one-size-fits-all solution. A hybrid model can provide the advantages of both approaches, depending on the nature of the job and the organisation.</p>
+          </div>
+          <hr class="border-gray-200">
+          <div>
+            <p class="font-bold text-slate-900">3. Is an MBA Necessary for a Successful Career in Management?</p>
+            <p class="mt-1"><span class="text-brand-600 font-medium">Model Perspective:</span> An MBA is not the only path to becoming a successful manager, but it provides structured knowledge in areas such as finance, marketing, HR, operations and strategy. It also develops decision-making, leadership and communication skills. However, an MBA alone cannot guarantee success. Practical experience, relevant skills and continuous learning are equally important.</p>
+          </div>
+          <hr class="border-gray-200">
+          <div>
+            <p class="font-bold text-slate-900">4. Does Social Media Do More Harm Than Good?</p>
+            <p class="mt-1"><span class="text-brand-600 font-medium">Model Perspective:</span> Social media has both positive and negative effects. It provides opportunities for communication, learning, networking and business promotion. At the same time, excessive use can lead to misinformation, distraction and privacy concerns. Therefore, the issue is not social media itself but how responsibly it is used. Digital awareness and responsible usage are essential.</p>
+          </div>
+          <hr class="border-gray-200">
+          <div>
+            <p class="font-bold text-slate-900">5. Should Companies Focus More on Skills Than Academic Marks?</p>
+            <p class="mt-1"><span class="text-brand-600 font-medium">Model Perspective:</span> Academic marks show a student's consistency and theoretical understanding, but they do not completely measure practical ability. Companies also look for communication, problem-solving, teamwork, adaptability and technical skills. Therefore, recruitment should follow a balanced approach by considering both academic performance and practical skills.</p>
+          </div>
         </div>
       </div>
     </div>
-    <!-- Interview -->
+
+    <!-- VERTICAL 5: INTERVIEW -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-red-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-microphone-lines text-red-500 mr-2"></i>Vertical 5: AI Behavioral Interview</h3>
+      <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-file-circle-check text-slate-400 mr-1"></i> Model General & STAR Questions</h4>
       <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 max-h-64 overflow-y-auto custom-scrollbar">
         <div class="space-y-6 text-sm text-slate-700">
+          <!-- General -->
           <div>
-            <h5 class="font-black text-brand-700 uppercase tracking-widest text-xs mb-2">STAR Method</h5>
+            <h5 class="font-black text-brand-700 uppercase tracking-widest text-xs mb-2">General Interview</h5>
+            <div class="space-y-3">
+              <p><strong>1. Tell me about yourself.</strong><br><span class="text-brand-600 font-medium">A: “Good morning. My name is [Name]. I am pursuing my MBA with specialization in HR... I am a quick learner looking for an opportunity where I can apply my HR knowledge.” (Evaluates: Communication, confidence, posture)</span></p>
+              <p><strong>2. Why should we hire you?</strong><br><span class="text-brand-600 font-medium">A: “You should hire me because I have a combination of HR knowledge, willingness to learn and good interpersonal skills... As a fresher, I am ready to learn quickly and contribute effectively.”</span></p>
+              <p><strong>3. What is your biggest strength?</strong><br><span class="text-brand-600 font-medium">A: “My biggest strength is adaptability. I can adjust to new situations... During my projects, I handled different responsibilities which made me more flexible.”</span></p>
+              <p><strong>4. What is your weakness?</strong><br><span class="text-brand-600 font-medium">A: “I sometimes spend too much time trying to make my work perfect... So, I am learning to prioritize tasks and maintain a balance between quality and time.”</span></p>
+              <p><strong>5. Why do you want to work in HR?</strong><br><span class="text-brand-600 font-medium">A: “I want to work in HR because HR connects people with organizational goals. I enjoy solving workplace problems... I also believe modern HR is becoming more data-driven.”</span></p>
+            </div>
+          </div>
+          <hr class="border-gray-300">
+          <!-- STAR Method -->
+          <div>
+            <h5 class="font-black text-brand-700 uppercase tracking-widest text-xs mb-2">STAR Method (Situation, Task, Action, Result)</h5>
             <div class="space-y-4">
               <p><strong>1. Tell me about a time you worked in a team.</strong><br>
-                <span class="text-slate-500">S:</span> During my MBA project...<br><span class="text-slate-500">T:</span> Responsibility was to complete it within a deadline...<br>
-                <span class="text-brand-600 font-medium">A: I coordinated, divided work according to strengths...</span><br><span class="text-green-600 font-medium">R: We completed the project on time successfully.</span>
+                <span class="text-slate-500">S:</span> During my MBA, I worked on a group project.<br>
+                <span class="text-slate-500">T:</span> Our responsibility was to complete it within a limited deadline.<br>
+                <span class="text-brand-600 font-medium">A: I coordinated with the team members, divided the work according to their strengths, and followed up.</span><br>
+                <span class="text-green-600 font-medium">R: We completed the project on time and delivered the presentation successfully.</span>
+              </p>
+              <p><strong>2. Tell me about a time you faced a difficult situation.</strong><br>
+                <span class="text-slate-500">S:</span> During a presentation, a team member was unable to participate.<br>
+                <span class="text-slate-500">T:</span> We had to complete the presentation without affecting quality.<br>
+                <span class="text-brand-600 font-medium">A: I quickly reviewed the missing portion and divided the content among remaining members.</span><br>
+                <span class="text-green-600 font-medium">R: We completed the presentation successfully without major disruption.</span>
+              </p>
+              <p><strong>3. Tell me about a time you handled conflict in a team.</strong><br>
+                <span class="text-slate-500">S:</span> Two team members had different opinions on how work should be completed.<br>
+                <span class="text-slate-500">T:</span> We needed a decision without delaying the project.<br>
+                <span class="text-brand-600 font-medium">A: I listened to both viewpoints and suggested we compare them based on requirements and deadline.</span><br>
+                <span class="text-green-600 font-medium">R: We selected the practical approach and finished on time.</span>
+              </p>
+              <p><strong>4. Tell me about a time you showed leadership.</strong><br>
+                <span class="text-slate-500">S:</span> Our team had difficulty coordinating tasks.<br>
+                <span class="text-slate-500">T:</span> Someone needed to organize the work.<br>
+                <span class="text-brand-600 font-medium">A: I divided the tasks, created a timeline, and regularly checked progress.</span><br>
+                <span class="text-green-600 font-medium">R: The team completed the project within the deadline smoothly.</span>
+              </p>
+              <p><strong>5. Tell me about a failure and what you learned.</strong><br>
+                <span class="text-slate-500">S:</span> I was not able to explain points confidently in a presentation.<br>
+                <span class="text-slate-500">T:</span> I realized knowing content wasn't enough; I needed delivery skills.<br>
+                <span class="text-brand-600 font-medium">A: I started practicing aloud, recording myself, and working on body language.</span><br>
+                <span class="text-green-600 font-medium">R: My confidence and delivery improved significantly after that.</span>
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -792,22 +1025,188 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & HR Frameworks</h2>
     <p class="text-sm md:text-lg text-slate-500 mt-2">Deep-dive into the organizational behavior theories, compensation formulas, and talent acquisition logic that powers Fortune 500 HR departments.</p>
   </div>
+
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-blue-500">
-      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-microchip text-blue-500 mr-2"></i>TF-IDF Algorithm</h3>
-      <p class="text-sm text-slate-600 mb-4">Term Frequency-Inverse Document Frequency is a statistical measure used by enterprise ATS systems.</p>
+      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-microchip text-blue-500 mr-2"></i>TF-IDF Algorithm (Applicant Tracking)</h3>
+      <p class="text-sm text-slate-600 mb-4">Term Frequency-Inverse Document Frequency is a statistical measure used by enterprise ATS systems to evaluate how relevant a candidate's resume is to a Job Description.</p>
+      <div class="bg-slate-900 text-green-400 font-mono p-4 rounded-lg text-xs md:text-sm mb-4 shadow-inner">
+        TF = (Number of times keyword appears in resume) / (Total words in resume)<br><br>
+        IDF = log_e(Total resumes in database / Number of resumes containing the keyword)
+      </div>
+      <p class="text-sm text-slate-600"><strong>Key Takeaway:</strong> Rare, specific technical skills rank you much higher than common buzzwords.</p>
     </div>
+
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-purple-500">
-      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-sitemap text-purple-500 mr-2"></i>Tuckman's Stages</h3>
-      <ul class="space-y-3 text-sm text-slate-700"><li><strong>1. Forming</strong></li><li><strong>2. Storming</strong></li><li><strong>3. Norming</strong></li><li><strong>4. Performing</strong></li></ul>
+      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-sitemap text-purple-500 mr-2"></i>Tuckman's Stages of Group Development</h3>
+      <p class="text-sm text-slate-600 mb-4">A foundational framework detailing how a team moves from strangers to a high-performing unit. Crucial for Group Discussion (GD) dynamics.</p>
+      <ul class="space-y-3 text-sm text-slate-700">
+        <li><strong>1. Forming:</strong> Polite, anxious. High dependence on the leader.</li>
+        <li><strong>2. Storming:</strong> Conflict emerges. Personalities clash over control.</li>
+        <li><strong>3. Norming:</strong> Resolution. The team agrees on rules and roles.</li>
+        <li><strong>4. Performing:</strong> Frictionless execution toward the goal.</li>
+      </ul>
     </div>
+
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-emerald-500">
-      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-money-bill-trend-up text-emerald-500 mr-2"></i>Compa-Ratio</h3>
-      <div class="bg-slate-50 text-slate-800 border border-slate-300 font-bold p-4 rounded-lg text-center mb-4">Compa-Ratio = (Actual Salary) / (Market Midpoint)</div>
+      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-money-bill-trend-up text-emerald-500 mr-2"></i>Compa-Ratio (Compensation Strategy)</h3>
+      <p class="text-sm text-slate-600 mb-4">The standard metric used by HR to determine if an employee is being paid fairly compared to the market rate.</p>
+      <div class="bg-slate-50 text-slate-800 border border-slate-300 font-bold p-4 rounded-lg text-center mb-4">
+        Compa-Ratio = (Actual Employee Salary) / (Market Midpoint Salary)
+      </div>
+      <p class="text-sm text-slate-600">A ratio of 1.0 means market average. 0.8 means underpaid. 1.2 means paid above market.</p>
     </div>
+
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-brand-500">
-      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-star text-brand-500 mr-2"></i>The STAR Method</h3>
-      <ul class="space-y-3 text-sm text-slate-700"><li><strong>S:</strong> Situation</li><li><strong>T:</strong> Task</li><li><strong>A:</strong> Action</li><li><strong>R:</strong> Result</li></ul>
+      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-star text-brand-500 mr-2"></i>The STAR Method (Interviewing)</h3>
+      <p class="text-sm text-slate-600 mb-4">The globally recognized standard for answering behavioral interview questions.</p>
+      <ul class="space-y-3 text-sm text-slate-700">
+        <li><strong>S - Situation:</strong> Set the scene (10%).</li>
+        <li><strong>T - Task:</strong> Your specific responsibility (10%).</li>
+        <li><strong>A - Action:</strong> Exactly what steps did *you* take? (60%).</li>
+        <li><strong>R - Result:</strong> The quantifiable, numerical outcome (20%).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="tab-overview" class="tab-content">
+  <div class="mb-8 md:mb-10 text-center md:text-left">
+    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">About: The 6-Stage Assessment Gauntlet</h2>
+    <p class="text-sm md:text-lg text-slate-500 mt-2">Bridging postgraduate classroom theory with real-world HR technology execution. Understand exactly how you are evaluated across all 6 stages.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-file-pdf"></i></div>
+          <div>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">1. Enterprise ATS Audit</h3>
+            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Strategic Talent Acquisition</span>
+          </div>
+        </div>
+        <div class="space-y-4 mb-6">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+            <p class="text-xs md:text-sm text-slate-700">Recruitment funnels, algorithmic screening, Term Frequency-Inverse Document Frequency (TF-IDF), and predictive validity.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+            <p class="text-xs md:text-sm text-slate-700">Demystifies the "black box" of Fortune 500 resume screening via real-time PDF parsing and keyword density matching.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-stopwatch"></i></div>
+          <div>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">2. Decision Velocity Assessment</h3>
+            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Learning & Development</span>
+          </div>
+        </div>
+        <div class="space-y-4 mb-6">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+            <p class="text-xs md:text-sm text-slate-700">Cognitive load theory, situational judgment testing (SJT), and decision-making under high stress/strict deadlines.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+            <p class="text-xs md:text-sm text-slate-700">Simulates real-world management pressure with a randomized 20-question, 10-minute countdown assessment.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-sitemap"></i></div>
+          <div>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">3. Archetype Profiling</h3>
+            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Organizational Behavior (OB)</span>
+          </div>
+        </div>
+        <div class="space-y-4 mb-6">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-purple-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+            <p class="text-xs md:text-sm text-slate-700">Big Five Personality Traits, DISC assessments, cognitive biases, and predictive workplace behavior models.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+            <p class="text-xs md:text-sm text-slate-700">Forces candidates through a forced-choice situational matrix to mathematically determine their operational archetype before entering team dynamics.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-users"></i></div>
+          <div>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">4. Multi-Agent Virtual GD</h3>
+            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Group Dynamics & Team Leadership</span>
+          </div>
+        </div>
+        <div class="space-y-4 mb-6">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-amber-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+            <p class="text-xs md:text-sm text-slate-700">Tuckman's stages of group development, conflict resolution modes (Thomas-Kilmann model), and consensus building.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+            <p class="text-xs md:text-sm text-slate-700">Pits the candidate against two opposing AI personas (Analytical Arjun vs. Creative Kavya) in an interactive debate.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-red-500 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-red-500/10 text-red-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-microphone-lines"></i></div>
+          <div>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">5. AI Behavioral Interview</h3>
+            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Executive Presence & Structuring</span>
+          </div>
+        </div>
+        <div class="space-y-4 mb-6">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-red-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+            <p class="text-xs md:text-sm text-slate-700">The STAR method framework, physical executive presence markers, and data-backed quantitative storytelling.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+            <p class="text-xs md:text-sm text-slate-700">Conversational AI tracks your verbal STAR structure, while live computer vision tracks eye contact and physiological stress limits.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-emerald-500 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-xl md:text-2xl font-bold"><i class="fa-solid fa-id-card"></i></div>
+          <div>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">6. Executive Talent Passport</h3>
+            <span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider">Holistic Evaluation</span>
+          </div>
+        </div>
+        <div class="space-y-4 mb-6">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-emerald-600 uppercase tracking-widest block mb-1">Classroom Theory</span>
+            <p class="text-xs md:text-sm text-slate-700">Multi-modal assessment weighting, predictive validity indices, and automated HR feedback loops.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] md:text-xs font-bold text-green-600 uppercase tracking-widest block mb-1">Practical Application</span>
+            <p class="text-xs md:text-sm text-slate-700">Automatically decrypts and emails a comprehensive PDF dossier mapping the student's exact blind spots to correct before real placements begin.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -815,16 +1214,21 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 <section id="tab-quiz" class="tab-content">
   <div class="mb-6 md:mb-8 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Optional Practice Zone</h2>
-    <p class="text-sm md:text-lg text-slate-500 mt-2">Test your knowledge on each module.</p>
+    <p class="text-sm md:text-lg text-slate-500 mt-2">Test your knowledge on each module. These quizzes are strictly for practice, provide instant feedback, and do <strong class="text-red-500">NOT</strong> affect your official Talent Passport.</p>
   </div>
+  
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-6 md:mb-8">
-     <button id="btn-quiz-ats" onclick="window.loadPracticeQuiz('ats')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-file-pdf text-indigo-500 mr-2"></i> ATS Audit</button>
-     <button id="btn-quiz-aptitude" onclick="window.loadPracticeQuiz('aptitude')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-stopwatch text-purple-500 mr-2"></i> Aptitude</button>
-     <button id="btn-quiz-gd" onclick="window.loadPracticeQuiz('gd')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-users text-amber-500 mr-2"></i> Virtual GD</button>
-     <button id="btn-quiz-interview" onclick="window.loadPracticeQuiz('interview')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-microphone-lines text-brand-500 mr-2"></i> AI Interview</button>
+     <button id="btn-quiz-ats" onclick="window.loadPracticeQuiz('ats')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-file-pdf text-indigo-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> ATS Audit</button>
+     <button id="btn-quiz-aptitude" onclick="window.loadPracticeQuiz('aptitude')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-stopwatch text-purple-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> Aptitude</button>
+     <button id="btn-quiz-gd" onclick="window.loadPracticeQuiz('gd')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-users text-amber-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> Virtual GD</button>
+     <button id="btn-quiz-interview" onclick="window.loadPracticeQuiz('interview')" class="quiz-btn bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold py-3 px-2 md:px-4 rounded-lg transition shadow-sm text-xs md:text-sm"><i class="fa-solid fa-microphone-lines text-brand-500 mr-2 md:mr-0 md:mb-1 inline md:block text-base md:text-lg"></i> AI Interview</button>
   </div>
+  
   <div id="practiceQuizContainer" class="glass-card p-5 md:p-8 rounded-xl shadow-md min-h-[250px] md:min-h-[300px] border-t-4 border-t-slate-400">
-     <div class="text-center text-slate-400 mt-8 md:mt-10"><i class="fa-solid fa-hand-pointer text-3xl md:text-4xl mb-3 md:mb-4 block"></i><p class="font-medium text-base md:text-lg">Select a module above to load practice questions.</p></div>
+     <div class="text-center text-slate-400 mt-8 md:mt-10">
+       <i class="fa-solid fa-hand-pointer text-3xl md:text-4xl mb-3 md:mb-4 block"></i>
+       <p class="font-medium text-base md:text-lg">Select a module above to load practice questions.</p>
+     </div>
   </div>
 </section>
 
@@ -836,9 +1240,6 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/1
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
-// ==========================================
-// GROQ (LLAMA-3.1) API INTEGRATION
-// ==========================================
 const part1 = "gsk_";
 const part2 = "i8mmL0cZCr8eL5sWN6omWGdyb3FYhGBRWSr9eFwyvAQIZxAfP6xZ";
 const GROQ_API_KEY = part1 + part2;
@@ -858,7 +1259,6 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// TTS Engine
 class AvatarSpeechService {
   constructor() {
     this.voices = [];
@@ -908,79 +1308,60 @@ window.bioMetrics = { eyeContact: [], stress: [] };
 
 window.chairmanLaunch = function() {
     const btnContainer = document.getElementById('launchBtnContainer');
-    if(btnContainer) {
-        btnContainer.style.opacity = '0';
-        btnContainer.style.pointerEvents = 'none';
-    }
+    btnContainer.style.opacity = '0';
     
     setTimeout(() => {
-        if(btnContainer) btnContainer.style.display = 'none';
+        btnContainer.style.display = 'none';
         
         const overlay = document.getElementById('launchOverlay');
-        const masterRocket = document.getElementById('masterRocket');
+        const rocket = document.getElementById('rocketAsset');
         const smoke = document.getElementById('rocketSmoke');
-        const engine = document.getElementById('engineFire');
-        const booster = document.getElementById('stageBooster');
-        const fairing = document.getElementById('stageFairing');
-        const satellite = document.getElementById('payloadSatellite');
+        const engine = document.getElementById('svgExhaust');
         const shockwave = document.getElementById('shockwaveEffect');
         const flash = document.getElementById('flashBang');
         const backdrop = document.getElementById('spaceBackdrop');
-        const earth = document.getElementById('earthHorizon');
-        const sysOnlineText = document.getElementById('sysOnlineText');
-
-        if(!masterRocket) return; // Prevent crashes
-
-        // 1. Ignition
+        const booster = document.getElementById('rocketLower');
+        const fairing = document.getElementById('rocketUpper');
+        const sysOnline = document.getElementById('sysOnlineText');
+        
         smoke.classList.add('smoke-active');
         engine.style.opacity = '1';
-        masterRocket.classList.add('rocket-shake-intense');
+        rocket.classList.add('rocket-shake-intense');
         
-        // 2. Liftoff
         setTimeout(() => {
             backdrop.classList.add('warp-speed');
-            masterRocket.classList.remove('rocket-shake-intense');
-            masterRocket.classList.add('rocket-liftoff');
-            earth.style.transform = "translateX(-50%) translateY(100vh)";
-            earth.style.opacity = "0";
+            rocket.classList.remove('rocket-shake-intense');
+            rocket.classList.add('rocket-liftoff');
             
-            // 3. MECO & Stage Separation
             setTimeout(() => {
                 shockwave.classList.add('shockwave-fire');
                 engine.style.opacity = '0';
                 booster.classList.add('booster-drop');
                 
-                // 4. Fairing Deploy & Satellite Reveal
                 setTimeout(() => {
                     flash.style.opacity = '1';
-                    fairing.classList.add('fairing-shoot');
-                    satellite.classList.add('satellite-deploy');
-                    if (sysOnlineText) sysOnlineText.style.opacity = '1';
+                    fairing.classList.add('fairing-deploy');
                     
                     setTimeout(() => {
                         flash.style.opacity = '0';
+                        backdrop.classList.remove('warp-speed');
+                        rocket.classList.add('deployed-state');
+                        if (sysOnline) sysOnline.style.opacity = '1';
                         
-                        // 5. Fade into Homepage
                         setTimeout(() => {
                             overlay.style.opacity = '0';
-                            
                             setTimeout(() => {
                                 overlay.style.display = 'none';
                                 overlay.classList.add('hidden');
                                 sessionStorage.setItem('chairman_launched', 'true');
                                 const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
                                 window.switchTab('tab-home', targetNavBtn);
-                                
-                                setTimeout(() => {
-                                    const whySec = document.getElementById('why-required-section');
-                                    if (whySec) whySec.scrollIntoView({ behavior: 'smooth' });
-                                }, 100);
                             }, 1500);
                         }, 4500);
-                    }, 200);
+                    }, 500);
                 }, 800);
-            }, 3000); // Time to fly up
-        }, 2500); // Time for initial shake
+            }, 1200);
+        }, 2500);
     }, 1000);
 };
 
@@ -1008,11 +1389,18 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
   try {
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${GROQ_API_KEY}`, 'Content-Type': 'application/json' },
+      headers: {
+        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         model: "llama-3.1-8b-instant",
-        messages: [{ role: "system", content: systemInstruction }, { role: "user", content: prompt }],
-        temperature: 0.7, max_tokens: 150
+        messages: [
+          { role: "system", content: systemInstruction },
+          { role: "user", content: prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 150
       })
     });
 
@@ -1021,6 +1409,15 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     return result.choices[0].message.content.replace(/\*/g, '').trim();
   } catch (e) {
     console.warn("API Error:", e.message);
+    
+    let lastInputMatch = prompt.match(/Candidate:\s*(.*)/g);
+    let lastInput = lastInputMatch ? lastInputMatch[lastInputMatch.length - 1].replace('Candidate:', '').trim() : "";
+    let cleanInput = lastInput.toLowerCase().replace(/[^a-z0-9]/g, '');
+    
+    if (cleanInput.length > 0 && (cleanInput.length < 5 || ['ok', 'yes', 'no', 'nothing', 'iagree', 'sure'].includes(cleanInput))) {
+        return "Saying '" + lastInput + "' contributes absolutely nothing. I expect strategic, data-backed insights, not one-word answers.";
+    }
+    
     let category = prompt.includes("Meera") || prompt.includes("Interview") ? "interview" : "gd";
     let fallbackText = localResponses[category][localFallbackIndex % localResponses[category].length];
     localFallbackIndex++;
@@ -1028,50 +1425,85 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
   }
 }
 
-window.restoreUserSession = async function(autoRedirect = false) {
-  const lookupEmail = document.getElementById('loginEmailLookup').value.trim();
-  if (!lookupEmail) { window.showMessage("Enter email to restore session.", "error"); return; }
-  try {
-    const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'), where("email", "==", lookupEmail));
-    const snap = await getDocs(q);
-    if (!snap.empty) {
-      window.candidateId = snap.docs[0].id;
-      window.userData = snap.docs[0].data();
-      localStorage.setItem('hr_candidate_email', lookupEmail);
-      document.getElementById('candName').value = window.userData.name || "";
-      document.getElementById('candEmail').value = window.userData.email || "";
-      window.updatePassportUI();
-      listenToStudentData();
-      
-      if (autoRedirect) {
-          window.showMessage(`Admin Override: Viewing ${window.userData.name}'s Passport`, 'success');
-          const targetNavBtn = document.querySelector(`button[onclick*="'tab-passport'"]`);
-          window.switchTab('tab-passport', targetNavBtn);
-      } else {
-          window.showMessage(`Welcome back, ${window.userData.name}! Session restored.`);
-      }
-    } else { window.showMessage("No prior session found.", "error"); }
-  } catch(e) { window.showMessage("Failed to lookup session.", "error"); }
+const archQ = [
+  {q: "1. When starting a complex new project, your first priority is to:", o: {s: "Define clear metrics", i: "Find a unique angle", c: "Ensure the right people are assigned", e: "Set a strict timeline"}},
+  {q: "2. In team meetings, you are usually the one who:", o: {s: "Points out logical flaws", i: "Pitches the big ideas", c: "Makes sure everyone speaks", e: "Pushes the meeting to end"}},
+  {q: "3. How do you handle sudden changes?", o: {s: "Recalculate projections", i: "Embrace it as a new methodology", c: "Check in with the team", e: "Immediately rewrite the to-do list"}},
+  {q: "4. Your preferred communication style is:", o: {s: "Detailed, data-heavy reports", i: "Visual presentations", c: "Face-to-face conversations", e: "Short, bullet-pointed emails"}},
+  {q: "5. When resolving a dispute, you:", o: {s: "Look at policy guidelines", i: "Design a completely new workflow", c: "Mediate a compromise", e: "Make a firm executive decision"}},
+  {q: "6. Your approach to corporate risk is:", o: {s: "Calculated mathematically", i: "Embraced for massive growth", c: "Shared collectively", e: "Minimized completely"}},
+  {q: "7. What motivates you the most?", o: {s: "Solving complex puzzles", i: "Groundbreaking ideas", c: "Building loyal teams", e: "Hitting targets early"}},
+  {q: "8. Under tight deadlines, you:", o: {s: "Re-evaluate the critical path", i: "Look for an automated tool", c: "Rally the team with coffee", e: "Work 14-hour days"}},
+  {q: "9. How do you track progress?", o: {s: "Complex dashboards", i: "Reviewing creative prototypes", c: "Weekly team stand-ups", e: "Crossing off tasks"}},
+  {q: "10. Your biggest pet peeve is:", o: {s: "Decisions without data", i: "Rigid adherence to tradition", c: "Lack of empathy", e: "Endless meetings"}}
+];
+
+function renderArchetypeQs() {
+  const c = document.getElementById('archetypeQuestionsContainer');
+  if(!c) return;
+  let finalHtml = '';
+  archQ.forEach((item, idx) => {
+    let html = `
+      <div class="mb-5 bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative z-10">
+        <p class="text-sm md:text-base font-bold text-slate-800 mb-4">${item.q}</p>
+        <div class="space-y-3">`;
+    for(let key in item.o) {
+      const uniqueId = `arch_${idx}_${key}`;
+      html += `
+        <div class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all duration-200" onclick="document.getElementById('${uniqueId}').checked = true;">
+          <input type="radio" id="${uniqueId}" name="arch${idx}" value="${key}" class="w-5 h-5 text-brand-600 border-gray-300 focus:ring-brand-500 cursor-pointer accent-brand-600 pointer-events-none">
+          <label for="${uniqueId}" class="ml-3 text-sm md:text-base text-slate-700 font-medium w-full cursor-pointer pointer-events-none">${item.o[key]}</label>
+        </div>`;
+    }
+    html += `</div></div>`;
+    finalHtml += html;
+  });
+  c.innerHTML = finalHtml;
+}
+
+window.switchTab = function(tabId, btn) {
+  document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('bg-brand-700', 'text-white', 'active'); b.classList.add('text-brand-100'); });
+  document.getElementById(tabId).classList.add('active');
+  if(btn) { btn.classList.remove('text-brand-100'); btn.classList.add('bg-brand-700', 'text-white', 'active'); }
+  if(tabId === 'tab-passport') window.updatePassportUI();
+  if(tabId === 'tab-gd' || tabId === 'tab-interview') {
+    if(window.isAIMode) initWebcamStream();
+  }
+};
+
+window.autoAdvanceTab = function(currentTabId, nextTabId, stageName) {
+  window.showMessage(`<i class="fa-solid fa-circle-check mr-1"></i> ${stageName} Complete! Auto-moving to next stage...`, 'success');
+  setTimeout(() => {
+    const targetNavBtn = document.querySelector(`button[onclick*="'${nextTabId}'"]`);
+    window.switchTab(nextTabId, targetNavBtn);
+  }, 2000);
+};
+
+window.showMessage = function(text, type = 'success') {
+  const box = document.getElementById('msgBox');
+  box.className = `mb-6 p-3 md:p-4 rounded-lg shadow-md font-bold text-xs md:text-sm flex items-center justify-between z-50 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`;
+  document.getElementById('msgText').innerHTML = text;
+  box.classList.remove('hidden');
+  setTimeout(() => { box.classList.add('hidden'); }, 5000);
 };
 
 signInAnonymously(auth).then((userCredential) => {
   window.candidateId = userCredential.user.uid;
+  const savedEmail = localStorage.getItem('hr_candidate_email');
   
-  // Impersonate Engine (Reads URL)
+  // Checking for impersonation request from Admin URL
   const urlParams = new URLSearchParams(window.location.search);
   const impersonateEmail = urlParams.get('email');
-  
+
   if (impersonateEmail) {
       document.getElementById('loginEmailLookup').value = impersonateEmail;
-      window.restoreUserSession(true); 
+      window.restoreUserSession(true); // Impersonate True
+  } else if (savedEmail) {
+      document.getElementById('loginEmailLookup').value = savedEmail;
+      window.restoreUserSession();
   } else {
-      const savedEmail = localStorage.getItem('hr_candidate_email');
-      if(savedEmail) {
-        document.getElementById('loginEmailLookup').value = savedEmail;
-        window.restoreUserSession();
-      } else {
-        listenToStudentData();
-      }
+      listenToStudentData();
   }
   
   onSnapshot(doc(db, 'artifacts', APP_ID, 'public', 'data', 'config', 'siteConfig'), (snap) => {
@@ -1096,6 +1528,32 @@ signInAnonymously(auth).then((userCredential) => {
   window.showMessage(`Database connection established locally.`, "success");
 });
 
+window.restoreUserSession = async function(isImpersonating = false) {
+  const lookupEmail = document.getElementById('loginEmailLookup').value.trim();
+  if (!lookupEmail) { window.showMessage("Enter email to restore session.", "error"); return; }
+  try {
+    const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'), where("email", "==", lookupEmail));
+    const snap = await getDocs(q);
+    if (!snap.empty) {
+      window.candidateId = snap.docs[0].id;
+      window.userData = snap.docs[0].data();
+      localStorage.setItem('hr_candidate_email', lookupEmail);
+      document.getElementById('candName').value = window.userData.name || "";
+      document.getElementById('candEmail').value = window.userData.email || "";
+      window.updatePassportUI();
+      
+      if (isImpersonating) {
+         window.showMessage(`Admin Override: Viewing ${window.userData.name}'s Passport`, 'success');
+         const targetNavBtn = document.querySelector(`button[onclick*="'tab-passport'"]`);
+         window.switchTab('tab-passport', targetNavBtn);
+      } else {
+         window.showMessage(`Welcome back, ${window.userData.name}! Session restored.`);
+      }
+      listenToStudentData();
+    } else { window.showMessage("No prior session found.", "error"); }
+  } catch(e) { window.showMessage("Failed to lookup session.", "error"); }
+};
+
 function listenToStudentData() {
   if (!window.candidateId) return;
   unsubscribeStudent = onSnapshot(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), (snap) => {
@@ -1108,8 +1566,11 @@ function listenToStudentData() {
 
 async function syncToCloud() {
   if (!window.candidateId) return; 
-  try { await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), window.userData, { merge: true }); } 
-  catch (error) { console.warn("Firebase sync prevented."); }
+  try {
+    await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'candidates', window.candidateId), window.userData, { merge: true });
+  } catch (error) {
+    console.warn("Firebase sync prevented. Advancing locally.", error);
+  }
 }
 
 window.saveProfile = async function() {
@@ -1126,63 +1587,6 @@ window.saveProfile = async function() {
 
   await syncToCloud();
   window.autoAdvanceTab('tab-onboarding', 'tab-ats', 'Registration');
-};
-
-const archQ = [
-  {q: "1. When starting a complex new project, your first priority is to:", o: {s: "Define clear metrics", i: "Find a unique angle", c: "Ensure the right people are assigned", e: "Set a strict timeline"}},
-  {q: "2. In team meetings, you are usually the one who:", o: {s: "Points out logical flaws", i: "Pitches the big ideas", c: "Makes sure everyone speaks", e: "Pushes the meeting to end"}},
-  {q: "3. How do you handle sudden changes?", o: {s: "Recalculate projections", i: "Embrace it as a new methodology", c: "Check in with the team", e: "Immediately rewrite the to-do list"}},
-  {q: "4. Your preferred communication style is:", o: {s: "Detailed, data-heavy reports", i: "Visual presentations", c: "Face-to-face conversations", e: "Short, bullet-pointed emails"}},
-  {q: "5. When resolving a dispute, you:", o: {s: "Look at policy guidelines", i: "Design a completely new workflow", c: "Mediate a compromise", e: "Make a firm executive decision"}},
-  {q: "6. Your approach to corporate risk is:", o: {s: "Calculated mathematically", i: "Embraced for massive growth", c: "Shared collectively", e: "Minimized completely"}},
-  {q: "7. What motivates you the most?", o: {s: "Solving complex puzzles", i: "Groundbreaking ideas", c: "Building loyal teams", e: "Hitting targets early"}},
-  {q: "8. Under tight deadlines, you:", o: {s: "Re-evaluate the critical path", i: "Look for an automated tool", c: "Rally the team with coffee", e: "Work 14-hour days"}},
-  {q: "9. How do you track progress?", o: {s: "Complex dashboards", i: "Reviewing creative prototypes", c: "Weekly team stand-ups", e: "Crossing off tasks"}},
-  {q: "10. Your biggest pet peeve is:", o: {s: "Decisions without data", i: "Rigid adherence to tradition", c: "Lack of empathy", e: "Endless meetings"}}
-];
-
-function renderArchetypeQs() {
-  const c = document.getElementById('archetypeQuestionsContainer');
-  if(!c) return;
-  let finalHtml = '';
-  archQ.forEach((item, idx) => {
-    let html = `<div class="mb-5 bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative z-10"><p class="text-sm md:text-base font-bold text-slate-800 mb-4">${item.q}</p><div class="space-y-3">`;
-    for(let key in item.o) {
-      const uniqueId = `arch_${idx}_${key}`;
-      html += `<div class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-all duration-200" onclick="document.getElementById('${uniqueId}').checked = true;">
-          <input type="radio" id="${uniqueId}" name="arch${idx}" value="${key}" class="w-5 h-5 text-brand-600 border-gray-300 focus:ring-brand-500 cursor-pointer pointer-events-none">
-          <label for="${uniqueId}" class="ml-3 text-sm md:text-base text-slate-700 font-medium w-full cursor-pointer pointer-events-none">${item.o[key]}</label>
-        </div>`;
-    }
-    html += `</div></div>`;
-    finalHtml += html;
-  });
-  c.innerHTML = finalHtml;
-}
-
-window.switchTab = function(tabId, btn) {
-  document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('bg-brand-700', 'text-white', 'active'); b.classList.add('text-brand-100'); });
-  document.getElementById(tabId).classList.add('active');
-  if(btn) { btn.classList.remove('text-brand-100'); btn.classList.add('bg-brand-700', 'text-white', 'active'); }
-  if(tabId === 'tab-passport') window.updatePassportUI();
-  if(tabId === 'tab-gd' || tabId === 'tab-interview') { if(window.isAIMode) initWebcamStream(); }
-};
-
-window.autoAdvanceTab = function(currentTabId, nextTabId, stageName) {
-  window.showMessage(`<i class="fa-solid fa-circle-check mr-1"></i> ${stageName} Complete! Auto-moving to next stage...`, 'success');
-  setTimeout(() => {
-    const targetNavBtn = document.querySelector(`button[onclick*="'${nextTabId}'"]`);
-    window.switchTab(nextTabId, targetNavBtn);
-  }, 2000);
-};
-
-window.showMessage = function(text, type = 'success') {
-  const box = document.getElementById('msgBox');
-  box.className = `mb-6 p-3 md:p-4 rounded-lg shadow-md font-bold text-xs md:text-sm flex items-center justify-between z-50 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`;
-  document.getElementById('msgText').innerHTML = text;
-  box.classList.remove('hidden');
-  setTimeout(() => { box.classList.add('hidden'); }, 5000);
 };
 
 window.submitArchetype = async function() {
