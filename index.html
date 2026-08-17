@@ -182,7 +182,8 @@ body.ai-mode .gd-avatar { background: #334155; }
     <div class="flash-bang" id="flashBang"></div>
 
     <div id="launchBtnContainer" class="relative z-30 text-center flex flex-col items-center transition-opacity duration-1000">
-        <!-- Premium Corporate SVG Logo (Vibrant Blue/Purple) -->
+        
+        <!-- Premium Corporate SVG Logo -->
         <div class="w-32 h-32 mb-6">
             <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_0_30px_rgba(59,130,246,0.6)] animate-pulse" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -195,10 +196,10 @@ body.ai-mode .gd-avatar { background: #334155; }
                         <stop offset="100%" stop-color="#7e22ce" />
                     </linearGradient>
                 </defs>
-                <path d="M 50 5 L 90 20 L 90 70 L 50 95 L 10 70 L 10 20 Z" fill="none" stroke="url(#corpBlueLarge)" stroke-width="4" opacity="0.8"/>
-                <path d="M 50 25 L 75 80 L 60 80 L 50 55 L 40 80 L 25 80 Z" fill="url(#corpBlueLarge)"/>
-                <path d="M 15 65 Q 50 10 85 45" fill="none" stroke="url(#corpAccentLarge)" stroke-width="6" stroke-linecap="round"/>
-                <circle cx="50" cy="35" r="7" fill="#ffffff" />
+                <circle cx="50" cy="50" r="45" fill="none" stroke="url(#corpBlueLarge)" stroke-width="2" stroke-dasharray="10, 5" opacity="0.5"/>
+                <polygon points="50,15 85,85 15,85" fill="none" stroke="url(#corpBlueLarge)" stroke-width="8" stroke-linejoin="round"/>
+                <circle cx="50" cy="40" r="12" fill="url(#corpBlueLarge)"/>
+                <path d="M 32 85 Q 50 55 68 85" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
             </svg>
         </div>
 
@@ -210,6 +211,7 @@ body.ai-mode .gd-avatar { background: #334155; }
         </button>
     </div>
 
+    <!-- Multi-Stage Rocket -->
     <div id="rocketAsset" class="rocket-wrapper w-48 h-96 flex flex-col items-center">
         <div id="rocketSmoke" class="smoke-cloud"></div>
         <div id="satPayload" class="satellite-payload">
@@ -293,6 +295,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div class="flex items-center">
+    
     <!-- The Premium Corporate Logo in Header -->
     <svg viewBox="0 0 100 100" class="w-10 h-10 mr-3 drop-shadow-md hidden sm:block" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -300,16 +303,13 @@ body.ai-mode .gd-avatar { background: #334155; }
                 <stop offset="0%" stop-color="#60a5fa" />
                 <stop offset="100%" stop-color="#2563eb" />
             </linearGradient>
-            <linearGradient id="corpAccentSmall" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#a855f7" />
-                <stop offset="100%" stop-color="#7e22ce" />
-            </linearGradient>
         </defs>
-        <path d="M 50 5 L 90 20 L 90 70 L 50 95 L 10 70 L 10 20 Z" fill="none" stroke="url(#corpBlueSmall)" stroke-width="4" opacity="0.8"/>
-        <path d="M 50 25 L 75 80 L 60 80 L 50 55 L 40 80 L 25 80 Z" fill="url(#corpBlueSmall)"/>
-        <path d="M 15 65 Q 50 10 85 45" fill="none" stroke="url(#corpAccentSmall)" stroke-width="6" stroke-linecap="round"/>
-        <circle cx="50" cy="35" r="7" fill="#ffffff" />
+        <circle cx="50" cy="50" r="45" fill="none" stroke="url(#corpBlueSmall)" stroke-width="2" stroke-dasharray="10, 5" opacity="0.5"/>
+        <polygon points="50,15 85,85 15,85" fill="none" stroke="url(#corpBlueSmall)" stroke-width="8" stroke-linejoin="round"/>
+        <circle cx="50" cy="40" r="12" fill="url(#corpBlueSmall)"/>
+        <path d="M 32 85 Q 50 55 68 85" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
     </svg>
+
     <h1 class="text-2xl md:text-3xl tracking-tight flex flex-col sm:flex-row sm:items-baseline">
       <span class="font-extrabold text-white">Human Assetize</span>
       <span class="text-brand-200 font-medium text-lg md:text-xl sm:ml-2 mt-1 sm:mt-0">- Practice-Perform-Place</span>
@@ -666,7 +666,7 @@ Posture: <strong id="postureVal">Pending</strong>
 <div id="interview-mic-zone" class="w-full flex-col items-center hidden">
 <textarea id="interviewTextInput" class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg p-2.5 md:p-3 mb-2 md:mb-3 text-xs md:text-sm focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner" rows="3" placeholder="Type your response here, or tap the mic to dictate..."></textarea>
 <div class="flex items-center justify-center space-x-3 md:space-x-4 w-full">
-<button id="interviewMicBtn" onclick="window.toggleInterviewRecording(event)" class="bg-slate-700 hover:bg-slate-600 text-white rounded-full w-12 h-12 md:w-14 md:h-14 shadow-lg transition flex items-center justify-center border border-slate-50 flex-shrink-0">
+<button id="interviewMicBtn" onclick="window.toggleInterviewRecording(event)" class="bg-slate-700 hover:bg-slate-600 text-white rounded-full w-12 h-12 md:w-14 md:h-14 shadow-lg transition flex items-center justify-center border border-slate-500 flex-shrink-0">
 <i class="fa-solid fa-microphone text-lg md:text-xl pointer-events-none" id="interviewMicIcon"></i>
 </button>
 <button onclick="window.submitInterviewAnswer()" class="flex-grow bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-4 md:px-8 rounded-full shadow-lg transition border border-brand-400 text-xs md:text-sm flex items-center justify-center">
@@ -756,6 +756,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
+<!-- MASTER RESOURCE LIBRARY SECTION -->
 <section id="tab-resources" class="tab-content">
   <div class="mb-8 md:mb-10 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Master Resource Library</h2>
@@ -1198,7 +1199,7 @@ import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
 // ==========================================
-// GROQ API INTEGRATION (LLAMA 3.3)
+// GROQ API INTEGRATION (GPT-OSS-20B)
 // ==========================================
 const part1 = "gsk_";
 const part2 = "U232hrK9Fw07HHKO5vQWWGdyb3FYcVOqyywSW1ych7ePZYdC0rEs";
@@ -1361,7 +1362,7 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
+        model: "openai/gpt-oss-20b",
         messages: [
           { role: "system", content: systemInstruction },
           { role: "user", content: prompt }
@@ -1375,16 +1376,8 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     if (!response.ok) throw new Error(result.error?.message || 'API Error');
     return result.choices[0].message.content.replace(/\*/g, '').trim();
   } catch (e) {
-    console.warn("API Error:", e.message);
-    
-    let lastInputMatch = prompt.match(/Candidate:\s*(.*)/g);
-    let lastInput = lastInputMatch ? lastInputMatch[lastInputMatch.length - 1].replace('Candidate:', '').trim() : "";
-    let cleanInput = lastInput.toLowerCase().replace(/[^a-z0-9]/g, '');
-    
-    if (cleanInput.length > 0 && (cleanInput.length < 5 || ['ok', 'yes', 'no', 'nothing', 'iagree', 'sure'].includes(cleanInput))) {
-        return "Saying '" + lastInput + "' contributes absolutely nothing. I expect strategic, data-backed insights, not one-word answers.";
-    }
-    
+    console.error("Groq API Error:", e.message);
+    window.showMessage("Groq API Error: Connection Failed. Check API Key.", "error");
     return `[SYSTEM ERROR: AI Connection Failed] The Groq API key has expired, hit a rate limit, or the model is unavailable. Details: ${e.message}`;
   }
 }
@@ -1712,7 +1705,7 @@ window.runATS = async function() {
   if (!fileInput.files.length) { window.showMessage("Please upload a PDF resume.", "error"); return; }
   if (!window.candidateId) { window.showMessage("Save profile first!", "error"); return; }
 
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing...'; 
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing & Uploading...'; 
   btn.disabled = true;
 
   try {
@@ -1760,7 +1753,7 @@ window.runATS = async function() {
     
     if (!pdfJS) throw new Error("PDF Library failed to load.");
 
-    // PDF Parsing with 8-second safety timeout and Uint8Array wrapper
+    // PDF Parsing with 8-second safety timeout so it NEVER hangs
     const pdfTask = pdfJS.getDocument({data: new Uint8Array(arrayBuffer)}).promise;
     const pdf = await Promise.race([
         pdfTask,
@@ -1805,6 +1798,15 @@ window.runATS = async function() {
 
     window.userData.ats_score = Math.round(formatScore + keywordScore + xyzScore) || 10;
     
+    try {
+       const storageRef = ref(storage, `artifacts/${APP_ID}/public/data/resumes/${window.candidateId}.pdf`);
+       await uploadBytes(storageRef, file);
+       const dlUrl = await getDownloadURL(storageRef);
+       window.userData.resume_url = dlUrl;
+    } catch(uploadErr) {
+       console.warn("Storage upload failed, proceeding without file link", uploadErr);
+    }
+
     document.getElementById('atsScoreDisplay').innerText = `${window.userData.ats_score}%`;
     document.getElementById('atsSuccessMsg').classList.remove('hidden');
 
@@ -1818,16 +1820,6 @@ window.runATS = async function() {
     missing.forEach(w => resHtml += `<div class="flex justify-between items-center bg-red-50 p-2 rounded text-red-700 border border-red-200 mb-2"><span class="capitalize text-xs md:text-sm">${w}</span><i class="fa-solid fa-times text-xs md:text-sm"></i></div>`);
     
     document.getElementById('keywordResults').innerHTML = resHtml;
-
-    // Non-blocking upload: Do NOT wait for Firebase Storage. Just update DB immediately.
-    setTimeout(async () => {
-        try {
-            const storageRef = ref(storage, `artifacts/${APP_ID}/public/data/resumes/${window.candidateId}.pdf`);
-            await uploadBytes(storageRef, file);
-            window.userData.resume_url = await getDownloadURL(storageRef);
-            syncToCloud();
-        } catch(e) { console.warn("Upload failed in background", e); }
-    }, 0);
 
     await syncToCloud();
     window.autoAdvanceTab('tab-ats', 'tab-test', 'Enterprise ATS Audit');
@@ -2514,3 +2506,4 @@ initRealisticAvatars();
 </script>
 </body>
 </html>
+```eof
