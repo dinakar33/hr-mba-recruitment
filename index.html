@@ -1,351 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Human Assetize - Practice-Perform-Place</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Human Assetize - Practice-Perform-Place</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- PDF and Face Tracking Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/tracking-min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/data/face-min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif']
-                    },
-                    colors: {
-                        brand: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            200: '#bfdbfe',
-                            300: '#93c5fd',
-                            400: '#60a5fa',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                            800: '#1e40af',
-                            900: '#1e3a8a'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+<!-- Real Computer Vision Libraries for Facial Tracking -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/tracking-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/data/face-min.js"></script>
 
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            transition: all 0.4s ease;
-            overflow-x: hidden;
-        }
+<script>
+tailwind.config = {
+    theme: { 
+        extend: { 
+            fontFamily: { sans: ['Inter', 'sans-serif'] }, 
+            colors: { 
+                brand: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' } 
+            } 
+        } 
+    }
+}
+</script>
 
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
-        }
+<style>
+body { font-family: 'Inter', sans-serif; background-color: #f8fafc; transition: all 0.4s ease; overflow-x: hidden; }
+.tab-content { display: none; animation: fadeIn 0.4s ease-in-out; }
+.tab-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .tab-content.active {
-            display: block;
-        }
+.glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(226, 232, 240, 0.8); transition: all 0.3s ease; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+/* Custom Scrollbar for Desktop Navigation */
+.custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; transition: background 0.3s; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.4); }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            transition: all 0.3s ease;
-        }
+.drop-zone { border: 2px dashed #cbd5e1; transition: all 0.2s ease; }
+.drop-zone.dragover { border-color: #2563eb; background-color: #eff6ff; }
 
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
+/* AI Dark Mode Styles */
+body.ai-mode { background-color: #0f172a; color: #f1f5f9; }
+body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgba(51, 65, 85, 0.8); color: #f8fafc; }
+body.ai-mode h2, body.ai-mode h3, body.ai-mode p, body.ai-mode span, body.ai-mode label, body.ai-mode li { color: #f8fafc !important; }
+body.ai-mode .text-slate-500, body.ai-mode .text-slate-600 { color: #cbd5e1 !important; }
+body.ai-mode .text-slate-700, body.ai-mode .text-slate-800 { color: #f8fafc !important; }
+body.ai-mode .bg-white { background-color: #1e293b !important; }
+body.ai-mode .bg-slate-50 { background-color: rgba(255, 255, 255, 0.05) !important; }
+body.ai-mode .border-gray-300, body.ai-mode .border { border-color: #475569 !important; }
+body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode input[type="tel"], body.ai-mode input[type="url"], body.ai-mode input[type="password"], body.ai-mode select, body.ai-mode textarea { background-color: #334155; color: #f8fafc; border-color: #475569; }
 
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+/* Contrast fixes for Resource Library colored boxes in Dark Mode */
+body.ai-mode .bg-red-50 { background-color: rgba(239, 68, 68, 0.15) !important; border-color: rgba(239, 68, 68, 0.3) !important; }
+body.ai-mode .bg-green-50 { background-color: rgba(34, 197, 94, 0.15) !important; border-color: rgba(34, 197, 94, 0.3) !important; }
+body.ai-mode .bg-indigo-50 { background-color: rgba(99, 102, 241, 0.15) !important; border-color: rgba(99, 102, 241, 0.3) !important; }
+body.ai-mode .bg-purple-50 { background-color: rgba(168, 85, 247, 0.15) !important; border-color: rgba(168, 85, 247, 0.3) !important; }
+body.ai-mode .bg-amber-50 { background-color: rgba(245, 158, 11, 0.15) !important; border-color: rgba(245, 158, 11, 0.3) !important; }
+body.ai-mode .text-red-700 { color: #fca5a5 !important; }
+body.ai-mode .text-green-700 { color: #86efac !important; }
+body.ai-mode .text-indigo-700 { color: #a5b4fc !important; }
+body.ai-mode .text-purple-700 { color: #d8b4fe !important; }
+body.ai-mode .text-amber-700 { color: #fcd34d !important; }
 
-        /* Custom Scrollbar for Desktop Navigation */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            transition: background 0.3s;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
+.toggle-checkbox:checked { right: 0; border-color: #68D391; }
+.toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
 
-        .drop-zone {
-            border: 2px dashed #cbd5e1;
-            transition: all 0.2s ease;
-        }
+@keyframes talk-bounce { 0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); } 100% { box-shadow: 0 0 35px rgba(59, 130, 246, 1); border-color: #60a5fa; } }
+.is-talking { animation: talk-bounce 0.4s ease-in-out infinite alternate !important; border: 4px solid #60a5fa !important; }
 
-        .drop-zone.dragover {
-            border-color: #2563eb;
-            background-color: #eff6ff;
-        }
+@keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+.gd-avatar { border-radius: 50%; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; }
+body.ai-mode .gd-avatar { background: #334155; }
+.avatar-breathing { animation: breathe 4s infinite ease-in-out; }
+.avatar-talking { border-color: #60a5fa; }
 
-        body.ai-mode { background-color: #0f172a; color: #f1f5f9; }
-        body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgba(51, 65, 85, 0.8); color: #f8fafc; }
-        body.ai-mode h2, body.ai-mode h3, body.ai-mode p, body.ai-mode span, body.ai-mode label, body.ai-mode li { color: #f8fafc !important; }
-        body.ai-mode .text-slate-500, body.ai-mode .text-slate-600 { color: #cbd5e1 !important; }
-        body.ai-mode .text-slate-700, body.ai-mode .text-slate-800 { color: #f8fafc !important; }
-        body.ai-mode .bg-white { background-color: #1e293b !important; }
-        body.ai-mode .bg-slate-50 { background-color: rgba(255, 255, 255, 0.05) !important; }
-        body.ai-mode .border-gray-300, body.ai-mode .border { border-color: #475569 !important; }
-        body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode input[type="tel"], 
-        body.ai-mode input[type="url"], body.ai-mode input[type="password"], body.ai-mode select, body.ai-mode textarea {
-            background-color: #334155; color: #f8fafc; border-color: #475569;
-        }
+#global-ai-guide { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateX(200%); }
+#global-ai-guide.visible { transform: translateX(0); }
 
-        /* Contrast fixes for Resource Library colored boxes in Dark Mode */
-        body.ai-mode .bg-red-50 { background-color: rgba(239, 68, 68, 0.15) !important; border-color: rgba(239, 68, 68, 0.3) !important; }
-        body.ai-mode .bg-green-50 { background-color: rgba(34, 197, 94, 0.15) !important; border-color: rgba(34, 197, 94, 0.3) !important; }
-        body.ai-mode .bg-indigo-50 { background-color: rgba(99, 102, 241, 0.15) !important; border-color: rgba(99, 102, 241, 0.3) !important; }
-        body.ai-mode .bg-purple-50 { background-color: rgba(168, 85, 247, 0.15) !important; border-color: rgba(168, 85, 247, 0.3) !important; }
-        body.ai-mode .bg-amber-50 { background-color: rgba(245, 158, 11, 0.15) !important; border-color: rgba(245, 158, 11, 0.3) !important; }
-        body.ai-mode .text-red-700 { color: #fca5a5 !important; }
-        body.ai-mode .text-green-700 { color: #86efac !important; }
-        body.ai-mode .text-indigo-700 { color: #a5b4fc !important; }
-        body.ai-mode .text-purple-700 { color: #d8b4fe !important; }
-        body.ai-mode .text-amber-700 { color: #fcd34d !important; }
+@keyframes urgent-glow { 0% { text-shadow: 0 0 5px red; } 50% { text-shadow: 0 0 20px red; color: #ff9999; } 100% { text-shadow: 0 0 5px red; } }
+.timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
 
-        .toggle-checkbox:checked { right: 0; border-color: #68D391; }
-        .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
+.gd-boardroom-container {
+    position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem;
+}
+@media (min-width: 768px) { .gd-boardroom-container { min-height: 320px; } }
 
-        @keyframes talk-bounce {
-            0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); }
-            100% { box-shadow: 0 0 35px rgba(59, 130, 246, 1); border-color: #60a5fa; }
-        }
+.gd-table-oval {
+    width: 85%; height: 100px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border: 3px solid #475569; border-radius: 100px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
+}
+@media (min-width: 768px) { .gd-table-oval { width: 80%; height: 140px; } }
 
-        .is-talking {
-            animation: talk-bounce 0.4s ease-in-out infinite alternate !important;
-            border: 4px solid #60a5fa !important;
-        }
+.gd-seat { position: absolute; text-align: center; }
+.gd-seat-top-left { top: 10px; left: 5%; }
+.gd-seat-top-right { top: 10px; right: 5%; }
+@media (min-width: 768px) {
+    .gd-seat-top-left { top: 15px; left: 15%; }
+    .gd-seat-top-right { top: 15px; right: 15%; }
+}
+.gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
+@keyframes slowPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+}
+.hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
 
-        .gd-avatar {
-            border-radius: 50%;
-            overflow: hidden;
-            background: #e2e8f0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            border: 4px solid transparent;
-            position: relative;
-            margin: 0 auto;
-        }
+/* Cinematic Space Launch Styles */
+#launchOverlay { position: fixed; inset: 0; background: #020617; z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out; }
+.space-backdrop { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
+.nebula { position: absolute; inset: 0; background: radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.4) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.4) 0%, transparent 40%); filter: blur(60px); animation: nebula-drift 20s infinite alternate ease-in-out; }
+@keyframes nebula-drift { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
+.earth-horizon { position: absolute; bottom: -20vh; left: 50%; transform: translateX(-50%); width: 200vw; height: 50vh; background: radial-gradient(ellipse at top, #0284c7 0%, #0369a1 40%, #0f172a 100%); border-radius: 50% 50% 0 0; z-index: 2; opacity: 1; transition: all 4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 -20px 100px rgba(56, 189, 248, 0.4); }
+.warp-speed .earth-horizon { transform: translateX(-50%) translateY(100vh); opacity: 0; }
+.star-layer-1 { position: absolute; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; animation: star-drift-up 60s linear infinite; }
+.star-layer-1::after { content: ''; position: absolute; top: 100vh; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; }
+.star-layer-2 { position: absolute; width: 3px; height: 3px; background: transparent; box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd; border-radius: 50%; animation: star-drift-up 40s linear infinite; opacity: 0.8; filter: blur(1px); }
+.star-layer-2::after { content: ''; position: absolute; top: 100vh; width: 3px; height: 3px; background: transparent; box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd; border-radius: 50%; filter: blur(1px); }
+@keyframes star-drift-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100vh); } }
+.warp-speed .star-layer-1, .warp-speed .star-layer-2 { animation-duration: 2s; }
 
-        body.ai-mode .gd-avatar { background: #334155; }
-        .avatar-breathing { animation: breathe 4s infinite ease-in-out; }
-        .avatar-talking { border-color: #60a5fa; }
-
-        #global-ai-guide {
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: translateX(200%);
-        }
-
-        #global-ai-guide.visible {
-            transform: translateX(0);
-        }
-
-        @keyframes urgent-glow {
-            0% { text-shadow: 0 0 5px red; }
-            50% { text-shadow: 0 0 20px red; color: #ff9999; }
-            100% { text-shadow: 0 0 5px red; }
-        }
-
-        .timer-urgent {
-            animation: urgent-glow 1s infinite;
-            color: red;
-            font-weight: 900;
-        }
-
-        .gd-boardroom-container {
-            position: relative;
-            width: 100%;
-            min-height: 240px;
-            background: radial-gradient(circle, #1e293b 0%, #0f172a 100%);
-            border-radius: 1rem;
-            border: 1px solid #334155;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .gd-boardroom-container { min-height: 320px; }
-        }
-
-        .gd-table-oval {
-            width: 85%;
-            height: 100px;
-            background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
-            border: 3px solid #475569;
-            border-radius: 100px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        @media (min-width: 768px) {
-            .gd-table-oval { width: 80%; height: 140px; }
-        }
-
-        .gd-seat { position: absolute; text-align: center; }
-        .gd-seat-top-left { top: 10px; left: 5%; }
-        .gd-seat-top-right { top: 10px; right: 5%; }
-
-        @media (min-width: 768px) {
-            .gd-seat-top-left { top: 15px; left: 15%; }
-            .gd-seat-top-right { top: 15px; right: 15%; }
-        }
-        .gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
-
-        @keyframes slowPulse {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.05); }
-        }
-        .hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
-
-        #launchOverlay {
-            position: fixed; inset: 0; background: #020617; z-index: 99999; display: none;
-            flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out;
-        }
-
-        .space-backdrop { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
-        .nebula {
-            position: absolute; inset: 0; background: radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.4) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.4) 0%, transparent 40%);
-            filter: blur(60px); animation: nebula-drift 20s infinite alternate ease-in-out;
-        }
-
-        @keyframes nebula-drift { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
-
-        .earth-horizon {
-            position: absolute; bottom: -20vh; left: 50%; transform: translateX(-50%); width: 200vw; height: 50vh;
-            background: radial-gradient(ellipse at top, #0284c7 0%, #0369a1 40%, #0f172a 100%); border-radius: 50% 50% 0 0;
-            z-index: 2; opacity: 1; transition: all 4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 -20px 100px rgba(56, 189, 248, 0.4);
-        }
-
-        .warp-speed .earth-horizon { transform: translateX(-50%) translateY(100vh); opacity: 0; }
-
-        .star-layer-1 {
-            position: absolute; width: 2px; height: 2px; background: transparent;
-            box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff;
-            animation: star-drift-up 60s linear infinite;
-        }
-
-        .star-layer-1::after {
-            content: ''; position: absolute; top: 100vh; width: 2px; height: 2px; background: transparent;
-            box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff;
-        }
-
-        .star-layer-2 {
-            position: absolute; width: 3px; height: 3px; background: transparent;
-            box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd;
-            border-radius: 50%; animation: star-drift-up 40s linear infinite; opacity: 0.8; filter: blur(1px);
-        }
-
-        .star-layer-2::after {
-            content: ''; position: absolute; top: 100vh; width: 3px; height: 3px; background: transparent;
-            box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd;
-            border-radius: 50%; filter: blur(1px);
-        }
-
-        @keyframes star-drift-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100vh); } }
-        .warp-speed .star-layer-1, .warp-speed .star-layer-2 { animation-duration: 2s; }
-
-        .rocket-wrapper { position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); z-index: 10; transition: transform 2.5s cubic-bezier(0.5, 0, 0.1, 1); will-change: transform; }
-        .rocket-shake-intense { animation: shake-intense 0.05s infinite; }
-
-        @keyframes shake-intense {
-            0% { transform: translateX(-50%) translate(3px, 3px); }
-            25% { transform: translateX(-50%) translate(-3px, -3px); }
-            50% { transform: translateX(-50%) translate(-3px, 3px); }
-            75% { transform: translateX(-50%) translate(3px, -3px); }
-            100% { transform: translateX(-50%) translate(3px, 3px); }
-        }
-
-        .rocket-liftoff { transform: translateX(-50%) translateY(-25vh); }
-        .booster-drop { animation: booster-fall 3s cubic-bezier(0.4, 0, 1, 1) forwards; }
-
-        @keyframes booster-fall {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(-15deg); opacity: 0; }
-        }
-
-        .fairing-deploy { animation: fairing-shoot 1.5s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
-        @keyframes fairing-shoot {
-            0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(-50vh); opacity: 0; }
-        }
-
-        .engine-beam { transform-origin: top center; animation: engine-flicker 0.05s infinite alternate; }
-        @keyframes engine-flicker {
-            0% { transform: scaleY(0.9); opacity: 0.8; filter: drop-shadow(0 0 10px #f97316); }
-            100% { transform: scaleY(1.3); opacity: 1; filter: drop-shadow(0 0 30px #ef4444); }
-        }
-
-        .smoke-cloud {
-            position: absolute; bottom: -40px; left: 50%; width: 250px; height: 100px;
-            background: radial-gradient(ellipse, rgba(203,213,225,0.9) 0%, rgba(148,163,184,0) 70%);
-            filter: blur(25px); opacity: 0; transform: translateX(-50%) scale(0.5); transition: all 3s ease-out; pointer-events: none; z-index: 10;
-        }
-
-        .smoke-active { opacity: 1; transform: translateX(-50%) scale(4); }
-
-        .shockwave {
-            position: absolute; top: 40%; left: 50%; width: 10px; height: 10px; border-radius: 50%; background: #fff;
-            box-shadow: 0 0 100px 50px #38bdf8, 0 0 300px 150px #fff; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 15; pointer-events: none;
-        }
-
-        .shockwave-fire { animation: sonic-boom 1.2s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
-
-        @keyframes sonic-boom {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-            40% { opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(400); opacity: 0; }
-        }
-
-        .flash-bang { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.8s ease-out; z-index: 10000; }
-        .satellite-payload { position: absolute; top: 80px; left: 50%; transform: translateX(-50%) scale(0.2); opacity: 0; transition: all 3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9; pointer-events: none; }
-        .deployed .satellite-payload { transform: translateX(-50%) scale(1); opacity: 1; animation: orbitFloat 6s infinite alternate ease-in-out 3s; }
-
-        @keyframes orbitFloat {
-            0% { transform: translateX(-50%) scale(1) rotate(-2deg); }
-            100% { transform: translateX(-50%) scale(1) rotate(2deg); }
-        }
-    </style>
+.rocket-wrapper { position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); z-index: 10; transition: transform 2.5s cubic-bezier(0.5, 0, 0.1, 1); will-change: transform; }
+.rocket-shake-intense { animation: shake-intense 0.05s infinite; }
+@keyframes shake-intense { 
+    0% { transform: translateX(-50%) translate(3px, 3px); } 
+    25% { transform: translateX(-50%) translate(-3px, -3px); } 
+    50% { transform: translateX(-50%) translate(-3px, 3px); } 
+    75% { transform: translateX(-50%) translate(3px, -3px); } 
+    100% { transform: translateX(-50%) translate(3px, 3px); } 
+}
+.rocket-liftoff { transform: translateX(-50%) translateY(-25vh); }
+.booster-drop { animation: booster-fall 3s cubic-bezier(0.4, 0, 1, 1) forwards; }
+@keyframes booster-fall { 
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; } 
+    100% { transform: translateY(100vh) rotate(-15deg); opacity: 0; } 
+}
+.fairing-deploy { animation: fairing-shoot 1.5s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
+@keyframes fairing-shoot { 
+    0% { transform: translateY(0); opacity: 1; } 
+    100% { transform: translateY(-50vh); opacity: 0; } 
+}
+.engine-beam { transform-origin: top center; animation: engine-flicker 0.05s infinite alternate; }
+@keyframes engine-flicker { 
+    0% { transform: scaleY(0.9); opacity: 0.8; filter: drop-shadow(0 0 10px #f97316); } 
+    100% { transform: scaleY(1.3); opacity: 1; filter: drop-shadow(0 0 30px #ef4444); } 
+}
+.smoke-cloud { position: absolute; bottom: -40px; left: 50%; width: 250px; height: 100px; background: radial-gradient(ellipse, rgba(203,213,225,0.9) 0%, rgba(148,163,184,0) 70%); filter: blur(25px); opacity: 0; transform: translateX(-50%) scale(0.5); transition: all 3s ease-out; pointer-events: none; z-index: 10; }
+.smoke-active { opacity: 1; transform: translateX(-50%) scale(4); }
+.shockwave { position: absolute; top: 40%; left: 50%; width: 10px; height: 10px; border-radius: 50%; background: #fff; box-shadow: 0 0 100px 50px #38bdf8, 0 0 300px 150px #fff; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 15; pointer-events: none; }
+.shockwave-fire { animation: sonic-boom 1.2s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
+@keyframes sonic-boom { 
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 
+    40% { opacity: 1; } 
+    100% { transform: translate(-50%, -50%) scale(400); opacity: 0; } 
+}
+.flash-bang { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.8s ease-out; z-index: 10000; }
+.satellite-payload { position: absolute; top: 80px; left: 50%; transform: translateX(-50%) scale(0.2); opacity: 0; transition: all 3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9; pointer-events: none; }
+.deployed .satellite-payload { transform: translateX(-50%) scale(1); opacity: 1; animation: orbitFloat 6s infinite alternate ease-in-out 3s; }
+@keyframes orbitFloat { 0% { transform: translateX(-50%) scale(1) rotate(-2deg); } 100% { transform: translateX(-50%) scale(1) rotate(2deg); } }
+</style>
 </head>
 
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
+<!-- LAUNCH OVERLAY -->
 <div id="launchOverlay" class="hidden">
     <div class="space-backdrop" id="spaceBackdrop">
         <div class="nebula"></div>
@@ -358,19 +182,23 @@
     <div class="flash-bang" id="flashBang"></div>
 
     <div id="launchBtnContainer" class="relative z-30 text-center flex flex-col items-center transition-opacity duration-1000">
-        <!-- The Premium Corporate Logo (Human Silhouette + "A" Peak + Cyber Ring) -->
+        <!-- Premium Corporate SVG Logo (Vibrant Blue/Purple) -->
         <div class="w-32 h-32 mb-6">
             <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_0_30px_rgba(59,130,246,0.6)] animate-pulse" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                    <linearGradient id="corpGradientLarge" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient id="corpBlueLarge" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stop-color="#60a5fa" />
                         <stop offset="100%" stop-color="#1d4ed8" />
                     </linearGradient>
+                    <linearGradient id="corpAccentLarge" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#c084fc" />
+                        <stop offset="100%" stop-color="#7e22ce" />
+                    </linearGradient>
                 </defs>
-                <circle cx="50" cy="50" r="45" fill="none" stroke="url(#corpGradientLarge)" stroke-width="2" stroke-dasharray="10, 5" opacity="0.5"/>
-                <polygon points="50,15 85,85 15,85" fill="none" stroke="url(#corpGradientLarge)" stroke-width="8" stroke-linejoin="round"/>
-                <circle cx="50" cy="40" r="12" fill="url(#corpGradientLarge)"/>
-                <path d="M 32 85 Q 50 55 68 85" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+                <path d="M 50 5 L 90 20 L 90 70 L 50 95 L 10 70 L 10 20 Z" fill="none" stroke="url(#corpBlueLarge)" stroke-width="4" opacity="0.8"/>
+                <path d="M 50 25 L 75 80 L 60 80 L 50 55 L 40 80 L 25 80 Z" fill="url(#corpBlueLarge)"/>
+                <path d="M 15 65 Q 50 10 85 45" fill="none" stroke="url(#corpAccentLarge)" stroke-width="6" stroke-linecap="round"/>
+                <circle cx="50" cy="35" r="7" fill="#ffffff" />
             </svg>
         </div>
 
@@ -382,22 +210,16 @@
         </button>
     </div>
 
-    <!-- Multi-Stage Rocket -->
     <div id="rocketAsset" class="rocket-wrapper w-48 h-96 flex flex-col items-center">
         <div id="rocketSmoke" class="smoke-cloud"></div>
-        
         <div id="satPayload" class="satellite-payload">
             <svg viewBox="0 0 400 300" class="w-72 md:w-96 drop-shadow-[0_0_50px_rgba(59,130,246,0.6)]">
                 <defs>
                     <linearGradient id="solarPanel" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#1e3a8a" />
-                        <stop offset="50%" stop-color="#2563eb" />
-                        <stop offset="100%" stop-color="#1e40af" />
+                        <stop offset="0%" stop-color="#1e3a8a" /><stop offset="50%" stop-color="#2563eb" /><stop offset="100%" stop-color="#1e40af" />
                     </linearGradient>
                     <linearGradient id="goldFoil" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#fbbf24" />
-                        <stop offset="50%" stop-color="#f59e0b" />
-                        <stop offset="100%" stop-color="#b45309" />
+                        <stop offset="0%" stop-color="#fbbf24" /><stop offset="50%" stop-color="#f59e0b" /><stop offset="100%" stop-color="#b45309" />
                     </linearGradient>
                 </defs>
                 <g class="animate-[pulse_4s_infinite]">
@@ -429,41 +251,28 @@
             </svg>
             <h2 id="sysOnlineText" class="text-white text-2xl font-black mt-4 tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-cyan-200 opacity-0 transition-opacity duration-1000 text-center">Systems Online</h2>
         </div>
-
         <div id="rocketUpper" class="absolute top-0 w-full h-[150px] z-20">
             <svg viewBox="0 0 100 150" class="w-full h-full drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
                 <defs>
                     <linearGradient id="fuselageTop" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#94a3b8" />
-                        <stop offset="30%" stop-color="#f8fafc" />
-                        <stop offset="70%" stop-color="#e2e8f0" />
-                        <stop offset="100%" stop-color="#64748b" />
+                        <stop offset="0%" stop-color="#94a3b8" /><stop offset="30%" stop-color="#f8fafc" /><stop offset="70%" stop-color="#e2e8f0" /><stop offset="100%" stop-color="#64748b" />
                     </linearGradient>
                     <linearGradient id="darkMetal" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#1e293b" />
-                        <stop offset="50%" stop-color="#475569" />
-                        <stop offset="100%" stop-color="#0f172a" />
+                        <stop offset="0%" stop-color="#1e293b" /><stop offset="50%" stop-color="#475569" /><stop offset="100%" stop-color="#0f172a" />
                     </linearGradient>
                 </defs>
                 <path d="M 50 10 C 60 40, 70 80, 70 150 L 30 150 C 30 80, 40 40, 50 10 Z" fill="url(#fuselageTop)"/>
                 <path d="M 50 10 C 53 20, 55 30, 56 40 L 44 40 C 45 30, 47 20, 50 10 Z" fill="url(#darkMetal)"/>
             </svg>
         </div>
-
         <div id="rocketLower" class="absolute top-[150px] w-full h-[200px] z-20">
             <svg viewBox="0 0 100 200" class="w-full h-full drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
                 <defs>
                     <linearGradient id="fuselageBot" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#94a3b8" />
-                        <stop offset="30%" stop-color="#f8fafc" />
-                        <stop offset="70%" stop-color="#e2e8f0" />
-                        <stop offset="100%" stop-color="#64748b" />
+                        <stop offset="0%" stop-color="#94a3b8" /><stop offset="30%" stop-color="#f8fafc" /><stop offset="70%" stop-color="#e2e8f0" /><stop offset="100%" stop-color="#64748b" />
                     </linearGradient>
                     <radialGradient id="engineGlow" cx="50%" cy="0%" r="100%">
-                        <stop offset="0%" stop-color="#ffffff" />
-                        <stop offset="20%" stop-color="#fef08a" />
-                        <stop offset="50%" stop-color="#f97316" />
-                        <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
+                        <stop offset="0%" stop-color="#ffffff" /><stop offset="20%" stop-color="#fef08a" /><stop offset="50%" stop-color="#f97316" /><stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
                     </radialGradient>
                 </defs>
                 <path d="M 30 0 L 70 0 L 70 160 L 30 160 Z" fill="url(#fuselageBot)"/>
@@ -487,17 +296,20 @@
     <!-- The Premium Corporate Logo in Header -->
     <svg viewBox="0 0 100 100" class="w-10 h-10 mr-3 drop-shadow-md hidden sm:block" xmlns="http://www.w3.org/2000/svg">
         <defs>
-            <linearGradient id="corpGradientSmall" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="corpBlueSmall" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#60a5fa" />
                 <stop offset="100%" stop-color="#2563eb" />
             </linearGradient>
+            <linearGradient id="corpAccentSmall" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#a855f7" />
+                <stop offset="100%" stop-color="#7e22ce" />
+            </linearGradient>
         </defs>
-        <circle cx="50" cy="50" r="45" fill="none" stroke="url(#corpGradientSmall)" stroke-width="2" stroke-dasharray="10, 5" opacity="0.5"/>
-        <polygon points="50,15 85,85 15,85" fill="none" stroke="url(#corpGradientSmall)" stroke-width="8" stroke-linejoin="round"/>
-        <circle cx="50" cy="40" r="12" fill="url(#corpGradientSmall)"/>
-        <path d="M 32 85 Q 50 55 68 85" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+        <path d="M 50 5 L 90 20 L 90 70 L 50 95 L 10 70 L 10 20 Z" fill="none" stroke="url(#corpBlueSmall)" stroke-width="4" opacity="0.8"/>
+        <path d="M 50 25 L 75 80 L 60 80 L 50 55 L 40 80 L 25 80 Z" fill="url(#corpBlueSmall)"/>
+        <path d="M 15 65 Q 50 10 85 45" fill="none" stroke="url(#corpAccentSmall)" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="50" cy="35" r="7" fill="#ffffff" />
     </svg>
-
     <h1 class="text-2xl md:text-3xl tracking-tight flex flex-col sm:flex-row sm:items-baseline">
       <span class="font-extrabold text-white">Human Assetize</span>
       <span class="text-brand-200 font-medium text-lg md:text-xl sm:ml-2 mt-1 sm:mt-0">- Practice-Perform-Place</span>
@@ -838,7 +650,7 @@ Posture: <strong id="postureVal">Pending</strong>
 <h3 class="text-lg md:text-xl font-bold mb-1 text-center">Virtual HR Director Meera</h3>
 <p id="interview-status" class="text-[10px] md:text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 md:mb-4 text-center">Ready to Begin</p>
 <div class="w-full bg-slate-900 rounded-lg p-3 md:p-4 font-mono text-xs md:text-sm text-green-400 h-40 md:h-48 overflow-y-auto mb-4 border border-slate-700 shadow-inner" id="interview-transcript">
-> System initialized. Waiting for AI activation...
+> System initialized. Waiting for AI activation... Click 'Initialize Protocol'.
 </div>
 <div id="interview-controls" class="flex w-full flex-col items-center">
 <div id="interviewModeToggle" class="flex flex-col sm:flex-row items-center gap-2 sm:space-x-4 mb-4 bg-slate-800 p-2 rounded-lg border border-slate-700 w-full sm:w-auto transition-opacity duration-300">
@@ -1385,6 +1197,9 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/1
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
+// ==========================================
+// GROQ API INTEGRATION (LLAMA 3.3)
+// ==========================================
 const part1 = "gsk_";
 const part2 = "U232hrK9Fw07HHKO5vQWWGdyb3FYcVOqyywSW1ych7ePZYdC0rEs";
 const GROQ_API_KEY = part1 + part2;
@@ -1404,6 +1219,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+// TTS Fix: Browser crash/hang prevention
 class AvatarSpeechService {
   constructor() {
     this.voices = [];
@@ -1447,7 +1263,8 @@ class AvatarSpeechService {
       utterance.onend = finish;
       utterance.onerror = finish; 
       
-      setTimeout(finish, 8000); // 8-Second Safety Override
+      // 8-Second Safety Override to prevent GD from hanging if browser TTS crashes
+      setTimeout(finish, 8000);
       
       window.speechSynthesis.speak(utterance);
     });
@@ -1482,31 +1299,37 @@ window.chairmanLaunch = function() {
         const fairing = document.getElementById('rocketUpper');
         const sysOnline = document.getElementById('sysOnlineText');
         
+        // Ignition Phase
         smoke.classList.add('smoke-active');
         engine.style.opacity = '1';
         rocket.classList.add('rocket-shake-intense');
         
         setTimeout(() => {
+            // Liftoff Phase
             backdrop.classList.add('warp-speed');
             rocket.classList.remove('rocket-shake-intense');
             rocket.classList.add('rocket-liftoff');
             
             setTimeout(() => {
+                // MECO and Stage Separation
                 shockwave.classList.add('shockwave-fire');
                 engine.style.opacity = '0';
                 booster.classList.add('booster-drop');
                 
                 setTimeout(() => {
+                    // Fairing Separation
                     flash.style.opacity = '1';
                     fairing.classList.add('fairing-deploy');
                     
                     setTimeout(() => {
+                        // Orbital Deployment
                         flash.style.opacity = '0';
                         backdrop.classList.remove('warp-speed');
                         overlay.classList.add('deployed');
                         if (sysOnline) sysOnline.style.opacity = '1';
                         
                         setTimeout(() => {
+                            // Fade out to home screen
                             overlay.style.opacity = '0';
                             setTimeout(() => {
                                 overlay.style.display = 'none';
@@ -1538,7 +1361,7 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: "llama-3.1-8b-instant", 
+        model: "llama-3.3-70b-versatile",
         messages: [
           { role: "system", content: systemInstruction },
           { role: "user", content: prompt }
@@ -1552,8 +1375,16 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
     if (!response.ok) throw new Error(result.error?.message || 'API Error');
     return result.choices[0].message.content.replace(/\*/g, '').trim();
   } catch (e) {
-    console.error("Groq API Error:", e.message);
-    window.showMessage("Groq API Error: Connection Failed. Check API Key.", "error");
+    console.warn("API Error:", e.message);
+    
+    let lastInputMatch = prompt.match(/Candidate:\s*(.*)/g);
+    let lastInput = lastInputMatch ? lastInputMatch[lastInputMatch.length - 1].replace('Candidate:', '').trim() : "";
+    let cleanInput = lastInput.toLowerCase().replace(/[^a-z0-9]/g, '');
+    
+    if (cleanInput.length > 0 && (cleanInput.length < 5 || ['ok', 'yes', 'no', 'nothing', 'iagree', 'sure'].includes(cleanInput))) {
+        return "Saying '" + lastInput + "' contributes absolutely nothing. I expect strategic, data-backed insights, not one-word answers.";
+    }
+    
     return `[SYSTEM ERROR: AI Connection Failed] The Groq API key has expired, hit a rate limit, or the model is unavailable. Details: ${e.message}`;
   }
 }
@@ -1625,6 +1456,7 @@ signInAnonymously(auth).then((userCredential) => {
   window.candidateId = userCredential.user.uid;
   const savedEmail = localStorage.getItem('hr_candidate_email');
   
+  // URL Impersonation Check (Bypass Login)
   const urlParams = new URLSearchParams(window.location.search);
   const impersonateEmail = urlParams.get('email');
 
@@ -1855,8 +1687,12 @@ function writeTranscript(targetId, speaker, text) {
   box.appendChild(line); box.scrollTop = box.scrollHeight;
 }
 
-const pdfjsLib = window['pdfjs-dist/build/pdf'];
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+// Ensure PDF JS loads safely
+const pdfJS = window.pdfjsLib || window['pdfjs-dist/build/pdf'];
+if (pdfJS) {
+    pdfJS.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+}
+
 const fileInput = document.getElementById('resumeFile');
 if(document.getElementById('dropZone')) {
   document.getElementById('dropZone').addEventListener('click', () => fileInput.click());
@@ -1876,7 +1712,8 @@ window.runATS = async function() {
   if (!fileInput.files.length) { window.showMessage("Please upload a PDF resume.", "error"); return; }
   if (!window.candidateId) { window.showMessage("Save profile first!", "error"); return; }
 
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing & Uploading...'; btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing...'; 
+  btn.disabled = true;
 
   try {
     const taxonomy = {
@@ -1920,9 +1757,17 @@ window.runATS = async function() {
 
     const file = fileInput.files[0];
     const arrayBuffer = await file.arrayBuffer(); 
-    const pdf = await pdfjsLib.getDocument({data: new Uint8Array(arrayBuffer)}).promise; 
-    let resumeText = '';
     
+    if (!pdfJS) throw new Error("PDF Library failed to load.");
+
+    // PDF Parsing with 8-second safety timeout and Uint8Array wrapper
+    const pdfTask = pdfJS.getDocument({data: new Uint8Array(arrayBuffer)}).promise;
+    const pdf = await Promise.race([
+        pdfTask,
+        new Promise((_, reject) => setTimeout(() => reject(new Error("PDF Parsing Timeout")), 8000))
+    ]);
+    
+    let resumeText = '';
     for(let i = 1; i <= pdf.numPages; i++) { 
       const page = await pdf.getPage(i); 
       const content = await page.getTextContent(); 
@@ -1960,15 +1805,6 @@ window.runATS = async function() {
 
     window.userData.ats_score = Math.round(formatScore + keywordScore + xyzScore) || 10;
     
-    try {
-       const storageRef = ref(storage, `artifacts/${APP_ID}/public/data/resumes/${window.candidateId}.pdf`);
-       await uploadBytes(storageRef, file);
-       const dlUrl = await getDownloadURL(storageRef);
-       window.userData.resume_url = dlUrl;
-    } catch(uploadErr) {
-       console.warn("Storage upload failed, proceeding without file link", uploadErr);
-    }
-
     document.getElementById('atsScoreDisplay').innerText = `${window.userData.ats_score}%`;
     document.getElementById('atsSuccessMsg').classList.remove('hidden');
 
@@ -1983,9 +1819,26 @@ window.runATS = async function() {
     
     document.getElementById('keywordResults').innerHTML = resHtml;
 
+    // Non-blocking upload: Do NOT wait for Firebase Storage. Just update DB immediately.
+    setTimeout(async () => {
+        try {
+            const storageRef = ref(storage, `artifacts/${APP_ID}/public/data/resumes/${window.candidateId}.pdf`);
+            await uploadBytes(storageRef, file);
+            window.userData.resume_url = await getDownloadURL(storageRef);
+            syncToCloud();
+        } catch(e) { console.warn("Upload failed in background", e); }
+    }, 0);
+
     await syncToCloud();
     window.autoAdvanceTab('tab-ats', 'tab-test', 'Enterprise ATS Audit');
-  } catch (err) { window.showMessage("Failed to parse PDF.", "error"); } finally { btn.innerHTML = '<i class="fa-solid fa-microchip mr-2"></i> Extract Keywords & Run Scan'; btn.disabled = false; }
+
+  } catch (err) { 
+      console.error("ATS Error:", err);
+      window.showMessage("PDF Parse Error. Ensure the file is not corrupted or password protected.", "error"); 
+  } finally { 
+      btn.innerHTML = '<i class="fa-solid fa-microchip mr-2"></i> Extract Keywords & Run Scan'; 
+      btn.disabled = false; 
+  }
 };
 
 const masterAptitudeQuestions = [
