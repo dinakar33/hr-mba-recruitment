@@ -50,6 +50,7 @@ body.ai-mode .bg-slate-50 { background-color: rgba(255, 255, 255, 0.05) !importa
 body.ai-mode .border-gray-300, body.ai-mode .border { border-color: #475569 !important; }
 body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode input[type="tel"], body.ai-mode input[type="url"], body.ai-mode input[type="password"], body.ai-mode select, body.ai-mode textarea { background-color: #334155; color: #f8fafc; border-color: #475569; }
 
+/* Contrast fixes for Resource Library colored boxes in Dark Mode */
 body.ai-mode .bg-red-50 { background-color: rgba(239, 68, 68, 0.15) !important; border-color: rgba(239, 68, 68, 0.3) !important; }
 body.ai-mode .bg-green-50 { background-color: rgba(34, 197, 94, 0.15) !important; border-color: rgba(34, 197, 94, 0.3) !important; }
 body.ai-mode .bg-indigo-50 { background-color: rgba(99, 102, 241, 0.15) !important; border-color: rgba(99, 102, 241, 0.3) !important; }
@@ -98,68 +99,42 @@ body.ai-mode .gd-avatar { background: #334155; }
 }
 .gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 
-/* Subtle pulse for hero background */
 @keyframes slowPulse {
     0%, 100% { opacity: 0.5; transform: scale(1); }
     50% { opacity: 0.8; transform: scale(1.05); }
 }
 .hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
 
+/* Cinematic Space Launch Styles */
 #launchOverlay { position: fixed; inset: 0; background: #020617; z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.5s ease-in-out; }
-
 .space-backdrop { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
 .nebula { position: absolute; inset: 0; background: radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.4) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.4) 0%, transparent 40%); filter: blur(60px); animation: nebula-drift 20s infinite alternate ease-in-out; }
 @keyframes nebula-drift { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
-
-/* Earth Horizon at launch */
 .earth-horizon { position: absolute; bottom: -20vh; left: 50%; transform: translateX(-50%); width: 200vw; height: 50vh; background: radial-gradient(ellipse at top, #0284c7 0%, #0369a1 40%, #0f172a 100%); border-radius: 50% 50% 0 0; z-index: 2; opacity: 1; transition: all 4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 -20px 100px rgba(56, 189, 248, 0.4); }
 .warp-speed .earth-horizon { transform: translateX(-50%) translateY(100vh); opacity: 0; }
-
-/* Parallax Star Layers */
 .star-layer-1 { position: absolute; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; animation: star-drift-up 60s linear infinite; }
 .star-layer-1::after { content: ''; position: absolute; top: 100vh; width: 2px; height: 2px; background: transparent; box-shadow: 20vw 30vh #fff, 40vw 70vh #fff, 60vw 10vh #fff, 80vw 50vh #fff, 10vw 90vh #fff, 90vw 20vh #fff, 50vw 50vh #fff, 70vw 80vh #fff, 30vw 40vh #fff; }
-
 .star-layer-2 { position: absolute; width: 3px; height: 3px; background: transparent; box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd; border-radius: 50%; animation: star-drift-up 40s linear infinite; opacity: 0.8; filter: blur(1px); }
 .star-layer-2::after { content: ''; position: absolute; top: 100vh; width: 3px; height: 3px; background: transparent; box-shadow: 15vw 20vh #93c5fd, 35vw 60vh #93c5fd, 75vw 15vh #93c5fd, 85vw 85vh #93c5fd, 45vw 90vh #93c5fd, 25vw 50vh #93c5fd; border-radius: 50%; filter: blur(1px); }
-
 @keyframes star-drift-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100vh); } }
 .warp-speed .star-layer-1, .warp-speed .star-layer-2 { animation-duration: 2s; }
 
 .rocket-wrapper { position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); z-index: 10; transition: transform 2.5s cubic-bezier(0.5, 0, 0.1, 1); will-change: transform; }
 .rocket-shake-intense { animation: shake-intense 0.05s infinite; }
-@keyframes shake-intense { 
-    0% { transform: translateX(-50%) translate(3px, 3px); } 
-    25% { transform: translateX(-50%) translate(-3px, -3px); } 
-    50% { transform: translateX(-50%) translate(-3px, 3px); } 
-    75% { transform: translateX(-50%) translate(3px, -3px); } 
-    100% { transform: translateX(-50%) translate(3px, 3px); } 
-}
-
+@keyframes shake-intense { 0% { transform: translateX(-50%) translate(3px, 3px); } 25% { transform: translateX(-50%) translate(-3px, -3px); } 50% { transform: translateX(-50%) translate(-3px, 3px); } 75% { transform: translateX(-50%) translate(3px, -3px); } 100% { transform: translateX(-50%) translate(3px, 3px); } }
 .rocket-liftoff { transform: translateX(-50%) translateY(-25vh); }
 .booster-drop { animation: booster-fall 3s cubic-bezier(0.4, 0, 1, 1) forwards; }
-@keyframes booster-fall {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(-15deg); opacity: 0; }
-}
-
+@keyframes booster-fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(-15deg); opacity: 0; } }
 .fairing-deploy { animation: fairing-shoot 1.5s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
-@keyframes fairing-shoot {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-50vh); opacity: 0; }
-}
-
+@keyframes fairing-shoot { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-50vh); opacity: 0; } }
 .engine-beam { transform-origin: top center; animation: engine-flicker 0.05s infinite alternate; }
 @keyframes engine-flicker { 0% { transform: scaleY(0.9); opacity: 0.8; filter: drop-shadow(0 0 10px #f97316); } 100% { transform: scaleY(1.3); opacity: 1; filter: drop-shadow(0 0 30px #ef4444); } }
-
 .smoke-cloud { position: absolute; bottom: -40px; left: 50%; width: 250px; height: 100px; background: radial-gradient(ellipse, rgba(203,213,225,0.9) 0%, rgba(148,163,184,0) 70%); filter: blur(25px); opacity: 0; transform: translateX(-50%) scale(0.5); transition: all 3s ease-out; pointer-events: none; z-index: 10; }
 .smoke-active { opacity: 1; transform: translateX(-50%) scale(4); }
-
 .shockwave { position: absolute; top: 40%; left: 50%; width: 10px; height: 10px; border-radius: 50%; background: #fff; box-shadow: 0 0 100px 50px #38bdf8, 0 0 300px 150px #fff; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 15; pointer-events: none; }
 .shockwave-fire { animation: sonic-boom 1.2s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
 @keyframes sonic-boom { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 40% { opacity: 1; } 100% { transform: translate(-50%, -50%) scale(400); opacity: 0; } }
-
 .flash-bang { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.8s ease-out; z-index: 10000; }
-
 .satellite-payload { position: absolute; top: 80px; left: 50%; transform: translateX(-50%) scale(0.2); opacity: 0; transition: all 3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9; pointer-events: none; }
 .deployed .satellite-payload { transform: translateX(-50%) scale(1); opacity: 1; animation: orbitFloat 6s infinite alternate ease-in-out 3s; }
 @keyframes orbitFloat { 0% { transform: translateX(-50%) scale(1) rotate(-2deg); } 100% { transform: translateX(-50%) scale(1) rotate(2deg); } }
@@ -181,23 +156,23 @@ body.ai-mode .gd-avatar { background: #334155; }
 
     <div id="launchBtnContainer" class="relative z-30 text-center flex flex-col items-center transition-opacity duration-1000">
         
-        <!-- Premium Corporate SVG Logo (Vibrant Blue/Purple) -->
+        <!-- The Premium Corporate Logo (Human Silhouette + "A" Peak + Cyber Ring) -->
         <div class="w-32 h-32 mb-6">
             <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_0_30px_rgba(59,130,246,0.6)] animate-pulse" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                    <linearGradient id="corpBlueLarge" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient id="corpGradientLarge" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stop-color="#60a5fa" />
                         <stop offset="100%" stop-color="#1d4ed8" />
                     </linearGradient>
-                    <linearGradient id="corpAccentLarge" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#c084fc" />
-                        <stop offset="100%" stop-color="#7e22ce" />
-                    </linearGradient>
                 </defs>
-                <path d="M 50 5 L 90 20 L 90 70 L 50 95 L 10 70 L 10 20 Z" fill="none" stroke="url(#corpBlueLarge)" stroke-width="4" opacity="0.8"/>
-                <path d="M 50 25 L 75 80 L 60 80 L 50 55 L 40 80 L 25 80 Z" fill="url(#corpBlueLarge)"/>
-                <path d="M 15 65 Q 50 10 85 45" fill="none" stroke="url(#corpAccentLarge)" stroke-width="6" stroke-linecap="round"/>
-                <circle cx="50" cy="35" r="7" fill="#ffffff" />
+                <!-- Cybernetic Ring -->
+                <circle cx="50" cy="50" r="45" fill="none" stroke="url(#corpGradientLarge)" stroke-width="2" stroke-dasharray="10, 5" opacity="0.5"/>
+                <!-- Outer Triangle Peak -->
+                <polygon points="50,15 85,85 15,85" fill="none" stroke="url(#corpGradientLarge)" stroke-width="8" stroke-linejoin="round"/>
+                <!-- Human Head / Abstract Node -->
+                <circle cx="50" cy="40" r="12" fill="url(#corpGradientLarge)"/>
+                <!-- Inner Arch / Human Shoulders -->
+                <path d="M 32 85 Q 50 55 68 85" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
             </svg>
         </div>
 
@@ -209,6 +184,7 @@ body.ai-mode .gd-avatar { background: #334155; }
         </button>
     </div>
 
+    <!-- Multi-Stage Rocket -->
     <div id="rocketAsset" class="rocket-wrapper w-48 h-96 flex flex-col items-center">
         <div id="rocketSmoke" class="smoke-cloud"></div>
         
@@ -304,28 +280,27 @@ body.ai-mode .gd-avatar { background: #334155; }
     </div>
 </div>
 
-<header class="bg-brand-900 text-white shadow-xl sticky top-0 z-40 border-b border-brand-800">
+<header class="bg-brand-900 text-white shadow-xl sticky top-0 z-40">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 w-full">
 
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div class="flex items-center">
+    
+    <!-- The Premium Corporate Logo in Header -->
     <svg viewBox="0 0 100 100" class="w-10 h-10 mr-3 drop-shadow-md hidden sm:block" xmlns="http://www.w3.org/2000/svg">
         <defs>
-            <linearGradient id="corpBlueSmall" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="corpGradientSmall" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#60a5fa" />
                 <stop offset="100%" stop-color="#2563eb" />
             </linearGradient>
-            <linearGradient id="corpAccentSmall" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#a855f7" />
-                <stop offset="100%" stop-color="#7e22ce" />
-            </linearGradient>
         </defs>
-        <path d="M 50 5 L 90 20 L 90 70 L 50 95 L 10 70 L 10 20 Z" fill="none" stroke="url(#corpBlueSmall)" stroke-width="4" opacity="0.8"/>
-        <path d="M 50 25 L 75 80 L 60 80 L 50 55 L 40 80 L 25 80 Z" fill="url(#corpBlueSmall)"/>
-        <path d="M 15 65 Q 50 10 85 45" fill="none" stroke="url(#corpAccentSmall)" stroke-width="6" stroke-linecap="round"/>
-        <circle cx="50" cy="35" r="7" fill="#ffffff" />
+        <circle cx="50" cy="50" r="45" fill="none" stroke="url(#corpGradientSmall)" stroke-width="2" stroke-dasharray="10, 5" opacity="0.5"/>
+        <polygon points="50,15 85,85 15,85" fill="none" stroke="url(#corpGradientSmall)" stroke-width="8" stroke-linejoin="round"/>
+        <circle cx="50" cy="40" r="12" fill="url(#corpGradientSmall)"/>
+        <path d="M 32 85 Q 50 55 68 85" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
     </svg>
+
     <h1 class="text-2xl md:text-3xl tracking-tight flex flex-col sm:flex-row sm:items-baseline">
       <span class="font-extrabold text-white">Human Assetize</span>
       <span class="text-brand-200 font-medium text-lg md:text-xl sm:ml-2 mt-1 sm:mt-0">- Practice-Perform-Place</span>
@@ -577,7 +552,7 @@ Submit Archetype Answers
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
 <div class="glass-card p-4 md:p-6 rounded-xl border-l-4 border-l-amber-500 flex flex-col min-h-[450px] md:min-h-[500px]">
 <h3 class="text-lg md:text-xl font-bold mb-2"><i class="fa-solid fa-comments text-amber-500 mr-2"></i>Active Case Study</h3>
-<p id="gd-topic-title" class="text-base md:text-lg font-bold text-brand-600 mb-1">Loading Topic...</p>
+<p id="gd-topic-title" class="text-base md:text-lg font-bold text-slate-500 mb-1 italic">Click 'Initialize Virtual Agents' to begin</p>
 <p id="gd-topic-desc" class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Please initialize the agents.</p>
 <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
 <div class="gd-boardroom-container">
@@ -661,7 +636,7 @@ Posture: <strong id="postureVal">Pending</strong>
 <h3 class="text-lg md:text-xl font-bold mb-1 text-center">Virtual HR Director Meera</h3>
 <p id="interview-status" class="text-[10px] md:text-xs font-bold text-brand-600 uppercase tracking-widest mb-3 md:mb-4 text-center">Ready to Begin</p>
 <div class="w-full bg-slate-900 rounded-lg p-3 md:p-4 font-mono text-xs md:text-sm text-green-400 h-40 md:h-48 overflow-y-auto mb-4 border border-slate-700 shadow-inner" id="interview-transcript">
-> System initialized. Waiting for AI activation...
+> System initialized. Waiting for AI activation... Click 'Initialize Protocol'.
 </div>
 <div id="interview-controls" class="flex w-full flex-col items-center">
 <div id="interviewModeToggle" class="flex flex-col sm:flex-row items-center gap-2 sm:space-x-4 mb-4 bg-slate-800 p-2 rounded-lg border border-slate-700 w-full sm:w-auto transition-opacity duration-300">
@@ -767,6 +742,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
+<!-- MASTER RESOURCE LIBRARY SECTION -->
 <section id="tab-resources" class="tab-content">
   <div class="mb-8 md:mb-10 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Master Resource Library</h2>
@@ -774,6 +750,8 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
   </div>
 
   <div class="space-y-8">
+    
+    <!-- VERTICAL 1: ATS AUDIT -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-file-pdf text-blue-500 mr-2"></i>Vertical 1: Enterprise ATS Audit</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -800,6 +778,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
       </div>
     </div>
 
+    <!-- VERTICAL 2: APTITUDE TEST -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-stopwatch text-indigo-500 mr-2"></i>Vertical 2: Cognitive Aptitude</h3>
       <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 mb-6">
@@ -839,6 +818,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
       </div>
     </div>
 
+    <!-- VERTICAL 3: ARCHETYPE ASSESSMENT -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-puzzle-piece text-purple-500 mr-2"></i>Vertical 3: Archetype Profiling</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -889,6 +869,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
       </div>
     </div>
 
+    <!-- VERTICAL 4: VIRTUAL GD -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-users text-amber-500 mr-2"></i>Vertical 4: Virtual Group Discussion</h3>
       <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-file-circle-check text-slate-400 mr-1"></i> Model GD Topics & Perspectives</h4>
@@ -922,6 +903,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
       </div>
     </div>
 
+    <!-- VERTICAL 5: INTERVIEW -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-red-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-microphone-lines text-red-500 mr-2"></i>Vertical 5: AI Behavioral Interview</h3>
       <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-file-circle-check text-slate-400 mr-1"></i> Model General & STAR Questions</h4>
@@ -1202,6 +1184,9 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/1
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
+// ==========================================
+// GROQ (LLAMA-3.1) API INTEGRATION
+// ==========================================
 const part1 = "gsk_";
 const part2 = "i8mmL0cZCr8eL5sWN6omWGdyb3FYhGBRWSr9eFwyvAQIZxAfP6xZ";
 const GROQ_API_KEY = part1 + part2;
@@ -1221,6 +1206,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+// TTS Fix: Browser crash/hang prevention
 class AvatarSpeechService {
   constructor() {
     this.voices = [];
@@ -1233,6 +1219,8 @@ class AvatarSpeechService {
   speak(text, avatarId) {
     this.stop();
     return new Promise(resolve => {
+      if (!window.speechSynthesis) { resolve(); return; }
+      
       const utterance = new SpeechSynthesisUtterance(text);
       let inVoices = this.voices.filter(v => v.lang === 'en-IN' || v.lang === 'en_IN' || v.lang.includes('India'));
       let maleVoice = null;
@@ -1251,12 +1239,24 @@ class AvatarSpeechService {
       else if (avatarId === 'meera') { if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 0.85; utterance.rate = 0.95; }
       else { if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 1.0; utterance.rate = 1.0; }
 
-      utterance.onend = resolve;
-      utterance.onerror = resolve; 
+      let isResolved = false;
+      const finish = () => {
+          if (!isResolved) {
+              isResolved = true;
+              resolve();
+          }
+      };
+
+      utterance.onend = finish;
+      utterance.onerror = finish; 
+      
+      // 8-Second Safety Override to prevent GD from hanging if browser TTS crashes
+      setTimeout(finish, 8000);
+      
       window.speechSynthesis.speak(utterance);
     });
   }
-  stop() { window.speechSynthesis.cancel(); }
+  stop() { if(window.speechSynthesis) window.speechSynthesis.cancel(); }
 }
 const ttsService = new AvatarSpeechService();
 
@@ -1286,37 +1286,31 @@ window.chairmanLaunch = function() {
         const fairing = document.getElementById('rocketUpper');
         const sysOnline = document.getElementById('sysOnlineText');
         
-        // Ignition Phase
         smoke.classList.add('smoke-active');
         engine.style.opacity = '1';
         rocket.classList.add('rocket-shake-intense');
         
         setTimeout(() => {
-            // Liftoff Phase
             backdrop.classList.add('warp-speed');
             rocket.classList.remove('rocket-shake-intense');
             rocket.classList.add('rocket-liftoff');
             
             setTimeout(() => {
-                // MECO and Stage Separation
                 shockwave.classList.add('shockwave-fire');
                 engine.style.opacity = '0';
                 booster.classList.add('booster-drop');
                 
                 setTimeout(() => {
-                    // Fairing Separation
                     flash.style.opacity = '1';
                     fairing.classList.add('fairing-deploy');
                     
                     setTimeout(() => {
-                        // Orbital Deployment
                         flash.style.opacity = '0';
                         backdrop.classList.remove('warp-speed');
                         overlay.classList.add('deployed');
                         if (sysOnline) sysOnline.style.opacity = '1';
                         
                         setTimeout(() => {
-                            // Fade out to home screen
                             overlay.style.opacity = '0';
                             setTimeout(() => {
                                 overlay.style.display = 'none';
@@ -1335,14 +1329,14 @@ window.chairmanLaunch = function() {
 
 const localResponses = {
   gd: [
-    "That is a strong perspective. However, we must ensure algorithmic auditing is legally mandated before replacing human oversight.",
-    "I agree in principle, but human resource analytics must balance data-driven KPIs with employee empathy and well-being.",
-    "Let's synthesize both views: AI should act as a decision-support system, leaving final talent decisions to certified managers."
+    "That is an interesting viewpoint. However, corporate data suggests we need a more structured approach.",
+    "I agree with that premise, but how does it impact long-term scalability?",
+    "Let's shift the focus slightly: how do we ensure this aligns with standard compliance metrics?"
   ],
   interview: [
-    "How did you specifically measure the quantitative outcome of that action?",
-    "When managing stakeholders with opposing priorities, how do you negotiate consensus?",
-    "What key metric would you track differently if you repeated that project?"
+    "Can you elaborate on the specific metrics you used to measure that outcome?",
+    "How did you handle pushback from stakeholders during that process?",
+    "What was the most challenging technical aspect of that project, and how did you overcome it?"
   ]
 };
 let localFallbackIndex = 0;
@@ -1460,7 +1454,6 @@ signInAnonymously(auth).then((userCredential) => {
   window.candidateId = userCredential.user.uid;
   const savedEmail = localStorage.getItem('hr_candidate_email');
   
-  // URL Impersonation Check (Bypass Login)
   const urlParams = new URLSearchParams(window.location.search);
   const impersonateEmail = urlParams.get('email');
 
@@ -1691,8 +1684,12 @@ function writeTranscript(targetId, speaker, text) {
   box.appendChild(line); box.scrollTop = box.scrollHeight;
 }
 
-const pdfjsLib = window['pdfjs-dist/build/pdf'];
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+// Ensure PDF JS loads safely
+const pdfJS = window.pdfjsLib || window['pdfjs-dist/build/pdf'];
+if (pdfJS) {
+    pdfJS.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+}
+
 const fileInput = document.getElementById('resumeFile');
 if(document.getElementById('dropZone')) {
   document.getElementById('dropZone').addEventListener('click', () => fileInput.click());
@@ -1712,7 +1709,8 @@ window.runATS = async function() {
   if (!fileInput.files.length) { window.showMessage("Please upload a PDF resume.", "error"); return; }
   if (!window.candidateId) { window.showMessage("Save profile first!", "error"); return; }
 
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing & Uploading...'; btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing...'; 
+  btn.disabled = true;
 
   try {
     const taxonomy = {
@@ -1756,9 +1754,17 @@ window.runATS = async function() {
 
     const file = fileInput.files[0];
     const arrayBuffer = await file.arrayBuffer(); 
-    const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise; 
-    let resumeText = '';
     
+    if (!pdfJS) throw new Error("PDF Library failed to load.");
+
+    // PDF Parsing with 8-second safety timeout so it NEVER hangs
+    const pdfTask = pdfJS.getDocument({data: arrayBuffer}).promise;
+    const pdf = await Promise.race([
+        pdfTask,
+        new Promise((_, reject) => setTimeout(() => reject(new Error("PDF Parsing Timeout")), 8000))
+    ]);
+    
+    let resumeText = '';
     for(let i = 1; i <= pdf.numPages; i++) { 
       const page = await pdf.getPage(i); 
       const content = await page.getTextContent(); 
@@ -1796,15 +1802,6 @@ window.runATS = async function() {
 
     window.userData.ats_score = Math.round(formatScore + keywordScore + xyzScore) || 10;
     
-    try {
-       const storageRef = ref(storage, `artifacts/${APP_ID}/public/data/resumes/${window.candidateId}.pdf`);
-       await uploadBytes(storageRef, file);
-       const dlUrl = await getDownloadURL(storageRef);
-       window.userData.resume_url = dlUrl;
-    } catch(uploadErr) {
-       console.warn("Storage upload failed, proceeding without file link", uploadErr);
-    }
-
     document.getElementById('atsScoreDisplay').innerText = `${window.userData.ats_score}%`;
     document.getElementById('atsSuccessMsg').classList.remove('hidden');
 
@@ -1819,9 +1816,26 @@ window.runATS = async function() {
     
     document.getElementById('keywordResults').innerHTML = resHtml;
 
+    // Non-blocking upload: Do NOT wait for Firebase Storage. Just update DB immediately.
+    setTimeout(async () => {
+        try {
+            const storageRef = ref(storage, `artifacts/${APP_ID}/public/data/resumes/${window.candidateId}.pdf`);
+            await uploadBytes(storageRef, file);
+            window.userData.resume_url = await getDownloadURL(storageRef);
+            syncToCloud();
+        } catch(e) { console.warn("Upload failed in background", e); }
+    }, 0);
+
     await syncToCloud();
     window.autoAdvanceTab('tab-ats', 'tab-test', 'Enterprise ATS Audit');
-  } catch (err) { window.showMessage("Failed to parse PDF.", "error"); } finally { btn.innerHTML = '<i class="fa-solid fa-microchip mr-2"></i> Extract Keywords & Run Scan'; btn.disabled = false; }
+
+  } catch (err) { 
+      console.error("ATS Error:", err);
+      window.showMessage("PDF Parse Error. Ensure the file is not corrupted or password protected.", "error"); 
+  } finally { 
+      btn.innerHTML = '<i class="fa-solid fa-microchip mr-2"></i> Extract Keywords & Run Scan'; 
+      btn.disabled = false; 
+  }
 };
 
 const masterAptitudeQuestions = [
@@ -2118,9 +2132,11 @@ async function askNextInterviewQuestion() {
     
     writeTranscript('interview-transcript', 'System', 'Meera is analyzing your profile and generating a custom question...');
     
-    let systemPrompt = window.interviewMethod === 'star'
-      ? `You are Meera, a seasoned, strict Fortune 500 HR Director. You are interviewing a candidate named ${firstName}, whose psychometric archetype is evaluated as '${archetype}'. Generate the FIRST question of the interview. Greet them professionally and ask a complex behavioral question requiring them to walk you through a specific past scenario that tests their strengths or blind spots. Keep your response strictly under 2 sentences. Do not use your own name or brackets.`
-      : `You are Meera, a seasoned, strict Fortune 500 HR Director. You are interviewing a candidate named ${firstName}, whose psychometric archetype is evaluated as '${archetype}'. Generate the FIRST question of the interview. Greet them professionally and ask a deep, open-ended general question about their leadership philosophy, career trajectory, strengths, weaknesses, or how they handle corporate politics. DO NOT ask for a specific past scenario. Keep your response strictly under 2 sentences. Do not use your own name or brackets.`;
+    let systemPrompt = `You are Meera, a seasoned, strict Fortune 500 HR Director. You are interviewing a candidate named ${firstName}, whose psychometric archetype is evaluated as '${archetype}'.
+    Generate the FIRST question of the interview.
+    If the requested method is STAR: Greet them professionally and ask a complex behavioral question tailored to testing the strengths or blind spots of a ${archetype}. Ask them to walk you through a specific past scenario.
+    If the requested method is GENERAL: Greet them professionally and ask a deep, open-ended question about their leadership philosophy, career trajectory, or how they handle corporate politics.
+    Keep your response strictly under 2 sentences. Make it sound highly authentic and unpredictable. Do not use your own name or brackets. Method to use: ${window.interviewMethod.toUpperCase()}`;
     
     let q = await callGroq(`Generate the FIRST question for ${firstName}.`, systemPrompt);
     intHistory += `Meera: ${q}\n`;
@@ -2161,9 +2177,9 @@ window.processInterviewSpeech = async function(candidateResponse) {
     
     let systemPrompt = window.interviewMethod === 'star'
       ? `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: 
-      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a hard, relevant follow-up question using the STAR method based on their answer (asking for a specific past scenario). DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`
+      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a hard, relevant follow-up question using the STAR method based on their answer. DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`
       : `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: 
-      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a broad, open-ended follow-up question about their goals, opinions, or a hypothetical strategy. DO NOT ask them to describe a specific past scenario (No STAR questions). DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`;
+      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a broad, open-ended follow-up question. DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`;
     
     let meeraReply = await callGroq(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
     intHistory += `Meera: ${meeraReply}\n`;
@@ -2304,196 +2320,5 @@ window.emailDetailedReport = function() {
           interpretation = item.norm;
       }
       
-      labReportText += `> Parameter: ${key}\n`;
-      labReportText += `  Observed Result: ${item.val}${item.unit}  (Reference Range: ${item.min}-${item.max}${item.unit})\n`;
-      labReportText += `  Status Flag: ${badge}\n`;
-      labReportText += `  Clinical Interpretation: ${interpretation}\n\n`;
-  }
-
-  let b = `Dear ${window.userData.name || 'Candidate'},\n\n`;
-  b += `Thank you for completing the 6-Stage HR Executive Assessment Gauntlet. This document serves as your official, comprehensive Talent Passport.\n\n`;
-  b += `======================================================\n`;
-  b += `🏆 OVERALL EXECUTIVE READINESS INDEX: ${total}\n`;
-  b += `🧬 PRIMARY WORKPLACE ARCHETYPE: ${window.userData.archetype.toUpperCase()}\n`;
-  b += `======================================================\n\n`;
-  b += `[ PART 1: STAGE-BY-STAGE QUANTITATIVE ANALYSIS ]\n\n`;
-  b += `1. Enterprise ATS Audit (Resume Parsing & TF-IDF)\n   >> Score: ${window.userData.ats_score}/100\n   >> Insight: ${atsFeedback}\n\n`;
-  b += `2. Cognitive Aptitude & Decision Velocity\n   >> Score: ${window.userData.test_score}/100\n   >> Insight: ${aptitudeFeedback}\n\n`;
-  b += `3. Multi-Agent Virtual Group Discussion (GD)\n   >> Score: ${window.userData.gd_score}/30\n   >> Insight: ${gdFeedback}\n\n`;
-  b += `4. AI Behavioral HR Interview (${window.interviewMethod.toUpperCase()} Mode)\n   >> Score: ${window.userData.interview_score}/100\n   >> Insight: ${interviewFeedback}\n\n`;
-  b += `------------------------------------------------------\n\n`;
-  b += `[ PART 2: REAL-TIME BIOMETRIC & NON-VERBAL ANALYTICS ]\n\n`;
-  b += `* Visual Focus & Eye Contact Index: ${avgEye}%\n  (Target: 70-85%. Maintaining eye contact signals confidence and active listening.)\n\n`;
-  b += `* Cognitive Stress & Movement Index: ${avgStress}%\n  (Target: <30%. Elevated movement or shifting posture indicates pressure fatigue.)\n\n`;
-  b += `------------------------------------------------------\n\n`;
-  b += `[ PART 3: PSYCHOMETRIC ARCHETYPE DEEP-DIVE: ${window.userData.archetype.toUpperCase()} ]\n\n`;
-  b += `* Profile Overview: \n  ${myArch.profile}\n\n`;
-  b += `* Core Executive Strengths: \n  ${myArch.strengths}\n\n`;
-  b += `* Critical Blind Spots: \n  ${myArch.blindSpots}\n\n`;
-  b += `* INTERVIEW & PLACEMENT STRATEGY:\n  ${myArch.actionPlan}\n\n`;
-  b += `------------------------------------------------------\n\n`;
-  b += labReportText;
-  b += `======================================================\n\n`;
-  b += `Final Recommendation: Review your lowest-scoring parameters from the Lab Report above and consult the Academic Modules on the platform to bridge the gap before official placement season begins.\n\n`;
-  b += `Best regards,\n`;
-  b += `The Assetize AI Evaluation System\n`;
-
-  window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=${encodeURIComponent(b)}`, '_blank');
-};
-
-const practiceQuizzes = {
-  ats: {
-    title: "Enterprise ATS Audit", icon: "fa-file-pdf", color: "indigo",
-    questions: [
-      { q: "In ATS parsing, what does TF-IDF stand for?", options: ["Target Frequency-Inverse Document Frequency", "Term Frequency-Inverse Document Frequency", "Text Format-Internal Data File", "Total Fields-Integrated Data Format"], ans: 1 },
-      { q: "Which format is universally considered the safest for ATS algorithms to parse without data loss?", options: ["Standard PDF or DOCX", "JPEG", "Canva Graphic Portfolios", "Encrypted Zip"], ans: 0 },
-      { q: "A 'False Negative' in an ATS audit occurs when:", options: ["An unqualified candidate passes", "A qualified candidate is rejected due to formatting", "The system crashes", "Keywords are highlighted correctly"], ans: 1 }
-    ]
-  },
-  aptitude: {
-    title: "Cognitive Aptitude", icon: "fa-stopwatch", color: "purple",
-    questions: [
-      { q: "If a company has 200 employees and 20 leave over a year, what is the annual turnover rate?", options: ["5%", "10%", "15%", "20%"], ans: 1 },
-      { q: "What does 'Decision Velocity' primarily measure in executive assessments?", options: ["Accuracy of decisions", "Speed of making decisions under pressure", "Popularity of the decision", "Cost of the decision"], ans: 1 },
-      { q: "Which tool is best used to map the hierarchical reporting structure of an organization?", options: ["Gantt Chart", "Venn Diagram", "Organogram", "Scatter Plot"], ans: 2 }
-    ]
-  },
-  gd: {
-    title: "Virtual Group Dynamics", icon: "fa-users", color: "amber",
-    questions: [
-      { q: "According to Tuckman's stages of group development, which stage involves initial conflict and power struggles?", options: ["Forming", "Storming", "Norming", "Performing"], ans: 1 },
-      { q: "In a GD, 'active listening' is best demonstrated by:", options: ["Interrupting to show engagement", "Looking at your notes", "Synthesizing and building upon a peer's previous point", "Speaking the loudest"], ans: 2 },
-      { q: "What does 'Groupthink' refer to in organizational behavior?", options: ["A brainstorming technique", "The practice of thinking as a cohesive unit to maximize creativity", "The psychological drive for consensus at any cost that suppresses dissenting viewpoints", "Using AI to generate group ideas"], ans: 2 }
-    ]
-  },
-  interview: {
-    title: "AI Behavioral Interview", icon: "fa-microphone-lines", color: "brand",
-    questions: [
-      { q: "In the STAR interview method, what does the 'A' stand for?", options: ["Attitude", "Action", "Assessment", "Accountability"], ans: 1 },
-      { q: "When asked about your greatest weakness, the most strategic approach is to:", options: ["Say you work too hard", "Claim you have no weaknesses", "Mention a genuine weakness and the active steps you are taking to improve it", "Deflect the question"], ans: 2 },
-      { q: "In the 'Result' phase of the STAR method, what is the most critical element to include?", options: ["Names of your coworkers", "Your emotional state", "Quantifiable metrics and concrete outcomes", "What you would do differently next time"], ans: 2 }
-    ]
-  }
-};
-
-window.loadPracticeQuiz = function(category) {
-  document.querySelectorAll('.quiz-btn').forEach(b => b.classList.remove('ring-4', 'ring-offset-2', 'ring-brand-500'));
-  document.getElementById(`btn-quiz-${category}`).classList.add('ring-4', 'ring-offset-2', 'ring-brand-500');
-  const data = practiceQuizzes[category];
-  const container = document.getElementById('practiceQuizContainer');
-  let html = `<div class="mb-6 border-b border-gray-200 pb-4"><h3 class="text-xl md:text-2xl font-bold text-slate-800"><i class="fa-solid ${data.icon} text-${data.color}-500 mr-2"></i>${data.title} Practice</h3><p class="text-xs md:text-sm text-slate-500">Select the correct answers below. Instant feedback is provided.</p></div><div class="space-y-4 md:space-y-6">`;
-  data.questions.forEach((item, qIndex) => {
-    html += `<div class="bg-slate-50 p-4 md:p-5 rounded-xl border border-slate-200"><p class="font-bold text-sm md:text-base text-slate-800 mb-3">${qIndex + 1}. ${item.q}</p><div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3" id="quiz-opts-${category}-${qIndex}">`;
-    item.options.forEach((opt, oIndex) => {
-      html += `<button onclick="window.checkPracticeAnswer('${category}', ${qIndex}, ${oIndex}, ${item.ans}, this)" class="text-left px-3 md:px-4 py-2.5 md:py-3 rounded-lg border border-slate-300 bg-white hover:bg-brand-50 transition text-xs md:text-sm font-medium text-slate-700 w-full">${opt}</button>`;
-    });
-    html += `</div><div id="quiz-feedback-${category}-${qIndex}" class="mt-3 text-xs md:text-sm font-bold hidden"></div></div>`;
-  });
-  html += `</div>`;
-  container.innerHTML = html;
-};
-
-window.checkPracticeAnswer = function(category, qIndex, selectedOpt, correctOpt, btnEl) {
-  const parent = document.getElementById(`quiz-opts-${category}-${qIndex}`);
-  const buttons = parent.querySelectorAll('button');
-  const feedback = document.getElementById(`quiz-feedback-${category}-${qIndex}`);
-  buttons.forEach(b => { b.disabled = true; b.classList.remove('hover:bg-brand-50', 'cursor-pointer'); b.classList.add('opacity-70', 'cursor-not-allowed'); });
-  if (selectedOpt === correctOpt) {
-    btnEl.classList.remove('bg-white', 'border-slate-300'); btnEl.classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'ring-2', 'ring-green-500', 'opacity-100');
-    feedback.innerHTML = `<i class="fa-solid fa-check-circle text-green-600 mr-1"></i> Correct!`; feedback.classList.remove('hidden', 'text-red-600'); feedback.classList.add('text-green-600');
-  } else {
-    btnEl.classList.remove('bg-white', 'border-slate-300', 'opacity-70'); btnEl.classList.add('bg-red-100', 'border-red-500', 'text-red-800', 'opacity-100');
-    buttons[correctOpt].classList.remove('bg-white', 'border-slate-300', 'opacity-70'); buttons[correctOpt].classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'opacity-100');
-    feedback.innerHTML = `<i class="fa-solid fa-times-circle text-red-600 mr-1"></i> Incorrect.`; feedback.classList.remove('hidden', 'text-green-600'); feedback.classList.add('text-red-600');
-  }
-};
-
-const avatarConfigs = {
-  'guide-avatar': { bg: '#e2e8f0', skin: '#fcd34d', skinDark: '#d97706', hair: '#1e293b', shirt: '#3b82f6', hairPath: '<path d="M 15 45 C 15 10, 85 10, 85 45 L 85 30 C 85 5, 15 5, 15 30 Z" fill="#1e293b"/>' },
-  'avatar-arjun': { bg: '#bfdbfe', skin: '#d97706', skinDark: '#92400e', hair: '#111827', shirt: '#ffffff', glasses: true, hairPath: '<path d="M 22 45 C 22 10, 78 10, 78 45 L 78 30 C 78 5, 22 5, 22 30 Z" fill="#111827"/>' },
-  'avatar-kavya': { bg: '#fbcfe8', skin: '#b45309', skinDark: '#78350f', hair: '#111827', shirt: '#fef08a', hairPath: '<circle cx="50" cy="15" r="18" fill="#111827"/><circle cx="35" cy="25" r="14" fill="#111827"/><circle cx="65" cy="25" r="14" fill="#111827"/><path d="M 22 45 C 22 15, 78 15, 78 45 C 78 30, 50 25, 22 45 Z" fill="#111827"/>' },
-  'ai-hr-meera': { bg: '#e9d5ff', skin: '#d97706', skinDark: '#92400e', hair: '#111827', shirt: '#4c1d95', glasses: true, hairPath: '<circle cx="50" cy="10" r="15" fill="#111827"/><path d="M 22 45 C 22 15, 78 15, 78 45 L 78 35 C 78 5, 22 5, 22 35 Z" fill="#111827"/>' }
-};
-
-function generateSVG(config, id) {
-  return `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="skin-grad-${id}" cx="35%" cy="35%" r="65%"><stop offset="0%" stop-color="${config.skin}"/><stop offset="100%" stop-color="${config.skinDark}"/></radialGradient><clipPath id="eye-clip-l-${id}"><ellipse cx="35" cy="40" rx="6" ry="7"/></clipPath><clipPath id="eye-clip-r-${id}"><ellipse cx="65" cy="40" rx="6" ry="7"/></clipPath></defs><rect width="100" height="100" fill="${config.bg}"/><path d="M 20 100 C 20 65, 80 65, 80 100" fill="${config.shirt}"/><path d="M 38 70 L 62 70 L 58 100 L 42 100 Z" fill="${config.skinDark}"/><ellipse cx="22" cy="45" rx="4" ry="7" fill="${config.skinDark}"/><ellipse cx="78" cy="45" rx="4" ry="7" fill="${config.skinDark}"/><g class="face-features"><ellipse cx="50" cy="45" rx="26" ry="32" fill="url(#skin-grad-${id})"/><path d="M 27 33 Q 35 29 42 33" stroke="${config.hair}" stroke-width="2.5" fill="none" stroke-linecap="round" class="avatar-eyebrow"/><path d="M 58 33 Q 65 29 73 33" stroke="${config.hair}" stroke-width="2.5" fill="none" stroke-linecap="round" class="avatar-eyebrow"/><ellipse cx="35" cy="40" rx="6" ry="7" fill="white"/><ellipse cx="65" cy="40" rx="6" ry="7" fill="white"/><g class="avatar-pupil"><circle cx="35" cy="40" r="3.5" fill="${config.hair}"/><circle cx="34" cy="39" r="1" fill="white"/></g><g class="avatar-pupil"><circle cx="65" cy="40" r="3.5" fill="${config.hair}"/><circle cx="64" cy="39" r="1" fill="white"/></g><rect x="25" y="30" width="20" height="20" fill="${config.skinDark}" class="avatar-eyelid" style="transform-origin: top; transform: scaleY(0);" clip-path="url(#eye-clip-l-${id})"/><rect x="55" y="30" width="20" height="20" fill="${config.skinDark}" class="avatar-eyelid" style="transform-origin: top; transform: scaleY(0);" clip-path="url(#eye-clip-r-${id})"/><path d="M 50 42 Q 48 52 50 54 Q 52 54 52 50" fill="none" stroke="${config.skinDark}" stroke-width="2" stroke-linecap="round"/><path d="M 35 65 Q 50 70 65 65 Q 50 68 35 65" fill="#431407" class="avatar-mouth-path"/><path d="M 40 66 Q 50 66 60 66 Q 50 66 40 66" fill="#ffffff" class="avatar-teeth-path"/>${config.glasses ? `<rect x="25" y="34" width="20" height="12" rx="3" fill="none" stroke="#1e293b" stroke-width="2"/><rect x="55" y="34" width="20" height="12" rx="3" fill="none" stroke="#1e293b" stroke-width="2"/><line x1="45" y1="40" x2="55" y2="40" stroke="#1e293b" stroke-width="2"/>` : ''}</g><g class="hair-front">${config.hairPath}</g></svg>`;
-}
-
-function initRealisticAvatars() {
-  Object.keys(avatarConfigs).forEach(id => {
-    const container = document.getElementById(id);
-    if (container) container.innerHTML = generateSVG(avatarConfigs[id], id);
-  });
-
-  setInterval(() => {
-    Object.keys(avatarConfigs).forEach(id => {
-      const container = document.getElementById(id);
-      if (!container) return;
-      const mouth = container.querySelector('.avatar-mouth-path');
-      const teeth = container.querySelector('.avatar-teeth-path');
-      if (!mouth) return;
-
-      let speakerMap = { 'guide-avatar': 'guide', 'avatar-arjun': 'arjun', 'avatar-kavya': 'kavya', 'ai-hr-meera': 'meera' };
-      if (window.activeSpeaker === speakerMap[id]) {
-        const visemes = ["M 35 65 Q 50 55 65 65 Q 50 85 35 65", "M 40 65 Q 50 50 60 65 Q 50 80 40 65", "M 32 65 Q 50 60 68 65 Q 50 75 32 65"];
-        const teethPaths = ["M 38 62 Q 50 58 62 62 Q 50 65 38 62", "M 42 55 Q 50 52 58 55 Q 50 60 42 55", "M 35 62 Q 50 58 65 62 Q 50 66 35 62"];
-        const r = Math.floor(Math.random() * visemes.length);
-        mouth.setAttribute('d', visemes[r]);
-        teeth.setAttribute('d', teethPaths[r]);
-      } else {
-        mouth.setAttribute('d', "M 35 65 Q 50 70 65 65 Q 50 68 35 65");
-        teeth.setAttribute('d', "M 40 66 Q 50 66 60 66 Q 50 66 40 66");
-      }
-    });
-  }, 80);
-
-  setInterval(() => {
-    Object.keys(avatarConfigs).forEach(id => {
-      const container = document.getElementById(id);
-      if (!container) return;
-      const eyelids = container.querySelectorAll('.avatar-eyelid');
-      if (!eyelids.length) return;
-      if (Math.random() < 0.05) {
-        eyelids.forEach(lid => lid.style.transform = 'scaleY(1)');
-        setTimeout(() => { eyelids.forEach(lid => lid.style.transform = 'scaleY(0)'); }, 150);
-      }
-    });
-  }, 200);
-}
-
-// Drag-to-Scroll Physics for Desktop Navigation
-const slider = document.getElementById('navContainer');
-let isDown = false; let startX; let scrollLeft;
-
-if(slider) {
-  slider.addEventListener('mousedown', (e) => {
-    isDown = true;
-    slider.classList.add('cursor-grabbing');
-    slider.classList.remove('cursor-grab');
-    startX = e.pageX - slider.offsetLeft;
-    scrollLeft = slider.scrollLeft;
-  });
-  slider.addEventListener('mouseleave', () => {
-    isDown = false;
-    slider.classList.remove('cursor-grabbing');
-    slider.classList.add('cursor-grab');
-  });
-  slider.addEventListener('mouseup', () => {
-    isDown = false;
-    slider.classList.remove('cursor-grabbing');
-    slider.classList.add('cursor-grab');
-  });
-  slider.addEventListener('mousemove', (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - slider.offsetLeft;
-    const walk = (x - startX) * 2; 
-    slider.scrollLeft = scrollLeft - walk;
-  });
-}
-
-renderArchetypeQs();
-initRealisticAvatars();
-</script>
-</body>
-</html>
+      labReportText += `> Parameter: ${key}\n`;I encountered an error doing what you asked. Could you try again?
+      labReportText += `
