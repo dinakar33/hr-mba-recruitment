@@ -37,7 +37,6 @@ body { font-family: 'Inter', sans-serif; background-color: #f8fafc; transition: 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Custom Scrollbar for Desktop Navigation */
 .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; transition: background 0.3s; }
@@ -57,7 +56,6 @@ body.ai-mode .bg-slate-50 { background-color: rgba(255, 255, 255, 0.05) !importa
 body.ai-mode .border-gray-300, body.ai-mode .border { border-color: #475569 !important; }
 body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode input[type="tel"], body.ai-mode input[type="url"], body.ai-mode input[type="password"], body.ai-mode select, body.ai-mode textarea { background-color: #334155; color: #f8fafc; border-color: #475569; }
 
-/* Contrast fixes for Resource Library colored boxes in Dark Mode */
 body.ai-mode .bg-red-50 { background-color: rgba(239, 68, 68, 0.15) !important; border-color: rgba(239, 68, 68, 0.3) !important; }
 body.ai-mode .bg-green-50 { background-color: rgba(34, 197, 94, 0.15) !important; border-color: rgba(34, 197, 94, 0.3) !important; }
 body.ai-mode .bg-indigo-50 { background-color: rgba(99, 102, 241, 0.15) !important; border-color: rgba(99, 102, 241, 0.3) !important; }
@@ -72,13 +70,14 @@ body.ai-mode .text-amber-700 { color: #fcd34d !important; }
 .toggle-checkbox:checked { right: 0; border-color: #68D391; }
 .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
 
-@keyframes talk-bounce { 0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); transform: scale(1) translateY(0); } 100% { box-shadow: 0 0 35px rgba(59, 130, 246, 1); border-color: #60a5fa; transform: scale(1.05) translateY(-4px); } }
-.is-talking, .avatar-talking { animation: talk-bounce 0.3s ease-in-out infinite alternate !important; border-color: #60a5fa !important; }
+@keyframes talk-bounce { 0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); } 100% { box-shadow: 0 0 35px rgba(59, 130, 246, 1); border-color: #60a5fa; } }
+.is-talking { animation: talk-bounce 0.4s ease-in-out infinite alternate !important; border: 4px solid #60a5fa !important; }
 
-@keyframes breathe { 0%, 100% { transform: scale(1) translateY(0); } 50% { transform: scale(1.02) translateY(-2px); } }
+@keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
 .gd-avatar { border-radius: 50%; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s ease; border: 4px solid transparent; position: relative; margin: 0 auto; }
 body.ai-mode .gd-avatar { background: #334155; }
 .avatar-breathing { animation: breathe 4s infinite ease-in-out; }
+.avatar-talking { border-color: #60a5fa; }
 
 #global-ai-guide { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateX(200%); }
 #global-ai-guide.visible { transform: translateX(0); }
@@ -104,25 +103,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 .space-backdrop { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
 .nebula { position: absolute; inset: 0; background: radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.4) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.4) 0%, transparent 40%); filter: blur(60px); animation: nebula-drift 20s infinite alternate ease-in-out; }
 @keyframes nebula-drift { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
-
-/* STAGE AVATAR ANIMATIONS */
-.stage-avatar { position: absolute; bottom: 20px; left: -100px; opacity: 0; transition: transform 0.3s; z-index: 20; }
-@keyframes walkToCenter {
-    0% { transform: translateX(0); opacity: 0; }
-    10% { opacity: 1; }
-    50% { transform: translateX(calc(50vw - 40px)); opacity: 1; } /* Reach Button */
-    100% { transform: translateX(calc(50vw - 40px)); opacity: 1; }
-}
-@keyframes walkToVIP {
-    0% { transform: translateX(calc(50vw - 40px)); opacity: 1; }
-    100% { transform: translateX(calc(85vw - 40px)); opacity: 0.6; } /* VIP Gallery */
-}
-.anim-walk-center { animation: walkToCenter 3s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; }
-.anim-walk-vip { animation: walkToVIP 2.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; }
-
-.launch-pedestal { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 60px; background: #1e293b; border: 2px solid #334155; border-bottom: none; border-radius: 10px 10px 0 0; z-index: 15; display: flex; align-items: flex-start; justify-content: center; padding-top: 10px; }
-.master-button { width: 40px; height: 20px; background: #ef4444; border-radius: 5px; box-shadow: 0 5px 0 #991b1b, 0 0 20px rgba(239, 68, 68, 0.6); transition: all 0.1s; }
-.master-button.pressed { transform: translateY(5px); box-shadow: 0 0 0 #991b1b, 0 0 40px rgba(239, 68, 68, 1); background: #f87171; }
 </style>
 </head>
 
@@ -174,74 +154,32 @@ body.ai-mode .gd-avatar { background: #334155; }
         </div>
     </div>
 
-    <!-- THE STAGE & AVATARS -->
-    <div id="launch-stage" class="absolute bottom-0 w-full h-32 z-20">
-        <div class="launch-pedestal"><div id="master-launch-btn" class="master-button"></div></div>
-        <div id="avatar-container">
-            
-            <!-- 1. Dr Sunil Kumar -->
-            <div id="launch-avatar-1" class="stage-avatar flex flex-col items-center justify-end w-[80px]">
-                <div class="w-14 h-14 rounded-full border-2 border-brand-400 p-0.5 shadow-[0_0_15px_rgba(59,130,246,0.6)] bg-slate-900 overflow-hidden relative group">
-                    <div class="absolute inset-0 bg-brand-500/20 mix-blend-overlay z-10"></div>
-                    <img src="avatar-sunil.jpg" class="w-full h-full object-cover rounded-full" alt="Dr Sunil" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Sunil&background=1e3a8a&color=fff&bold=true'">
-                </div>
-                <span class="mt-2 text-[9px] font-black text-white bg-slate-900/80 border border-slate-700 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-wider">DR SUNIL</span>
-            </div>
+    <!-- VIP Authorized Dock -->
+    <div id="vip-dock" class="absolute bottom-6 w-full flex justify-center gap-2 md:gap-4 z-30">
+        <div id="dock-1" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner">1</div>
+        <div id="dock-2" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner">2</div>
+        <div id="dock-3" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner">3</div>
+        <div id="dock-4" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner">4</div>
+        <div id="dock-5" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner">5</div>
+        <div id="dock-6" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner">6</div>
+        <div id="dock-7" class="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-brand-700 bg-brand-900/80 flex items-center justify-center text-xs text-brand-400 font-black shadow-[0_0_15px_rgba(59,130,246,0.3)]">VIP</div>
+    </div>
 
-            <!-- 2. Dr Nirmala J -->
-            <div id="launch-avatar-2" class="stage-avatar flex flex-col items-center justify-end w-[80px]">
-                <div class="w-14 h-14 rounded-full border-2 border-brand-400 p-0.5 shadow-[0_0_15px_rgba(59,130,246,0.6)] bg-slate-900 overflow-hidden relative group">
-                    <div class="absolute inset-0 bg-brand-500/20 mix-blend-overlay z-10"></div>
-                    <img src="avatar-nirmala.jpg.png" class="w-full h-full object-cover rounded-full" alt="Dr Nirmala" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Nirmala&background=1e3a8a&color=fff&bold=true'">
-                </div>
-                <span class="mt-2 text-[9px] font-black text-white bg-slate-900/80 border border-slate-700 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-wider">DR NIRMALA</span>
+    <!-- Active Stage & Console -->
+    <div id="launch-stage" class="absolute bottom-24 w-full h-32 z-20 overflow-hidden pointer-events-none">
+        <!-- Central Authentication Console -->
+        <div class="absolute left-1/2 bottom-0 transform -translate-x-1/2 w-20 h-24 bg-slate-800 border-x-2 border-t-2 border-brand-500 rounded-t-xl flex flex-col items-center justify-start pt-4 z-10 shadow-[0_0_30px_rgba(59,130,246,0.2)]" id="master-console">
+            <div id="console-btn" class="w-12 h-12 rounded-full bg-slate-700 border-4 border-slate-600 transition-all duration-300 flex items-center justify-center">
+                <i class="fa-solid fa-fingerprint text-slate-500 text-xl transition-colors duration-300" id="console-icon"></i>
             </div>
-
-            <!-- 3. Dr Ravinarayana -->
-            <div id="launch-avatar-3" class="stage-avatar flex flex-col items-center justify-end w-[80px]">
-                <div class="w-14 h-14 rounded-full border-2 border-brand-400 p-0.5 shadow-[0_0_15px_rgba(59,130,246,0.6)] bg-slate-900 overflow-hidden relative group">
-                    <div class="absolute inset-0 bg-brand-500/20 mix-blend-overlay z-10"></div>
-                    <img src="avatar-ravi.jpg.png" class="w-full h-full object-cover rounded-full" alt="Dr Ravi" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Ravi&background=1e3a8a&color=fff&bold=true'">
-                </div>
-                <span class="mt-2 text-[9px] font-black text-white bg-slate-900/80 border border-slate-700 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-wider">DR RAVI</span>
+        </div>
+        
+        <!-- Animated Avatar (Dynamically controlled via JS) -->
+        <div id="moving-avatar" class="absolute bottom-4 left-[-100px] w-20 transition-all duration-1000 ease-in-out opacity-0 z-20 flex flex-col items-center">
+            <div class="w-16 h-16 rounded-full border-2 border-brand-400 p-0.5 shadow-[0_0_15px_rgba(59,130,246,0.6)] bg-slate-900 overflow-hidden">
+                <img id="moving-avatar-img" src="" class="w-full h-full object-cover rounded-full" alt="Avatar" onerror="this.src='https://ui-avatars.com/api/?name=Dr&background=1e3a8a&color=fff'">
             </div>
-
-            <!-- 4. Dr G Arun Kumar -->
-            <div id="launch-avatar-4" class="stage-avatar flex flex-col items-center justify-end w-[80px]">
-                <div class="w-14 h-14 rounded-full border-2 border-brand-400 p-0.5 shadow-[0_0_15px_rgba(59,130,246,0.6)] bg-slate-900 overflow-hidden relative group">
-                    <div class="absolute inset-0 bg-brand-500/20 mix-blend-overlay z-10"></div>
-                    <img src="avatar-arun.jpg.png" class="w-full h-full object-cover rounded-full" alt="Dr Arun" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Arun&background=1e3a8a&color=fff&bold=true'">
-                </div>
-                <span class="mt-2 text-[9px] font-black text-white bg-slate-900/80 border border-slate-700 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-wider">DR ARUN</span>
-            </div>
-
-            <!-- 5. Dr K C Prashanth -->
-            <div id="launch-avatar-5" class="stage-avatar flex flex-col items-center justify-end w-[80px]">
-                <div class="w-14 h-14 rounded-full border-2 border-brand-400 p-0.5 shadow-[0_0_15px_rgba(59,130,246,0.6)] bg-slate-900 overflow-hidden relative group">
-                    <div class="absolute inset-0 bg-brand-500/20 mix-blend-overlay z-10"></div>
-                    <img src="avatar-prashanth.jpg.png" class="w-full h-full object-cover rounded-full" alt="Dr Prashanth" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Prashanth&background=1e3a8a&color=fff&bold=true'">
-                </div>
-                <span class="mt-2 text-[9px] font-black text-white bg-slate-900/80 border border-slate-700 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-wider">DR PRASHANTH</span>
-            </div>
-
-            <!-- 6. Dr Archana H N -->
-            <div id="launch-avatar-6" class="stage-avatar flex flex-col items-center justify-end w-[80px]">
-                <div class="w-14 h-14 rounded-full border-2 border-brand-400 p-0.5 shadow-[0_0_15px_rgba(59,130,246,0.6)] bg-slate-900 overflow-hidden relative group">
-                    <div class="absolute inset-0 bg-brand-500/20 mix-blend-overlay z-10"></div>
-                    <img src="avatar-archana.jpg.png" class="w-full h-full object-cover rounded-full" alt="Dr Archana" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Archana&background=1e3a8a&color=fff&bold=true'">
-                </div>
-                <span class="mt-2 text-[9px] font-black text-white bg-slate-900/80 border border-slate-700 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-wider">DR ARCHANA</span>
-            </div>
-
-            <!-- 7. Chairman Dr Dinesh Prasad -->
-            <div id="launch-avatar-7" class="stage-avatar flex flex-col items-center justify-end w-[90px]">
-                <div class="w-16 h-16 rounded-full border-2 border-purple-500 p-0.5 shadow-[0_0_25px_rgba(168,85,247,0.8)] bg-slate-900 overflow-hidden relative group">
-                    <div class="absolute inset-0 bg-purple-500/20 mix-blend-overlay z-10"></div>
-                    <img src="avatar-dinesh.jpg.png" class="w-full h-full object-cover rounded-full" alt="Chairman Dr Dinesh" onerror="this.src='https://ui-avatars.com/api/?name=Chairman&background=4c1d95&color=fff&bold=true'">
-                </div>
-                <span class="mt-2 text-[9px] font-black text-white bg-purple-900/90 border border-purple-500 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-widest uppercase">CHAIRMAN</span>
-            </div>
-            
+            <span id="moving-avatar-name" class="mt-2 text-[10px] font-black text-white bg-slate-900/90 border border-slate-700 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-wider"></span>
         </div>
     </div>
 </div>
@@ -252,6 +190,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div class="flex items-center">
+    
     <!-- The Premium Corporate Logo in Header -->
     <svg viewBox="0 0 100 100" class="w-10 h-10 mr-3 drop-shadow-md hidden sm:block" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -712,7 +651,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 </div>
 </section>
 
-<!-- MASTER RESOURCE LIBRARY SECTION -->
 <section id="tab-resources" class="tab-content">
   <div class="mb-8 md:mb-10 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Master Resource Library</h2>
@@ -720,8 +658,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
   </div>
 
   <div class="space-y-8">
-    
-    <!-- VERTICAL 1: ATS AUDIT -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-file-pdf text-blue-500 mr-2"></i>Vertical 1: Enterprise ATS Audit</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -748,7 +684,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
       </div>
     </div>
 
-    <!-- VERTICAL 2: APTITUDE TEST -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-stopwatch text-indigo-500 mr-2"></i>Vertical 2: Cognitive Aptitude</h3>
       <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 mb-6">
@@ -788,7 +723,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
       </div>
     </div>
 
-    <!-- VERTICAL 3: ARCHETYPE ASSESSMENT -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-puzzle-piece text-purple-500 mr-2"></i>Vertical 3: Archetype Profiling</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -839,7 +773,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
       </div>
     </div>
 
-    <!-- VERTICAL 4: VIRTUAL GD -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-users text-amber-500 mr-2"></i>Vertical 4: Virtual Group Discussion</h3>
       <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-file-circle-check text-slate-400 mr-1"></i> Model GD Topics & Perspectives</h4>
@@ -873,7 +806,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
       </div>
     </div>
 
-    <!-- VERTICAL 5: INTERVIEW -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-red-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-microphone-lines text-red-500 mr-2"></i>Vertical 5: AI Behavioral Interview</h3>
       <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-file-circle-check text-slate-400 mr-1"></i> Model General & STAR Questions</h4>
@@ -1155,7 +1087,7 @@ import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
 // ==========================================
-// GROQ API INTEGRATION
+// GROQ API INTEGRATION (GPT-OSS-20B)
 // ==========================================
 const part1 = "gsk_";
 const part2 = "CEzKM02REgAivZZbdg2VWGdyb3FYO4MUxuIVnCB9goq0wb23geoa";
@@ -1220,6 +1152,7 @@ class AvatarSpeechService {
       utterance.onend = finish;
       utterance.onerror = finish; 
       
+      // 8-Second Safety Override to prevent GD from hanging if browser TTS crashes
       setTimeout(finish, 8000);
       
       window.speechSynthesis.speak(utterance);
@@ -1237,78 +1170,159 @@ window.userData = { name: "", email: "", archetype: "Not Evaluated", ats_score: 
 let unsubscribeStudent = null;
 window.bioMetrics = { eyeContact: [], stress: [] };
 
+// THE NEW SEQUENTIAL MASTER LAUNCH LOGIC
 window.authCount = 0;
+window.isAnimatingAuth = false;
+
+// Uses the EXACT filenames from your GitHub screenshot
+const avatarsInfo = {
+    1: { img: 'avatar-sunil.jpg', name: 'DR SUNIL' },
+    2: { img: 'avatar-nirmala.jpg.png', name: 'DR NIRMALA' },
+    3: { img: 'avatar-ravi.jpg.png', name: 'DR RAVI' },
+    4: { img: 'avatar-arun.jpg.png', name: 'DR ARUN' },
+    5: { img: 'avatar-prashanth.jpg.png', name: 'DR PRASHANTH' },
+    6: { img: 'avatar-archana.jpg.png', name: 'DR ARCHANA' },
+    7: { img: 'avatar-dinesh.jpg.png', name: 'CHAIRMAN' }
+};
 
 window.authenticateLaunch = function(btn, index, name) {
-    if (btn.disabled) return;
+    // Prevent overlapping animations or double-clicking
+    if (btn.disabled || window.isAnimatingAuth) return;
+    window.isAnimatingAuth = true; 
     
-    // Disable and style button
+    // Disable and style button to Green
     btn.disabled = true;
     btn.classList.replace('bg-slate-800', 'bg-green-600');
     btn.classList.replace('border-slate-600', 'border-green-400');
+    if(index === 7) {
+        btn.classList.replace('bg-brand-700', 'bg-purple-600');
+        btn.classList.replace('border-brand-500', 'border-purple-400');
+        btn.style.boxShadow = '0 0 20px rgba(168,85,247,0.6)';
+    }
     btn.innerHTML = `<i class="fa-solid fa-check"></i> ${name}`;
     
-    // Animate the avatar
-    const avatar = document.getElementById('launch-avatar-' + index);
-    if(avatar) {
-        avatar.style.opacity = '1';
-        avatar.classList.add('anim-walk-center');
-        
-        setTimeout(() => {
-            const masterBtn = document.getElementById('master-launch-btn');
-            masterBtn.classList.add('pressed');
-            setTimeout(() => { masterBtn.classList.remove('pressed'); }, 150);
-            
-            avatar.classList.replace('anim-walk-center', 'anim-walk-vip');
-            
-            window.authCount++;
-            document.getElementById('auth-counter').innerText = window.authCount;
-            
-            if(window.authCount === 7) {
-                setTimeout(() => {
-                    window.executeMasterLaunch();
-                }, 800);
-            }
-        }, 3000);
+    // Get Stage Elements
+    const movingAvatar = document.getElementById('moving-avatar');
+    const movingImg = document.getElementById('moving-avatar-img');
+    const movingName = document.getElementById('moving-avatar-name');
+    const consoleBtn = document.getElementById('console-btn');
+    const consoleIcon = document.getElementById('console-icon');
+    
+    // 1. Setup the Avatar Image and Name
+    movingImg.src = avatarsInfo[index].img;
+    movingName.innerText = avatarsInfo[index].name;
+    
+    if(index === 7) {
+        movingImg.parentElement.classList.replace('border-brand-400', 'border-purple-500');
+        movingImg.parentElement.classList.replace('shadow-[0_0_15px_rgba(59,130,246,0.6)]', 'shadow-[0_0_25px_rgba(168,85,247,0.8)]');
     }
+
+    // Reset position to off-screen left
+    movingAvatar.style.transition = 'none';
+    movingAvatar.style.left = '-100px';
+    movingAvatar.style.opacity = '0';
+    
+    // 2. Walk to the central console
+    setTimeout(() => {
+        movingAvatar.style.transition = 'all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)';
+        movingAvatar.style.left = 'calc(50% - 80px)'; // Stop exactly next to the console
+        movingAvatar.style.opacity = '1';
+    }, 50);
+
+    // 3. Pause and Press the Button
+    setTimeout(() => {
+        // Console lights up
+        const glowColor = index === 7 ? 'purple' : 'green';
+        consoleBtn.classList.replace('bg-slate-700', `bg-${glowColor}-500`);
+        consoleBtn.classList.replace('border-slate-600', `border-${glowColor}-300`);
+        consoleBtn.style.boxShadow = `0 0 20px ${index === 7 ? '#a855f7' : '#22c55e'}`;
+        consoleIcon.classList.replace('text-slate-500', 'text-white');
+        
+        // 4. Walk off to the right
+        setTimeout(() => {
+            // Turn console back off
+            consoleBtn.classList.replace(`bg-${glowColor}-500`, 'bg-slate-700');
+            consoleBtn.classList.replace(`border-${glowColor}-300`, 'border-slate-600');
+            consoleBtn.style.boxShadow = 'none';
+            consoleIcon.classList.replace('text-white', 'text-slate-500');
+
+            // Move avatar off-screen right
+            movingAvatar.style.left = '100vw'; 
+            movingAvatar.style.opacity = '0';
+            
+            // 5. Fill the VIP Dock & unlock next interaction
+            setTimeout(() => {
+                const dockSlot = document.getElementById(`dock-${index}`);
+                dockSlot.innerHTML = `<img src="${avatarsInfo[index].img}" class="w-full h-full rounded-full object-cover">`;
+                dockSlot.classList.remove('bg-slate-800/80');
+                if (index === 7) {
+                    dockSlot.classList.replace('bg-brand-900/80', 'bg-transparent');
+                } else {
+                    dockSlot.classList.add('border-green-500');
+                }
+                
+                // Update Global Counter
+                window.authCount++;
+                document.getElementById('auth-counter').innerText = window.authCount;
+                window.isAnimatingAuth = false; // Unlock UI for next click
+                
+                // If it was the Chairman, trigger launch!
+                if(window.authCount === 7) {
+                    setTimeout(() => { window.executeMasterLaunch(); }, 600);
+                }
+            }, 1200); // Time it takes to walk off right
+        }, 800); // Duration the button is pressed
+    }, 1300); // Time it takes to walk to center
 };
 
 window.executeMasterLaunch = function() {
     const btnContainer = document.getElementById('launchBtnContainer');
     const stage = document.getElementById('launch-stage');
+    const vipDock = document.getElementById('vip-dock');
     
+    // Fade out the UI elements
     btnContainer.style.opacity = '0';
     stage.style.opacity = '0';
+    vipDock.style.opacity = '0';
     
     setTimeout(() => {
+        // Hide the old UI completely
         btnContainer.style.display = 'none';
         stage.style.display = 'none';
+        vipDock.style.display = 'none';
         
+        // Show and fade in the Cinematic Video Container
         const videoContainer = document.getElementById('cinematic-video-container');
         const video = document.getElementById('launchVideo');
         
         videoContainer.classList.remove('hidden');
         videoContainer.style.display = 'flex';
         
+        // Trigger reflow to ensure the fade-in works
         void videoContainer.offsetWidth; 
         videoContainer.style.opacity = '1';
         
-        video.play().catch(e => console.error("Video autoplay blocked.", e));
+        // Play the movie
+        video.play().catch(e => console.error("Video autoplay blocked. Ensure user interacted with the page first.", e));
         
+        // When the movie finishes playing...
         video.onended = function() {
+            // Fade out the video
             videoContainer.style.opacity = '0';
             
             setTimeout(() => {
+                // Hide video and entire launch overlay
                 videoContainer.style.display = 'none';
                 document.getElementById('launchOverlay').style.display = 'none';
                 
+                // Mark as launched and show the dashboard
                 sessionStorage.setItem('chairman_launched', 'true');
                 const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
                 window.switchTab('tab-home', targetNavBtn);
-            }, 1000);
+            }, 1000); // Wait 1 second for the fade out
         };
         
-    }, 1000);
+    }, 1000); // Wait for the fade out of the UI
 };
 
 window.startAssessment = function() {
@@ -2470,3 +2484,4 @@ initRealisticAvatars();
 </script>
 </body>
 </html>
+```eof
