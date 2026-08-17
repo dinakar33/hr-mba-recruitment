@@ -61,11 +61,6 @@ body.ai-mode .bg-green-50 { background-color: rgba(34, 197, 94, 0.15) !important
 body.ai-mode .bg-indigo-50 { background-color: rgba(99, 102, 241, 0.15) !important; border-color: rgba(99, 102, 241, 0.3) !important; }
 body.ai-mode .bg-purple-50 { background-color: rgba(168, 85, 247, 0.15) !important; border-color: rgba(168, 85, 247, 0.3) !important; }
 body.ai-mode .bg-amber-50 { background-color: rgba(245, 158, 11, 0.15) !important; border-color: rgba(245, 158, 11, 0.3) !important; }
-body.ai-mode .text-red-700 { color: #fca5a5 !important; }
-body.ai-mode .text-green-700 { color: #86efac !important; }
-body.ai-mode .text-indigo-700 { color: #a5b4fc !important; }
-body.ai-mode .text-purple-700 { color: #d8b4fe !important; }
-body.ai-mode .text-amber-700 { color: #fcd34d !important; }
 
 .toggle-checkbox:checked { right: 0; border-color: #68D391; }
 .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
@@ -103,6 +98,19 @@ body.ai-mode .gd-avatar { background: #334155; }
 .space-backdrop { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
 .nebula { position: absolute; inset: 0; background: radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.4) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.4) 0%, transparent 40%); filter: blur(60px); animation: nebula-drift 20s infinite alternate ease-in-out; }
 @keyframes nebula-drift { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
+
+/* WALKING AVATAR ANIMATIONS */
+@keyframes walk-leg {
+    0% { transform: rotate(25deg); }
+    50% { transform: rotate(-25deg); }
+    100% { transform: rotate(25deg); }
+}
+.is-walking .leg {
+    animation: walk-leg 0.6s infinite ease-in-out;
+}
+.is-walking .leg-2 {
+    animation-delay: -0.3s;
+}
 </style>
 </head>
 
@@ -155,32 +163,65 @@ body.ai-mode .gd-avatar { background: #334155; }
     </div>
 
     <!-- VIP Authorized Dock -->
-    <div id="vip-dock" class="absolute bottom-6 w-full flex justify-center gap-2 md:gap-4 z-30">
-        <div id="dock-1" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner">1</div>
-        <div id="dock-2" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner">2</div>
-        <div id="dock-3" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner">3</div>
-        <div id="dock-4" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner">4</div>
-        <div id="dock-5" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner">5</div>
-        <div id="dock-6" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner">6</div>
-        <div id="dock-7" class="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-brand-700 bg-brand-900/80 flex items-center justify-center text-xs text-brand-400 font-black shadow-[0_0_15px_rgba(59,130,246,0.3)]">VIP</div>
+    <div id="vip-dock" class="absolute bottom-6 w-full flex justify-center gap-2 md:gap-4 z-30 transition-opacity duration-500">
+        <div id="dock-1" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner overflow-hidden">1</div>
+        <div id="dock-2" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner overflow-hidden">2</div>
+        <div id="dock-3" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner overflow-hidden">3</div>
+        <div id="dock-4" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner overflow-hidden">4</div>
+        <div id="dock-5" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner overflow-hidden">5</div>
+        <div id="dock-6" class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-700 bg-slate-800/80 flex items-center justify-center text-xs text-slate-500 font-bold shadow-inner overflow-hidden">6</div>
+        <div id="dock-7" class="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-brand-700 bg-brand-900/80 flex items-center justify-center text-xs text-brand-400 font-black shadow-[0_0_15px_rgba(59,130,246,0.3)] overflow-hidden">VIP</div>
     </div>
 
     <!-- Active Stage & Console -->
-    <div id="launch-stage" class="absolute bottom-24 w-full h-32 z-20 overflow-hidden pointer-events-none">
-        <!-- Central Authentication Console -->
-        <div class="absolute left-1/2 bottom-0 transform -translate-x-1/2 w-20 h-24 bg-slate-800 border-x-2 border-t-2 border-brand-500 rounded-t-xl flex flex-col items-center justify-start pt-4 z-10 shadow-[0_0_30px_rgba(59,130,246,0.2)]" id="master-console">
-            <div id="console-btn" class="w-12 h-12 rounded-full bg-slate-700 border-4 border-slate-600 transition-all duration-300 flex items-center justify-center">
-                <i class="fa-solid fa-fingerprint text-slate-500 text-xl transition-colors duration-300" id="console-icon"></i>
+    <div id="launch-stage" class="absolute bottom-24 w-full h-40 z-20 overflow-hidden pointer-events-none transition-opacity duration-500">
+        
+        <!-- Central Red Rocket Launch Button Terminal -->
+        <div class="absolute left-1/2 bottom-0 transform -translate-x-1/2 w-28 h-28 bg-slate-800 border-x-4 border-t-4 border-slate-600 rounded-t-2xl flex flex-col items-center justify-end pb-4 z-10 shadow-[0_0_40px_rgba(0,0,0,0.6)]" id="master-console">
+            <!-- The Button Base -->
+            <div class="w-20 h-20 rounded-full bg-slate-900 flex items-center justify-center shadow-inner relative">
+                <!-- The Pushable Red Button -->
+                <div id="console-btn" class="w-16 h-16 rounded-full bg-red-600 border-b-8 border-red-800 shadow-[0_0_25px_rgba(239,68,68,0.6)] transition-all duration-150 flex items-center justify-center absolute bottom-2 cursor-pointer z-20">
+                    <i class="fa-solid fa-power-off text-white text-2xl drop-shadow-md" id="console-icon"></i>
+                </div>
             </div>
+            <div class="text-[8px] text-slate-500 font-bold tracking-widest mt-2 uppercase">Launch Uplink</div>
         </div>
         
-        <!-- Animated Avatar (Dynamically controlled via JS) -->
-        <div id="moving-avatar" class="absolute bottom-4 left-[-100px] w-20 transition-all duration-1000 ease-in-out opacity-0 z-20 flex flex-col items-center">
-            <div class="w-16 h-16 rounded-full border-2 border-brand-400 p-0.5 shadow-[0_0_15px_rgba(59,130,246,0.6)] bg-slate-900 overflow-hidden">
-                <img id="moving-avatar-img" src="" class="w-full h-full object-cover rounded-full" alt="Avatar" onerror="this.src='https://ui-avatars.com/api/?name=Dr&background=1e3a8a&color=fff'">
+        <!-- Full-Body Walking Avatar Container -->
+        <div id="moving-avatar" class="absolute bottom-4 left-[-150px] w-20 transition-all duration-1000 ease-in-out opacity-0 z-20 flex flex-col items-center">
+            
+            <!-- Floating Name Tag -->
+            <span id="moving-avatar-name" class="mb-2 text-[10px] font-black text-white bg-slate-900 border border-slate-700 px-2 py-0.5 rounded shadow-lg whitespace-nowrap z-30 tracking-wider"></span>
+            
+            <!-- Character Skeleton -->
+            <div class="relative flex flex-col items-center">
+                <!-- Head (Uploaded Photo) -->
+                <div class="w-12 h-12 rounded-full border-2 border-brand-400 overflow-hidden bg-slate-900 z-20 shadow-lg relative" id="avatar-head-border">
+                    <img id="moving-avatar-img" src="" class="w-full h-full object-cover" alt="Head">
+                </div>
+                
+                <!-- Torso & Arm -->
+                <div class="w-14 h-14 bg-slate-800 rounded-t-2xl border-2 border-slate-600 relative z-10 -mt-3 flex justify-center shadow-lg" id="avatar-suit">
+                    <!-- Shirt Detail -->
+                    <div class="w-4 h-full bg-white flex justify-center">
+                        <div class="w-1.5 h-10 bg-red-600 mt-1" id="avatar-tie"></div>
+                    </div>
+                    
+                    <!-- The Animated Arm -->
+                    <div id="moving-arm" class="absolute top-3 right-0 w-12 h-4 bg-slate-800 border-2 border-slate-600 rounded-full origin-left transform rotate-90 transition-transform duration-300 z-30 opacity-0 flex justify-end items-center pr-1">
+                        <div class="w-2 h-2 rounded-full bg-yellow-600"></div> <!-- Hand -->
+                    </div>
+                </div>
+                
+                <!-- Walking Legs -->
+                <div class="flex gap-2 -mt-2 z-0">
+                    <div class="leg w-3.5 h-12 bg-slate-900 border-2 border-slate-700 rounded-full origin-top" id="leg-left"></div>
+                    <div class="leg leg-2 w-3.5 h-12 bg-slate-900 border-2 border-slate-700 rounded-full origin-top" id="leg-right"></div>
+                </div>
             </div>
-            <span id="moving-avatar-name" class="mt-2 text-[10px] font-black text-white bg-slate-900/90 border border-slate-700 px-2 py-0.5 rounded shadow-lg backdrop-blur-sm whitespace-nowrap tracking-wider"></span>
         </div>
+
     </div>
 </div>
 
@@ -1087,7 +1128,7 @@ import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
 // ==========================================
-// GROQ API INTEGRATION (GPT-OSS-20B)
+// GROQ API INTEGRATION
 // ==========================================
 const part1 = "gsk_";
 const part2 = "CEzKM02REgAivZZbdg2VWGdyb3FYO4MUxuIVnCB9goq0wb23geoa";
@@ -1151,10 +1192,7 @@ class AvatarSpeechService {
 
       utterance.onend = finish;
       utterance.onerror = finish; 
-      
-      // 8-Second Safety Override to prevent GD from hanging if browser TTS crashes
-      setTimeout(finish, 8000);
-      
+      setTimeout(finish, 8000); // 8-Second Safety Override
       window.speechSynthesis.speak(utterance);
     });
   }
@@ -1170,11 +1208,11 @@ window.userData = { name: "", email: "", archetype: "Not Evaluated", ats_score: 
 let unsubscribeStudent = null;
 window.bioMetrics = { eyeContact: [], stress: [] };
 
-// THE NEW SEQUENTIAL MASTER LAUNCH LOGIC
+// THE NEW FULL-BODY SEQUENTIAL WALKING LOGIC
 window.authCount = 0;
 window.isAnimatingAuth = false;
 
-// Uses the EXACT filenames from your GitHub screenshot
+// Uses the EXACT filenames from your GitHub
 const avatarsInfo = {
     1: { img: 'avatar-sunil.jpg', name: 'DR SUNIL' },
     2: { img: 'avatar-nirmala.jpg.png', name: 'DR NIRMALA' },
@@ -1186,7 +1224,7 @@ const avatarsInfo = {
 };
 
 window.authenticateLaunch = function(btn, index, name) {
-    // Prevent overlapping animations or double-clicking
+    // Prevent overlapping animations
     if (btn.disabled || window.isAnimatingAuth) return;
     window.isAnimatingAuth = true; 
     
@@ -1201,78 +1239,96 @@ window.authenticateLaunch = function(btn, index, name) {
     }
     btn.innerHTML = `<i class="fa-solid fa-check"></i> ${name}`;
     
-    // Get Stage Elements
+    // Get Elements
     const movingAvatar = document.getElementById('moving-avatar');
     const movingImg = document.getElementById('moving-avatar-img');
     const movingName = document.getElementById('moving-avatar-name');
     const consoleBtn = document.getElementById('console-btn');
-    const consoleIcon = document.getElementById('console-icon');
+    const arm = document.getElementById('moving-arm');
+    const suit = document.getElementById('avatar-suit');
+    const tie = document.getElementById('avatar-tie');
+    const headBorder = document.getElementById('avatar-head-border');
     
-    // 1. Setup the Avatar Image and Name
+    // Setup Avatar (Colors and Photo)
     movingImg.src = avatarsInfo[index].img;
     movingName.innerText = avatarsInfo[index].name;
     
     if(index === 7) {
-        movingImg.parentElement.classList.replace('border-brand-400', 'border-purple-500');
-        movingImg.parentElement.classList.replace('shadow-[0_0_15px_rgba(59,130,246,0.6)]', 'shadow-[0_0_25px_rgba(168,85,247,0.8)]');
+        headBorder.classList.replace('border-brand-400', 'border-purple-500');
+        suit.classList.replace('border-slate-600', 'border-purple-400');
+        tie.classList.replace('bg-red-600', 'bg-purple-500');
     }
 
-    // Reset position to off-screen left
+    // Reset Position & Start Walking
     movingAvatar.style.transition = 'none';
-    movingAvatar.style.left = '-100px';
-    movingAvatar.style.opacity = '0';
+    movingAvatar.style.left = '-150px';
+    movingAvatar.style.opacity = '1';
+    movingAvatar.classList.add('is-walking');
+    arm.style.opacity = '0';
+    arm.style.transform = 'rotate(90deg)';
     
-    // 2. Walk to the central console
-    setTimeout(() => {
-        movingAvatar.style.transition = 'all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)';
-        movingAvatar.style.left = 'calc(50% - 80px)'; // Stop exactly next to the console
-        movingAvatar.style.opacity = '1';
-    }, 50);
+    // Force reflow
+    void movingAvatar.offsetWidth;
 
-    // 3. Pause and Press the Button
+    // Phase 1: Walk to the Center Console
+    movingAvatar.style.transition = 'all 1.5s linear';
+    // Position slightly to the left of the button
+    movingAvatar.style.left = 'calc(50% - 85px)'; 
+    
     setTimeout(() => {
-        // Console lights up
-        const glowColor = index === 7 ? 'purple' : 'green';
-        consoleBtn.classList.replace('bg-slate-700', `bg-${glowColor}-500`);
-        consoleBtn.classList.replace('border-slate-600', `border-${glowColor}-300`);
-        consoleBtn.style.boxShadow = `0 0 20px ${index === 7 ? '#a855f7' : '#22c55e'}`;
-        consoleIcon.classList.replace('text-slate-500', 'text-white');
+        // Phase 2: Stop walking
+        movingAvatar.classList.remove('is-walking');
         
-        // 4. Walk off to the right
+        // Phase 3: Raise Arm and Reach for Button
+        arm.style.opacity = '1';
+        arm.style.transform = 'rotate(0deg)'; 
+        
         setTimeout(() => {
-            // Turn console back off
-            consoleBtn.classList.replace(`bg-${glowColor}-500`, 'bg-slate-700');
-            consoleBtn.classList.replace(`border-${glowColor}-300`, 'border-slate-600');
-            consoleBtn.style.boxShadow = 'none';
-            consoleIcon.classList.replace('text-white', 'text-slate-500');
-
-            // Move avatar off-screen right
-            movingAvatar.style.left = '100vw'; 
-            movingAvatar.style.opacity = '0';
+            // Phase 4: Press Button Down!
+            consoleBtn.style.transform = 'translateY(8px)';
+            consoleBtn.style.borderBottomWidth = '0px';
+            consoleBtn.style.boxShadow = '0 0 40px rgba(239,68,68,1)';
             
-            // 5. Fill the VIP Dock & unlock next interaction
             setTimeout(() => {
-                const dockSlot = document.getElementById(`dock-${index}`);
-                dockSlot.innerHTML = `<img src="${avatarsInfo[index].img}" class="w-full h-full rounded-full object-cover">`;
-                dockSlot.classList.remove('bg-slate-800/80');
-                if (index === 7) {
-                    dockSlot.classList.replace('bg-brand-900/80', 'bg-transparent');
-                } else {
-                    dockSlot.classList.add('border-green-500');
-                }
+                // Phase 5: Button Springs Back Up
+                consoleBtn.style.transform = 'translateY(0)';
+                consoleBtn.style.borderBottomWidth = '8px';
+                consoleBtn.style.boxShadow = '0 0 25px rgba(239,68,68,0.6)';
                 
-                // Update Global Counter
-                window.authCount++;
-                document.getElementById('auth-counter').innerText = window.authCount;
-                window.isAnimatingAuth = false; // Unlock UI for next click
+                // Drop Arm
+                arm.style.transform = 'rotate(90deg)';
+                arm.style.opacity = '0';
                 
-                // If it was the Chairman, trigger launch!
-                if(window.authCount === 7) {
-                    setTimeout(() => { window.executeMasterLaunch(); }, 600);
-                }
-            }, 1200); // Time it takes to walk off right
-        }, 800); // Duration the button is pressed
-    }, 1300); // Time it takes to walk to center
+                // Phase 6: Start Walking Away
+                movingAvatar.classList.add('is-walking');
+                movingAvatar.style.transition = 'all 1.5s linear';
+                movingAvatar.style.left = '100vw'; // walk off screen right
+                
+                setTimeout(() => {
+                    // Cleanup and Dock
+                    movingAvatar.style.opacity = '0';
+                    movingAvatar.classList.remove('is-walking');
+                    
+                    const dockSlot = document.getElementById(`dock-${index}`);
+                    dockSlot.innerHTML = `<img src="${avatarsInfo[index].img}" class="w-full h-full rounded-full object-cover">`;
+                    dockSlot.classList.remove('bg-slate-800/80');
+                    if (index === 7) {
+                        dockSlot.classList.replace('bg-brand-900/80', 'bg-transparent');
+                    } else {
+                        dockSlot.classList.add('border-green-500');
+                    }
+                    
+                    window.authCount++;
+                    document.getElementById('auth-counter').innerText = window.authCount;
+                    window.isAnimatingAuth = false;
+                    
+                    if(window.authCount === 7) {
+                        setTimeout(() => { window.executeMasterLaunch(); }, 600);
+                    }
+                }, 1500); // Time it takes to walk off screen
+            }, 300); // Keep button pressed for 300ms
+        }, 300); // Arm raising time
+    }, 1500); // Time it takes to walk to center
 };
 
 window.executeMasterLaunch = function() {
