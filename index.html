@@ -497,7 +497,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 <div id="passportLock" class="glass-card p-8 md:p-12 rounded-xl text-center border border-gray-200/50">
 <i class="fa-solid fa-hourglass-half text-5xl md:text-6xl text-brand-400 mb-4 md:mb-6 animate-pulse"></i>
 <h3 class="text-2xl md:text-3xl font-bold mb-2">Assessment In Progress</h3>
-<p class="text-sm md:text-base max-w-md mx-auto text-slate-500">Complete Stage 5 (AI Behavioral Interview). Upon completion, your Talent Passport decrypts automatically.</p>
+<p class="text-sm md:text-base max-w-md mx-auto text-slate-500">Complete Stage 5 (AI Behavioral Interview). Upon completion, your Talent Passport decrypts automatically and your report is emailed to you.</p>
 </div>
 <div id="passportContent" class="hidden mb-6 md:mb-8">
 <div class="bg-gradient-to-br from-slate-900 to-brand-900 rounded-2xl p-6 md:p-10 text-white relative overflow-hidden shadow-2xl border border-white/10">
@@ -1095,7 +1095,7 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: "mixtral-8x7b-32768", // Fast and highly stable model
+        model: "llama3-8b-8192", // The fully stable and universally active model
         messages: [
           { role: "system", content: systemInstruction },
           { role: "user", content: prompt }
@@ -1195,11 +1195,6 @@ signInAnonymously(auth).then((userCredential) => {
   } else {
       listenToStudentData();
   }
-  
-  // Config listener keeps site alive but ignores launch UI
-  onSnapshot(doc(db, 'artifacts', APP_ID, 'public', 'data', 'config', 'siteConfig'), (snap) => {
-      // Background sync connected
-  });
 }).catch(() => {
   window.showMessage(`Database connection established locally.`, "success");
 });
@@ -1599,7 +1594,15 @@ window.renderQuiz = function() {
   const container = document.getElementById('quizContainer');
   if(!container) return;
   container.innerHTML = '';
-  selectedQuizQuestions = masterAptitudeQuestions.sort(() => 0.5 - Math.random()).slice(0, 20);
+  
+  // THE FIX: Fisher-Yates Shuffle for true 100% randomization
+  let shuffled = [...masterAptitudeQuestions];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  
+  selectedQuizQuestions = shuffled.slice(0, 20);
   selectedQuizQuestions.forEach((item, index) => {
     let html = `<div class="p-4 md:p-5 rounded-lg border border-slate-300 bg-slate-50/10 shadow-sm mb-4 text-slate-800"><p class="font-bold text-xs md:text-sm mb-3">${index + 1}. ${item.q}</p><div class="space-y-2">`;
     item.options.forEach((opt, oIndex) => { html += `<label class="flex items-start text-xs md:text-sm cursor-pointer hover:bg-slate-200/20 p-2 rounded border border-transparent transition"><input type="radio" name="q${index}" value="${oIndex}" class="mt-0.5 mr-3 accent-brand-500 flex-shrink-0"> <span>${opt}</span></label>`; });
@@ -1957,8 +1960,11 @@ Calculate the sum and return ONLY a single integer score between 0 and 100. Exam
     
     try { await syncToCloud(); } catch (err) {}
     
-    writeTranscript('interview-transcript', 'System', 'Your Talent Passport is ready. Click "Resend Official Report" in Stage 6 if the email popup is blocked.');
     window.updatePassportUI();
+    
+    // NO TIMEOUT / NO AUTO POPUP. User must click the button manually.
+    // setTimeout(() => { window.emailDetailedReport(); }, 1200); 
+    
     window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral HR Interview');
   }
 };
