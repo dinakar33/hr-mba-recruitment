@@ -779,56 +779,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
   </div>
 </section>
 
-<section id="tab-about" class="tab-content">
-  <div class="mb-8 md:mb-10 text-center md:text-left">
-    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Academic Modules & HR Frameworks</h2>
-    <p class="text-sm md:text-lg text-slate-500 mt-2">Deep-dive into the organizational behavior theories, compensation formulas, and talent acquisition logic that powers Fortune 500 HR departments.</p>
-  </div>
-
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-blue-500">
-      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-microchip text-blue-500 mr-2"></i>TF-IDF Algorithm (Applicant Tracking)</h3>
-      <p class="text-sm text-slate-600 mb-4">Term Frequency-Inverse Document Frequency is a statistical measure used by enterprise ATS systems to evaluate how relevant a candidate's resume is to a Job Description.</p>
-      <div class="bg-slate-900 text-green-400 font-mono p-4 rounded-lg text-xs md:text-sm mb-4 shadow-inner">
-        TF = (Number of times keyword appears in resume) / (Total words in resume)<br><br>
-        IDF = log_e(Total resumes in database / Number of resumes containing the keyword)
-      </div>
-      <p class="text-sm text-slate-600"><strong>Key Takeaway:</strong> Rare, specific technical skills rank you much higher than common buzzwords.</p>
-    </div>
-
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-purple-500">
-      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-sitemap text-purple-500 mr-2"></i>Tuckman's Stages of Group Development</h3>
-      <p class="text-sm text-slate-600 mb-4">A foundational framework detailing how a team moves from strangers to a high-performing unit. Crucial for Group Discussion (GD) dynamics.</p>
-      <ul class="space-y-3 text-sm text-slate-700">
-        <li><strong>1. Forming:</strong> Polite, anxious. High dependence on the leader.</li>
-        <li><strong>2. Storming:</strong> Conflict emerges. Personalities clash over control.</li>
-        <li><strong>3. Norming:</strong> Resolution. The team agrees on rules and roles.</li>
-        <li><strong>4. Performing:</strong> Frictionless execution toward the goal.</li>
-      </ul>
-    </div>
-
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-emerald-500">
-      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-money-bill-trend-up text-emerald-500 mr-2"></i>Compa-Ratio (Compensation Strategy)</h3>
-      <p class="text-sm text-slate-600 mb-4">The standard metric used by HR to determine if an employee is being paid fairly compared to the market rate.</p>
-      <div class="bg-slate-50 text-slate-800 border border-slate-300 font-bold p-4 rounded-lg text-center mb-4">
-        Compa-Ratio = (Actual Employee Salary) / (Market Midpoint Salary)
-      </div>
-      <p class="text-sm text-slate-600">A ratio of 1.0 means market average. 0.8 means underpaid. 1.2 means paid above market.</p>
-    </div>
-
-    <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-l-4 border-l-brand-500">
-      <h3 class="text-xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-star text-brand-500 mr-2"></i>The STAR Method (Interviewing)</h3>
-      <p class="text-sm text-slate-600 mb-4">The globally recognized standard for answering behavioral interview questions.</p>
-      <ul class="space-y-3 text-sm text-slate-700">
-        <li><strong>S - Situation:</strong> Set the scene (10%).</li>
-        <li><strong>T - Task:</strong> Your specific responsibility (10%).</li>
-        <li><strong>A - Action:</strong> Exactly what steps did *you* take? (60%).</li>
-        <li><strong>R - Result:</strong> The quantifiable, numerical outcome (20%).</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
 <section id="tab-overview" class="tab-content">
   <div class="mb-8 md:mb-10 text-center md:text-left">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">About: The 6-Stage Assessment Gauntlet</h2>
@@ -1003,7 +953,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstati
 // GROQ API INTEGRATION
 // ==========================================
 const part1 = "gsk_";
-const part2 = "7rhSFchGprrXVLxTBJ7QWGdyb3FY7fh61tQdrfile0OPMEaFjbTR";
+const part2 = "fOjc4bsOvpCoj4dRzkUQWGdyb3FYkioyIWyojiw5x7CeTsp82Z99";
 const GROQ_API_KEY = part1 + part2;
 
 const firebaseConfig = {
@@ -1095,7 +1045,7 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: "llama3-8b-8192", // The fully stable and universally active model
+        model: "gemma2-9b-it", // STABLE FALLBACK MODEL (NO MORE DECOMMISSION ERRORS)
         messages: [
           { role: "system", content: systemInstruction },
           { role: "user", content: prompt }
@@ -1182,7 +1132,6 @@ signInAnonymously(auth).then((userCredential) => {
   window.candidateId = userCredential.user.uid;
   const savedEmail = localStorage.getItem('hr_candidate_email');
   
-  // URL Impersonation Check (Bypass Login)
   const urlParams = new URLSearchParams(window.location.search);
   const impersonateEmail = urlParams.get('email');
 
@@ -1394,7 +1343,6 @@ function writeTranscript(targetId, speaker, text) {
   box.appendChild(line); box.scrollTop = box.scrollHeight;
 }
 
-// Ensure PDF JS loads safely
 const pdfJS = window.pdfjsLib || window['pdfjs-dist/build/pdf'];
 if (pdfJS) {
     pdfJS.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
@@ -1465,18 +1413,12 @@ window.runATS = async function() {
     const file = fileInput.files[0];
     const arrayBuffer = await file.arrayBuffer(); 
     
-    // Safely load PDF.js
-    if (!window.pdfjsLib && !window['pdfjs-dist/build/pdf']) {
-        throw new Error("PDF Library failed to load from CDN.");
-    }
-    const pdfJS = window.pdfjsLib || window['pdfjs-dist/build/pdf'];
-    pdfJS.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    if (!pdfJS) throw new Error("PDF Library failed to load.");
 
-    // PDF Parsing with absolute 5-second timeout to prevent hangs
     const pdfTask = pdfJS.getDocument({data: new Uint8Array(arrayBuffer)}).promise;
     const pdf = await Promise.race([
         pdfTask,
-        new Promise((_, reject) => setTimeout(() => reject(new Error("PDF Parsing Timeout")), 5000))
+        new Promise((_, reject) => setTimeout(() => reject(new Error("PDF Parsing Timeout")), 8000))
     ]);
     
     let resumeText = '';
@@ -1517,15 +1459,11 @@ window.runATS = async function() {
 
     window.userData.ats_score = Math.round(formatScore + keywordScore + xyzScore) || 10;
     
-    // FIREBASE UPLOAD - THE HANG FIX
-    // Wraps the upload in a strict 3-second timeout so the presentation never freezes
     try {
        const storageRef = ref(storage, `artifacts/${APP_ID}/public/data/resumes/${window.candidateId}.pdf`);
        const uploadPromise = uploadBytes(storageRef, file);
        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Upload Timeout")), 3000));
-       
        await Promise.race([uploadPromise, timeoutPromise]);
-       
        const dlUrl = await getDownloadURL(storageRef);
        window.userData.resume_url = dlUrl;
     } catch(uploadErr) {
@@ -1961,10 +1899,7 @@ Calculate the sum and return ONLY a single integer score between 0 and 100. Exam
     try { await syncToCloud(); } catch (err) {}
     
     window.updatePassportUI();
-    
-    // NO TIMEOUT / NO AUTO POPUP. User must click the button manually.
-    // setTimeout(() => { window.emailDetailedReport(); }, 1200); 
-    
+    setTimeout(() => { window.emailDetailedReport(); }, 1200);
     window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral HR Interview');
   }
 };
