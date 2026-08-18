@@ -92,122 +92,10 @@ body.ai-mode .gd-avatar { background: #334155; }
 
 @keyframes slowPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
 .hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
-
-/* The Launch Authentication Overlay Background */
-#launchOverlay { position: fixed; inset: 0; background: #020617; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1s ease-in-out; }
-.space-backdrop { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
-.nebula { position: absolute; inset: 0; background: radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.4) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.4) 0%, transparent 40%); filter: blur(60px); animation: nebula-drift 20s infinite alternate ease-in-out; }
-@keyframes nebula-drift { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
 </style>
 </head>
 
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
-
-<!-- CINEMATIC VIDEO OVERLAY (Hidden initially) -->
-<div id="cinematic-video-container" class="fixed inset-0 z-[100000] bg-black hidden flex-col items-center justify-center opacity-0 transition-opacity duration-1000">
-    <video id="launchVideo" class="w-full h-full object-cover" preload="auto" playsinline>
-        <source src="launch-movie1.mp4" type="video/mp4">
-        Your browser does not support HTML5 video.
-    </video>
-</div>
-
-<!-- PRE-LAUNCH AUTHENTICATION OVERLAY -->
-<div id="launchOverlay" class="hidden">
-    <div class="space-backdrop" id="spaceBackdrop">
-        <div class="nebula"></div>
-    </div>
-    
-    <div id="launchBtnContainer" class="relative z-30 text-center flex flex-col items-center transition-opacity duration-1000 w-full px-4 pt-10">
-        
-        <!-- Premium Corporate SVG Logo -->
-        <div class="w-24 h-24 mb-6 md:w-32 md:h-32">
-            <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_0_30px_rgba(59,130,246,0.6)] animate-pulse" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="corpBlueLarge" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#60a5fa" />
-                        <stop offset="100%" stop-color="#1d4ed8" />
-                    </linearGradient>
-                </defs>
-                <circle cx="50" cy="50" r="45" fill="none" stroke="url(#corpBlueLarge)" stroke-width="2" stroke-dasharray="10, 5" opacity="0.5"/>
-                <polygon points="50,15 85,85 15,85" fill="none" stroke="url(#corpBlueLarge)" stroke-width="8" stroke-linejoin="round"/>
-                <circle cx="50" cy="40" r="12" fill="url(#corpBlueLarge)"/>
-                <path d="M 32 85 Q 50 55 68 85" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
-            </svg>
-        </div>
-
-        <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight mb-2 text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-purple-400">HUMAN ASSETIZE</h1>
-        <p class="text-slate-400 uppercase tracking-widest text-xs font-bold mb-8">Executive Launch Protocol: <span id="auth-counter" class="text-brand-400 font-black">0</span>/7 Authenticated</p>
-        
-        <!-- Authorization Buttons -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl mx-auto z-40">
-            <button id="auth-btn-1" onclick="window.authenticateLaunch(this, 1, 'Dr Sunil Kumar M S')" class="px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white font-bold text-sm hover:bg-slate-700 transition shadow-lg truncate">Authenticate: Dr Sunil</button>
-            <button id="auth-btn-2" onclick="window.authenticateLaunch(this, 2, 'Dr Nirmala J')" class="px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white font-bold text-sm hover:bg-slate-700 transition shadow-lg truncate">Authenticate: Dr Nirmala</button>
-            <button id="auth-btn-3" onclick="window.authenticateLaunch(this, 3, 'Dr Ravinarayana K.S.')" class="px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white font-bold text-sm hover:bg-slate-700 transition shadow-lg truncate">Authenticate: Dr Ravi</button>
-            <button id="auth-btn-4" onclick="window.authenticateLaunch(this, 4, 'Dr G Arun Kumar')" class="px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white font-bold text-sm hover:bg-slate-700 transition shadow-lg truncate">Authenticate: Dr Arun</button>
-            <button id="auth-btn-5" onclick="window.authenticateLaunch(this, 5, 'Dr K C Prashanth')" class="px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white font-bold text-sm hover:bg-slate-700 transition shadow-lg truncate">Authenticate: Dr Prashanth</button>
-            <button id="auth-btn-6" onclick="window.authenticateLaunch(this, 6, 'Dr Archana H N')" class="px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white font-bold text-sm hover:bg-slate-700 transition shadow-lg truncate">Authenticate: Dr Archana</button>
-            <button id="auth-btn-7" onclick="window.authenticateLaunch(this, 7, 'Chairman: Dr Dinesh Prasad')" class="col-span-2 md:col-span-2 px-4 py-3 bg-brand-700 border border-brand-500 rounded-lg text-white font-black uppercase tracking-widest text-sm hover:bg-brand-600 transition shadow-[0_0_15px_rgba(59,130,246,0.5)] truncate">Final Authorization: Chairman</button>
-        </div>
-
-        <!-- NEW SLEEK SECURITY GRID -->
-        <div class="flex flex-wrap justify-center items-center gap-4 md:gap-6 mt-16 w-full max-w-4xl z-30">
-            <!-- Node 1 -->
-            <div id="node-1" class="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-slate-600 bg-slate-800 flex items-center justify-center shadow-inner relative transition-all duration-500">
-                <i class="fa-solid fa-lock text-slate-500 text-xl" id="icon-1"></i>
-                <img id="img-1" src="" class="w-full h-full rounded-full object-cover hidden absolute inset-0 z-10" alt="Avatar">
-                <div id="ring-1" class="absolute -inset-2 border-4 border-green-500 rounded-full opacity-0 scale-150 transition-all duration-700 z-0"></div>
-                <div id="label-1" class="absolute -bottom-6 text-[9px] font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap opacity-50 transition-opacity">Node 1</div>
-            </div>
-            <!-- Node 2 -->
-            <div id="node-2" class="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-slate-600 bg-slate-800 flex items-center justify-center shadow-inner relative transition-all duration-500">
-                <i class="fa-solid fa-lock text-slate-500 text-xl" id="icon-2"></i>
-                <img id="img-2" src="" class="w-full h-full rounded-full object-cover hidden absolute inset-0 z-10" alt="Avatar">
-                <div id="ring-2" class="absolute -inset-2 border-4 border-green-500 rounded-full opacity-0 scale-150 transition-all duration-700 z-0"></div>
-                <div id="label-2" class="absolute -bottom-6 text-[9px] font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap opacity-50 transition-opacity">Node 2</div>
-            </div>
-            <!-- Node 3 -->
-            <div id="node-3" class="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-slate-600 bg-slate-800 flex items-center justify-center shadow-inner relative transition-all duration-500">
-                <i class="fa-solid fa-lock text-slate-500 text-xl" id="icon-3"></i>
-                <img id="img-3" src="" class="w-full h-full rounded-full object-cover hidden absolute inset-0 z-10" alt="Avatar">
-                <div id="ring-3" class="absolute -inset-2 border-4 border-green-500 rounded-full opacity-0 scale-150 transition-all duration-700 z-0"></div>
-                <div id="label-3" class="absolute -bottom-6 text-[9px] font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap opacity-50 transition-opacity">Node 3</div>
-            </div>
-            <!-- Node 4 -->
-            <div id="node-4" class="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-slate-600 bg-slate-800 flex items-center justify-center shadow-inner relative transition-all duration-500">
-                <i class="fa-solid fa-lock text-slate-500 text-xl" id="icon-4"></i>
-                <img id="img-4" src="" class="w-full h-full rounded-full object-cover hidden absolute inset-0 z-10" alt="Avatar">
-                <div id="ring-4" class="absolute -inset-2 border-4 border-green-500 rounded-full opacity-0 scale-150 transition-all duration-700 z-0"></div>
-                <div id="label-4" class="absolute -bottom-6 text-[9px] font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap opacity-50 transition-opacity">Node 4</div>
-            </div>
-            <!-- Node 5 -->
-            <div id="node-5" class="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-slate-600 bg-slate-800 flex items-center justify-center shadow-inner relative transition-all duration-500">
-                <i class="fa-solid fa-lock text-slate-500 text-xl" id="icon-5"></i>
-                <img id="img-5" src="" class="w-full h-full rounded-full object-cover hidden absolute inset-0 z-10" alt="Avatar">
-                <div id="ring-5" class="absolute -inset-2 border-4 border-green-500 rounded-full opacity-0 scale-150 transition-all duration-700 z-0"></div>
-                <div id="label-5" class="absolute -bottom-6 text-[9px] font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap opacity-50 transition-opacity">Node 5</div>
-            </div>
-            <!-- Node 6 -->
-            <div id="node-6" class="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-slate-600 bg-slate-800 flex items-center justify-center shadow-inner relative transition-all duration-500">
-                <i class="fa-solid fa-lock text-slate-500 text-xl" id="icon-6"></i>
-                <img id="img-6" src="" class="w-full h-full rounded-full object-cover hidden absolute inset-0 z-10" alt="Avatar">
-                <div id="ring-6" class="absolute -inset-2 border-4 border-green-500 rounded-full opacity-0 scale-150 transition-all duration-700 z-0"></div>
-                <div id="label-6" class="absolute -bottom-6 text-[9px] font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap opacity-50 transition-opacity">Node 6</div>
-            </div>
-            <!-- Master Node (7) -->
-            <div id="node-7" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-slate-600 bg-slate-800 flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.5)] relative transition-all duration-500 mx-2">
-                <i class="fa-solid fa-fingerprint text-slate-400 text-3xl" id="icon-7"></i>
-                <img id="img-7" src="" class="w-full h-full rounded-full object-cover hidden absolute inset-0 z-10" alt="Avatar">
-                <div id="ring-7" class="absolute -inset-3 border-4 border-purple-500 rounded-full opacity-0 scale-150 transition-all duration-700 z-0"></div>
-                <div id="label-7" class="absolute -bottom-8 text-[11px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap transition-opacity">Master Node</div>
-            </div>
-        </div>
-
-        <div id="sysOnlineText" class="hidden mt-12 text-2xl md:text-3xl font-black text-green-400 tracking-[0.2em] animate-pulse drop-shadow-[0_0_15px_rgba(34,197,94,0.8)]">
-            SEQUENCE INITIATED
-        </div>
-
-    </div>
-</div>
 
 <header class="bg-brand-900 text-white shadow-xl sticky top-0 z-40 border-b border-brand-800">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
@@ -534,7 +422,7 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 <div class="glass-card p-5 md:p-6 rounded-xl flex flex-col items-center justify-center text-center" id="gdWaitingArea">
 <i class="fa-solid fa-satellite-dish text-4xl md:text-5xl text-slate-400 mb-4 md:mb-6 hover:scale-110 transition-transform"></i>
 <h3 class="text-lg md:text-xl font-bold mb-2">Awaiting AI Evaluation</h3>
-<p class="text-xs md:text-sm max-w-sm">Engage in the 5-round simulation. The Groq Llama-3 agents will dynamically debate your points before auto-scoring.</p>
+<p class="text-xs md:text-sm max-w-sm">Engage in the 5-round simulation. The Groq AI agents will dynamically debate your points before auto-scoring.</p>
 </div>
 </div>
 </div>
@@ -609,7 +497,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 <div id="passportLock" class="glass-card p-8 md:p-12 rounded-xl text-center border border-gray-200/50">
 <i class="fa-solid fa-hourglass-half text-5xl md:text-6xl text-brand-400 mb-4 md:mb-6 animate-pulse"></i>
 <h3 class="text-2xl md:text-3xl font-bold mb-2">Assessment In Progress</h3>
-<p class="text-sm md:text-base max-w-md mx-auto text-slate-500">Complete Stage 5 (AI Behavioral Interview). Upon completion, your Talent Passport decrypts automatically and your report is emailed to you.</p>
+<p class="text-sm md:text-base max-w-md mx-auto text-slate-500">Complete Stage 5 (AI Behavioral Interview). Upon completion, your Talent Passport decrypts automatically.</p>
 </div>
 <div id="passportContent" class="hidden mb-6 md:mb-8">
 <div class="bg-gradient-to-br from-slate-900 to-brand-900 rounded-2xl p-6 md:p-10 text-white relative overflow-hidden shadow-2xl border border-white/10">
@@ -1115,7 +1003,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstati
 // GROQ API INTEGRATION
 // ==========================================
 const part1 = "gsk_";
-const part2 = "fOjc4bsOvpCoj4dRzkUQWGdyb3FYkioyIWyojiw5x7CeTsp82Z99";
+const part2 = "7rhSFchGprrXVLxTBJ7QWGdyb3FY7fh61tQdrfile0OPMEaFjbTR";
 const GROQ_API_KEY = part1 + part2;
 
 const firebaseConfig = {
@@ -1192,105 +1080,6 @@ window.userData = { name: "", email: "", archetype: "Not Evaluated", ats_score: 
 let unsubscribeStudent = null;
 window.bioMetrics = { eyeContact: [], stress: [] };
 
-// THE NEW SECURITY GRID LOGIC
-window.authCount = 0;
-
-// Uses the EXACT filenames from your GitHub
-const avatarsInfo = {
-    1: { img: 'avatar-sunil.jpg' },
-    2: { img: 'avatar-nirmala.jpg.png' },
-    3: { img: 'avatar-ravi.jpg.png' },
-    4: { img: 'avatar-arun.jpg.png' },
-    5: { img: 'avatar-prashanth.jpg.png' },
-    6: { img: 'avatar-archana.jpg.png' },
-    7: { img: 'avatar-dinesh.jpg.png' }
-};
-
-window.authenticateLaunch = function(btn, index, name) {
-    if (btn.disabled) return;
-    
-    // Disable and style button
-    btn.disabled = true;
-    btn.classList.replace('bg-slate-800', 'bg-green-600');
-    btn.classList.replace('border-slate-600', 'border-green-400');
-    if(index === 7) {
-        btn.classList.replace('bg-brand-700', 'bg-purple-600');
-        btn.classList.replace('border-brand-500', 'border-purple-400');
-    }
-    btn.innerHTML = `<i class="fa-solid fa-check"></i> ${name}`;
-    
-    // Node animation
-    const node = document.getElementById(`node-${index}`);
-    const icon = document.getElementById(`icon-${index}`);
-    const img = document.getElementById(`img-${index}`);
-    const ring = document.getElementById(`ring-${index}`);
-
-    // Update Visuals
-    icon.classList.add('hidden');
-    img.src = avatarsInfo[index].img;
-    img.classList.remove('hidden');
-    
-    node.classList.replace('border-slate-600', index === 7 ? 'border-purple-500' : 'border-green-500');
-    node.classList.replace('bg-slate-800', index === 7 ? 'bg-purple-900' : 'bg-green-900');
-    node.style.boxShadow = `0 0 20px ${index === 7 ? '#a855f7' : '#22c55e'}`;
-    
-    ring.style.opacity = '1';
-    ring.style.transform = 'scale(1)';
-
-    // Update Counter
-    window.authCount++;
-    document.getElementById('auth-counter').innerText = window.authCount;
-
-    // Trigger Launch Sequence
-    if (window.authCount === 7) {
-        document.getElementById('sysOnlineText').classList.remove('hidden');
-        setTimeout(() => { window.executeMasterLaunch(); }, 1500); 
-    }
-};
-
-window.executeMasterLaunch = function() {
-    const overlay = document.getElementById('launchOverlay');
-    
-    // Fade out everything to black
-    overlay.style.opacity = '0';
-    
-    setTimeout(() => {
-        // Hide the old UI completely
-        overlay.style.display = 'none';
-        
-        // Show and fade in the Cinematic Video Container
-        const videoContainer = document.getElementById('cinematic-video-container');
-        const video = document.getElementById('launchVideo');
-        
-        videoContainer.classList.remove('hidden');
-        videoContainer.style.display = 'flex';
-        
-        // Trigger reflow to ensure the fade-in works
-        void videoContainer.offsetWidth; 
-        videoContainer.style.opacity = '1';
-        
-        // Play the movie
-        video.play().catch(e => console.error("Video autoplay blocked. Ensure user interacted with the page first.", e));
-        
-        // When the movie finishes playing...
-        video.onended = function() {
-            // Fade out the video
-            videoContainer.style.opacity = '0';
-            
-            setTimeout(() => {
-                // Hide video
-                videoContainer.style.display = 'none';
-                
-                // Mark as launched and show the dashboard
-                sessionStorage.setItem('chairman_launched', 'true');
-                const targetNavBtn = document.querySelector(`button[onclick*="'tab-home'"]`);
-                window.switchTab('tab-home', targetNavBtn);
-            }, 1000); // Wait 1 second for the fade out
-        };
-        
-    }, 1000); // Wait for the fade out of the UI
-};
-
 window.startAssessment = function() {
   const targetNavBtn = document.querySelector(`button[onclick*="'tab-onboarding'"]`);
   window.switchTab('tab-onboarding', targetNavBtn);
@@ -1306,7 +1095,7 @@ async function callGroq(prompt, systemInstruction = "You are a professional corp
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: "openai/gpt-oss-20b", // The fully active, live production model
+        model: "mixtral-8x7b-32768", // Fast and highly stable model
         messages: [
           { role: "system", content: systemInstruction },
           { role: "user", content: prompt }
@@ -1407,23 +1196,9 @@ signInAnonymously(auth).then((userCredential) => {
       listenToStudentData();
   }
   
+  // Config listener keeps site alive but ignores launch UI
   onSnapshot(doc(db, 'artifacts', APP_ID, 'public', 'data', 'config', 'siteConfig'), (snap) => {
-      if (snap.exists()) {
-          const config = snap.data();
-          const overlay = document.getElementById('launchOverlay');
-          if (overlay) {
-              if (config.launchMode === true) {
-                  if (sessionStorage.getItem('chairman_launched') !== 'true') {
-                      overlay.classList.remove('hidden');
-                      overlay.style.display = 'flex';
-                  }
-              } else {
-                  overlay.classList.add('hidden');
-                  overlay.style.display = 'none';
-                  sessionStorage.removeItem('chairman_launched');
-              }
-          }
-      }
+      // Background sync connected
   });
 }).catch(() => {
   window.showMessage(`Database connection established locally.`, "success");
@@ -2182,8 +1957,8 @@ Calculate the sum and return ONLY a single integer score between 0 and 100. Exam
     
     try { await syncToCloud(); } catch (err) {}
     
+    writeTranscript('interview-transcript', 'System', 'Your Talent Passport is ready. Click "Resend Official Report" in Stage 6 if the email popup is blocked.');
     window.updatePassportUI();
-    setTimeout(() => { window.emailDetailedReport(); }, 1200);
     window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral HR Interview');
   }
 };
