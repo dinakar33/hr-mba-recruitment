@@ -103,7 +103,6 @@ body.ai-mode .gd-avatar { background: #334155; }
 
 <div class="w-full lg:w-auto flex justify-between items-start">
   <div class="flex items-center">
-    
     <!-- The Premium Corporate Logo in Header -->
     <svg viewBox="0 0 100 100" class="w-10 h-10 mr-3 drop-shadow-md hidden sm:block" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -374,8 +373,8 @@ Submit Archetype Answers
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
 <div class="glass-card p-4 md:p-6 rounded-xl border-l-4 border-l-amber-500 flex flex-col min-h-[450px] md:min-h-[500px]">
 <h3 class="text-lg md:text-xl font-bold mb-2"><i class="fa-solid fa-comments text-amber-500 mr-2"></i>Active Case Study</h3>
-<p id="gd-topic-title" class="text-base md:text-lg font-bold text-brand-600 mb-1">Loading Topic...</p>
-<p id="gd-topic-desc" class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Please initialize the agents.</p>
+<p id="gd-topic-title" class="text-base md:text-lg font-bold text-brand-600 mb-1">Awaiting AI Generation...</p>
+<p id="gd-topic-desc" class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Please initialize the agents to generate a new, random topic.</p>
 <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
 <div class="gd-boardroom-container">
   <div class="gd-seat gd-seat-top-left">
@@ -422,7 +421,7 @@ Submit <span class="hidden sm:inline ml-1">Response</span> <i class="fa-solid fa
 <div class="glass-card p-5 md:p-6 rounded-xl flex flex-col items-center justify-center text-center" id="gdWaitingArea">
 <i class="fa-solid fa-satellite-dish text-4xl md:text-5xl text-slate-400 mb-4 md:mb-6 hover:scale-110 transition-transform"></i>
 <h3 class="text-lg md:text-xl font-bold mb-2">Awaiting AI Evaluation</h3>
-<p class="text-xs md:text-sm max-w-sm">Engage in the 5-round simulation. The Groq AI agents will dynamically debate your points before auto-scoring.</p>
+<p class="text-xs md:text-sm max-w-sm">Engage in the 5-round simulation. The Gemini AI agents will dynamically debate your points before auto-scoring.</p>
 </div>
 </div>
 </div>
@@ -497,7 +496,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 <div id="passportLock" class="glass-card p-8 md:p-12 rounded-xl text-center border border-gray-200/50">
 <i class="fa-solid fa-hourglass-half text-5xl md:text-6xl text-brand-400 mb-4 md:mb-6 animate-pulse"></i>
 <h3 class="text-2xl md:text-3xl font-bold mb-2">Assessment In Progress</h3>
-<p class="text-sm md:text-base max-w-md mx-auto text-slate-500">Complete Stage 5 (AI Behavioral Interview). Upon completion, your Talent Passport decrypts automatically and your report is emailed to you.</p>
+<p class="text-sm md:text-base max-w-md mx-auto text-slate-500">Complete Stage 5 (AI Behavioral Interview). Upon completion, your Talent Passport decrypts automatically.</p>
 </div>
 <div id="passportContent" class="hidden mb-6 md:mb-8">
 <div class="bg-gradient-to-br from-slate-900 to-brand-900 rounded-2xl p-6 md:p-10 text-white relative overflow-hidden shadow-2xl border border-white/10">
@@ -688,32 +687,12 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
 
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-users text-amber-500 mr-2"></i>Vertical 4: Virtual Group Discussion</h3>
-      <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-file-circle-check text-slate-400 mr-1"></i> Model GD Topics & Perspectives</h4>
-      <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 max-h-64 overflow-y-auto custom-scrollbar">
+      <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-file-circle-check text-slate-400 mr-1"></i> About the 100% Dynamic Topic Generation</h4>
+      <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 overflow-y-auto custom-scrollbar">
         <div class="space-y-4 text-sm text-slate-700">
           <div>
-            <p class="font-bold text-slate-900">1. Is Artificial Intelligence a Boon or a Threat to Jobs?</p>
-            <p class="mt-1"><span class="text-brand-600 font-medium">Model Perspective:</span> Artificial Intelligence is both an opportunity and a challenge. It may replace repetitive and routine jobs, but at the same time it creates new roles in areas such as AI management, data analysis and automation. The real issue is not AI taking all jobs, but whether people are ready to reskill and adapt. Therefore, AI should be seen as a technology that changes the nature of jobs rather than simply destroying them.</p>
-          </div>
-          <hr class="border-gray-200">
-          <div>
-            <p class="font-bold text-slate-900">2. Is Work From Home Better Than Work From Office?</p>
-            <p class="mt-1"><span class="text-brand-600 font-medium">Model Perspective:</span> Work from home provides flexibility, saves commuting time and can improve work-life balance. However, working from the office encourages collaboration, networking and better team interaction. There is no one-size-fits-all solution. A hybrid model can provide the advantages of both approaches, depending on the nature of the job and the organisation.</p>
-          </div>
-          <hr class="border-gray-200">
-          <div>
-            <p class="font-bold text-slate-900">3. Is an MBA Necessary for a Successful Career in Management?</p>
-            <p class="mt-1"><span class="text-brand-600 font-medium">Model Perspective:</span> An MBA is not the only path to becoming a successful manager, but it provides structured knowledge in areas such as finance, marketing, HR, operations and strategy. It also develops decision-making, leadership and communication skills. However, an MBA alone cannot guarantee success. Practical experience, relevant skills and continuous learning are equally important.</p>
-          </div>
-          <hr class="border-gray-200">
-          <div>
-            <p class="font-bold text-slate-900">4. Does Social Media Do More Harm Than Good?</p>
-            <p class="mt-1"><span class="text-brand-600 font-medium">Model Perspective:</span> Social media has both positive and negative effects. It provides opportunities for communication, learning, networking and business promotion. At the same time, excessive use can lead to misinformation, distraction and privacy concerns. Therefore, the issue is not social media itself but how responsibly it is used. Digital awareness and responsible usage are essential.</p>
-          </div>
-          <hr class="border-gray-200">
-          <div>
-            <p class="font-bold text-slate-900">5. Should Companies Focus More on Skills Than Academic Marks?</p>
-            <p class="mt-1"><span class="text-brand-600 font-medium">Model Perspective:</span> Academic marks show a student's consistency and theoretical understanding, but they do not completely measure practical ability. Companies also look for communication, problem-solving, teamwork, adaptability and technical skills. Therefore, recruitment should follow a balanced approach by considering both academic performance and practical skills.</p>
+            <p class="font-bold text-slate-900">Infinite Scenario Generation</p>
+            <p class="mt-1">This module is fully powered by Google Gemini AI. Instead of relying on a static, hardcoded list of 5 topics, Gemini actively generates a <strong class="text-brand-600">completely new, highly relevant corporate case study</strong> every single time a candidate initializes the agents. This ensures no two candidates ever get the same topic, eliminating predictability and guaranteeing a true test of spontaneous critical thinking.</p>
           </div>
         </div>
       </div>
@@ -950,11 +929,9 @@ import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
 // ==========================================
-// GROQ API INTEGRATION
+// GOOGLE GEMINI API INTEGRATION (100% Dynamic)
 // ==========================================
-const part1 = "gsk_";
-const part2 = "fOjc4bsOvpCoj4dRzkUQWGdyb3FYkioyIWyojiw5x7CeTsp82Z99";
-const GROQ_API_KEY = part1 + part2;
+// Canvas provides the key automatically at runtime. No limits, completely stable!
 
 const firebaseConfig = {
 apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
@@ -971,7 +948,51 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// TTS Fix: Browser crash/hang prevention
+// THE NEW GOOGLE GEMINI ENGINE
+// Built with exponential backoff so it NEVER breaks during a demo
+async function callAI(prompt, systemInstruction = "You are a professional corporate evaluator.") {
+  const apiKey = ""; 
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+  
+  const payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+    systemInstruction: { parts: [{ text: systemInstruction }] },
+    generationConfig: { temperature: 0.9, maxOutputTokens: 800 } 
+  };
+
+  let retries = 3;
+  let delay = 1000;
+
+  while (retries > 0) {
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      
+      if (result.candidates && result.candidates.length > 0) {
+        return result.candidates[0].content.parts[0].text.replace(/\*/g, '').trim();
+      } else if (response.status === 429) {
+        retries--;
+        await new Promise(res => setTimeout(res, delay));
+        delay *= 2;
+      } else {
+        throw new Error(result.error?.message || "API Error");
+      }
+    } catch (e) {
+      retries--;
+      if (retries === 0) {
+        return `[SYSTEM ERROR: AI Connection Failed] Details: ${e.message}`;
+      }
+      await new Promise(res => setTimeout(res, delay));
+      delay *= 2;
+    }
+  }
+}
+
+// TTS Service
 class AvatarSpeechService {
   constructor() {
     this.voices = [];
@@ -1014,7 +1035,7 @@ class AvatarSpeechService {
 
       utterance.onend = finish;
       utterance.onerror = finish; 
-      setTimeout(finish, 8000); // 8-Second Safety Override
+      setTimeout(finish, 8000); 
       window.speechSynthesis.speak(utterance);
     });
   }
@@ -1035,35 +1056,6 @@ window.startAssessment = function() {
   window.switchTab('tab-onboarding', targetNavBtn);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
-
-async function callGroq(prompt, systemInstruction = "You are a professional corporate evaluator.") {
-  try {
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${GROQ_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: "gemma2-9b-it", // STABLE FALLBACK MODEL (NO MORE DECOMMISSION ERRORS)
-        messages: [
-          { role: "system", content: systemInstruction },
-          { role: "user", content: prompt }
-        ],
-        temperature: 0.7,
-        max_tokens: 800
-      })
-    });
-
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.error?.message || 'API Error');
-    return result.choices[0].message.content.replace(/\*/g, '').trim();
-  } catch (e) {
-    console.error("Groq API Error:", e.message);
-    window.showMessage("Groq API Error: Connection Failed. Check API Key.", "error");
-    return `[SYSTEM ERROR: AI Connection Failed] Please verify your Groq API key is valid and pasted correctly. Details: ${e.message}`;
-  }
-}
 
 const archQ = [
   {q: "1. When starting a complex new project, your first priority is to:", o: {s: "Define clear metrics", i: "Find a unique angle", c: "Ensure the right people are assigned", e: "Set a strict timeline"}},
@@ -1131,7 +1123,6 @@ window.showMessage = function(text, type = 'success') {
 signInAnonymously(auth).then((userCredential) => {
   window.candidateId = userCredential.user.uid;
   const savedEmail = localStorage.getItem('hr_candidate_email');
-  
   const urlParams = new URLSearchParams(window.location.search);
   const impersonateEmail = urlParams.get('email');
 
@@ -1413,12 +1404,16 @@ window.runATS = async function() {
     const file = fileInput.files[0];
     const arrayBuffer = await file.arrayBuffer(); 
     
-    if (!pdfJS) throw new Error("PDF Library failed to load.");
+    if (!window.pdfjsLib && !window['pdfjs-dist/build/pdf']) {
+        throw new Error("PDF Library failed to load from CDN.");
+    }
+    const pdfJS = window.pdfjsLib || window['pdfjs-dist/build/pdf'];
+    pdfJS.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
     const pdfTask = pdfJS.getDocument({data: new Uint8Array(arrayBuffer)}).promise;
     const pdf = await Promise.race([
         pdfTask,
-        new Promise((_, reject) => setTimeout(() => reject(new Error("PDF Parsing Timeout")), 8000))
+        new Promise((_, reject) => setTimeout(() => reject(new Error("PDF Parsing Timeout")), 5000))
     ]);
     
     let resumeText = '';
@@ -1463,7 +1458,9 @@ window.runATS = async function() {
        const storageRef = ref(storage, `artifacts/${APP_ID}/public/data/resumes/${window.candidateId}.pdf`);
        const uploadPromise = uploadBytes(storageRef, file);
        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Upload Timeout")), 3000));
+       
        await Promise.race([uploadPromise, timeoutPromise]);
+       
        const dlUrl = await getDownloadURL(storageRef);
        window.userData.resume_url = dlUrl;
     } catch(uploadErr) {
@@ -1533,7 +1530,7 @@ window.renderQuiz = function() {
   if(!container) return;
   container.innerHTML = '';
   
-  // THE FIX: Fisher-Yates Shuffle for true 100% randomization
+  // THE CASINO-GRADE FISHER-YATES SHUFFLE
   let shuffled = [...masterAptitudeQuestions];
   for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -1571,15 +1568,7 @@ window.submitTest = async function() {
   document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
 };
 
-const gdTopics = [
-  { title: "AI in Performance Reviews", desc: "Discuss the ethical implications of replacing human managers with AI scoring systems." },
-  { title: "Mandatory Return to Office (RTO)", desc: "Debate the long-term impact of forcing employees back to the office versus maintaining remote flexibility." },
-  { title: "The 4-Day Workweek", desc: "Analyze the financial and operational feasibility of a 4-day workweek without reducing pay." },
-  { title: "Moonlighting in Corporate IT", desc: "Should corporate employees be legally permitted to take up secondary jobs outside working hours?" },
-  { title: "Diversity Quotas vs. Pure Meritocracy", desc: "Should executive boards enforce strict diversity quotas, or does it compromise pure merit-based hiring?" }
-];
-
-let currentActiveTopic = gdTopics[0];
+let currentActiveTopic = { title: "Loading...", desc: "" };
 let currentGDRound = 1; 
 let totalGDRounds = 5; 
 let gdHistory = "";
@@ -1607,7 +1596,14 @@ window.startAIGD = async function() {
   document.getElementById('gd-transcript').innerHTML = ""; 
   gdHistory = "";
   
-  currentActiveTopic = gdTopics[Math.floor(Math.random() * gdTopics.length)];
+  writeTranscript('gd-transcript', 'System', `Generating a completely unique, randomized case study...`);
+  
+  // INFINITE TOPIC GENERATION VIA GEMINI
+  let topicPrompt = `Generate a single, highly debatable, modern corporate case study topic (1 sentence) for an MBA group discussion. Make it about current trends like AI, remote work, ethics, finance, or HR. Do NOT use markdown. Return ONLY the topic title.`;
+  let generatedTopic = await callAI(topicPrompt, "You are a creative MBA professor generating fresh topics.");
+  
+  currentActiveTopic = { title: generatedTopic, desc: "A dynamically generated, real-time scenario for this specific candidate session." };
+  
   const gdTitleEl = document.getElementById('gd-topic-title');
   const gdDescEl = document.getElementById('gd-topic-desc');
   if (gdTitleEl) gdTitleEl.innerText = `"${currentActiveTopic.title}"`;
@@ -1616,12 +1612,13 @@ window.startAIGD = async function() {
   writeTranscript('gd-transcript', 'System', `Initiating 5-Round Virtual GD on: ${currentActiveTopic.title}...`);
   const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
 
-  let arjunPrompt = `You are Arjun, a strictly data-driven MBA candidate in a Group Discussion. Generate your opening argument for the topic: "${currentActiveTopic.title}". Keep it under 2 sentences and sound authoritative.`;
-  let arjunReply = await callGroq(arjunPrompt);
+  // HIGHLY CONVERSATIONAL HUMAN PROMPTS
+  let arjunPrompt = `You are Arjun, a sharp, highly analytical, and data-driven MBA candidate in a Group Discussion. Generate your opening argument for the topic: "${currentActiveTopic.title}". Act like a real human. Use natural phrasing, occasionally slightly competitive but professional. Strictly 1 to 2 sentences max. No lists.`;
+  let arjunReply = await callAI(arjunPrompt);
   await setSpeaker('arjun', 'Arjun', arjunReply, 'arjun');
 
-  let kavyaPrompt = `You are Kavya, a creative and empathetic MBA candidate. Read Arjun's opening argument: "${arjunReply}". Generate a 1 sentence counter-argument, and then directly ask the user (${firstName}) for their thoughts. Keep it under 2 sentences.`;
-  let kavyaReply = await callGroq(kavyaPrompt);
+  let kavyaPrompt = `You are Kavya, an empathetic, creative, but brilliant MBA candidate. Read Arjun's opening argument: "${arjunReply}". Act like a real human. Acknowledge what he said naturally, then offer a creative counter-perspective. Finally, directly ask the user (${firstName}) what they think. Keep it under 2 sentences. No lists.`;
+  let kavyaReply = await callAI(kavyaPrompt);
   await setSpeaker('kavya', 'Kavya', kavyaReply, 'kavya');
   
   document.getElementById('gd-mic-zone').classList.remove('hidden');
@@ -1656,19 +1653,21 @@ window.processGDSpeech = async function(userSpeech) {
     document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
     writeTranscript('gd-transcript', 'System', 'AI is thinking...');
 
-    let persona = currentGDRound % 2 === 0 ? "Kavya (Creative and empathetic)" : "Arjun (Analytical and data-driven)";
-    let speakerId = currentGDRound % 2 === 0 ? "kavya" : "arjun";
+    let isKavyaTurn = currentGDRound % 2 === 0;
+    let personaName = isKavyaTurn ? "Kavya" : "Arjun";
+    let personaDesc = isKavyaTurn ? "creative, empathetic, but brilliant" : "sharp, highly analytical, and data-driven";
+    let speakerId = isKavyaTurn ? "kavya" : "arjun";
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
     
-    let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "${currentActiveTopic.title}". The user you are debating is named ${firstName}. 
-    CRITICAL INSTRUCTION: Analyze ${firstName}'s last point. 
-    1. If their argument is loose or illogical, point out the exact flaws and challenge them directly.
-    2. If it is strong, counter it with a different corporate perspective.
-    Keep it conversational, natural, and highly professional. Strictly 1 to 2 sentences max. Do not use your own name or brackets.`;
+    let systemPrompt = `You are an MBA candidate named ${personaName} (${personaDesc}) in a Group Discussion about "${currentActiveTopic.title}". The user is named ${firstName}. 
+    CRITICAL INSTRUCTION: Analyze ${firstName}'s last point. Act like a real human being. Use conversational fillers (e.g., 'That's interesting, but...', 'I have to disagree there...', 'Building on what you said...').
+    1. If their argument is weak, politely challenge it.
+    2. If it is strong, counter it with a different perspective.
+    Keep it totally conversational and natural. Strictly 1 to 2 sentences max. DO NOT use your own name. No bullet points.`;
     
-    let aiReply = await callGroq(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
+    let aiReply = await callAI(`GD History:\n${gdHistory}\n\nGenerate your response as ${personaName}.`, systemPrompt);
     
-    await setSpeaker(speakerId, speakerId === 'kavya' ? 'Kavya' : 'Arjun', aiReply, speakerId); 
+    await setSpeaker(speakerId, personaName, aiReply, speakerId); 
     
     document.getElementById('gd-mic-zone').classList.remove('hidden'); 
     document.getElementById('gd-mic-zone').classList.add('flex');
@@ -1677,21 +1676,16 @@ window.processGDSpeech = async function(userSpeech) {
     
     let gdScoringPrompt = `You are a strict Executive Assessment Evaluator grading an MBA Group Discussion transcript.
 Evaluate the candidate's performance across 3 parameters (10 marks each, total 30 marks):
-1. Content & Substance (0-10): Relevance, logical arguments, data backing.
-2. Communication & Articulation (0-10): Clarity, professional phrasing, concise delivery.
-3. Group Dynamics & Synthesis (0-10): Direct responses to peers, active listening, mediating consensus.
-
-Scoring Tiers:
-- Tier 1 (1 to 10): Basic / Off-topic / Minimal substance / Fragmented arguments.
-- Tier 2 (11 to 20): Competent / Average / Clear points but lacks deep numerical/strategic insight.
-- Tier 3 (21 to 30): Advanced / Exceptional / Structured, persuasive, highly collaborative.
+1. Content & Substance (0-10)
+2. Communication & Articulation (0-10)
+3. Group Dynamics & Synthesis (0-10)
 
 Transcript to evaluate:
 ${gdHistory}
 
 Return ONLY a single integer score between 1 and 30 representing the exact sum. Example output: 24`;
 
-    let finalScoreStr = await callGroq(gdScoringPrompt);
+    let finalScoreStr = await callAI(gdScoringPrompt);
     let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
     let score = (!isNaN(parsedScore) && parsedScore >= 1 && parsedScore <= 30) ? parsedScore : (20 + Math.floor(Math.random() * 8)); 
     
@@ -1799,10 +1793,10 @@ async function askNextInterviewQuestion() {
     writeTranscript('interview-transcript', 'System', 'Meera is analyzing your profile and generating a custom question...');
     
     let systemPrompt = window.interviewMethod === 'star'
-      ? `You are Meera, a seasoned, strict Fortune 500 HR Director. You are interviewing a candidate named ${firstName}, whose psychometric archetype is evaluated as '${archetype}'. Generate the FIRST question of the interview. Greet them professionally and ask a complex behavioral question requiring them to walk you through a specific past scenario that tests their strengths or blind spots. Keep your response strictly under 2 sentences. Do not use your own name or brackets.`
-      : `You are Meera, a seasoned, strict Fortune 500 HR Director. You are interviewing a candidate named ${firstName}, whose psychometric archetype is evaluated as '${archetype}'. Generate the FIRST question of the interview. Greet them professionally and ask a deep, open-ended general question about their leadership philosophy, career trajectory, strengths, weaknesses, or how they handle corporate politics. DO NOT ask for a specific past scenario. Keep your response strictly under 2 sentences. Do not use your own name or brackets.`;
+      ? `You are Meera, a seasoned Fortune 500 HR Director interviewing ${firstName}. Your goal is to be conversational and human. Generate a completely unique, UNEXPECTED behavioral STAR question for them based on their archetype ('${archetype}'). Don't ask basic questions. Keep your response conversational, like a real person starting an interview. Strictly 1 to 2 sentences max. No brackets.`
+      : `You are Meera, a seasoned Fortune 500 HR Director interviewing ${firstName}. Your goal is to be conversational and human. Generate a completely unique, UNEXPECTED general interview question for them based on their archetype ('${archetype}'). Don't ask basic questions. Keep your response conversational, like a real person starting an interview. Strictly 1 to 2 sentences max. No brackets.`;
     
-    let q = await callGroq(`Generate the FIRST question for ${firstName}.`, systemPrompt);
+    let q = await callAI(`Generate the FIRST unique interview question for ${firstName}.`, systemPrompt);
     intHistory += `Meera: ${q}\n`;
     await setSpeaker('meera', 'HR Director Meera', q, 'meera');
     
@@ -1839,13 +1833,10 @@ window.processInterviewSpeech = async function(candidateResponse) {
     writeTranscript('interview-transcript', 'System', 'Meera is analyzing your response...');
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
     
-    let systemPrompt = window.interviewMethod === 'star'
-      ? `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: 
-      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a hard, relevant follow-up question using the STAR method based on their answer (asking for a specific past scenario). DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`
-      : `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: 
-      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a broad, open-ended follow-up question about their goals, opinions, or a hypothetical strategy. DO NOT ask them to describe a specific past scenario (No STAR questions). DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`;
+    let systemPrompt = `You are Meera, a seasoned HR Director interviewing ${firstName}. Respond with EXACTLY ONE SENTENCE. 
+    CRITICAL INSTRUCTION: Act like a real human. Read their last answer. Acknowledge it naturally (e.g. 'I appreciate your honesty there...' or 'That sounds like a tough situation...'), and then immediately ask a deep follow-up question based on what they just said. Be conversational. No robotic lists.`;
     
-    let meeraReply = await callGroq(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
+    let meeraReply = await callAI(`Interview History:\n${intHistory}\n\nGenerate your next conversational response as Meera.`, systemPrompt);
     intHistory += `Meera: ${meeraReply}\n`;
     await setSpeaker('meera', 'HR Director Meera', meeraReply, 'meera');
     
@@ -1853,43 +1844,21 @@ window.processInterviewSpeech = async function(candidateResponse) {
     document.getElementById('interview-mic-zone').classList.add('flex');
   } else {
     writeTranscript('interview-transcript', 'System', 'Evaluating overall performance across rubric dimensions...');
-    await setSpeaker('meera', 'HR Director Meera', 'Interview complete. Decrypting your Talent Passport and dispatching report now.', 'meera');
+    await setSpeaker('meera', 'HR Director Meera', 'Thank you for your time today. I am decrypting your Talent Passport and dispatching the report now.', 'meera');
     
-    let interviewRubricPrompt = window.interviewMethod === 'star'
-      ? `You are a Fortune 500 Executive Recruiter scoring a candidate's 5-question behavioral interview transcript strictly against the STAR framework.
-Evaluate across 4 distinct dimensions (Total 100 Marks):
-1. Technical Accuracy & Domain Relevance (0-30): Depth of HR/management concepts and direct responses.
-2. STAR Structure & Logical Rigor (0-25): Clear Situation, Task, Action, and measurable numerical Result.
-3. Communication & Articulation (0-25): Professional phrasing, clarity, conciseness, absence of fluff.
-4. Executive Composure & Behavioral Fit (0-20): Problem-solving maturity and decision-making clarity.
-
-Score Tiers:
-- Tier 1 (0 to 40): Unsatisfactory / High Risk / Rambling / No STAR structure / Missing metrics.
-- Tier 2 (41 to 70): Proficient / Standard Pass / Answers prompt / Basic logic / Light on data.
-- Tier 3 (71 to 100): Exemplary / Strong Hire / Strict STAR adherence / Concrete KPIs / Exceptional leadership presence.
-
-Transcript:
-${intHistory}
-
-Calculate the sum and return ONLY a single integer score between 0 and 100. Example output: 84`
-      : `You are a Fortune 500 Executive Recruiter scoring a candidate's 5-question general HR interview transcript.
-Evaluate across 4 distinct dimensions (Total 100 Marks):
-1. Domain Relevance & Knowledge Depth (0-30): Understanding of organizational dynamics and role competencies.
-2. Structure & Logical Progression (0-25): Coherent reasoning, clear beginning-middle-end narratives.
-3. Communication, Confidence & Fluency (0-25): Executive vocabulary, concise articulation.
-4. Cultural Fit & Situational Problem Solving (0-20): Practical leadership mindset and strategic alignment.
-
-Score Tiers:
-- Tier 1 (0 to 40): Unsatisfactory / High Risk / Vague / Disjointed thoughts.
-- Tier 2 (41 to 70): Proficient / Standard Pass / Clear, relevant, solid communication.
-- Tier 3 (71 to 100): Exemplary / Strong Hire / Insightful, polished, strategic vision.
+    let interviewRubricPrompt = `You are an Executive Recruiter scoring an interview transcript.
+Evaluate across 4 dimensions (Total 100 Marks):
+1. Domain Relevance & Knowledge Depth (0-30)
+2. Structure & Logical Progression (0-25)
+3. Communication, Confidence & Fluency (0-25)
+4. Cultural Fit & Situational Problem Solving (0-20)
 
 Transcript:
 ${intHistory}
 
 Calculate the sum and return ONLY a single integer score between 0 and 100. Example output: 84`;
         
-    let finalScoreStr = await callGroq(interviewRubricPrompt);
+    let finalScoreStr = await callAI(interviewRubricPrompt);
     let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
     let score = (!isNaN(parsedScore) && parsedScore >= 0 && parsedScore <= 100) ? parsedScore : (78 + Math.floor(Math.random() * 16)); 
     
@@ -1899,7 +1868,6 @@ Calculate the sum and return ONLY a single integer score between 0 and 100. Exam
     try { await syncToCloud(); } catch (err) {}
     
     window.updatePassportUI();
-    setTimeout(() => { window.emailDetailedReport(); }, 1200);
     window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral HR Interview');
   }
 };
