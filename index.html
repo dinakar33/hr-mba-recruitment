@@ -1032,7 +1032,8 @@ async function callAI(prompt, systemInstruction = "You are a professional corpor
   const part2 = "3v1AOvtqHwNd_8P31FnRLa0g3mdJrhg";
   const apiKey = part1 + part2;
   
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent?key=${apiKey}`;
+  // FIX: Updated endpoint to the valid Google Gemini model
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
   
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
@@ -1632,7 +1633,21 @@ async function setSpeaker(id, name, text, avatarId) {
 }
 
 window.startAIGD = async function() {
-  document.getElementById('aiVoiceBtn4').disabled = true; 
+  // Auto-enable AI mode if the user forgot to toggle it
+  if (!window.isAIMode) {
+    window.isAIMode = true; 
+    const toggle = document.getElementById('aiToggle'); 
+    if (toggle) toggle.checked = true;
+    document.body.classList.add('ai-mode'); 
+    document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
+    document.getElementById('gd-arena').classList.remove('opacity-50', 'pointer-events-none');
+    initWebcamStream();
+  }
+
+  const btn = document.getElementById('aiVoiceBtn4');
+  btn.disabled = true; 
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Connecting to Gemini...';
+
   currentGDRound = 1; 
   document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`; 
   document.getElementById('gd-transcript').innerHTML = ""; 
@@ -1641,35 +1656,43 @@ window.startAIGD = async function() {
   const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
   const spec = document.getElementById('candSpec').value || "MBA - Human Resources";
   
-  writeTranscript('gd-transcript', 'System', `Generating completely unique Virtual GD topic using Gemini 3.7 Flash...`);
+  writeTranscript('gd-transcript', 'System', `Generating completely unique Virtual GD topic using Gemini AI...`);
   
-  let topicPrompt = `You are a Fortune 500 HR Director. Invent a completely new, modern, controversial corporate case study topic for a Group Discussion. It should relate to the modern workplace, AI, remote work, or ${spec}. Return ONLY the title and description in this exact format: TITLE: [Title] DESC: [Description]. Keep it short.`;
-  let rawTopic = await callAI(topicPrompt);
-  
-  let titleMatch = rawTopic.match(/TITLE:\s*(.*?)\s*DESC:/i);
-  let descMatch = rawTopic.match(/DESC:\s*(.*)/i);
-  
-  if (titleMatch && descMatch) {
-      currentActiveTopic = { title: titleMatch[1].trim(), desc: descMatch[1].trim() };
-  } else {
-      currentActiveTopic = { title: "AI in Performance Reviews", desc: "Discuss the ethical implications of replacing human managers with AI scoring systems." };
+  try {
+      let topicPrompt = `You are a Fortune 500 HR Director. Invent a completely new, modern, controversial corporate case study topic for a Group Discussion. It should relate to the modern workplace, AI, remote work, or ${spec}. Return ONLY the title and description in this exact format: TITLE: [Title] DESC: [Description]. Keep it short.`;
+      let rawTopic = await callAI(topicPrompt);
+      
+      let titleMatch = rawTopic.match(/TITLE:\s*(.*?)\s*DESC:/i);
+      let descMatch = rawTopic.match(/DESC:\s*(.*)/i);
+      
+      if (titleMatch && descMatch) {
+          currentActiveTopic = { title: titleMatch[1].trim(), desc: descMatch[1].trim() };
+      } else {
+          currentActiveTopic = { title: "AI in Performance Reviews", desc: "Discuss the ethical implications of replacing human managers with AI scoring systems." };
+      }
+
+      const gdTitleEl = document.getElementById('gd-topic-title');
+      const gdDescEl = document.getElementById('gd-topic-desc');
+      if (gdTitleEl) gdTitleEl.innerText = `"${currentActiveTopic.title}"`;
+      if (gdDescEl) gdDescEl.innerText = currentActiveTopic.desc;
+      
+      let arjunPrompt = `You are Arjun, an extremely data-driven MBA candidate in a Group Discussion. Generate your opening argument for the topic: "${currentActiveTopic.title}". Keep it under 2 sentences and sound authoritative.`;
+      let arjunReply = await callAI(arjunPrompt);
+      await setSpeaker('arjun', 'Arjun', arjunReply, 'arjun');
+
+      let kavyaPrompt = `You are Kavya, a creative and empathetic MBA candidate. Read Arjun's argument: "${arjunReply}". Generate a 1 sentence counter-argument, and then directly ask the user (${firstName}) for their thoughts. Keep it under 2 sentences. Sound human and use conversational fillers.`;
+      let kavyaReply = await callAI(kavyaPrompt);
+      await setSpeaker('kavya', 'Kavya', kavyaReply, 'kavya');
+      
+      document.getElementById('gd-mic-zone').classList.remove('hidden');
+      document.getElementById('gd-mic-zone').classList.add('flex');
+  } catch (err) {
+      writeTranscript('gd-transcript', 'System', `[ERROR] Connection failed. Please try clicking Initialize again.`);
+  } finally {
+      // Always re-enable the button so it never gets stuck!
+      btn.innerHTML = '<i class="fa-solid fa-users-viewfinder mr-2"></i>Initialize Virtual Agents';
+      btn.disabled = false;
   }
-
-  const gdTitleEl = document.getElementById('gd-topic-title');
-  const gdDescEl = document.getElementById('gd-topic-desc');
-  if (gdTitleEl) gdTitleEl.innerText = `"${currentActiveTopic.title}"`;
-  if (gdDescEl) gdDescEl.innerText = currentActiveTopic.desc;
-  
-  let arjunPrompt = `You are Arjun, an extremely data-driven MBA candidate in a Group Discussion. Generate your opening argument for the topic: "${currentActiveTopic.title}". Keep it under 2 sentences and sound authoritative.`;
-  let arjunReply = await callAI(arjunPrompt);
-  await setSpeaker('arjun', 'Arjun', arjunReply, 'arjun');
-
-  let kavyaPrompt = `You are Kavya, a creative and empathetic MBA candidate. Read Arjun's argument: "${arjunReply}". Generate a 1 sentence counter-argument, and then directly ask the user (${firstName}) for their thoughts. Keep it under 2 sentences. Sound human and use conversational fillers.`;
-  let kavyaReply = await callAI(kavyaPrompt);
-  await setSpeaker('kavya', 'Kavya', kavyaReply, 'kavya');
-  
-  document.getElementById('gd-mic-zone').classList.remove('hidden');
-  document.getElementById('gd-mic-zone').classList.add('flex');
 };
 
 window.toggleGDRecording = function(e) {
