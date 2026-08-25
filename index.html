@@ -1033,7 +1033,7 @@ async function callAI(prompt, systemInstruction = "You are a professional corpor
   const apiKey = part1 + part2;
   
   // FIX: Updated endpoint to the valid Google Gemini model
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent?key=${apiKey}`;
   
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
