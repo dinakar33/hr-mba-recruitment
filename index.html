@@ -951,8 +951,9 @@ const storage = getStorage(app);
 // THE NEW GOOGLE GEMINI ENGINE
 // Built with exponential backoff so it NEVER breaks during a demo
 async function callAI(prompt, systemInstruction = "You are a professional corporate evaluator.") {
-  const apiKey = ""; 
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+  // PASTE YOUR GOOGLE GEMINI API KEY INSIDE THE QUOTES BELOW:
+  const apiKey = "AQ.Ab8RN6IoWAf8Rlng1JG1dHwXqUtouheCySs60LH8wrZ2xRnaJw"; 
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
   
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
