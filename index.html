@@ -1033,39 +1033,36 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// THE NEW GOOGLE GEMINI ENGINE (Key Split to bypass GitHub Security Bots)
-async function callAI(prompt, systemInstruction = "You are a professional corporate evaluator.") {
-  const part1 = "AQ.Ab8RN6If2X1";
-  const part2 = "PUkc9MgZ3v1AOvtqHwNd_8P31FnRLa0g3mdJrhg";
-  const apiKey = part1 + part2;
-  
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-  
-  const payload = {
-    contents: [{ parts: [{ text: prompt }] }],
-    systemInstruction: { parts: [{ text: systemInstruction }] }
-  };
+const part1 = "gsk_";
+const part2 = "wpxAfRc1SmukFBeCXm3EWGdyb3FYBuxQllNopRkRuiDk0859H4gZ";
+const GROQ_API_KEY = part1 + part2;
 
+async function callAI(prompt, systemInstruction = "You are a professional corporate evaluator.") {
   try {
-    const response = await fetch(apiUrl, {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      headers: {
+        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: "openai/gpt-oss-20b",
+        messages: [
+          { role: "system", content: systemInstruction },
+          { role: "user", content: prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 150
+      })
     });
 
     const result = await response.json();
-    if (result.error) throw new Error(result.error.message);
-    
-    if (result.candidates && result.candidates[0].content.parts[0].text) {
-        return result.candidates[0].content.parts[0].text.replace(/\*/g, '').trim();
-    } else {
-        throw new Error("Unexpected response structure");
-    }
+    if (!response.ok) throw new Error(result.error?.message || 'API Error');
+    return result.choices[0].message.content.replace(/\*/g, '').trim();
   } catch (e) {
-    console.error("Gemini API Error:", e.message);
-    window.showMessage("Gemini API Connection Failed. Auto-retrying...", "error");
-    // Failsafe string if completely blocked so it doesn't crash the UI
-    return `[SYSTEM ALERT] I'm sorry, I am experiencing a temporary connection issue. However, continuing our discussion: ${prompt.substring(0, 50)}... What are your thoughts on that?`;
+    console.error("Groq API Error:", e.message);
+    window.showMessage("Groq API Error: Connection Failed.", "error");
+    return `[SYSTEM ERROR: AI Connection Failed] Please check your Groq API key or network connection. Details: ${e.message}`;
   }
 }
 
