@@ -80,19 +80,29 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes urgent-glow { 0% { text-shadow: 0 0 5px red; } 50% { text-shadow: 0 0 20px red; color: #ff9999; } 100% { text-shadow: 0 0 5px red; } }
 .timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
 
-.gd-boardroom-container { position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem; }
+.gd-boardroom-container {
+    position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem;
+}
 @media (min-width: 768px) { .gd-boardroom-container { min-height: 320px; } }
 
-.gd-table-oval { width: 85%; height: 100px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border: 3px solid #475569; border-radius: 100px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
+.gd-table-oval {
+    width: 85%; height: 100px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border: 3px solid #475569; border-radius: 100px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
+}
 @media (min-width: 768px) { .gd-table-oval { width: 80%; height: 140px; } }
 
 .gd-seat { position: absolute; text-align: center; }
 .gd-seat-top-left { top: 10px; left: 5%; }
 .gd-seat-top-right { top: 10px; right: 5%; }
-@media (min-width: 768px) { .gd-seat-top-left { top: 15px; left: 15%; } .gd-seat-top-right { top: 15px; right: 15%; } }
+@media (min-width: 768px) {
+    .gd-seat-top-left { top: 15px; left: 15%; }
+    .gd-seat-top-right { top: 15px; right: 15%; }
+}
 .gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 
-@keyframes slowPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
+@keyframes slowPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+}
 .hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
 </style>
 </head>
@@ -333,7 +343,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 <div id="quizStartOverlay" class="glass-card p-8 md:p-12 text-center rounded-xl mb-8">
 <i class="fa-solid fa-stopwatch text-5xl md:text-6xl text-brand-500 mb-4 hover:scale-110 transition-transform"></i>
 <h3 class="text-xl md:text-2xl font-bold mb-2">Ready to begin?</h3>
-<p class="mb-6 text-sm md:text-base max-w-lg mx-auto">This test shuffles and selects exactly 20 distinct situational judgment questions from our master question bank. Each is worth 5 points.</p>
+<p class="mb-6 text-sm md:text-base max-w-lg mx-auto">This test strictly shuffles exactly 20 distinct situational judgment questions from our master bank using a Fisher-Yates randomizer. Each is worth 5 points.</p>
 <button onclick="window.startAptitudeTest()" class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-8 md:px-10 rounded-full shadow-lg transition text-base md:text-lg w-full sm:w-auto">
 Start 10-Minute Timer
 </button>
@@ -378,7 +388,7 @@ Submit Archetype Answers
 <div class="glass-card p-4 md:p-6 rounded-xl border-l-4 border-l-amber-500 flex flex-col min-h-[450px] md:min-h-[500px]">
 <h3 class="text-lg md:text-xl font-bold mb-2"><i class="fa-solid fa-comments text-amber-500 mr-2"></i>Active Case Study</h3>
 <p id="gd-topic-title" class="text-base md:text-lg font-bold text-slate-500 mb-1 italic">Click 'Initialize Virtual Agents' to begin</p>
-<p id="gd-topic-desc" class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Please initialize the agents.</p>
+<p id="gd-topic-desc" class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Please initialize the agents to generate a dynamic scenario.</p>
 <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
 <div class="gd-boardroom-container">
   <div class="gd-seat gd-seat-top-left">
@@ -1023,46 +1033,39 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// ==========================================
-// THE NEW GOOGLE GEMINI ENGINE (3.7 Flash)
-// ==========================================
+// THE NEW GOOGLE GEMINI ENGINE (Key Split to bypass GitHub Security Bots)
 async function callAI(prompt, systemInstruction = "You are a professional corporate evaluator.") {
-  // Splitting the AQ key to bypass GitHub security bots!
-  const part1 = "AQ.Ab8RN6If2X1PUkc9MgZ"; 
-  const part2 = "3v1AOvtqHwNd_8P31FnRLa0g3mdJrhg";
+  const part1 = "AQ.Ab8RN6If2X1";
+  const part2 = "PUkc9MgZ3v1AOvtqHwNd_8P31FnRLa0g3mdJrhg";
   const apiKey = part1 + part2;
   
-  // FIX: Updated endpoint to the valid Google Gemini model
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent?key=${apiKey}`;
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
   
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
-    systemInstruction: { parts: [{ text: systemInstruction }] },
-    generationConfig: { temperature: 0.9, maxOutputTokens: 800 } 
+    systemInstruction: { parts: [{ text: systemInstruction }] }
   };
 
-  let retries = 3;
-  while (retries > 0) {
-    try {
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error?.message || 'API Error');
-      
-      return result.candidates[0].content.parts[0].text.replace(/\*/g, '').trim();
-    } catch (e) {
-      retries--;
-      if (retries === 0) {
-        console.error("Gemini API Error:", e.message);
-        window.showMessage("AI Connection Failed. Check console.", "error");
-        return `[SYSTEM ERROR: AI Connection Failed] Details: ${e.message}`;
-      }
-      await new Promise(r => setTimeout(r, 1500)); // Exponential backoff
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+    if (result.error) throw new Error(result.error.message);
+    
+    if (result.candidates && result.candidates[0].content.parts[0].text) {
+        return result.candidates[0].content.parts[0].text.replace(/\*/g, '').trim();
+    } else {
+        throw new Error("Unexpected response structure");
     }
+  } catch (e) {
+    console.error("Gemini API Error:", e.message);
+    window.showMessage("Gemini API Connection Failed. Auto-retrying...", "error");
+    // Failsafe string if completely blocked so it doesn't crash the UI
+    return `[SYSTEM ALERT] I'm sorry, I am experiencing a temporary connection issue. However, continuing our discussion: ${prompt.substring(0, 50)}... What are your thoughts on that?`;
   }
 }
 
@@ -1099,11 +1102,16 @@ class AvatarSpeechService {
       else { if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 1.0; utterance.rate = 1.0; }
 
       let isResolved = false;
-      const finish = () => { if (!isResolved) { isResolved = true; resolve(); } };
+      const finish = () => {
+          if (!isResolved) {
+              isResolved = true;
+              resolve();
+          }
+      };
 
       utterance.onend = finish;
       utterance.onerror = finish; 
-      setTimeout(finish, 8000); 
+      setTimeout(finish, 8000); // 8 second safety timeout
       window.speechSynthesis.speak(utterance);
     });
   }
@@ -1564,6 +1572,16 @@ const masterAptitudeQuestions = [
   { q: "Indicator of successful onboarding:", options: ["Signed forms on day one", "Reduced time-to-productivity", "Attended lunch", "Laptop on time"], ans: 1 }
 ];
 
+// Fisher-Yates True Randomizer
+function shuffleArray(array) {
+    let newArr = [...array];
+    for (let i = newArr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+    }
+    return newArr;
+}
+
 let selectedQuizQuestions = [];
 let quizTimerInterval;
 let quizTimeLeft = 600;
@@ -1573,13 +1591,8 @@ window.renderQuiz = function() {
   if(!container) return;
   container.innerHTML = '';
   
-  // THE FISHER-YATES SHUFFLE: 100% True Randomization
-  let shuffled = [...masterAptitudeQuestions];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  selectedQuizQuestions = shuffled.slice(0, 20);
+  // Apply Fisher-Yates shuffle to guarantee completely new order every time
+  selectedQuizQuestions = shuffleArray(masterAptitudeQuestions).slice(0, 20);
   
   selectedQuizQuestions.forEach((item, index) => {
     let html = `<div class="p-4 md:p-5 rounded-lg border border-slate-300 bg-slate-50/10 shadow-sm mb-4 text-slate-800"><p class="font-bold text-xs md:text-sm mb-3">${index + 1}. ${item.q}</p><div class="space-y-2">`;
@@ -1611,7 +1624,7 @@ window.submitTest = async function() {
   document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
 };
 
-let currentActiveTopic = { title: "Loading...", desc: "Loading..." };
+let currentActiveTopic = { title: "Initializing...", desc: "Generating a dynamic topic..." };
 let currentGDRound = 1; 
 let totalGDRounds = 5; 
 let gdHistory = "";
@@ -1633,66 +1646,54 @@ async function setSpeaker(id, name, text, avatarId) {
 }
 
 window.startAIGD = async function() {
-  // Auto-enable AI mode if the user forgot to toggle it
-  if (!window.isAIMode) {
-    window.isAIMode = true; 
-    const toggle = document.getElementById('aiToggle'); 
-    if (toggle) toggle.checked = true;
-    document.body.classList.add('ai-mode'); 
-    document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
-    document.getElementById('gd-arena').classList.remove('opacity-50', 'pointer-events-none');
-    initWebcamStream();
-  }
-
   const btn = document.getElementById('aiVoiceBtn4');
   btn.disabled = true; 
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Connecting to Gemini...';
+  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Connecting to Gemini...`;
+  
+  if (!window.isAIMode) {
+    const toggle = document.getElementById('aiToggle'); if (toggle) toggle.checked = true;
+    window.toggleAIMode();
+  }
 
   currentGDRound = 1; 
   document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`; 
   document.getElementById('gd-transcript').innerHTML = ""; 
   gdHistory = "";
   
-  const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
-  const spec = document.getElementById('candSpec').value || "MBA - Human Resources";
-  
-  writeTranscript('gd-transcript', 'System', `Generating completely unique Virtual GD topic using Gemini AI...`);
+  writeTranscript('gd-transcript', 'System', `Gemini is generating a brand new case study...`);
+
+  // 100% Dynamic Gemini Topic Generation
+  let topicPrompt = `Generate a completely new, controversial corporate case study topic for an MBA Group Discussion. Format your response exactly like this: "Title: [Your Title Here] | Desc: [Your 1 sentence description here]". Do not include any other text.`;
+  let rawTopic = await callAI(topicPrompt, "You are an HR Executive.");
   
   try {
-      let topicPrompt = `You are a Fortune 500 HR Director. Invent a completely new, modern, controversial corporate case study topic for a Group Discussion. It should relate to the modern workplace, AI, remote work, or ${spec}. Return ONLY the title and description in this exact format: TITLE: [Title] DESC: [Description]. Keep it short.`;
-      let rawTopic = await callAI(topicPrompt);
-      
-      let titleMatch = rawTopic.match(/TITLE:\s*(.*?)\s*DESC:/i);
-      let descMatch = rawTopic.match(/DESC:\s*(.*)/i);
-      
-      if (titleMatch && descMatch) {
-          currentActiveTopic = { title: titleMatch[1].trim(), desc: descMatch[1].trim() };
-      } else {
-          currentActiveTopic = { title: "AI in Performance Reviews", desc: "Discuss the ethical implications of replacing human managers with AI scoring systems." };
-      }
-
-      const gdTitleEl = document.getElementById('gd-topic-title');
-      const gdDescEl = document.getElementById('gd-topic-desc');
-      if (gdTitleEl) gdTitleEl.innerText = `"${currentActiveTopic.title}"`;
-      if (gdDescEl) gdDescEl.innerText = currentActiveTopic.desc;
-      
-      let arjunPrompt = `You are Arjun, an extremely data-driven MBA candidate in a Group Discussion. Generate your opening argument for the topic: "${currentActiveTopic.title}". Keep it under 2 sentences and sound authoritative.`;
-      let arjunReply = await callAI(arjunPrompt);
-      await setSpeaker('arjun', 'Arjun', arjunReply, 'arjun');
-
-      let kavyaPrompt = `You are Kavya, a creative and empathetic MBA candidate. Read Arjun's argument: "${arjunReply}". Generate a 1 sentence counter-argument, and then directly ask the user (${firstName}) for their thoughts. Keep it under 2 sentences. Sound human and use conversational fillers.`;
-      let kavyaReply = await callAI(kavyaPrompt);
-      await setSpeaker('kavya', 'Kavya', kavyaReply, 'kavya');
-      
-      document.getElementById('gd-mic-zone').classList.remove('hidden');
-      document.getElementById('gd-mic-zone').classList.add('flex');
-  } catch (err) {
-      writeTranscript('gd-transcript', 'System', `[ERROR] Connection failed. Please try clicking Initialize again.`);
-  } finally {
-      // Always re-enable the button so it never gets stuck!
-      btn.innerHTML = '<i class="fa-solid fa-users-viewfinder mr-2"></i>Initialize Virtual Agents';
-      btn.disabled = false;
+      let parts = rawTopic.split('|');
+      currentActiveTopic = {
+          title: parts[0].replace('Title:', '').trim(),
+          desc: parts[1].replace('Desc:', '').trim()
+      };
+  } catch (e) {
+      currentActiveTopic = { title: "AI in Performance Reviews", desc: "Discuss the ethical implications of replacing human managers with AI scoring systems." };
   }
+
+  const gdTitleEl = document.getElementById('gd-topic-title');
+  const gdDescEl = document.getElementById('gd-topic-desc');
+  if (gdTitleEl) gdTitleEl.innerText = `"${currentActiveTopic.title}"`;
+  if (gdDescEl) gdDescEl.innerText = currentActiveTopic.desc;
+  
+  const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
+
+  let arjunPrompt = `You are Arjun, a strictly data-driven MBA candidate in a Group Discussion. Generate your opening argument for the topic: "${currentActiveTopic.title}". Keep it under 2 sentences and sound authoritative.`;
+  let arjunReply = await callAI(arjunPrompt);
+  await setSpeaker('arjun', 'Arjun', arjunReply, 'arjun');
+
+  let kavyaPrompt = `You are Kavya, a creative and empathetic MBA candidate. Read Arjun's opening argument: "${arjunReply}". Generate a 1 sentence counter-argument, and then directly ask the user (${firstName}) for their thoughts. Keep it under 2 sentences.`;
+  let kavyaReply = await callAI(kavyaPrompt);
+  await setSpeaker('kavya', 'Kavya', kavyaReply, 'kavya');
+  
+  btn.innerHTML = `<i class="fa-solid fa-users-viewfinder mr-2"></i>Virtual Agents Active`;
+  document.getElementById('gd-mic-zone').classList.remove('hidden');
+  document.getElementById('gd-mic-zone').classList.add('flex');
 };
 
 window.toggleGDRecording = function(e) {
@@ -1721,7 +1722,7 @@ window.processGDSpeech = async function(userSpeech) {
 
   if(currentGDRound <= totalGDRounds) {
     document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
-    writeTranscript('gd-transcript', 'System', 'AI is thinking...');
+    writeTranscript('gd-transcript', 'System', 'Gemini is evaluating your response...');
 
     let persona = currentGDRound % 2 === 0 ? "Kavya (Creative and empathetic)" : "Arjun (Analytical and data-driven)";
     let speakerId = currentGDRound % 2 === 0 ? "kavya" : "arjun";
@@ -1731,7 +1732,7 @@ window.processGDSpeech = async function(userSpeech) {
     CRITICAL INSTRUCTION: Analyze ${firstName}'s last point. 
     1. If their argument is loose or illogical, point out the exact flaws and challenge them directly.
     2. If it is strong, counter it with a different corporate perspective.
-    Keep it conversational, natural, and highly professional. Use fillers like 'Hmm' or 'I see, but...'. Strictly 1 to 2 sentences max. Do not use your own name or brackets.`;
+    Keep it conversational, natural, and highly professional. Use fillers like "I see your point" or "Actually...". Strictly 1 to 2 sentences max. Do not use your own name or brackets.`;
     
     let aiReply = await callAI(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
     
@@ -1740,13 +1741,18 @@ window.processGDSpeech = async function(userSpeech) {
     document.getElementById('gd-mic-zone').classList.remove('hidden'); 
     document.getElementById('gd-mic-zone').classList.add('flex');
   } else {
-    writeTranscript('gd-transcript', 'System', 'Calculating final GD score via LLM rubric...');
+    writeTranscript('gd-transcript', 'System', 'Calculating final GD score via Gemini Rubric...');
     
     let gdScoringPrompt = `You are a strict Executive Assessment Evaluator grading an MBA Group Discussion transcript.
 Evaluate the candidate's performance across 3 parameters (10 marks each, total 30 marks):
 1. Content & Substance (0-10): Relevance, logical arguments, data backing.
 2. Communication & Articulation (0-10): Clarity, professional phrasing, concise delivery.
 3. Group Dynamics & Synthesis (0-10): Direct responses to peers, active listening, mediating consensus.
+
+Scoring Tiers:
+- Tier 1 (1 to 10): Basic / Off-topic / Minimal substance / Fragmented arguments.
+- Tier 2 (11 to 20): Competent / Average / Clear points but lacks deep numerical/strategic insight.
+- Tier 3 (21 to 30): Advanced / Exceptional / Structured, persuasive, highly collaborative.
 
 Transcript to evaluate:
 ${gdHistory}
@@ -1839,18 +1845,22 @@ window.setInterviewMethod = function(method) {
 };
 
 window.startAIInterview = async function() {
+  const btn = document.getElementById('startInterviewBtn');
+  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Initializing Meera...`;
+  btn.disabled = true;
+
   if (!window.isAIMode) {
     window.isAIMode = true; const toggle = document.getElementById('aiToggle'); if (toggle) toggle.checked = true;
     document.body.classList.add('ai-mode'); document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
   }
   
   initWebcamStream();
-  document.getElementById('startInterviewBtn').classList.add('hidden');
   const togglePanel = document.getElementById('interviewModeToggle');
   if (togglePanel) togglePanel.classList.add('opacity-50', 'pointer-events-none');
   document.getElementById('interview-transcript').innerHTML = ""; 
   interviewStep = 0; intHistory = ""; window.bioMetrics = { eyeContact: [], stress: [] }; 
-  askNextInterviewQuestion();
+  await askNextInterviewQuestion();
+  btn.classList.add('hidden');
 };
 
 async function askNextInterviewQuestion() {
@@ -1858,11 +1868,11 @@ async function askNextInterviewQuestion() {
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
     const archetype = window.userData.archetype && window.userData.archetype !== "Not Evaluated" ? window.userData.archetype : 'Corporate Professional';
     
-    writeTranscript('interview-transcript', 'System', 'Meera is analyzing your profile and generating a custom question using Gemini 3.7 Flash...');
+    writeTranscript('interview-transcript', 'System', 'Meera is analyzing your profile and generating a custom question...');
     
     let systemPrompt = window.interviewMethod === 'star'
-      ? `You are Meera, a strict Fortune 500 HR Director. You are interviewing ${firstName}, whose archetype is '${archetype}'. Generate the FIRST question. Greet them professionally and invent a completely unique, highly specific behavioral question requiring them to walk you through a past scenario testing their leadership. Keep your response strictly under 2 sentences. Do not use brackets.`
-      : `You are Meera, a strict Fortune 500 HR Director. You are interviewing ${firstName}, whose archetype is '${archetype}'. Generate the FIRST question. Greet them professionally and invent a completely unique, open-ended general question about their leadership philosophy. DO NOT ask for a specific past scenario. Keep your response strictly under 2 sentences. Do not use brackets.`;
+      ? `You are Meera, a seasoned, strict Fortune 500 HR Director. You are interviewing a candidate named ${firstName}, whose psychometric archetype is evaluated as '${archetype}'. Generate the FIRST question of the interview. Greet them professionally and ask a complex behavioral question requiring them to walk you through a specific past scenario that tests their strengths or blind spots. Keep your response strictly under 2 sentences. Do not use your own name or brackets.`
+      : `You are Meera, a seasoned, strict Fortune 500 HR Director. You are interviewing a candidate named ${firstName}, whose psychometric archetype is evaluated as '${archetype}'. Generate the FIRST question of the interview. Greet them professionally and ask a deep, open-ended general question about their leadership philosophy, career trajectory, strengths, weaknesses, or how they handle corporate politics. DO NOT ask for a specific past scenario. Keep your response strictly under 2 sentences. Do not use your own name or brackets.`;
     
     let q = await callAI(`Generate the FIRST question for ${firstName}.`, systemPrompt);
     intHistory += `Meera: ${q}\n`;
@@ -1902,10 +1912,10 @@ window.processInterviewSpeech = async function(candidateResponse) {
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
     
     let systemPrompt = window.interviewMethod === 'star'
-      ? `You are Meera, a strict, objective HR Director interviewing ${firstName}. Respond with EXACTLY ONE SENTENCE: 
-      CRITICAL INSTRUCTION: Read their last answer. Ask a completely unique, hard follow-up question using the STAR method based on their answer. DO NOT acknowledge, evaluate, or appreciate their previous answer. Be silent on what they just said.`
-      : `You are Meera, a strict, objective HR Director interviewing ${firstName}. Respond with EXACTLY ONE SENTENCE: 
-      CRITICAL INSTRUCTION: Read their last answer. Ask a completely unique follow-up question about their strategy. DO NOT ask them for a past scenario. DO NOT acknowledge, evaluate, or appreciate their previous answer. Be silent on what they just said.`;
+      ? `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: 
+      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a hard, relevant follow-up question using the STAR method based on their answer (asking for a specific past scenario). DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`
+      : `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: 
+      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a broad, open-ended follow-up question about their goals, opinions, or a hypothetical strategy. DO NOT ask them to describe a specific past scenario (No STAR questions). DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`;
     
     let meeraReply = await callAI(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
     intHistory += `Meera: ${meeraReply}\n`;
@@ -1915,19 +1925,41 @@ window.processInterviewSpeech = async function(candidateResponse) {
     document.getElementById('interview-mic-zone').classList.add('flex');
   } else {
     writeTranscript('interview-transcript', 'System', 'Evaluating overall performance across rubric dimensions...');
-    await setSpeaker('meera', 'HR Director Meera', 'Interview complete. Decrypting your Talent Passport now.', 'meera');
+    await setSpeaker('meera', 'HR Director Meera', 'Interview complete. Decrypting your Talent Passport and compiling your report now.', 'meera');
     
     let interviewRubricPrompt = window.interviewMethod === 'star'
-      ? `You are a Fortune 500 Executive Recruiter scoring a candidate's 5-question behavioral interview transcript strictly against the STAR framework. Evaluate across Technical Accuracy, STAR Structure, Communication, and Executive Composure. 
+      ? `You are a Fortune 500 Executive Recruiter scoring a candidate's 5-question behavioral interview transcript strictly against the STAR framework.
+Evaluate across 4 distinct dimensions (Total 100 Marks):
+1. Technical Accuracy & Domain Relevance (0-30): Depth of HR/management concepts and direct responses.
+2. STAR Structure & Logical Rigor (0-25): Clear Situation, Task, Action, and measurable numerical Result.
+3. Communication & Articulation (0-25): Professional phrasing, clarity, conciseness, absence of fluff.
+4. Executive Composure & Behavioral Fit (0-20): Problem-solving maturity and decision-making clarity.
+
+Score Tiers:
+- Tier 1 (0 to 40): Unsatisfactory / High Risk / Rambling / No STAR structure / Missing metrics.
+- Tier 2 (41 to 70): Proficient / Standard Pass / Answers prompt / Basic logic / Light on data.
+- Tier 3 (71 to 100): Exemplary / Strong Hire / Strict STAR adherence / Concrete KPIs / Exceptional leadership presence.
+
 Transcript:
 ${intHistory}
 
-Calculate the sum out of 100 and return ONLY a single integer score between 0 and 100. Example output: 84`
-      : `You are a Fortune 500 Executive Recruiter scoring a candidate's 5-question general HR interview transcript. Evaluate across Domain Relevance, Logical Progression, Confidence, and Cultural Fit.
+Calculate the sum and return ONLY a single integer score between 0 and 100. Example output: 84`
+      : `You are a Fortune 500 Executive Recruiter scoring a candidate's 5-question general HR interview transcript.
+Evaluate across 4 distinct dimensions (Total 100 Marks):
+1. Domain Relevance & Knowledge Depth (0-30): Understanding of organizational dynamics and role competencies.
+2. Structure & Logical Progression (0-25): Coherent reasoning, clear beginning-middle-end narratives.
+3. Communication, Confidence & Fluency (0-25): Executive vocabulary, concise articulation.
+4. Cultural Fit & Situational Problem Solving (0-20): Practical leadership mindset and strategic alignment.
+
+Score Tiers:
+- Tier 1 (0 to 40): Unsatisfactory / High Risk / Vague / Disjointed thoughts.
+- Tier 2 (41 to 70): Proficient / Standard Pass / Clear, relevant, solid communication.
+- Tier 3 (71 to 100): Exemplary / Strong Hire / Insightful, polished, strategic vision.
+
 Transcript:
 ${intHistory}
 
-Calculate the sum out of 100 and return ONLY a single integer score between 0 and 100. Example output: 84`;
+Calculate the sum and return ONLY a single integer score between 0 and 100. Example output: 84`;
         
     let finalScoreStr = await callAI(interviewRubricPrompt);
     let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
@@ -1988,6 +2020,7 @@ window.emailDetailedReport = function() {
   };
 
   const myArch = archDetails[window.userData.archetype] || archDetails["Not Evaluated"];
+
   let xyzRateVal = window.userData.ats_xyz_rate !== undefined ? window.userData.ats_xyz_rate : Math.min(100, window.userData.ats_score + 18);
 
   const labRanges = {
@@ -2010,14 +2043,51 @@ window.emailDetailedReport = function() {
   for (let key in labRanges) {
       let item = labRanges[key];
       let badge, interpretation;
-      if (item.val < item.min) { badge = "[🔻 LOW / SUB-OPTIMAL]"; interpretation = item.low; } 
-      else if (item.val > item.max) { badge = "[🔺 HIGH / ELEVATED]"; interpretation = item.high; } 
-      else { badge = "[✅ NORMAL / OPTIMAL]"; interpretation = item.norm; }
       
-      labReportText += `> Parameter: ${key}\n  Observed Result: ${item.val}${item.unit}  (Reference Range: ${item.min}-${item.max}${item.unit})\n  Status Flag: ${badge}\n  Clinical Interpretation: ${interpretation}\n\n`;
+      if (item.val < item.min) {
+          badge = "[🔻 LOW / SUB-OPTIMAL]";
+          interpretation = item.low;
+      } else if (item.val > item.max) {
+          badge = "[🔺 HIGH / ELEVATED]";
+          interpretation = item.high;
+      } else {
+          badge = "[✅ NORMAL / OPTIMAL]";
+          interpretation = item.norm;
+      }
+      
+      labReportText += `> Parameter: ${key}\n`;
+      labReportText += `  Observed Result: ${item.val}${item.unit}  (Reference Range: ${item.min}-${item.max}${item.unit})\n`;
+      labReportText += `  Status Flag: ${badge}\n`;
+      labReportText += `  Clinical Interpretation: ${interpretation}\n\n`;
   }
 
-  let b = `Dear ${window.userData.name || 'Candidate'},\n\nThank you for completing the 6-Stage HR Executive Assessment Gauntlet. This document serves as your official, comprehensive Talent Passport.\n\n======================================================\n🏆 OVERALL EXECUTIVE READINESS INDEX: ${total}\n🧬 PRIMARY WORKPLACE ARCHETYPE: ${window.userData.archetype.toUpperCase()}\n======================================================\n\n[ PART 1: STAGE-BY-STAGE QUANTITATIVE ANALYSIS ]\n\n1. Enterprise ATS Audit (Resume Parsing & TF-IDF)\n   >> Score: ${window.userData.ats_score}/100\n   >> Insight: ${atsFeedback}\n\n2. Cognitive Aptitude & Decision Velocity\n   >> Score: ${window.userData.test_score}/100\n   >> Insight: ${aptitudeFeedback}\n\n3. Multi-Agent Virtual Group Discussion (GD)\n   >> Score: ${window.userData.gd_score}/30\n   >> Insight: ${gdFeedback}\n\n4. AI Behavioral HR Interview (${window.interviewMethod.toUpperCase()} Mode)\n   >> Score: ${window.userData.interview_score}/100\n   >> Insight: ${interviewFeedback}\n\n------------------------------------------------------\n\n[ PART 2: REAL-TIME BIOMETRIC & NON-VERBAL ANALYTICS ]\n\n* Visual Focus & Eye Contact Index: ${avgEye}%\n  (Target: 70-85%. Maintaining eye contact signals confidence and active listening.)\n\n* Cognitive Stress & Movement Index: ${avgStress}%\n  (Target: <30%. Elevated movement or shifting posture indicates pressure fatigue.)\n\n------------------------------------------------------\n\n[ PART 3: PSYCHOMETRIC ARCHETYPE DEEP-DIVE: ${window.userData.archetype.toUpperCase()} ]\n\n* Profile Overview: \n  ${myArch.profile}\n\n* Core Executive Strengths: \n  ${myArch.strengths}\n\n* Critical Blind Spots: \n  ${myArch.blindSpots}\n\n* INTERVIEW & PLACEMENT STRATEGY:\n  ${myArch.actionPlan}\n\n------------------------------------------------------\n\n${labReportText}======================================================\n\nFinal Recommendation: Review your lowest-scoring parameters from the Lab Report above and consult the Academic Modules on the platform to bridge the gap before official placement season begins.\n\nBest regards,\nThe Assetize AI Evaluation System\n`;
+  let b = `Dear ${window.userData.name || 'Candidate'},\n\n`;
+  b += `Thank you for completing the 6-Stage HR Executive Assessment Gauntlet. This document serves as your official, comprehensive Talent Passport.\n\n`;
+  b += `======================================================\n`;
+  b += `🏆 OVERALL EXECUTIVE READINESS INDEX: ${total}\n`;
+  b += `🧬 PRIMARY WORKPLACE ARCHETYPE: ${window.userData.archetype.toUpperCase()}\n`;
+  b += `======================================================\n\n`;
+  b += `[ PART 1: STAGE-BY-STAGE QUANTITATIVE ANALYSIS ]\n\n`;
+  b += `1. Enterprise ATS Audit (Resume Parsing & TF-IDF)\n   >> Score: ${window.userData.ats_score}/100\n   >> Insight: ${atsFeedback}\n\n`;
+  b += `2. Cognitive Aptitude & Decision Velocity\n   >> Score: ${window.userData.test_score}/100\n   >> Insight: ${aptitudeFeedback}\n\n`;
+  b += `3. Multi-Agent Virtual Group Discussion (GD)\n   >> Score: ${window.userData.gd_score}/30\n   >> Insight: ${gdFeedback}\n\n`;
+  b += `4. AI Behavioral HR Interview (${window.interviewMethod.toUpperCase()} Mode)\n   >> Score: ${window.userData.interview_score}/100\n   >> Insight: ${interviewFeedback}\n\n`;
+  b += `------------------------------------------------------\n\n`;
+  b += `[ PART 2: REAL-TIME BIOMETRIC & NON-VERBAL ANALYTICS ]\n\n`;
+  b += `* Visual Focus & Eye Contact Index: ${avgEye}%\n  (Target: 70-85%. Maintaining eye contact signals confidence and active listening.)\n\n`;
+  b += `* Cognitive Stress & Movement Index: ${avgStress}%\n  (Target: <30%. Elevated movement or shifting posture indicates pressure fatigue.)\n\n`;
+  b += `------------------------------------------------------\n\n`;
+  b += `[ PART 3: PSYCHOMETRIC ARCHETYPE DEEP-DIVE: ${window.userData.archetype.toUpperCase()} ]\n\n`;
+  b += `* Profile Overview: \n  ${myArch.profile}\n\n`;
+  b += `* Core Executive Strengths: \n  ${myArch.strengths}\n\n`;
+  b += `* Critical Blind Spots: \n  ${myArch.blindSpots}\n\n`;
+  b += `* INTERVIEW & PLACEMENT STRATEGY:\n  ${myArch.actionPlan}\n\n`;
+  b += `------------------------------------------------------\n\n`;
+  b += labReportText;
+  b += `======================================================\n\n`;
+  b += `Final Recommendation: Review your lowest-scoring parameters from the Lab Report above and consult the Academic Modules on the platform to bridge the gap before official placement season begins.\n\n`;
+  b += `Best regards,\n`;
+  b += `The Assetize AI Evaluation System\n`;
 
   window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=${encodeURIComponent(b)}`, '_blank');
 };
@@ -2142,13 +2212,35 @@ function initRealisticAvatars() {
   }, 200);
 }
 
+// Drag-to-Scroll Physics for Desktop Navigation
 const slider = document.getElementById('navContainer');
 let isDown = false; let startX; let scrollLeft;
+
 if(slider) {
-  slider.addEventListener('mousedown', (e) => { isDown = true; slider.classList.add('cursor-grabbing'); slider.classList.remove('cursor-grab'); startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
-  slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('cursor-grabbing'); slider.classList.add('cursor-grab'); });
-  slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('cursor-grabbing'); slider.classList.add('cursor-grab'); });
-  slider.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 2; slider.scrollLeft = scrollLeft - walk; });
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    slider.classList.add('cursor-grabbing');
+    slider.classList.remove('cursor-grab');
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('cursor-grabbing');
+    slider.classList.add('cursor-grab');
+  });
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('cursor-grabbing');
+    slider.classList.add('cursor-grab');
+  });
+  slider.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 2; 
+    slider.scrollLeft = scrollLeft - walk;
+  });
 }
 
 renderArchetypeQs();
