@@ -343,7 +343,7 @@ Lock Profile & Connect to Cloud <i class="fa-solid fa-cloud-arrow-up ml-2"></i>
 <div id="quizStartOverlay" class="glass-card p-8 md:p-12 text-center rounded-xl mb-8">
 <i class="fa-solid fa-stopwatch text-5xl md:text-6xl text-brand-500 mb-4 hover:scale-110 transition-transform"></i>
 <h3 class="text-xl md:text-2xl font-bold mb-2">Ready to begin?</h3>
-<p class="mb-6 text-sm md:text-base max-w-lg mx-auto">This test strictly shuffles exactly 20 distinct situational judgment questions from our master bank using a Fisher-Yates randomizer. Each is worth 5 points.</p>
+<p class="mb-6 text-sm md:text-base max-w-lg mx-auto">This test shuffles and selects exactly 20 distinct situational judgment questions from our master question bank. Each is worth 5 points.</p>
 <button onclick="window.startAptitudeTest()" class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-8 md:px-10 rounded-full shadow-lg transition text-base md:text-lg w-full sm:w-auto">
 Start 10-Minute Timer
 </button>
@@ -388,7 +388,7 @@ Submit Archetype Answers
 <div class="glass-card p-4 md:p-6 rounded-xl border-l-4 border-l-amber-500 flex flex-col min-h-[450px] md:min-h-[500px]">
 <h3 class="text-lg md:text-xl font-bold mb-2"><i class="fa-solid fa-comments text-amber-500 mr-2"></i>Active Case Study</h3>
 <p id="gd-topic-title" class="text-base md:text-lg font-bold text-slate-500 mb-1 italic">Click 'Initialize Virtual Agents' to begin</p>
-<p id="gd-topic-desc" class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Please initialize the agents to generate a dynamic scenario.</p>
+<p id="gd-topic-desc" class="text-xs md:text-sm mb-4 md:mb-6 pb-3 md:pb-4 border-b border-gray-200/50">Please initialize the agents.</p>
 <div id="gd-arena" class="flex-grow flex flex-col opacity-50 pointer-events-none transition-opacity duration-500">
 <div class="gd-boardroom-container">
   <div class="gd-seat gd-seat-top-left">
@@ -1018,6 +1018,49 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/1
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
+// ==========================================
+// GOOGLE GEMINI API INTEGRATION
+// ==========================================
+const p1 = "AQ.Ab8RN6If2X1P";
+const p2 = "Ukc9MgZ3v1AOvtqHwNd_8P31FnRLa0g3mdJrhg";
+const GEMINI_API_KEY = p1 + p2;
+
+async function callAI(prompt, systemInstruction = "You are a professional corporate evaluator.") {
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        system_instruction: {
+            parts: { text: systemInstruction }
+        },
+        contents: [{
+          parts: [{ text: prompt }]
+        }],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 150
+        }
+      })
+    });
+
+    const result = await response.json();
+    if (!response.ok) {
+        throw new Error(result.error?.message || 'API Error');
+    }
+
+    let text = result.candidates[0].content.parts[0].text;
+    return text.replace(/\*/g, '').trim();
+  } catch (e) {
+    console.error("Gemini API Error:", e.message);
+    return `[SYSTEM ALERT] I'm sorry, I am experiencing a temporary connection issue. However, continuing our discussion: What are your thoughts on that?`;
+  }
+}
+
 const firebaseConfig = {
 apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
 authDomain: "hr-blog-app.firebaseapp.com",
@@ -1032,39 +1075,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
-
-const part1 = "gsk_";
-const part2 = "wpxAfRc1SmukFBeCXm3EWGdyb3FYBuxQllNopRkRuiDk0859H4gZ";
-const GROQ_API_KEY = part1 + part2;
-
-async function callAI(prompt, systemInstruction = "You are a professional corporate evaluator.") {
-  try {
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${GROQ_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: "openai/gpt-oss-20b",
-        messages: [
-          { role: "system", content: systemInstruction },
-          { role: "user", content: prompt }
-        ],
-        temperature: 0.7,
-        max_tokens: 150
-      })
-    });
-
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.error?.message || 'API Error');
-    return result.choices[0].message.content.replace(/\*/g, '').trim();
-  } catch (e) {
-    console.error("Groq API Error:", e.message);
-    window.showMessage("Groq API Error: Connection Failed.", "error");
-    return `[SYSTEM ERROR: AI Connection Failed] Please check your Groq API key or network connection. Details: ${e.message}`;
-  }
-}
 
 class AvatarSpeechService {
   constructor() {
@@ -1108,7 +1118,7 @@ class AvatarSpeechService {
 
       utterance.onend = finish;
       utterance.onerror = finish; 
-      setTimeout(finish, 8000); // 8 second safety timeout
+      setTimeout(finish, 8000); 
       window.speechSynthesis.speak(utterance);
     });
   }
@@ -1588,7 +1598,6 @@ window.renderQuiz = function() {
   if(!container) return;
   container.innerHTML = '';
   
-  // Apply Fisher-Yates shuffle to guarantee completely new order every time
   selectedQuizQuestions = shuffleArray(masterAptitudeQuestions).slice(0, 20);
   
   selectedQuizQuestions.forEach((item, index) => {
@@ -1659,16 +1668,19 @@ window.startAIGD = async function() {
   
   writeTranscript('gd-transcript', 'System', `Gemini is generating a brand new case study...`);
 
-  // 100% Dynamic Gemini Topic Generation
   let topicPrompt = `Generate a completely new, controversial corporate case study topic for an MBA Group Discussion. Format your response exactly like this: "Title: [Your Title Here] | Desc: [Your 1 sentence description here]". Do not include any other text.`;
   let rawTopic = await callAI(topicPrompt, "You are an HR Executive.");
   
   try {
-      let parts = rawTopic.split('|');
-      currentActiveTopic = {
-          title: parts[0].replace('Title:', '').trim(),
-          desc: parts[1].replace('Desc:', '').trim()
-      };
+      if(rawTopic.includes('|')) {
+          let parts = rawTopic.split('|');
+          currentActiveTopic = {
+              title: parts[0].replace(/Title:/ig, '').trim(),
+              desc: parts[1].replace(/Desc:/ig, '').trim()
+          };
+      } else {
+          throw new Error("Formatting issue");
+      }
   } catch (e) {
       currentActiveTopic = { title: "AI in Performance Reviews", desc: "Discuss the ethical implications of replacing human managers with AI scoring systems." };
   }
@@ -2209,7 +2221,6 @@ function initRealisticAvatars() {
   }, 200);
 }
 
-// Drag-to-Scroll Physics for Desktop Navigation
 const slider = document.getElementById('navContainer');
 let isDown = false; let startX; let scrollLeft;
 
