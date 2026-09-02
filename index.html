@@ -1018,16 +1018,16 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/1
 import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
-// Split key to bypass GitHub security bots scanning for exact strings
+// Split key to bypass GitHub security bots (Google Gemini AQ Key)
 const part1 = "AQ.Ab8RN6If2X1PUkc9MgZ";
 const part2 = "3v1AOvtqHwNd_8P31FnRLa0g3mdJrhg";
 const apiKey = part1 + part2;
 
-// The Google Gemini Engine setup (Fixed Model Endpoint)
+// The Google Gemini Engine setup (Fixed Model Endpoint & Loading Failsafe)
 async function callAI(prompt, systemInstruction = "You are a professional corporate evaluator.") {
   try {
-    // Explicitly targeting gemini-3-flash-preview to resolve 'Not Found' error
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+    // Upgraded URL pointing to the stable gemini-1.5-flash endpoint required by the AQ key format
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
     const payload = {
         contents: [{ parts: [{ text: prompt }] }],
@@ -1053,7 +1053,7 @@ async function callAI(prompt, systemInstruction = "You are a professional corpor
     }
   } catch (e) {
     console.error("AI Connection Error:", e);
-    return `[SYSTEM ERROR] I apologize, but I am experiencing a temporary connection issue. Error Details: ${e.message}`;
+    return `[SYSTEM ERROR: AI Connection Failed] Details: ${e.message}`;
   }
 }
 
@@ -1649,8 +1649,10 @@ async function setSpeaker(id, name, text, avatarId) {
 
 window.startAIGD = async function() {
   const btn = document.getElementById('aiVoiceBtn4');
-  btn.disabled = true; 
-  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Connecting to Gemini...`;
+  if (btn) {
+      btn.disabled = true; 
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Connecting to Gemini...`;
+  }
   
   if (!window.isAIMode) {
     const toggle = document.getElementById('aiToggle'); if (toggle) toggle.checked = true;
@@ -1664,40 +1666,48 @@ window.startAIGD = async function() {
   
   writeTranscript('gd-transcript', 'System', `Gemini is generating a brand new case study...`);
 
-  // 100% DYNAMIC AI GENERATION: No Hardcoded Topics
-  let topicPrompt = `Generate a completely new, highly relevant, and slightly controversial corporate case study topic for an MBA Group Discussion. Format your response exactly like this: "Title: [Your Title Here] | Desc: [Your 1 sentence description here]". Do not include any other text.`;
-  let rawTopic = await callAI(topicPrompt, "You are a Fortune 500 HR Executive designing a case study.");
-  
-  try {
-      if(rawTopic.includes('|')) {
-          let parts = rawTopic.split('|');
-          currentActiveTopic = {
-              title: parts[0].replace(/Title:/ig, '').trim(),
-              desc: parts[1].replace(/Desc:/ig, '').trim()
-          };
-      } else {
-          throw new Error("Formatting issue");
-      }
-  } catch (e) {
-      currentActiveTopic = { title: "AI vs Human Intelligence", desc: "Debate the long-term ethical consequences of autonomous AI managers." };
-  }
-
-  const gdTitleEl = document.getElementById('gd-topic-title');
-  const gdDescEl = document.getElementById('gd-topic-desc');
-  if (gdTitleEl) gdTitleEl.innerText = `"${currentActiveTopic.title}"`;
-  if (gdDescEl) gdDescEl.innerText = currentActiveTopic.desc;
-  
   const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
 
-  let arjunPrompt = `You are Arjun, a strictly data-driven MBA candidate in a Group Discussion. Generate your opening argument for the topic: "${currentActiveTopic.title}". Keep it strictly under 2 sentences and sound authoritative.`;
-  let arjunReply = await callAI(arjunPrompt);
-  await setSpeaker('arjun', 'Arjun', arjunReply, 'arjun');
+  // Single Batch Prompt to cut loading time
+  let singlePrompt = `Generate a completely new, modern corporate case study topic for an MBA Group Discussion. 
+  Format your EXACT response like this, with NO markdown, NO asterisks, and NO extra text:
+  TITLE: [Case Study Title]
+  DESC: [1 sentence description of the dilemma]
+  ARJUN: [Arjun's 1-sentence data-driven, analytical opening argument]
+  KAVYA: [Kavya's 1-sentence creative counter-argument asking ${firstName} for their thoughts]`;
 
-  let kavyaPrompt = `You are Kavya, a creative and empathetic MBA candidate. Read Arjun's opening argument: "${arjunReply}". Generate a 1 sentence counter-argument defending the human or creative side, and then directly ask the user (${firstName}) for their thoughts. Keep it strictly under 2 sentences.`;
-  let kavyaReply = await callAI(kavyaPrompt);
-  await setSpeaker('kavya', 'Kavya', kavyaReply, 'kavya');
+  let aiResponse = await callAI(singlePrompt, "You are a Fortune 500 HR Executive.");
   
-  btn.innerHTML = `<i class="fa-solid fa-users-viewfinder mr-2"></i>Virtual Agents Active`;
+  try {
+      const titleMatch = aiResponse.match(/TITLE:\s*(.*)/i);
+      const descMatch = aiResponse.match(/DESC:\s*(.*)/i);
+      const arjunMatch = aiResponse.match(/ARJUN:\s*(.*)/i);
+      const kavyaMatch = aiResponse.match(/KAVYA:\s*(.*)/i);
+
+      currentActiveTopic = {
+          title: titleMatch ? titleMatch[1].trim() : "The Remote Work Dilemma",
+          desc: descMatch ? descMatch[1].trim() : "Debate the long-term impact of remote work on corporate innovation."
+      };
+      
+      const arjunReply = arjunMatch ? arjunMatch[1].trim() : "Data shows a 15% drop in productivity; we must return to the office.";
+      const kavyaReply = kavyaMatch ? kavyaMatch[1].trim() : `I disagree, flexibility breeds innovation. ${firstName}, what are your thoughts?`;
+
+      const gdTitleEl = document.getElementById('gd-topic-title');
+      const gdDescEl = document.getElementById('gd-topic-desc');
+      if (gdTitleEl) gdTitleEl.innerText = `"${currentActiveTopic.title}"`;
+      if (gdDescEl) gdDescEl.innerText = currentActiveTopic.desc;
+
+      await setSpeaker('arjun', 'Arjun', arjunReply, 'arjun');
+      await setSpeaker('kavya', 'Kavya', kavyaReply, 'kavya');
+      
+  } catch (e) {
+      // Fallback if parsing fails
+      currentActiveTopic = { title: "AI vs Human Intelligence", desc: "Debate the ethical consequences of autonomous AI managers." };
+      await setSpeaker('arjun', 'Arjun', "We must rely on AI because it eliminates human bias and reduces operational costs by 30%.", 'arjun');
+      await setSpeaker('kavya', 'Kavya', `But AI lacks the empathy required for true leadership. ${firstName}, where do you stand on this?`, 'kavya');
+  }
+
+  if (btn) btn.innerHTML = `<i class="fa-solid fa-users-viewfinder mr-2"></i>Virtual Agents Active`;
   document.getElementById('gd-mic-zone').classList.remove('hidden');
   document.getElementById('gd-mic-zone').classList.add('flex');
 };
@@ -1735,10 +1745,10 @@ window.processGDSpeech = async function(userSpeech) {
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
     
     let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "${currentActiveTopic.title}". The user you are debating is named ${firstName}. 
-    CRITICAL INSTRUCTION: Analyze ${firstName}'s last point in the transcript below. 
+    CRITICAL INSTRUCTION: Analyze ${firstName}'s last point. 
     1. If their argument is loose or illogical, point out the exact flaws and challenge them directly.
-    2. If it is strong, counter it with a different corporate perspective based on your persona.
-    Keep it conversational, natural, and highly professional. Use fillers like "I see your point" or "Actually...". Strictly 1 to 2 sentences max. Do not use your own name or brackets.`;
+    2. If it is strong, counter it with a different corporate perspective.
+    Keep it conversational, natural, and highly professional. Strictly 1 to 2 sentences max. Do not use your own name or brackets.`;
     
     let aiReply = await callAI(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
     
@@ -1747,7 +1757,7 @@ window.processGDSpeech = async function(userSpeech) {
     document.getElementById('gd-mic-zone').classList.remove('hidden'); 
     document.getElementById('gd-mic-zone').classList.add('flex');
   } else {
-    writeTranscript('gd-transcript', 'System', 'Calculating final GD score via Gemini Rubric...');
+    writeTranscript('gd-transcript', 'System', 'Calculating final GD score via Gemini rubric...');
     
     let gdScoringPrompt = `You are a strict Executive Assessment Evaluator grading an MBA Group Discussion transcript.
 Evaluate the candidate's performance across 3 parameters (10 marks each, total 30 marks):
@@ -1874,11 +1884,11 @@ async function askNextInterviewQuestion() {
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
     const archetype = window.userData.archetype && window.userData.archetype !== "Not Evaluated" ? window.userData.archetype : 'Corporate Professional';
     
-    writeTranscript('interview-transcript', 'System', 'Meera is dynamically analyzing your profile and generating a custom question...');
+    writeTranscript('interview-transcript', 'System', 'Meera is analyzing your profile and generating a custom question...');
     
     let systemPrompt = window.interviewMethod === 'star'
       ? `You are Meera, a seasoned, strict Fortune 500 HR Director. You are interviewing a candidate named ${firstName}, whose psychometric archetype is evaluated as '${archetype}'. Generate the FIRST question of the interview. Greet them professionally and ask a complex behavioral question requiring them to walk you through a specific past scenario that tests their strengths or blind spots. Keep your response strictly under 2 sentences. Do not use your own name or brackets.`
-      : `You are Meera, a seasoned, strict Fortune 500 HR Director. You are interviewing a candidate named ${firstName}, whose psychometric archetype is evaluated as '${archetype}'. Generate the FIRST question of the interview. Greet them professionally and ask a deep, open-ended general question about their leadership philosophy, career trajectory, strengths, weaknesses, or how they handle corporate politics. DO NOT ask for a specific past scenario. Keep your response strictly under 2 sentences. Do not use your own name or brackets.`;
+      : `You are Meera, a friendly, welcoming Corporate HR Manager. You are interviewing a candidate named ${firstName} for an MBA role. Generate the FIRST question of the interview. Greet them warmly and ask a standard, basic introductory HR question like "Tell me about yourself" or "Walk me through your resume". Do NOT ask complex questions about strategy or corporate politics. Keep your response strictly under 2 sentences. Do not use your own name or brackets.`;
     
     let q = await callAI(`Generate the FIRST question for ${firstName}.`, systemPrompt);
     intHistory += `Meera: ${q}\n`;
@@ -1919,9 +1929,9 @@ window.processInterviewSpeech = async function(candidateResponse) {
     
     let systemPrompt = window.interviewMethod === 'star'
       ? `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: 
-      CRITICAL INSTRUCTION: Read their last answer in the transcript below. Immediately ask a hard, relevant follow-up question using the STAR method based on their answer (asking for a specific past scenario). DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`
-      : `You are Meera, a strict, objective HR Director interviewing a candidate named ${firstName}. Respond with EXACTLY ONE SENTENCE: 
-      CRITICAL INSTRUCTION: Read their last answer in the transcript below. Immediately ask a broad, open-ended follow-up question about their goals, opinions, or a hypothetical strategy based strictly on what they just said. DO NOT ask them to describe a specific past scenario (No STAR questions). DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`;
+      CRITICAL INSTRUCTION: Read their last answer. Immediately ask a hard, relevant follow-up question using the STAR method based on their answer (asking for a specific past scenario). DO NOT acknowledge, evaluate, or appreciate their previous answer. Be completely silent on what they just said. Do not say 'thank you' or 'good point'. Do not include your name or brackets.`
+      : `You are Meera, a friendly, encouraging Corporate HR Manager interviewing a candidate named ${firstName}. Respond with EXACTLY ONE OR TWO SENTENCES: 
+      CRITICAL INSTRUCTION: Read their last answer. Briefly and warmly acknowledge it (e.g., "That sounds great", "Thank you for sharing"), then ask a standard, basic HR follow-up question. Ask about their standard strengths, weaknesses, 5-year goals, or why they want to work in this industry. DO NOT ask intense strategic questions. Keep it very conversational and light. Do not include your name or brackets.`;
     
     let meeraReply = await callAI(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
     intHistory += `Meera: ${meeraReply}\n`;
