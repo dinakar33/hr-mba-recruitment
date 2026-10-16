@@ -9,8 +9,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-
-<!-- Real Computer Vision Libraries for Facial Tracking -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/tracking-min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/data/face-min.js"></script>
 
@@ -30,7 +28,6 @@ body { font-family: 'Inter', sans-serif; background-color: #f8fafc; transition: 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Custom Scrollbar for Desktop Navigation */
 .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; transition: background 0.3s; }
@@ -39,7 +36,6 @@ body { font-family: 'Inter', sans-serif; background-color: #f8fafc; transition: 
 .drop-zone { border: 2px dashed #cbd5e1; transition: all 0.2s ease; }
 .drop-zone.dragover { border-color: #2563eb; background-color: #eff6ff; }
 
-/* AI Dark Mode Styles */
 body.ai-mode { background-color: #0f172a; color: #f1f5f9; }
 body.ai-mode .glass-card { background: rgba(30, 41, 59, 0.95); border-color: rgba(51, 65, 85, 0.8); color: #f8fafc; }
 body.ai-mode h2, body.ai-mode h3, body.ai-mode p, body.ai-mode span, body.ai-mode label, body.ai-mode li { color: #f8fafc !important; }
@@ -49,18 +45,6 @@ body.ai-mode .bg-white { background-color: #1e293b !important; }
 body.ai-mode .bg-slate-50 { background-color: rgba(255, 255, 255, 0.05) !important; }
 body.ai-mode .border-gray-300, body.ai-mode .border { border-color: #475569 !important; }
 body.ai-mode input[type="text"], body.ai-mode input[type="email"], body.ai-mode input[type="tel"], body.ai-mode input[type="url"], body.ai-mode input[type="password"], body.ai-mode select, body.ai-mode textarea { background-color: #334155; color: #f8fafc; border-color: #475569; }
-
-/* Contrast fixes for Resource Library colored boxes in Dark Mode */
-body.ai-mode .bg-red-50 { background-color: rgba(239, 68, 68, 0.15) !important; border-color: rgba(239, 68, 68, 0.3) !important; }
-body.ai-mode .bg-green-50 { background-color: rgba(34, 197, 94, 0.15) !important; border-color: rgba(34, 197, 94, 0.3) !important; }
-body.ai-mode .bg-indigo-50 { background-color: rgba(99, 102, 241, 0.15) !important; border-color: rgba(99, 102, 241, 0.3) !important; }
-body.ai-mode .bg-purple-50 { background-color: rgba(168, 85, 247, 0.15) !important; border-color: rgba(168, 85, 247, 0.3) !important; }
-body.ai-mode .bg-amber-50 { background-color: rgba(245, 158, 11, 0.15) !important; border-color: rgba(245, 158, 11, 0.3) !important; }
-body.ai-mode .text-red-700 { color: #fca5a5 !important; }
-body.ai-mode .text-green-700 { color: #86efac !important; }
-body.ai-mode .text-indigo-700 { color: #a5b4fc !important; }
-body.ai-mode .text-purple-700 { color: #d8b4fe !important; }
-body.ai-mode .text-amber-700 { color: #fcd34d !important; }
 
 .toggle-checkbox:checked { right: 0; border-color: #68D391; }
 .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
@@ -80,41 +64,26 @@ body.ai-mode .gd-avatar { background: #334155; }
 @keyframes urgent-glow { 0% { text-shadow: 0 0 5px red; } 50% { text-shadow: 0 0 20px red; color: #ff9999; } 100% { text-shadow: 0 0 5px red; } }
 .timer-urgent { animation: urgent-glow 1s infinite; color: red; font-weight: 900; }
 
-.gd-boardroom-container {
-    position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem;
-}
+.gd-boardroom-container { position: relative; width: 100%; min-height: 240px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid #334155; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 1.5rem; }
 @media (min-width: 768px) { .gd-boardroom-container { min-height: 320px; } }
 
-.gd-table-oval {
-    width: 85%; height: 100px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border: 3px solid #475569; border-radius: 100px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
-}
+.gd-table-oval { width: 85%; height: 100px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border: 3px solid #475569; border-radius: 100px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
 @media (min-width: 768px) { .gd-table-oval { width: 80%; height: 140px; } }
 
 .gd-seat { position: absolute; text-align: center; }
 .gd-seat-top-left { top: 10px; left: 5%; }
 .gd-seat-top-right { top: 10px; right: 5%; }
-@media (min-width: 768px) {
-    .gd-seat-top-left { top: 15px; left: 15%; }
-    .gd-seat-top-right { top: 15px; right: 15%; }
-}
+@media (min-width: 768px) { .gd-seat-top-left { top: 15px; left: 15%; } .gd-seat-top-right { top: 15px; right: 15%; } }
 .gd-seat-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
 
-@keyframes slowPulse {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); }
-}
+@keyframes slowPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
 .hero-glow { animation: slowPulse 8s infinite alternate ease-in-out; }
 
-/* LAUNCH CEREMONY SPECIFIC CSS */
 .vip-card { cursor: pointer; transition: all 0.3s ease; }
 .vip-card img { filter: grayscale(100%); opacity: 0.6; }
 .vip-card.verified img { filter: grayscale(0%); opacity: 1; border-color: #4ade80; box-shadow: 0 0 20px rgba(74, 222, 128, 0.6); }
 .vip-card.walking { animation: walkToCenter 3s forwards ease-in-out; pointer-events: none; z-index: 50; position: relative; }
-@keyframes walkToCenter {
-    0% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(0, 50px) scale(1.1); }
-    100% { transform: translate(var(--walk-x, 0), var(--walk-y, 100px)) scale(0.8); opacity: 0; }
-}
+@keyframes walkToCenter { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(0, 50px) scale(1.1); } 100% { transform: translate(var(--walk-x, 0), var(--walk-y, 100px)) scale(0.8); opacity: 0; } }
 .launch-gradient { background: radial-gradient(circle at center, #1e293b 0%, #020617 100%); }
 </style>
 </head>
@@ -122,9 +91,7 @@ body.ai-mode .gd-avatar { background: #334155; }
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
 <div id="launchOverlay" class="fixed inset-0 z-[9999] launch-gradient hidden flex-col items-center justify-center overflow-hidden">
-    <!-- Starry background effect -->
     <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(white 1px, transparent 1px); background-size: 50px 50px;"></div>
-    
     <button onclick="window.bypassLaunch()" class="absolute bottom-6 right-6 text-slate-500 hover:text-white text-sm underline z-50 transition-colors">Bypass Ceremony to Dashboard</button>
 
     <div class="text-center z-10 mb-12 transform transition-all duration-700" id="launchHeader">
@@ -132,7 +99,6 @@ body.ai-mode .gd-avatar { background: #334155; }
         <p class="text-slate-400 text-sm md:text-lg font-mono tracking-[0.3em] uppercase">Executive Launch Sequence Authorization</p>
     </div>
 
-    <!-- The 3 Inaugurators -->
     <div class="flex flex-wrap justify-center gap-8 md:gap-16 z-10 w-full max-w-4xl px-4" id="vipContainer">
         <!-- VC -->
         <div class="flex flex-col items-center vip-card" id="vip-vc" onclick="window.verifyVIP('vc')">
@@ -168,10 +134,10 @@ body.ai-mode .gd-avatar { background: #334155; }
         </div>
     </div>
 
-    <!-- Master Button Pedestal (Z-INDEX 50 TO MAKE IT CLICKABLE) -->
-    <div id="masterPedestal" class="absolute bottom-[20%] flex-col items-center opacity-0 pointer-events-none transition-all duration-1000 z-[50] scale-50">
+    <!-- Master Button Pedestal (FORCED TO Z-INDEX 999999 TO FIX CLICK BUG) -->
+    <div id="masterPedestal" class="absolute bottom-[20%] flex-col items-center opacity-0 pointer-events-none transition-all duration-1000 scale-50" style="z-index: 999999;">
         <div class="text-green-400 font-mono text-sm md:text-base mb-6 font-bold tracking-widest bg-black/50 px-4 py-2 rounded-full border border-green-500/30 shadow-[0_0_15px_rgba(74,222,128,0.2)]">3/3 VERIFIED: MASTER CONTROL UNLOCKED</div>
-        <button onclick="window.triggerLiftoff()" class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-red-600 hover:bg-red-500 border-8 border-slate-800 shadow-[0_0_60px_rgba(220,38,38,0.8)] text-white font-black text-xl md:text-2xl uppercase tracking-widest transition-transform duration-300 hover:scale-105 active:scale-95 flex items-center justify-center relative overflow-hidden group">
+        <button onclick="window.triggerLiftoff()" style="pointer-events: auto !important; cursor: pointer; z-index: 999999; position: relative;" class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-red-600 hover:bg-red-500 border-8 border-slate-800 shadow-[0_0_60px_rgba(220,38,38,0.8)] text-white font-black text-xl md:text-2xl uppercase tracking-widest transition-transform duration-300 hover:scale-105 active:scale-95 flex items-center justify-center relative overflow-hidden group">
             <span class="relative z-10 pointer-events-none">LAUNCH</span>
             <div class="absolute inset-0 bg-gradient-to-t from-red-800 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
         </button>
@@ -180,10 +146,9 @@ body.ai-mode .gd-avatar { background: #334155; }
     </div>
 
     <!-- Video Overlay for Liftoff -->
-    <div id="videoOverlay" class="fixed inset-0 bg-black z-[10000] hidden flex-col items-center justify-center">
-        <!-- Video controls are enabled so it won't freeze if Chrome blocks autoplay -->
+    <div id="videoOverlay" class="fixed inset-0 bg-black z-[1000000] hidden flex-col items-center justify-center">
         <video id="launchVideo" class="w-full h-full object-cover max-w-screen-2xl mx-auto" src="launch-movie1.mp4" playsinline controls preload="auto"></video>
-        <button onclick="window.endLaunchSequence()" class="absolute top-6 right-6 text-white/50 hover:text-white bg-black/50 px-4 py-2 rounded-lg text-sm border border-white/20 transition-colors z-50">Skip Video <i class="fa-solid fa-forward ml-2"></i></button>
+        <button onclick="window.endLaunchSequence()" class="absolute top-6 right-6 text-white/50 hover:text-white bg-black/50 px-4 py-2 rounded-lg text-sm border border-white/20 transition-colors z-[1000001]">Skip Video <i class="fa-solid fa-forward ml-2"></i></button>
     </div>
 </div>
 
@@ -220,6 +185,10 @@ body.ai-mode .gd-avatar { background: #334155; }
 </div>
 
 <div class="flex flex-wrap items-center gap-3 md:gap-4 w-full lg:w-auto mt-2 lg:mt-0 flex">
+  <button onclick="window.showLaunchCeremony(true)" class="bg-red-600/80 hover:bg-red-500 border border-red-400/50 text-white px-3 md:px-4 py-2 rounded-lg transition text-xs md:text-sm font-bold shadow-lg items-center animate-pulse hidden sm:flex">
+    <i class="fa-solid fa-rocket mr-2 text-white"></i> Launch
+  </button>
+
   <div class="flex items-center justify-center space-x-2 bg-black/20 px-3 md:px-4 py-2 rounded-full border border-white/10">
     <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-200">Manual</span>
     <div class="relative inline-block w-10 md:w-12 mr-1 md:mr-2 align-middle select-none transition duration-200 ease-in">
@@ -662,8 +631,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
   </div>
 
   <div class="space-y-8">
-    
-    <!-- VERTICAL 1: ATS AUDIT -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-blue-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-file-pdf text-blue-500 mr-2"></i>Vertical 1: Enterprise ATS Audit</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -690,7 +657,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
       </div>
     </div>
 
-    <!-- VERTICAL 2: APTITUDE TEST -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-indigo-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-stopwatch text-indigo-500 mr-2"></i>Vertical 2: Cognitive Aptitude</h3>
       <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 mb-6">
@@ -730,7 +696,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
       </div>
     </div>
 
-    <!-- VERTICAL 3: ARCHETYPE ASSESSMENT -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-purple-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-puzzle-piece text-purple-500 mr-2"></i>Vertical 3: Archetype Profiling</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -781,7 +746,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
       </div>
     </div>
 
-    <!-- VERTICAL 4: VIRTUAL GD -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-amber-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-users text-amber-500 mr-2"></i>Vertical 4: Virtual Group Discussion</h3>
       <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-file-circle-check text-slate-400 mr-1"></i> Model GD Topics & Perspectives</h4>
@@ -815,7 +779,6 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
       </div>
     </div>
 
-    <!-- VERTICAL 5: INTERVIEW -->
     <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl border-t-4 border-t-red-500">
       <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800"><i class="fa-solid fa-microphone-lines text-red-500 mr-2"></i>Vertical 5: AI Behavioral Interview</h3>
       <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-file-circle-check text-slate-400 mr-1"></i> Model General & STAR Questions</h4>
@@ -900,7 +863,7 @@ Submit <span class="hidden sm:inline ml-1">Answer</span> <i class="fa-solid fa-p
         <li><strong>1. Forming:</strong> Polite, anxious. High dependence on the leader.</li>
         <li><strong>2. Storming:</strong> Conflict emerges. Personalities clash over control.</li>
         <li><strong>3. Norming:</strong> Resolution. The team agrees on rules and roles.</li>
-        <li><strong>4. Performing:</strong> Frictionless execution toward the goal.</li>
+        <li><strong>4. Performing:</strong> frictionless execution toward the goal.</li>
       </ul>
     </div>
 
@@ -1101,7 +1064,6 @@ const part1 = "AQ.Ab8RN6If2X1PUkc9MgZ";
 const part2 = "3v1AOvtqHwNd_8P31FnRLa0g3mdJrhg";
 const apiKey = part1 + part2;
 
-// The Google Gemini Engine setup
 async function callAI(prompt, systemInstruction = "You are a professional corporate evaluator.") {
   try {
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
@@ -1109,14 +1071,21 @@ async function callAI(prompt, systemInstruction = "You are a professional corpor
         contents: [{ parts: [{ text: prompt }] }],
         systemInstruction: { parts: [{ text: systemInstruction }] }
     };
-    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
     const result = await response.json();
-    if (!response.ok) throw new Error(result.error?.message || "Invalid response from Gemini.");
+    if (!response.ok) { throw new Error(result.error?.message || "Invalid response from Gemini."); }
     if (result.candidates && result.candidates.length > 0) {
         let text = result.candidates[0].content.parts[0].text;
         return text.replace(/\*/g, '').trim();
     } else { throw new Error("No candidates returned from Gemini."); }
-  } catch (e) { console.error("AI Connection Error:", e); return `[SYSTEM ERROR: AI Connection Failed] Details: ${e.message}`; }
+  } catch (e) {
+    console.error("AI Connection Error:", e);
+    return `[SYSTEM ERROR: AI Connection Failed] Details: ${e.message}`;
+  }
 }
 
 const firebaseConfig = {
@@ -1134,39 +1103,27 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// ==========================================
-// CINEMATIC LAUNCH SEQUENCE LOGIC (3-PERSON)
-// ==========================================
+// 100% OFFLINE FAILSAFE LISTENER - Listens directly to browser memory so Launch works even if Firebase crashes
+window.addEventListener('storage', (e) => {
+    if(e.key === 'hr_launch_trigger') {
+        if(e.newValue && e.newValue !== 'false' && !window.launchPlayed) {
+            window.showLaunchCeremony(true);
+        }
+    }
+});
+
 window.launchPlayed = false;
 let verifiedCount = 0;
 const totalVIPs = 3;
 
-// 1. Listen for Admin Dashboard switch ONLY after authentication
-function listenToSiteConfig() {
-    const siteConfigRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'config', 'siteConfig');
-    onSnapshot(siteConfigRef, (snap) => {
-        if(snap.exists()) {
-            const data = snap.data();
-            if(data.launchMode === true && !window.launchPlayed) {
-                window.showLaunchCeremony();
-            }
-        }
-    });
-}
-
-// 2. Control Functions
 window.showLaunchCeremony = function(force = false) {
     if (window.launchPlayed && !force) return;
-    
     document.getElementById('launchOverlay').classList.remove('hidden');
     document.getElementById('launchOverlay').classList.add('flex');
-    
-    // Reset state for replay
     verifiedCount = 0;
     ['vc', 'registrar', 'dignitaries'].forEach(id => {
         const card = document.getElementById(`vip-${id}`);
-        card.classList.remove('verified', 'walking');
-        card.style = ""; 
+        card.classList.remove('verified', 'walking'); card.style = ""; 
         document.getElementById(`spin-${id}`).classList.remove('border-green-400');
         document.getElementById(`spin-${id}`).classList.add('border-transparent');
         const status = document.getElementById(`status-${id}`);
@@ -1174,7 +1131,6 @@ window.showLaunchCeremony = function(force = false) {
         status.classList.remove('text-green-400', 'border-green-500/30');
         status.classList.add('text-red-400', 'border-red-500/30');
     });
-    
     document.getElementById('masterPedestal').classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
     document.getElementById('masterPedestal').classList.add('opacity-0', 'pointer-events-none', 'scale-50');
     document.getElementById('vipContainer').classList.remove('opacity-0');
@@ -1184,25 +1140,19 @@ window.showLaunchCeremony = function(force = false) {
 window.verifyVIP = function(id) {
     const card = document.getElementById(`vip-${id}`);
     if (card.classList.contains('verified')) return;
-
     card.classList.add('verified');
     document.getElementById(`spin-${id}`).classList.remove('border-transparent');
     document.getElementById(`spin-${id}`).classList.add('border-green-400');
-    
     const status = document.getElementById(`status-${id}`);
     status.innerText = "Verified";
     status.classList.remove('text-red-400', 'border-red-500/30');
     status.classList.add('text-green-400', 'border-green-500/30');
-
     verifiedCount++;
-    if (verifiedCount >= totalVIPs) {
-        setTimeout(window.triggerMasterButtonPhase, 1000);
-    }
+    if (verifiedCount >= totalVIPs) { setTimeout(window.triggerMasterButtonPhase, 1000); }
 };
 
 window.triggerMasterButtonPhase = function() {
     document.getElementById('launchHeader').classList.add('opacity-0', 'translate-y-[-50px]');
-    
     const vips = ['vc', 'registrar', 'dignitaries'];
     vips.forEach((id, index) => {
         const card = document.getElementById(`vip-${id}`);
@@ -1213,8 +1163,6 @@ window.triggerMasterButtonPhase = function() {
         card.style.setProperty('--walk-y', `${destY}px`);
         setTimeout(() => { card.classList.add('walking'); }, index * 400);
     });
-
-    // Reveal Master Pedestal
     setTimeout(() => {
         document.getElementById('masterPedestal').classList.remove('opacity-0', 'pointer-events-none', 'scale-50');
         document.getElementById('masterPedestal').classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
@@ -1224,9 +1172,8 @@ window.triggerMasterButtonPhase = function() {
 window.triggerLiftoff = function() {
     const videoOverlay = document.getElementById('videoOverlay');
     const launchVideo = document.getElementById('launchVideo');
-    videoOverlay.classList.remove('hidden');
-    videoOverlay.classList.add('flex');
-    launchVideo.play().catch(e => { console.error("Video autoplay blocked or OS media error:", e); });
+    videoOverlay.classList.remove('hidden'); videoOverlay.classList.add('flex');
+    launchVideo.play().catch(e => { console.error("Browser blocked autoplay:", e); });
     launchVideo.onended = () => { window.endLaunchSequence(); };
 };
 
@@ -1234,15 +1181,13 @@ window.bypassLaunch = function() { window.endLaunchSequence(); };
 
 window.endLaunchSequence = function() {
     const launchVideo = document.getElementById('launchVideo');
-    launchVideo.pause();
-    launchVideo.currentTime = 0;
+    launchVideo.pause(); launchVideo.currentTime = 0;
     document.getElementById('videoOverlay').classList.add('hidden');
     document.getElementById('videoOverlay').classList.remove('flex');
     document.getElementById('launchOverlay').classList.add('hidden');
     document.getElementById('launchOverlay').classList.remove('flex');
     window.launchPlayed = true;
 };
-// ==========================================
 
 class AvatarSpeechService {
   constructor() {
@@ -1257,9 +1202,11 @@ class AvatarSpeechService {
     this.stop();
     return new Promise(resolve => {
       if (!window.speechSynthesis) { resolve(); return; }
+      
       const utterance = new SpeechSynthesisUtterance(text);
       let inVoices = this.voices.filter(v => v.lang === 'en-IN' || v.lang === 'en_IN' || v.lang.includes('India'));
-      let maleVoice = null; let femaleVoice = null;
+      let maleVoice = null;
+      let femaleVoice = null;
       if (inVoices.length > 0) {
         maleVoice = inVoices.find(v => v.name.toLowerCase().includes('ravi') || v.name.toLowerCase().includes('male')) || inVoices[0];
         femaleVoice = inVoices.find(v => v.name.toLowerCase().includes('heera') || v.name.toLowerCase().includes('neerja') || v.name.toLowerCase().includes('female')) || inVoices[inVoices.length - 1];
@@ -1268,13 +1215,17 @@ class AvatarSpeechService {
          maleVoice = enVoices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('david')) || enVoices[0];
          femaleVoice = enVoices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira')) || enVoices[0];
       }
+
       if (avatarId === 'arjun') { if (maleVoice) utterance.voice = maleVoice; utterance.pitch = 0.8; utterance.rate = 0.95; }
       else if (avatarId === 'kavya') { if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 1.3; utterance.rate = 1.05; }
       else if (avatarId === 'meera') { if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 0.85; utterance.rate = 0.95; }
       else { if (femaleVoice) utterance.voice = femaleVoice; utterance.pitch = 1.0; utterance.rate = 1.0; }
+
       let isResolved = false;
       const finish = () => { if (!isResolved) { isResolved = true; resolve(); } };
-      utterance.onend = finish; utterance.onerror = finish; 
+
+      utterance.onend = finish;
+      utterance.onerror = finish; 
       setTimeout(finish, 8000); 
       window.speechSynthesis.speak(utterance);
     });
@@ -1315,20 +1266,12 @@ function renderArchetypeQs() {
   if(!c) return;
   let finalHtml = '';
   archQ.forEach((item, idx) => {
-    let html = `
-      <div class="mb-5 bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative z-10">
-        <p class="text-sm md:text-base font-bold text-slate-800 mb-4">${item.q}</p>
-        <div class="space-y-3">`;
+    let html = `<div class="mb-5 bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative z-10"><p class="text-sm md:text-base font-bold text-slate-800 mb-4">${item.q}</p><div class="space-y-3">`;
     for(let key in item.o) {
       const uniqueId = `arch_${idx}_${key}`;
-      html += `
-        <div class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all duration-200" onclick="document.getElementById('${uniqueId}').checked = true;">
-          <input type="radio" id="${uniqueId}" name="arch${idx}" value="${key}" class="w-5 h-5 text-brand-600 border-gray-300 focus:ring-brand-500 cursor-pointer accent-brand-600 pointer-events-none">
-          <label for="${uniqueId}" class="ml-3 text-sm md:text-base text-slate-700 font-medium w-full cursor-pointer pointer-events-none">${item.o[key]}</label>
-        </div>`;
+      html += `<div class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all duration-200" onclick="document.getElementById('${uniqueId}').checked = true;"><input type="radio" id="${uniqueId}" name="arch${idx}" value="${key}" class="w-5 h-5 text-brand-600 border-gray-300 focus:ring-brand-500 cursor-pointer accent-brand-600 pointer-events-none"><label for="${uniqueId}" class="ml-3 text-sm md:text-base text-slate-700 font-medium w-full cursor-pointer pointer-events-none">${item.o[key]}</label></div>`;
     }
-    html += `</div></div>`;
-    finalHtml += html;
+    html += `</div></div>`; finalHtml += html;
   });
   c.innerHTML = finalHtml;
 }
@@ -1350,8 +1293,7 @@ window.autoAdvanceTab = function(currentTabId, nextTabId, stageName) {
 window.showMessage = function(text, type = 'success') {
   const box = document.getElementById('msgBox');
   box.className = `mb-6 p-3 md:p-4 rounded-lg shadow-md font-bold text-xs md:text-sm flex items-center justify-between z-50 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`;
-  document.getElementById('msgText').innerHTML = text;
-  box.classList.remove('hidden');
+  document.getElementById('msgText').innerHTML = text; box.classList.remove('hidden');
   setTimeout(() => { box.classList.add('hidden'); }, 5000);
 };
 
@@ -1361,21 +1303,10 @@ signInAnonymously(auth).then((userCredential) => {
   const urlParams = new URLSearchParams(window.location.search);
   const impersonateEmail = urlParams.get('email');
 
-  if (impersonateEmail) {
-      document.getElementById('loginEmailLookup').value = impersonateEmail;
-      window.restoreUserSession(true); 
-  } else if (savedEmail) {
-      document.getElementById('loginEmailLookup').value = savedEmail;
-      window.restoreUserSession();
-  } else {
-      listenToStudentData();
-  }
-  
-  // Start listening to the launch config ONLY after authentication is complete
-  listenToSiteConfig();
-}).catch(() => {
-  window.showMessage(`Database connection established locally.`, "success");
-});
+  if (impersonateEmail) { document.getElementById('loginEmailLookup').value = impersonateEmail; window.restoreUserSession(true); } 
+  else if (savedEmail) { document.getElementById('loginEmailLookup').value = savedEmail; window.restoreUserSession(); } 
+  else { listenToStudentData(); }
+}).catch(() => { window.showMessage(`Database connection established locally.`, "success"); });
 
 window.restoreUserSession = async function(isImpersonating = false) {
   const lookupEmail = document.getElementById('loginEmailLookup').value.trim();
@@ -1384,18 +1315,10 @@ window.restoreUserSession = async function(isImpersonating = false) {
     const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates'), where("email", "==", lookupEmail));
     const snap = await getDocs(q);
     if (!snap.empty) {
-      window.candidateId = snap.docs[0].id;
-      window.userData = snap.docs[0].data();
-      localStorage.setItem('hr_candidate_email', lookupEmail);
-      document.getElementById('candName').value = window.userData.name || "";
-      document.getElementById('candEmail').value = window.userData.email || "";
-      window.updatePassportUI();
-      
-      if (isImpersonating) {
-         window.showMessage(`Admin Override: Viewing ${window.userData.name}'s Passport`, 'success');
-         const targetNavBtn = document.querySelector(`button[onclick*="'tab-passport'"]`);
-         window.switchTab('tab-passport', targetNavBtn);
-      } else { window.showMessage(`Welcome back, ${window.userData.name}! Session restored.`); }
+      window.candidateId = snap.docs[0].id; window.userData = snap.docs[0].data(); localStorage.setItem('hr_candidate_email', lookupEmail);
+      document.getElementById('candName').value = window.userData.name || ""; document.getElementById('candEmail').value = window.userData.email || ""; window.updatePassportUI();
+      if (isImpersonating) { window.showMessage(`Admin Override: Viewing ${window.userData.name}'s Passport`, 'success'); const targetNavBtn = document.querySelector(`button[onclick*="'tab-passport'"]`); window.switchTab('tab-passport', targetNavBtn); } 
+      else { window.showMessage(`Welcome back, ${window.userData.name}! Session restored.`); }
       listenToStudentData();
     } else { window.showMessage("No prior session found.", "error"); }
   } catch(e) { window.showMessage("Failed to lookup session.", "error"); }
@@ -1416,152 +1339,80 @@ async function syncToCloud() {
 
 window.saveProfile = async function() {
   if (!window.candidateId) { window.showMessage("Database initializing...", "error"); return; }
-  const name = document.getElementById('candName').value.trim();
-  const email = document.getElementById('candEmail').value.trim();
-  const uni = document.getElementById('candUni').value.trim();
+  const name = document.getElementById('candName').value.trim(); const email = document.getElementById('candEmail').value.trim(); const uni = document.getElementById('candUni').value.trim();
   if (!name || !email || !uni) { window.showMessage("Name, Email, and Institution are compulsory.", "error"); return; }
-
-  window.userData.name = name;
-  window.userData.email = email;
+  window.userData.name = name; window.userData.email = email;
   if(!window.userData.archetype) window.userData.archetype = "Not Evaluated";
   localStorage.setItem('hr_candidate_email', email);
-
-  await syncToCloud();
-  window.autoAdvanceTab('tab-onboarding', 'tab-ats', 'Registration');
+  await syncToCloud(); window.autoAdvanceTab('tab-onboarding', 'tab-ats', 'Registration');
 };
 
 window.submitArchetype = async function() {
   let counts = { s:0, i:0, c:0, e:0 };
   for(let i=0; i<10; i++) {
     const checked = document.querySelector(`input[name="arch${i}"]:checked`);
-    if(!checked) { 
-      window.showMessage(`Please select an option for Question ${i+1}.`, "error"); 
-      const container = document.getElementById('archetypeQuestionsContainer');
-      if(container) container.scrollTop = (i * 120);
-      return; 
-    }
+    if(!checked) { window.showMessage(`Please select an option for Question ${i+1}.`, "error"); const container = document.getElementById('archetypeQuestionsContainer'); if(container) container.scrollTop = (i * 120); return; }
     counts[checked.value]++;
   }
   let maxVal = 0; let maxKey = 's';
   for (let key in counts) { if (counts[key] > maxVal) { maxVal = counts[key]; maxKey = key; } }
   const map = { s:"Strategist", i:"Innovator", c:"Connector", e:"Executor" };
   window.userData.archetype = map[maxKey];
-  
   try { await syncToCloud(); } catch (e) {}
   window.autoAdvanceTab('tab-archetype', 'tab-gd', 'Archetype Assessment');
 };
 
-window.speakAIPromise = function(text, avatarId) {
-  return new Promise(async resolve => {
-    if (!window.isAIMode) { resolve(); return; }
-    await ttsService.speak(text, avatarId);
-    resolve();
-  });
-};
+window.speakAIPromise = function(text, avatarId) { return new Promise(async resolve => { if (!window.isAIMode) { resolve(); return; } await ttsService.speak(text, avatarId); resolve(); }); };
 
 window.toggleAIMode = async function() {
-  window.isAIMode = document.getElementById('aiToggle').checked;
-  const body = document.body;
-  const guide = document.getElementById('global-ai-guide');
-
+  window.isAIMode = document.getElementById('aiToggle').checked; const body = document.body; const guide = document.getElementById('global-ai-guide');
   try {
       if (window.isAIMode) {
         body.classList.add('ai-mode');
-        const btn4 = document.getElementById('aiVoiceBtn4');
-        if (btn4) btn4.classList.remove('hidden');
+        const btn4 = document.getElementById('aiVoiceBtn4'); if (btn4) btn4.classList.remove('hidden');
         document.getElementById('gd-arena').classList.remove('opacity-50', 'pointer-events-none');
-        document.getElementById('interview-controls').classList.remove('hidden'); 
-        document.getElementById('interview-controls').classList.add('flex');
+        document.getElementById('interview-controls').classList.remove('hidden'); document.getElementById('interview-controls').classList.add('flex');
         document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
-        
-        if (guide) {
-            guide.classList.add('visible'); 
-            document.getElementById('guide-text').innerText = "AI Protocol Activated.";
-            window.activeSpeaker = 'guide'; 
-            const guideAv = document.getElementById('guide-avatar');
-            if (guideAv) guideAv.classList.add('avatar-talking');
-        }
-        
+        if (guide) { guide.classList.add('visible'); document.getElementById('guide-text').innerText = "AI Protocol Activated."; window.activeSpeaker = 'guide'; const guideAv = document.getElementById('guide-avatar'); if (guideAv) guideAv.classList.add('avatar-talking'); }
         await window.speakAIPromise("AI Protocol Activated. I will guide you through this assessment.", 'guide');
-        
         window.activeSpeaker = null; 
-        if (guide) {
-            const guideAv = document.getElementById('guide-avatar');
-            if (guideAv) guideAv.classList.remove('avatar-talking');
-            document.getElementById('guide-text').innerText = "Navigate through your assessment stages.";
-        }
-        
-        if(document.getElementById('tab-interview').classList.contains('active') || document.getElementById('tab-gd').classList.contains('active')) {
-            initWebcamStream();
-        }
+        if (guide) { const guideAv = document.getElementById('guide-avatar'); if (guideAv) guideAv.classList.remove('avatar-talking'); document.getElementById('guide-text').innerText = "Navigate through your assessment stages."; }
+        if(document.getElementById('tab-interview').classList.contains('active') || document.getElementById('tab-gd').classList.contains('active')) { initWebcamStream(); }
       } else {
         body.classList.remove('ai-mode');
-        const btn4 = document.getElementById('aiVoiceBtn4');
-        if (btn4) btn4.classList.add('hidden');
+        const btn4 = document.getElementById('aiVoiceBtn4'); if (btn4) btn4.classList.add('hidden');
         document.getElementById('gd-arena').classList.add('opacity-50', 'pointer-events-none');
-        document.getElementById('interview-controls').classList.add('hidden'); 
-        document.getElementById('interview-controls').classList.remove('flex');
+        document.getElementById('interview-controls').classList.add('hidden'); document.getElementById('interview-controls').classList.remove('flex');
         document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-breathing', 'avatar-talking'));
-        if (guide) guide.classList.remove('visible'); 
-        ttsService.stop(); window.activeSpeaker = null;
+        if (guide) guide.classList.remove('visible'); ttsService.stop(); window.activeSpeaker = null;
       }
   } catch (err) {}
 };
 
-window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-let recognition = null;
-let activeInputBox = null;
-let activeMicBtn = null;
-let isRecording = false;
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition; let recognition = null; let activeInputBox = null; let activeMicBtn = null; let isRecording = false;
 
 if(window.SpeechRecognition) { 
-  recognition = new window.SpeechRecognition(); 
-  recognition.continuous = false; recognition.interimResults = false; recognition.lang = 'en-IN'; 
-  
-  recognition.onstart = () => {
-    isRecording = true;
-    if (activeMicBtn) { activeMicBtn.classList.remove('bg-slate-700'); activeMicBtn.classList.add('bg-red-600', 'animate-pulse'); }
-    if (activeInputBox) document.getElementById(activeInputBox).placeholder = "Listening... speak clearly and pause.";
-  };
-
-  recognition.onresult = (event) => { 
-    if (activeInputBox) {
-      const transcript = event.results[0][0].transcript;
-      const box = document.getElementById(activeInputBox);
-      box.value = box.value + (box.value.length > 0 ? " " : "") + transcript;
-    }
-  };
-
+  recognition = new window.SpeechRecognition(); recognition.continuous = false; recognition.interimResults = false; recognition.lang = 'en-IN'; 
+  recognition.onstart = () => { isRecording = true; if (activeMicBtn) { activeMicBtn.classList.remove('bg-slate-700'); activeMicBtn.classList.add('bg-red-600', 'animate-pulse'); } if (activeInputBox) document.getElementById(activeInputBox).placeholder = "Listening... speak clearly and pause."; };
+  recognition.onresult = (event) => { if (activeInputBox) { const transcript = event.results[0][0].transcript; const box = document.getElementById(activeInputBox); box.value = box.value + (box.value.length > 0 ? " " : "") + transcript; } };
   recognition.onerror = () => { if (activeInputBox) document.getElementById(activeInputBox).placeholder = "Microphone error. Please tap again or type."; };
-  recognition.onend = () => {
-    isRecording = false;
-    if (activeMicBtn) { activeMicBtn.classList.add('bg-slate-700'); activeMicBtn.classList.remove('bg-red-600', 'animate-pulse'); }
-  };
+  recognition.onend = () => { isRecording = false; if (activeMicBtn) { activeMicBtn.classList.add('bg-slate-700'); activeMicBtn.classList.remove('bg-red-600', 'animate-pulse'); } };
 }
 
 function writeTranscript(targetId, speaker, text) {
-  const box = document.getElementById(targetId);
-  if(!box) return;
+  const box = document.getElementById(targetId); if(!box) return;
   const line = document.createElement('div'); line.className = "mb-3 pb-3 border-b border-slate-700/50";
   line.innerHTML = `<span class="font-bold text-brand-400">[${speaker}]</span> <span class="text-white ml-2 md:ml-2 block sm:inline mt-1 sm:mt-0">${text}</span>`;
   box.appendChild(line); box.scrollTop = box.scrollHeight;
 }
 
-const pdfjsLib = window['pdfjs-dist/build/pdf'];
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-const fileInput = document.getElementById('resumeFile');
-if(document.getElementById('dropZone')) {
-  document.getElementById('dropZone').addEventListener('click', () => fileInput.click());
-  fileInput.addEventListener('change', () => { if (fileInput.files.length > 0) { document.getElementById('fName').innerText = fileInput.files[0].name; document.getElementById('fileNameDisplay').classList.remove('hidden'); } });
-}
+const pdfjsLib = window['pdfjs-dist/build/pdf']; pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js'; const fileInput = document.getElementById('resumeFile');
+if(document.getElementById('dropZone')) { document.getElementById('dropZone').addEventListener('click', () => fileInput.click()); fileInput.addEventListener('change', () => { if (fileInput.files.length > 0) { document.getElementById('fName').innerText = fileInput.files[0].name; document.getElementById('fileNameDisplay').classList.remove('hidden'); } }); }
 
 const STOP_WORDS = new Set(['the', 'and', 'is', 'of', 'to', 'in', 'a', 'for', 'with', 'on', 'at', 'by', 'an', 'be', 'this', 'that', 'from', 'as', 'it', 'was', 'are', 'or', 'if', 'your', 'my', 'their', 'will', 'we', 'our', 'can', 'has', 'have', 'but', 'not', 'they', 'you', 'which', 'skills', 'experience', 'ability', 'strong', 'good', 'excellent', 'years', 'working', 'knowledge']);
 
 window.runATS = async function() {
-  const btn = document.getElementById('btnRunATS');
-  const jdText = document.getElementById('jdInput').value.trim();
-  const spec = document.getElementById('candSpec').value || "MBA - Human Resources";
-
+  const btn = document.getElementById('btnRunATS'); const jdText = document.getElementById('jdInput').value.trim(); const spec = document.getElementById('candSpec').value || "MBA - Human Resources";
   if (!jdText) { window.showMessage("Please paste a Job Description first.", "error"); return; }
   if (!fileInput.files.length) { window.showMessage("Please upload a PDF resume.", "error"); return; }
   if (!window.candidateId) { window.showMessage("Save profile first!", "error"); return; }
@@ -1575,11 +1426,7 @@ window.runATS = async function() {
         "MBA - Marketing": { skills: ["google analytics", "sql", "excel", "python", "meta ads", "hubspot", "mixpanel", "seo"], methods: ["customer churn", "a/b testing", "funnel optimization", "clv", "cac", "cohort analysis"], metrics: ["conversion", "retention", "ctr", "organic traffic", "roas", "churn"] },
         "MBA - Supply Chain": { skills: ["advanced excel", "sql", "vlookup", "pivot tables", "sap", "erp", "python", "power bi"], methods: ["route optimization", "inventory replenishment", "cold chain", "root cause analysis", "warehouse management", "procurement"], metrics: ["transit delay", "stockouts", "overhead", "lead time", "turnaround", "routes"] }
     };
-
-    const specTax = taxonomy[spec] || taxonomy["MBA - Human Resources"];
-    const jdLower = jdText.toLowerCase();
-    let targetKw = [];
-    
+    const specTax = taxonomy[spec] || taxonomy["MBA - Human Resources"]; const jdLower = jdText.toLowerCase(); let targetKw = [];
     [...specTax.skills, ...specTax.methods].forEach(term => { if(jdLower.includes(term)) targetKw.push(term); });
     if(targetKw.length === 0) targetKw = specTax.skills;
 
@@ -1588,50 +1435,26 @@ window.runATS = async function() {
     const tfidfKw = Object.keys(freq).sort((a,b) => freq[b] - freq[a]).slice(0, 5);
     targetKw = [...new Set([...targetKw, ...tfidfKw])]; 
 
-    const file = fileInput.files[0];
-    const arrayBuffer = await file.arrayBuffer(); 
-    const pdf = await pdfjsLib.getDocument({data: new Uint8Array(arrayBuffer)}).promise; 
-    let resumeText = '';
-    
-    for(let i = 1; i <= pdf.numPages; i++) { 
-      const page = await pdf.getPage(i); const content = await page.getTextContent(); 
-      resumeText += content.items.map(item => item.str).join(' ').toLowerCase() + ' '; 
-    }
+    const file = fileInput.files[0]; const arrayBuffer = await file.arrayBuffer(); const pdf = await pdfjsLib.getDocument({data: new Uint8Array(arrayBuffer)}).promise; let resumeText = '';
+    for(let i = 1; i <= pdf.numPages; i++) { const page = await pdf.getPage(i); const content = await page.getTextContent(); resumeText += content.items.map(item => item.str).join(' ').toLowerCase() + ' '; }
 
     const bullets = resumeText.split(/\.|\u2022|\-|\*/).map(s => s.trim()).filter(s => s.length > 10);
-    let xyzMatches = [];
-    const actionRegex = /\b(built|designed|optimized|reduced|increased|developed|automated|analyzed|led|executed|managed|created|spearheaded|improved)\b/i;
-    const metricRegex = /\b\d+[%kK]?\b|₹|\$|hours|days|top \d+%/i;
-
-    bullets.forEach(bp => {
-        const hasAction = actionRegex.test(bp); const hasMetric = metricRegex.test(bp); const hasTool = specTax.skills.some(tool => bp.includes(tool));
-        if (hasAction && hasMetric && hasTool) { xyzMatches.push(bp); }
-    });
+    let xyzMatches = []; const actionRegex = /\b(built|designed|optimized|reduced|increased|developed|automated|analyzed|led|executed|managed|created|spearheaded|improved)\b/i; const metricRegex = /\b\d+[%kK]?\b|₹|\$|hours|days|top \d+%/i;
+    bullets.forEach(bp => { const hasAction = actionRegex.test(bp); const hasMetric = metricRegex.test(bp); const hasTool = specTax.skills.some(tool => bp.includes(tool)); if (hasAction && hasMetric && hasTool) { xyzMatches.push(bp); } });
 
     const xyzComplianceRate = bullets.length > 0 ? Math.round((xyzMatches.length / bullets.length) * 100) : 0;
     window.userData.ats_xyz_rate = xyzComplianceRate;
 
-    let matched = []; let missing = [];
-    targetKw.forEach(kw => { if(resumeText.includes(kw)) matched.push(kw); else missing.push(kw); });
+    let matched = []; let missing = []; targetKw.forEach(kw => { if(resumeText.includes(kw)) matched.push(kw); else missing.push(kw); });
     const keywordMatchRate = targetKw.length > 0 ? (matched.length / targetKw.length) : 0;
-    
     const formatScore = 40.0; const keywordScore = keywordMatchRate * 40.0; const xyzScore = (xyzComplianceRate / 100.0) * 20.0;
     window.userData.ats_score = Math.round(formatScore + keywordScore + xyzScore) || 10;
     
-    try {
-       const storageRef = ref(storage, `artifacts/${APP_ID}/public/data/resumes/${window.candidateId}.pdf`);
-       await uploadBytes(storageRef, file);
-       const dlUrl = await getDownloadURL(storageRef); window.userData.resume_url = dlUrl;
-    } catch(uploadErr) { console.warn("Storage upload failed, proceeding without file link", uploadErr); }
+    try { const storageRef = ref(storage, `artifacts/${APP_ID}/public/data/resumes/${window.candidateId}.pdf`); await uploadBytes(storageRef, file); const dlUrl = await getDownloadURL(storageRef); window.userData.resume_url = dlUrl; } catch(uploadErr) { console.warn("Storage upload failed", uploadErr); }
 
     document.getElementById('atsScoreDisplay').innerText = `${window.userData.ats_score}%`; document.getElementById('atsSuccessMsg').classList.remove('hidden');
 
-    let resHtml = `<div class="mb-4 p-3 bg-indigo-900/20 border border-indigo-500/30 rounded-lg text-indigo-300 text-xs md:text-sm shadow-inner">
-        <strong class="text-indigo-200 uppercase tracking-widest text-[10px] block mb-1">Google XYZ Formula Audit</strong>
-        Compliance Rate: <span class="font-bold text-white">${xyzComplianceRate}%</span> 
-        <br><span class="text-[10px] text-indigo-400 mt-1 block">(Action + Metric + Tool in Bullet Points)</span>
-    </div>`;
-    
+    let resHtml = `<div class="mb-4 p-3 bg-indigo-900/20 border border-indigo-500/30 rounded-lg text-indigo-300 text-xs md:text-sm shadow-inner"><strong class="text-indigo-200 uppercase tracking-widest text-[10px] block mb-1">Google XYZ Formula Audit</strong>Compliance Rate: <span class="font-bold text-white">${xyzComplianceRate}%</span><br><span class="text-[10px] text-indigo-400 mt-1 block">(Action + Metric + Tool in Bullet Points)</span></div>`;
     matched.forEach(w => resHtml += `<div class="flex justify-between items-center bg-green-50 p-2 rounded text-green-700 border border-green-200 mb-2"><span class="capitalize text-xs md:text-sm">${w}</span><i class="fa-solid fa-check text-xs md:text-sm"></i></div>`);
     missing.forEach(w => resHtml += `<div class="flex justify-between items-center bg-red-50 p-2 rounded text-red-700 border border-red-200 mb-2"><span class="capitalize text-xs md:text-sm">${w}</span><i class="fa-solid fa-times text-xs md:text-sm"></i></div>`);
     document.getElementById('keywordResults').innerHTML = resHtml;
@@ -1674,14 +1497,10 @@ function shuffleArray(array) {
     return newArr;
 }
 
-let selectedQuizQuestions = [];
-let quizTimerInterval;
-let quizTimeLeft = 600;
+let selectedQuizQuestions = []; let quizTimerInterval; let quizTimeLeft = 600;
 
 window.renderQuiz = function() {
-  const container = document.getElementById('quizContainer');
-  if(!container) return;
-  container.innerHTML = '';
+  const container = document.getElementById('quizContainer'); if(!container) return; container.innerHTML = '';
   selectedQuizQuestions = shuffleArray(masterAptitudeQuestions).slice(0, 20);
   selectedQuizQuestions.forEach((item, index) => {
     let html = `<div class="p-4 md:p-5 rounded-lg border border-slate-300 bg-slate-50/10 shadow-sm mb-4 text-slate-800"><p class="font-bold text-xs md:text-sm mb-3">${index + 1}. ${item.q}</p><div class="space-y-2">`;
@@ -1692,8 +1511,7 @@ window.renderQuiz = function() {
 
 window.startAptitudeTest = async function() {
   if (!window.candidateId) { window.showMessage("Save your profile first!", "error"); return; }
-  document.getElementById('quizStartOverlay').classList.add('hidden'); document.getElementById('quizContainerWrapper').classList.remove('hidden');
-  window.renderQuiz();
+  document.getElementById('quizStartOverlay').classList.add('hidden'); document.getElementById('quizContainerWrapper').classList.remove('hidden'); window.renderQuiz();
   if(window.isAIMode) { window.activeSpeaker = 'guide'; document.getElementById('guide-avatar').classList.add('avatar-talking'); await window.speakAIPromise("You have exactly 10 minutes to complete 20 cognitive scenarios. Go.", 'guide'); window.activeSpeaker = null; document.getElementById('guide-avatar').classList.remove('avatar-talking'); }
   quizTimerInterval = setInterval(() => {
     quizTimeLeft--; let m = Math.floor(quizTimeLeft / 60); let s = quizTimeLeft % 60;
@@ -1705,24 +1523,17 @@ window.startAptitudeTest = async function() {
 
 window.submitTest = async function() {
   clearInterval(quizTimerInterval); document.getElementById('quizTimer').classList.remove('timer-urgent'); document.getElementById('quizTimer').innerText = "DONE";
-  let score = 0;
-  selectedQuizQuestions.forEach((item, index) => { const selected = document.querySelector(`input[name="q${index}"]:checked`); if(selected && parseInt(selected.value) === item.ans) score += 5; });
-  window.userData.test_score = score; await syncToCloud();
-  window.autoAdvanceTab('tab-test', 'tab-archetype', 'Cognitive Aptitude Test');
+  let score = 0; selectedQuizQuestions.forEach((item, index) => { const selected = document.querySelector(`input[name="q${index}"]:checked`); if(selected && parseInt(selected.value) === item.ans) score += 5; });
+  window.userData.test_score = score; await syncToCloud(); window.autoAdvanceTab('tab-test', 'tab-archetype', 'Cognitive Aptitude Test');
   document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
 };
 
-let currentActiveTopic = { title: "Initializing...", desc: "Waiting for AI Generation..." };
-let currentGDRound = 1; 
-let totalGDRounds = 5; 
-let gdHistory = "";
+let currentActiveTopic = { title: "Initializing...", desc: "Waiting for AI Generation..." }; let currentGDRound = 1; let totalGDRounds = 5; let gdHistory = "";
 
 async function setSpeaker(id, name, text, avatarId) {
-  window.activeSpeaker = id; 
-  document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
+  window.activeSpeaker = id; document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
   if(id) { const avatar = document.getElementById(id === 'meera' ? 'ai-hr-meera' : (id==='guide' ? 'guide-avatar' : `avatar-${id}`)); if(avatar) avatar.classList.add('avatar-talking'); }
-  writeTranscript(id === 'meera' ? 'interview-transcript' : 'gd-transcript', name, text); 
-  if(id !== 'meera') gdHistory += `${name}: ${text}\n`;
+  writeTranscript(id === 'meera' ? 'interview-transcript' : 'gd-transcript', name, text); if(id !== 'meera') gdHistory += `${name}: ${text}\n`;
   await window.speakAIPromise(text, avatarId || id);
   window.activeSpeaker = null; document.querySelectorAll('.gd-avatar').forEach(el => el.classList.remove('avatar-talking'));
 }
@@ -1730,99 +1541,63 @@ async function setSpeaker(id, name, text, avatarId) {
 window.startAIGD = async function() {
   const btn = document.getElementById('aiVoiceBtn4');
   if (btn) { btn.disabled = true; btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Connecting to Gemini...`; }
-  
   if (!window.isAIMode) { const toggle = document.getElementById('aiToggle'); if (toggle) toggle.checked = true; window.toggleAIMode(); }
   currentGDRound = 1; document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`; document.getElementById('gd-transcript').innerHTML = ""; gdHistory = "";
   writeTranscript('gd-transcript', 'System', `Gemini is generating a brand new case study...`);
-
   const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
-  let singlePrompt = `Generate a completely new, modern corporate case study topic for an MBA Group Discussion. 
-  Format your EXACT response like this, with NO markdown, NO asterisks, and NO extra text:
-  TITLE: [Case Study Title]
-  DESC: [1 sentence description of the dilemma]
-  ARJUN: [Arjun's 1-sentence data-driven, analytical opening argument]
-  KAVYA: [Kavya's 1-sentence creative counter-argument asking ${firstName} for their thoughts]`;
 
+  let singlePrompt = `Generate a completely new, modern corporate case study topic for an MBA Group Discussion. Format your EXACT response like this: TITLE: [Case Study Title]\nDESC: [1 sentence description]\nARJUN: [Arjun's 1-sentence data-driven opening]\nKAVYA: [Kavya's 1-sentence creative counter asking ${firstName} for their thoughts]`;
   let aiResponse = await callAI(singlePrompt, "You are a Fortune 500 HR Executive.");
   
   try {
-      const titleMatch = aiResponse.match(/TITLE:\s*(.*)/i); const descMatch = aiResponse.match(/DESC:\s*(.*)/i);
-      const arjunMatch = aiResponse.match(/ARJUN:\s*(.*)/i); const kavyaMatch = aiResponse.match(/KAVYA:\s*(.*)/i);
-
-      currentActiveTopic = { title: titleMatch ? titleMatch[1].trim() : "The Remote Work Dilemma", desc: descMatch ? descMatch[1].trim() : "Debate the long-term impact of remote work on corporate innovation." };
+      const titleMatch = aiResponse.match(/TITLE:\s*(.*)/i); const descMatch = aiResponse.match(/DESC:\s*(.*)/i); const arjunMatch = aiResponse.match(/ARJUN:\s*(.*)/i); const kavyaMatch = aiResponse.match(/KAVYA:\s*(.*)/i);
+      currentActiveTopic = { title: titleMatch ? titleMatch[1].trim() : "The Remote Work Dilemma", desc: descMatch ? descMatch[1].trim() : "Debate the long-term impact of remote work." };
       const arjunReply = arjunMatch ? arjunMatch[1].trim() : "Data shows a 15% drop in productivity; we must return to the office.";
       const kavyaReply = kavyaMatch ? kavyaMatch[1].trim() : `I disagree, flexibility breeds innovation. ${firstName}, what are your thoughts?`;
-
       const gdTitleEl = document.getElementById('gd-topic-title'); const gdDescEl = document.getElementById('gd-topic-desc');
       if (gdTitleEl) gdTitleEl.innerText = `"${currentActiveTopic.title}"`; if (gdDescEl) gdDescEl.innerText = currentActiveTopic.desc;
-
-      await setSpeaker('arjun', 'Arjun', arjunReply, 'arjun');
-      await setSpeaker('kavya', 'Kavya', kavyaReply, 'kavya');
+      await setSpeaker('arjun', 'Arjun', arjunReply, 'arjun'); await setSpeaker('kavya', 'Kavya', kavyaReply, 'kavya');
   } catch (e) {
       currentActiveTopic = { title: "AI vs Human Intelligence", desc: "Debate the ethical consequences of autonomous AI managers." };
       await setSpeaker('arjun', 'Arjun', "We must rely on AI because it eliminates human bias and reduces operational costs by 30%.", 'arjun');
       await setSpeaker('kavya', 'Kavya', `But AI lacks the empathy required for true leadership. ${firstName}, where do you stand on this?`, 'kavya');
   }
-
   if (btn) btn.innerHTML = `<i class="fa-solid fa-users-viewfinder mr-2"></i>Virtual Agents Active`;
   document.getElementById('gd-mic-zone').classList.remove('hidden'); document.getElementById('gd-mic-zone').classList.add('flex');
 };
 
 window.toggleGDRecording = function(e) {
-  if(e) e.preventDefault();
-  if(!recognition) return window.showMessage("Speech API not supported.", "error");
-  if(isRecording) { recognition.stop(); } 
-  else { activeInputBox = 'gdTextInput'; activeMicBtn = document.getElementById('gdMicBtn'); try { recognition.start(); } catch(err) {} }
+  if(e) e.preventDefault(); if(!recognition) return window.showMessage("Speech API not supported.", "error");
+  if(isRecording) { recognition.stop(); } else { activeInputBox = 'gdTextInput'; activeMicBtn = document.getElementById('gdMicBtn'); try { recognition.start(); } catch(err) {} }
 };
 
 window.submitGDAnswer = function() {
-  if(isRecording) recognition.stop();
-  const box = document.getElementById('gdTextInput'); const userSpeech = box.value.trim();
+  if(isRecording) recognition.stop(); const box = document.getElementById('gdTextInput'); const userSpeech = box.value.trim();
   if(!userSpeech) return window.showMessage("Please provide an answer first.", "error");
   box.value = ""; window.processGDSpeech(userSpeech);
 };
 
 window.processGDSpeech = async function(userSpeech) {
-  writeTranscript('gd-transcript', 'Candidate', userSpeech);
-  gdHistory += `Candidate: ${userSpeech}\n`;
+  writeTranscript('gd-transcript', 'Candidate', userSpeech); gdHistory += `Candidate: ${userSpeech}\n`;
   document.getElementById('gd-mic-zone').classList.add('hidden'); document.getElementById('gd-mic-zone').classList.remove('flex');
   currentGDRound++;
 
   if(currentGDRound <= totalGDRounds) {
-    document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`;
-    writeTranscript('gd-transcript', 'System', 'Gemini is evaluating your response...');
-
+    document.getElementById('gdRoundBadge').innerText = `Round ${currentGDRound} of ${totalGDRounds}`; writeTranscript('gd-transcript', 'System', 'Gemini is evaluating your response...');
     let persona = currentGDRound % 2 === 0 ? "Kavya (Creative and empathetic)" : "Arjun (Analytical and data-driven)";
     let speakerId = currentGDRound % 2 === 0 ? "kavya" : "arjun";
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
-    
-    let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "${currentActiveTopic.title}". The user you are debating is named ${firstName}. 
-    CRITICAL INSTRUCTION: Analyze ${firstName}'s last point. 
-    1. If their argument is loose or illogical, point out the exact flaws and challenge them directly.
-    2. If it is strong, counter it with a different corporate perspective.
-    Keep it conversational, natural, and highly professional. Strictly 1 to 2 sentences max. Do not use your own name or brackets.`;
-    
+    let systemPrompt = `You are an MBA candidate named ${persona} in a Group Discussion about "${currentActiveTopic.title}". The user you are debating is named ${firstName}. Analyze ${firstName}'s last point. Counter it. Keep it conversational, natural, strictly 1 to 2 sentences max.`;
     let aiReply = await callAI(`GD History:\n${gdHistory}\n\nGenerate your response as ${persona}.`, systemPrompt);
     await setSpeaker(speakerId, speakerId === 'kavya' ? 'Kavya' : 'Arjun', aiReply, speakerId); 
     document.getElementById('gd-mic-zone').classList.remove('hidden'); document.getElementById('gd-mic-zone').classList.add('flex');
   } else {
     writeTranscript('gd-transcript', 'System', 'Calculating final GD score via Gemini rubric...');
-    let gdScoringPrompt = `You are a strict Executive Assessment Evaluator grading an MBA Group Discussion transcript.
-Evaluate the candidate's performance across 3 parameters (10 marks each, total 30 marks):
-1. Content & Substance (0-10): Relevance, logical arguments, data backing.
-2. Communication & Articulation (0-10): Clarity, professional phrasing, concise delivery.
-3. Group Dynamics & Synthesis (0-10): Direct responses to peers, active listening, mediating consensus.
-Transcript to evaluate:
-${gdHistory}
-Return ONLY a single integer score between 1 and 30 representing the exact sum. Example output: 24`;
-
-    let finalScoreStr = await callAI(gdScoringPrompt);
-    let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
+    let gdScoringPrompt = `Evaluate the candidate's performance across 3 parameters (10 marks each, total 30 marks) based on this transcript:\n${gdHistory}\nReturn ONLY a single integer score between 1 and 30. Example: 24`;
+    let finalScoreStr = await callAI(gdScoringPrompt); let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
     let score = (!isNaN(parsedScore) && parsedScore >= 1 && parsedScore <= 30) ? parsedScore : (20 + Math.floor(Math.random() * 8)); 
-    
     window.userData.gd_score = score; try { await syncToCloud(); } catch(e) {}
-    writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Score: ${score}/30`); 
-    window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
+    writeTranscript('gd-transcript', 'System', `5-Round GD Concluded. Score: ${score}/30`); window.autoAdvanceTab('tab-gd', 'tab-interview', 'Virtual Group Discussion');
   }
 };
 
@@ -1830,24 +1605,14 @@ let webcamStream = null;
 function startRealFaceTracking() {
   try {
     if(!window.tracking) return;
-    const tracker = new tracking.ObjectTracker('face');
-    tracker.setInitialScale(4); tracker.setStepSize(2); tracker.setEdgesDensity(0.1);
-    tracking.track('#interviewWebcam', tracker);
-
-    let lastX = 0; let lastY = 0; let lostCount = 0;
-    let currentEye = 82; let currentStress = 18;
-    let lastTrackTime = Date.now();
-
+    const tracker = new tracking.ObjectTracker('face'); tracker.setInitialScale(4); tracker.setStepSize(2); tracker.setEdgesDensity(0.1); tracking.track('#interviewWebcam', tracker);
+    let lastX = 0; let lastY = 0; let lostCount = 0; let currentEye = 82; let currentStress = 18; let lastTrackTime = Date.now();
     tracker.on('track', function(event) {
       const now = Date.now(); if (now - lastTrackTime < 1000) return; lastTrackTime = now;
       if(!window.isAIMode || !document.getElementById('tab-interview').classList.contains('active')) return;
-
       if (event.data.length === 0) {
         lostCount++;
-        if (lostCount > 2) {
-          currentEye = Math.max(15, currentEye - 15); currentStress = Math.min(85, currentStress + 10);
-          document.getElementById('eyeContactVal').innerText = currentEye + '% (Lost)'; document.getElementById('postureVal').innerText = "Not Detected";
-        }
+        if (lostCount > 2) { currentEye = Math.max(15, currentEye - 15); currentStress = Math.min(85, currentStress + 10); document.getElementById('eyeContactVal').innerText = currentEye + '% (Lost)'; document.getElementById('postureVal').innerText = "Not Detected"; }
       } else {
         lostCount = 0; const rect = event.data[0]; const move = Math.abs(rect.x - lastX) + Math.abs(rect.y - lastY); lastX = rect.x; lastY = rect.y;
         if (move > 15) { currentStress = Math.min(90, currentStress + 8); currentEye = Math.max(45, currentEye - 5); document.getElementById('postureVal').innerText = "Shifting"; } 
@@ -1862,75 +1627,46 @@ function startRealFaceTracking() {
 function initWebcamStream() {
   if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" }, audio: false })
-    .then(stream => { 
-      webcamStream = stream; 
-      const gdVid = document.getElementById('gdWebcam'); const intVid = document.getElementById('interviewWebcam');
-      if(gdVid) { gdVid.srcObject = stream; } if(intVid) { intVid.srcObject = stream; }
-      startRealFaceTracking();
-    }).catch(err => console.error("Webcam Error", err));
+    .then(stream => { webcamStream = stream; const gdVid = document.getElementById('gdWebcam'); const intVid = document.getElementById('interviewWebcam'); if(gdVid) { gdVid.srcObject = stream; } if(intVid) { intVid.srcObject = stream; } startRealFaceTracking(); })
+    .catch(err => console.error("Webcam Error", err));
   }
 }
 
-let interviewStep = 0; let intHistory = "";
-window.interviewMethod = 'star';
+let interviewStep = 0; let intHistory = ""; window.interviewMethod = 'star';
 window.setInterviewMethod = function(method) {
-  window.interviewMethod = method;
-  const btnStar = document.getElementById('btnMethodSTAR'); const btnGen = document.getElementById('btnMethodGeneral');
-  if(method === 'star') {
-    btnStar.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors w-1/2 sm:w-auto";
-    btnGen.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto";
-  } else {
-    btnGen.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors w-1/2 sm:w-auto";
-    btnStar.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto";
-  }
+  window.interviewMethod = method; const btnStar = document.getElementById('btnMethodSTAR'); const btnGen = document.getElementById('btnMethodGeneral');
+  if(method === 'star') { btnStar.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors w-1/2 sm:w-auto"; btnGen.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto"; } 
+  else { btnGen.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded bg-brand-600 text-white transition-colors w-1/2 sm:w-auto"; btnStar.className = "px-3 md:px-4 py-1.5 text-xs font-bold rounded text-slate-400 hover:text-white transition-colors bg-transparent w-1/2 sm:w-auto"; }
 };
 
 window.startAIInterview = async function() {
-  const btn = document.getElementById('startInterviewBtn');
-  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Initializing Meera...`; btn.disabled = true;
-
-  if (!window.isAIMode) {
-    window.isAIMode = true; const toggle = document.getElementById('aiToggle'); if (toggle) toggle.checked = true;
-    document.body.classList.add('ai-mode'); document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing'));
-  }
-  
-  initWebcamStream();
-  const togglePanel = document.getElementById('interviewModeToggle'); if (togglePanel) togglePanel.classList.add('opacity-50', 'pointer-events-none');
-  document.getElementById('interview-transcript').innerHTML = ""; 
-  interviewStep = 0; intHistory = ""; window.bioMetrics = { eyeContact: [], stress: [] }; 
-  await askNextInterviewQuestion();
-  btn.classList.add('hidden');
+  const btn = document.getElementById('startInterviewBtn'); btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Initializing Meera...`; btn.disabled = true;
+  if (!window.isAIMode) { window.isAIMode = true; const toggle = document.getElementById('aiToggle'); if (toggle) toggle.checked = true; document.body.classList.add('ai-mode'); document.querySelectorAll('.gd-avatar').forEach(el => el.classList.add('avatar-breathing')); }
+  initWebcamStream(); const togglePanel = document.getElementById('interviewModeToggle'); if (togglePanel) togglePanel.classList.add('opacity-50', 'pointer-events-none');
+  document.getElementById('interview-transcript').innerHTML = ""; interviewStep = 0; intHistory = ""; window.bioMetrics = { eyeContact: [], stress: [] }; await askNextInterviewQuestion(); btn.classList.add('hidden');
 };
 
 async function askNextInterviewQuestion() {
   if (interviewStep === 0) {
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
     const archetype = window.userData.archetype && window.userData.archetype !== "Not Evaluated" ? window.userData.archetype : 'Corporate Professional';
-    
     writeTranscript('interview-transcript', 'System', 'Meera is analyzing your profile and generating a custom question...');
-    
     let systemPrompt = window.interviewMethod === 'star'
-      ? `You are Meera, a strict Fortune 500 HR Director interviewing ${firstName}, archetype '${archetype}'. Greet them professionally and ask a complex behavioral question testing a specific past scenario. Strict 1 to 2 sentences max. No name or brackets.`
-      : `You are Meera, a friendly Corporate HR Manager interviewing ${firstName}. Greet them warmly and ask a standard introductory HR question like "Tell me about yourself". Strict 1 to 2 sentences max. No name or brackets.`;
-    
+      ? `You are Meera, a strict Fortune 500 HR Director interviewing ${firstName}, an '${archetype}'. Generate the FIRST question. Greet them and ask a complex behavioral question requiring a specific past scenario. Under 2 sentences.`
+      : `You are Meera, a friendly Corporate HR Manager interviewing ${firstName}. Generate the FIRST question. Greet them warmly and ask a standard introductory HR question like "Tell me about yourself". Under 2 sentences.`;
     let q = await callAI(`Generate the FIRST question for ${firstName}.`, systemPrompt);
-    intHistory += `Meera: ${q}\n`;
-    await setSpeaker('meera', 'HR Director Meera', q, 'meera');
-    
+    intHistory += `Meera: ${q}\n`; await setSpeaker('meera', 'HR Director Meera', q, 'meera');
     document.getElementById('interview-mic-zone').classList.remove('hidden'); document.getElementById('interview-mic-zone').classList.add('flex');
   }
 }
 
 window.toggleInterviewRecording = function(e) {
-  if(e) e.preventDefault();
-  if(!recognition) return window.showMessage("Speech API not supported.", "error"); 
-  if(isRecording) { recognition.stop(); } 
-  else { activeInputBox = 'interviewTextInput'; activeMicBtn = document.getElementById('interviewMicBtn'); try { recognition.start(); } catch(err) {} }
+  if(e) e.preventDefault(); if(!recognition) return window.showMessage("Speech API not supported.", "error"); 
+  if(isRecording) { recognition.stop(); } else { activeInputBox = 'interviewTextInput'; activeMicBtn = document.getElementById('interviewMicBtn'); try { recognition.start(); } catch(err) {} }
 };
 
 window.submitInterviewAnswer = function() {
-  if(isRecording) recognition.stop();
-  const box = document.getElementById('interviewTextInput'); const candidateResponse = box.value.trim();
+  if(isRecording) recognition.stop(); const box = document.getElementById('interviewTextInput'); const candidateResponse = box.value.trim();
   if(!candidateResponse) return window.showMessage("Please provide an answer first.", "error");
   box.value = ""; window.processInterviewSpeech(candidateResponse);
 };
@@ -1943,31 +1679,20 @@ window.processInterviewSpeech = async function(candidateResponse) {
   if (interviewStep < 5) {
     writeTranscript('interview-transcript', 'System', 'Meera is analyzing your response...');
     const firstName = window.userData.name ? window.userData.name.split(' ')[0] : 'Candidate';
-    
     let systemPrompt = window.interviewMethod === 'star'
-      ? `You are Meera, a strict HR Director. Read ${firstName}'s last answer. Immediately ask a hard STAR follow-up question. DO NOT evaluate or say 'thank you'. EXACTLY ONE SENTENCE. No name or brackets.`
-      : `You are Meera, a friendly HR Manager. Read ${firstName}'s last answer. Acknowledge it warmly, then ask a standard HR follow-up (strengths, 5-year goals). STRICTLY ONE OR TWO SENTENCES. No name or brackets.`;
-    
+      ? `You are Meera, a strict HR Director interviewing ${firstName}. Read their answer. Ask a hard STAR framework follow-up. Do not acknowledge or evaluate their previous answer. EXACTLY ONE SENTENCE.`
+      : `You are Meera, a friendly HR Manager interviewing ${firstName}. Read their answer. Briefly acknowledge it warmly, then ask a standard HR follow-up (strengths, goals). EXACTLY ONE OR TWO SENTENCES.`;
     let meeraReply = await callAI(`Interview History:\n${intHistory}\n\nGenerate your next response as Meera.`, systemPrompt);
-    intHistory += `Meera: ${meeraReply}\n`;
-    await setSpeaker('meera', 'HR Director Meera', meeraReply, 'meera');
-    
+    intHistory += `Meera: ${meeraReply}\n`; await setSpeaker('meera', 'HR Director Meera', meeraReply, 'meera');
     document.getElementById('interview-mic-zone').classList.remove('hidden'); document.getElementById('interview-mic-zone').classList.add('flex');
   } else {
     writeTranscript('interview-transcript', 'System', 'Evaluating overall performance across rubric dimensions...');
     await setSpeaker('meera', 'HR Director Meera', 'Interview complete. Decrypting your Talent Passport and compiling your report now.', 'meera');
-    
-    let interviewRubricPrompt = window.interviewMethod === 'star'
-      ? `You are scoring a candidate's behavioral interview. Evaluate against STAR framework across 4 dimensions: Relevance, STAR Structure, Articulation, Composure. Return ONLY a single integer score between 0 and 100 based on this transcript: ${intHistory}`
-      : `You are scoring a general HR interview. Evaluate across: Relevance, Logical Progression, Fluency, Fit. Return ONLY a single integer score between 0 and 100 based on this transcript: ${intHistory}`;
-        
-    let finalScoreStr = await callAI(interviewRubricPrompt);
-    let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
+    let interviewRubricPrompt = `Score this interview transcript out of 100:\n${intHistory}\nReturn ONLY a single integer score between 0 and 100. Example: 84`;
+    let finalScoreStr = await callAI(interviewRubricPrompt); let parsedScore = parseInt(finalScoreStr.match(/\d+/)?.[0]);
     let score = (!isNaN(parsedScore) && parsedScore >= 0 && parsedScore <= 100) ? parsedScore : (78 + Math.floor(Math.random() * 16)); 
-    
     window.userData.interview_score = score; window.userData.published = true; 
     try { await syncToCloud(); } catch (err) {}
-    
     window.updatePassportUI(); window.autoAdvanceTab('tab-interview', 'tab-passport', 'AI Behavioral HR Interview');
   }
 };
@@ -1988,32 +1713,44 @@ window.updatePassportUI = function() {
 window.emailDetailedReport = function() {
   const recipient = window.userData.email || document.getElementById('loginEmailLookup').value.trim();
   if (!recipient) { window.showMessage("Candidate email required to send report.", "error"); return; }
-  const to = encodeURIComponent(recipient); const sub = encodeURIComponent(`CONFIDENTIAL DOSSIER: Executive Talent Passport - ${window.userData.name || 'Candidate'}`);
-  window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=Check_Your_Dashboard`, '_blank');
+  const total = document.getElementById('passTotal').innerText; const to = encodeURIComponent(recipient); const sub = encodeURIComponent(`CONFIDENTIAL DOSSIER: Executive Talent Passport - ${window.userData.name || 'Candidate'}`);
+  let avgEye = window.bioMetrics.eyeContact.length ? Math.round(window.bioMetrics.eyeContact.reduce((a,b)=>a+b,0)/window.bioMetrics.eyeContact.length) : 80;
+  let avgStress = window.bioMetrics.stress.length ? Math.round(window.bioMetrics.stress.reduce((a,b)=>a+b,0)/window.bioMetrics.stress.length) : 20;
+  let b = `Dear ${window.userData.name || 'Candidate'},\n\nThank you for completing the 6-Stage HR Executive Assessment Gauntlet. This document serves as your official, comprehensive Talent Passport.\n\n======================================================\n🏆 OVERALL EXECUTIVE READINESS INDEX: ${total}\n🧬 PRIMARY WORKPLACE ARCHETYPE: ${window.userData.archetype.toUpperCase()}\n======================================================\n\n[ PART 1: STAGE-BY-STAGE QUANTITATIVE ANALYSIS ]\n\n1. Enterprise ATS Audit: ${window.userData.ats_score}/100\n2. Cognitive Aptitude & Decision Velocity: ${window.userData.test_score}/100\n3. Multi-Agent Virtual Group Discussion: ${window.userData.gd_score}/30\n4. AI Behavioral HR Interview: ${window.userData.interview_score}/100\n\n[ PART 2: REAL-TIME BIOMETRIC ANALYTICS ]\n* Visual Focus & Eye Contact Index: ${avgEye}%\n* Cognitive Stress & Movement Index: ${avgStress}%\n\nBest regards,\nThe Assetize AI Evaluation System\n`;
+  window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=${encodeURIComponent(b)}`, '_blank');
+};
+
+const practiceQuizzes = {
+  ats: { title: "Enterprise ATS Audit", icon: "fa-file-pdf", color: "indigo", questions: [{ q: "In ATS parsing, what does TF-IDF stand for?", options: ["Target Frequency-Inverse Document Frequency", "Term Frequency-Inverse Document Frequency", "Text Format-Internal Data File", "Total Fields-Integrated Data Format"], ans: 1 }, { q: "Which format is universally considered the safest for ATS algorithms to parse without data loss?", options: ["Standard PDF or DOCX", "JPEG", "Canva Graphic Portfolios", "Encrypted Zip"], ans: 0 }, { q: "A 'False Negative' in an ATS audit occurs when:", options: ["An unqualified candidate passes", "A qualified candidate is rejected due to formatting", "The system crashes", "Keywords are highlighted correctly"], ans: 1 }] },
+  aptitude: { title: "Cognitive Aptitude", icon: "fa-stopwatch", color: "purple", questions: [{ q: "If a company has 200 employees and 20 leave over a year, what is the annual turnover rate?", options: ["5%", "10%", "15%", "20%"], ans: 1 }, { q: "What does 'Decision Velocity' primarily measure in executive assessments?", options: ["Accuracy of decisions", "Speed of making decisions under pressure", "Popularity of the decision", "Cost of the decision"], ans: 1 }, { q: "Which tool is best used to map the hierarchical reporting structure of an organization?", options: ["Gantt Chart", "Venn Diagram", "Organogram", "Scatter Plot"], ans: 2 }] },
+  gd: { title: "Virtual Group Dynamics", icon: "fa-users", color: "amber", questions: [{ q: "According to Tuckman's stages of group development, which stage involves initial conflict and power struggles?", options: ["Forming", "Storming", "Norming", "Performing"], ans: 1 }, { q: "In a GD, 'active listening' is best demonstrated by:", options: ["Interrupting to show engagement", "Looking at your notes", "Synthesizing and building upon a peer's previous point", "Speaking the loudest"], ans: 2 }, { q: "What does 'Groupthink' refer to in organizational behavior?", options: ["A brainstorming technique", "The practice of thinking as a cohesive unit to maximize creativity", "The psychological drive for consensus at any cost that suppresses dissenting viewpoints", "Using AI to generate group ideas"], ans: 2 }] },
+  interview: { title: "AI Behavioral Interview", icon: "fa-microphone-lines", color: "brand", questions: [{ q: "In the STAR interview method, what does the 'A' stand for?", options: ["Attitude", "Action", "Assessment", "Accountability"], ans: 1 }, { q: "When asked about your greatest weakness, the most strategic approach is to:", options: ["Say you work too hard", "Claim you have no weaknesses", "Mention a genuine weakness and the active steps you are taking to improve it", "Deflect the question"], ans: 2 }, { q: "In the 'Result' phase of the STAR method, what is the most critical element to include?", options: ["Names of your coworkers", "Your emotional state", "Quantifiable metrics and concrete outcomes", "What you would do differently next time"], ans: 2 }] }
 };
 
 window.loadPracticeQuiz = function(category) {
-  const practiceQuizzes = {
-    ats: { title: "Enterprise ATS Audit", icon: "fa-file-pdf", color: "indigo", questions: [ { q: "In ATS parsing, what does TF-IDF stand for?", options: ["Target Frequency", "Term Frequency-Inverse Document Frequency"], ans: 1 } ] },
-    aptitude: { title: "Cognitive Aptitude", icon: "fa-stopwatch", color: "purple", questions: [ { q: "Annual turnover rate formula?", options: ["Left / Average total", "New hires / Total"], ans: 0 } ] },
-    gd: { title: "Virtual Group Dynamics", icon: "fa-users", color: "amber", questions: [ { q: "Tuckman's stage involving conflict?", options: ["Forming", "Storming"], ans: 1 } ] },
-    interview: { title: "AI Behavioral Interview", icon: "fa-microphone-lines", color: "brand", questions: [ { q: "In STAR, 'A' stands for?", options: ["Action", "Attitude"], ans: 0 } ] }
-  };
   document.querySelectorAll('.quiz-btn').forEach(b => b.classList.remove('ring-4', 'ring-offset-2', 'ring-brand-500'));
   document.getElementById(`btn-quiz-${category}`).classList.add('ring-4', 'ring-offset-2', 'ring-brand-500');
   const data = practiceQuizzes[category]; const container = document.getElementById('practiceQuizContainer');
-  let html = `<div class="mb-6 border-b border-gray-200 pb-4"><h3 class="text-xl font-bold"><i class="fa-solid ${data.icon} mr-2"></i>${data.title} Practice</h3></div><div class="space-y-4">`;
+  let html = `<div class="mb-6 border-b border-gray-200 pb-4"><h3 class="text-xl md:text-2xl font-bold text-slate-800"><i class="fa-solid ${data.icon} text-${data.color}-500 mr-2"></i>${data.title} Practice</h3><p class="text-xs md:text-sm text-slate-500">Select the correct answers below. Instant feedback is provided.</p></div><div class="space-y-4 md:space-y-6">`;
   data.questions.forEach((item, qIndex) => {
-    html += `<div class="bg-slate-50 p-4 rounded-xl"><p class="font-bold mb-3">${item.q}</p><div class="grid grid-cols-2 gap-2" id="quiz-opts-${category}-${qIndex}">`;
-    item.options.forEach((opt, oIndex) => { html += `<button onclick="window.checkPracticeAnswer('${category}', ${qIndex}, ${oIndex}, ${item.ans}, this)" class="text-left px-3 py-2 rounded border bg-white text-sm">${opt}</button>`; });
-    html += `</div><div id="quiz-feedback-${category}-${qIndex}" class="mt-3 text-sm font-bold hidden"></div></div>`;
-  }); html += `</div>`; container.innerHTML = html;
+    html += `<div class="bg-slate-50 p-4 md:p-5 rounded-xl border border-slate-200"><p class="font-bold text-sm md:text-base text-slate-800 mb-3">${qIndex + 1}. ${item.q}</p><div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3" id="quiz-opts-${category}-${qIndex}">`;
+    item.options.forEach((opt, oIndex) => { html += `<button onclick="window.checkPracticeAnswer('${category}', ${qIndex}, ${oIndex}, ${item.ans}, this)" class="text-left px-3 md:px-4 py-2.5 md:py-3 rounded-lg border border-slate-300 bg-white hover:bg-brand-50 transition text-xs md:text-sm font-medium text-slate-700 w-full">${opt}</button>`; });
+    html += `</div><div id="quiz-feedback-${category}-${qIndex}" class="mt-3 text-xs md:text-sm font-bold hidden"></div></div>`;
+  });
+  html += `</div>`; container.innerHTML = html;
 };
 
-window.checkPracticeAnswer = function(cat, q, sel, ans, btn) {
-  const f = document.getElementById(`quiz-feedback-${cat}-${q}`);
-  if (sel === ans) { btn.classList.add('bg-green-100'); f.innerHTML = "Correct!"; f.classList.remove('hidden'); f.classList.add('text-green-600'); } 
-  else { btn.classList.add('bg-red-100'); f.innerHTML = "Incorrect."; f.classList.remove('hidden'); f.classList.add('text-red-600'); }
+window.checkPracticeAnswer = function(category, qIndex, selectedOpt, correctOpt, btnEl) {
+  const parent = document.getElementById(`quiz-opts-${category}-${qIndex}`); const buttons = parent.querySelectorAll('button'); const feedback = document.getElementById(`quiz-feedback-${category}-${qIndex}`);
+  buttons.forEach(b => { b.disabled = true; b.classList.remove('hover:bg-brand-50', 'cursor-pointer'); b.classList.add('opacity-70', 'cursor-not-allowed'); });
+  if (selectedOpt === correctOpt) {
+    btnEl.classList.remove('bg-white', 'border-slate-300'); btnEl.classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'ring-2', 'ring-green-500', 'opacity-100');
+    feedback.innerHTML = `<i class="fa-solid fa-check-circle text-green-600 mr-1"></i> Correct!`; feedback.classList.remove('hidden', 'text-red-600'); feedback.classList.add('text-green-600');
+  } else {
+    btnEl.classList.remove('bg-white', 'border-slate-300', 'opacity-70'); btnEl.classList.add('bg-red-100', 'border-red-500', 'text-red-800', 'opacity-100');
+    buttons[correctOpt].classList.remove('bg-white', 'border-slate-300', 'opacity-70'); buttons[correctOpt].classList.add('bg-green-100', 'border-green-500', 'text-green-800', 'opacity-100');
+    feedback.innerHTML = `<i class="fa-solid fa-times-circle text-red-600 mr-1"></i> Incorrect.`; feedback.classList.remove('hidden', 'text-green-600'); feedback.classList.add('text-red-600');
+  }
 };
 
 const avatarConfigs = {
@@ -2037,15 +1774,20 @@ function initRealisticAvatars() {
       if (window.activeSpeaker === speakerMap[id]) {
         const visemes = ["M 35 65 Q 50 55 65 65 Q 50 85 35 65", "M 40 65 Q 50 50 60 65 Q 50 80 40 65", "M 32 65 Q 50 60 68 65 Q 50 75 32 65"];
         const teethPaths = ["M 38 62 Q 50 58 62 62 Q 50 65 38 62", "M 42 55 Q 50 52 58 55 Q 50 60 42 55", "M 35 62 Q 50 58 65 62 Q 50 66 35 62"];
-        const r = Math.floor(Math.random() * visemes.length);
-        mouth.setAttribute('d', visemes[r]); teeth.setAttribute('d', teethPaths[r]);
+        const r = Math.floor(Math.random() * visemes.length); mouth.setAttribute('d', visemes[r]); teeth.setAttribute('d', teethPaths[r]);
       } else { mouth.setAttribute('d', "M 35 65 Q 50 70 65 65 Q 50 68 35 65"); teeth.setAttribute('d', "M 40 66 Q 50 66 60 66 Q 50 66 40 66"); }
     });
   }, 80);
+  setInterval(() => {
+    Object.keys(avatarConfigs).forEach(id => {
+      const container = document.getElementById(id); if (!container) return;
+      const eyelids = container.querySelectorAll('.avatar-eyelid'); if (!eyelids.length) return;
+      if (Math.random() < 0.05) { eyelids.forEach(lid => lid.style.transform = 'scaleY(1)'); setTimeout(() => { eyelids.forEach(lid => lid.style.transform = 'scaleY(0)'); }, 150); }
+    });
+  }, 200);
 }
 
-const slider = document.getElementById('navContainer');
-let isDown = false; let startX; let scrollLeft;
+const slider = document.getElementById('navContainer'); let isDown = false; let startX; let scrollLeft;
 if(slider) {
   slider.addEventListener('mousedown', (e) => { isDown = true; slider.classList.add('cursor-grabbing'); slider.classList.remove('cursor-grab'); startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
   slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('cursor-grabbing'); slider.classList.add('cursor-grab'); });
