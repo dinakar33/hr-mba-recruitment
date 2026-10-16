@@ -1064,28 +1064,39 @@ const part1 = "AQ.Ab8RN6If2X1PUkc9MgZ";
 const part2 = "3v1AOvtqHwNd_8P31FnRLa0g3mdJrhg";
 const apiKey = part1 + part2;
 
+// The Google Gemini Engine setup (Fixed Model Endpoint & Loading Failsafe)
 async function callAI(prompt, systemInstruction = "You are a professional corporate evaluator.") {
-  try {
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-    const payload = {
-        contents: [{ parts: [{ text: prompt }] }],
-        systemInstruction: { parts: [{ text: systemInstruction }] }
-    };
-    const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    });
-    const result = await response.json();
-    if (!response.ok) { throw new Error(result.error?.message || "Invalid response from Gemini."); }
-    if (result.candidates && result.candidates.length > 0) {
-        let text = result.candidates[0].content.parts[0].text;
-        return text.replace(/\*/g, '').trim();
-    } else { throw new Error("No candidates returned from Gemini."); }
-  } catch (e) {
-    console.error("AI Connection Error:", e);
-    return `[SYSTEM ERROR: AI Connection Failed] Details: ${e.message}`;
+  // Model Fallback Array: Tries the highest-tier model first, then drops to the next available.
+  const models = ["gemini-1.5-pro-latest", "gemini-1.5-flash-latest"];
+  let lastError = "";
+
+  for (const model of models) {
+    try {
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      const payload = {
+          contents: [{ parts: [{ text: prompt }] }],
+          systemInstruction: { parts: [{ text: systemInstruction }] }
+      };
+
+      const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+      if (response.ok && result.candidates && result.candidates.length > 0) {
+          return result.candidates[0].content.parts[0].text.replace(/\*/g, '').trim();
+      } else {
+          lastError = result.error?.message || "Invalid response.";
+      }
+    } catch (e) {
+      lastError = e.message;
+    }
   }
+  
+  console.error("AI Connection Error:", lastError);
+  return `[SYSTEM ERROR: AI Connection Failed] Details: ${lastError}`;
 }
 
 const firebaseConfig = {
