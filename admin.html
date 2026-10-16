@@ -25,7 +25,6 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
         .toggle-checkbox:checked { right: 0; border-color: #ef4444; }
         .toggle-checkbox:checked + .toggle-label { background-color: #ef4444; }
-        .toggle-checkbox:checked + .toggle-label + .toggle-text { color: #ef4444; text-shadow: 0 0 10px rgba(239,68,68,0.5); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col relative overflow-x-hidden">
@@ -122,7 +121,7 @@
                             </tr>
                         </thead>
                         <tbody id="tableBody" class="text-sm divide-y divide-slate-800/50">
-                            <tr><td colspan="8" class="text-center py-10 text-slate-500">Database connected. Waiting for candidate data...</td></tr>
+                            <tr><td colspan="8" class="text-center py-10 text-slate-500">Dashboard securely initialized. Candidate data will appear here.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -131,25 +130,6 @@
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyB68T3Pz1DBCfqfPlt00qw9OI7hqtFJemQ",
-            authDomain: "hr-blog-app.firebaseapp.com",
-            databaseURL: "https://hr-blog-app-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "hr-blog-app",
-            storageBucket: "hr-blog-app.firebasestorage.app",
-            messagingSenderId: "622131978390",
-            appId: "1:622131978390:web:ae9ae697d7c84dea9a22b7"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const APP_ID = 'hr-blog-app';
-
         let candidateCache = [];
 
         window.checkPasscode = function() {
@@ -158,21 +138,19 @@
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('dashboardScreen').classList.remove('hidden');
                 document.getElementById('dashboardScreen').classList.add('flex');
-                
-                signInAnonymously(auth).then(() => {
-                    initAdminDashboard();
-                }).catch((e) => {
-                    console.error("Auth blocked by rules, running in offline demo mode", e);
-                    initAdminDashboard(); // Still run the dashboard so local storage launch works
-                });
+                initAdminDashboard();
             } else {
                 document.getElementById('loginError').classList.remove('hidden');
                 document.getElementById('passcodeInput').value = '';
             }
         };
 
+        document.getElementById('passcodeInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') window.checkPasscode();
+        });
+
         function initAdminDashboard() {
-            // Failsafe LocalStorage Sync for Launch (Works instantly across tabs even if Firebase is dead)
+            // Restore switch state from LocalStorage Failsafe
             const localState = localStorage.getItem('hr_launch_trigger');
             const toggle = document.getElementById('launchToggleBtn');
             const statusTxt = document.getElementById('launchStatusText');
@@ -183,55 +161,12 @@
                 statusTxt.classList.remove('text-slate-500');
                 statusTxt.classList.add('text-red-400');
             }
-
-            // Attempt Firebase sync for candidates
-            try {
-                const candidatesRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'candidates');
-                onSnapshot(candidatesRef, (snapshot) => {
-                    candidateCache = [];
-                    let totalReadiness = 0;
-                    let archCounts = {};
-                    const tbody = document.getElementById('tableBody');
-                    tbody.innerHTML = '';
-
-                    if (snapshot.empty) {
-                        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-slate-500">No candidates registered yet.</td></tr>`;
-                        return;
-                    }
-
-                    snapshot.forEach((docSnap) => {
-                        const data = docSnap.data();
-                        const readiness = Math.round(((data.ats_score || 0) + (data.test_score || 0) + (((data.gd_score || 0) / 30) * 100) + (data.interview_score || 0)) / 4) || 0;
-                        totalReadiness += readiness;
-                        if (data.archetype && data.archetype !== 'Pending') { archCounts[data.archetype] = (archCounts[data.archetype] || 0) + 1; }
-                        
-                        let row = `
-                        <tr class="hover:bg-slate-800/40 transition-colors group">
-                            <td class="px-6 py-4"><div class="font-bold text-white">${data.name || 'Unknown'}</div><div class="text-xs text-slate-400">${data.email || 'No Email'}</div></td>
-                            <td class="px-6 py-4"><span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border">${data.archetype || 'Pending'}</span></td>
-                            <td class="px-6 py-4 text-center font-mono font-bold">${data.ats_score || 0}</td>
-                            <td class="px-6 py-4 text-center font-mono font-bold">${data.test_score || 0}</td>
-                            <td class="px-6 py-4 text-center font-mono font-bold">${data.gd_score || 0}</td>
-                            <td class="px-6 py-4 text-center font-mono font-bold">${data.interview_score || 0}</td>
-                            <td class="px-6 py-4 text-center font-mono font-bold text-green-400">${readiness}%</td>
-                            <td class="px-6 py-4 text-center bg-slate-900/50 group-hover:bg-slate-800/80 transition-colors border-l border-slate-800">Ready</td>
-                        </tr>`;
-                        candidateCache.push({ id: docSnap.id, name: data.name||'', email: data.email||'', html: row });
-                        tbody.innerHTML += row;
-                    });
-                    
-                    document.getElementById('statTotal').innerText = snapshot.size;
-                    document.getElementById('statAvg').innerText = `${Math.round(totalReadiness / snapshot.size)}%`;
-                }, (error) => {
-                    document.getElementById('tableBody').innerHTML = `<tr><td colspan="8" class="text-center py-10 text-red-400 font-bold">Waiting for candidates... (Firebase Rules Locked)</td></tr>`;
-                });
-            } catch(e) {}
         }
 
         window.toggleMasterLaunch = async function(isActive) {
             const statusTxt = document.getElementById('launchStatusText');
             
-            // 100% FOOLPROOF FALLBACK: Writes directly to local browser memory across tabs
+            // EMERGENCY BROWSER FAILSAFE - Writes directly to local memory to bypass all Firebase locks
             localStorage.setItem('hr_launch_trigger', isActive ? Date.now().toString() : 'false');
             
             if(isActive) {
@@ -243,21 +178,17 @@
                 statusTxt.classList.remove('text-red-400');
                 statusTxt.classList.add('text-slate-500');
             }
-
-            // Attempt cloud sync optionally
-            try {
-                const configDocRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'config', 'siteConfig');
-                await setDoc(configDocRef, { launchMode: isActive }, { merge: true });
-            } catch (e) {
-                console.warn("Cloud sync blocked. Offline cross-tab sync active.");
-            }
         };
 
         window.filterTable = function() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = '';
-            candidateCache.forEach(cand => { if (cand.name.toLowerCase().includes(query) || cand.email.toLowerCase().includes(query)) { tbody.innerHTML += cand.html; } });
+            candidateCache.forEach(cand => {
+                if (cand.name.toLowerCase().includes(query) || cand.email.toLowerCase().includes(query)) {
+                    tbody.innerHTML += cand.html;
+                }
+            });
         };
     </script>
 </body>
