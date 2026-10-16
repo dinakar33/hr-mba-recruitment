@@ -1066,8 +1066,8 @@ const apiKey = part1 + part2;
 
 // The Google Gemini Engine setup (Fixed Model Endpoint & Loading Failsafe)
 async function callAI(prompt, systemInstruction = "You are a professional corporate evaluator.") {
-  // Model Fallback Array: Tries the highest-tier model first, then drops to the next available.
-  const models = ["gemini-1.5-pro-latest", "gemini-1.5-flash-latest"];
+  // Model Fallback Array: Tries stable models universally available to all API keys
+  const models = ["gemini-1.5-flash", "gemini-1.0-pro", "gemini-1.5-pro", "gemini-pro"];
   let lastError = "";
 
   for (const model of models) {
